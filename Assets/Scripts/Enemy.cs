@@ -23,10 +23,13 @@ public class Enemy : MonoBehaviour
 
     public float fireRange;
     public float fireCoolTime;
+    [SerializeField] public bool doUseWeapon = true;
     [SerializeField] public bool isMovingShotUnit = false;
     [SerializeField] private float nowCooledTime;
     [SerializeField] private bool isDebug = false;
     [SerializeField] private bool isToofar = false;
+    [SerializeField] private float respawnDistance = 30;
+    private float respawnDistSqr;
 
     private float nextVecDelta;
     private float radToDegree = 180 / Mathf.PI;
@@ -42,6 +45,7 @@ public class Enemy : MonoBehaviour
         isFiring = false;   // 애니메이터에서 관리
         isMeleeing = false;
         //isCooling = false;
+        respawnDistSqr = respawnDistance * respawnDistance;
         nowCooledTime = fireCoolTime;
 
         rigidb = GetComponent<Rigidbody2D>();
@@ -58,55 +62,76 @@ public class Enemy : MonoBehaviour
         }
 
         Vector2 dirVec = target.position - rigidb.position;
+        if (dirVec.sqrMagnitude > respawnDistSqr)
+        {
+
+            if (fireCoolTime > nowCooledTime)
+            {
+                // respawnMethod();
+                nowCooledTime += Time.fixedDeltaTime;
+            }
+            return;
+        }
+
         Vector2 nextVec = dirVec.normalized * nextVecDelta; /*speed * Time.fixedDeltaTime*/;
 
-        if (!isFiring) // 사격 애니메이션이 출력 중이 아님
+        if (doUseWeapon)
         {
-            if (fireCall) // 사격 명령 수신 상태
-            {
-                if (isMoving) // 이동 중인 경우 정지하고 다음 프레임으로
-                {
-                    isMoving = false;
-                    animator.SetBool("isWalking", false);
-                    //doPassThisFrame = true;
-                }
-                else // 정지 상태인 경우 사격
-                {
-                    Fire();
-                    animator.SetTrigger("fire");
 
-                }
-            }
-            else // 사격 명령 수신 전
+            if (!isFiring) // 사격 애니메이션이 출력 중이 아님
             {
-                if (fireCoolTime <= nowCooledTime) // 사격 쿨타임 X
+                if (fireCall) // 사격 명령 수신 상태
                 {
-                    if (dirVec.magnitude <= fireRange) // 사거리 내로 진입 => 정지 && 사격 요청
+                    if (isMoving) // 이동 중인 경우 정지하고 다음 프레임으로
                     {
                         isMoving = false;
-                        fireCall = true;
                         animator.SetBool("isWalking", false);
+                        //doPassThisFrame = true;
+                    }
+                    else // 정지 상태인 경우 사격
+                    {
+                        Fire();
+                        animator.SetTrigger("fire");
+
+                    }
+                }
+                else // 사격 명령 수신 전
+                {
+                    if (fireCoolTime <= nowCooledTime) // 사격 쿨타임 X
+                    {
+                        if (dirVec.magnitude <= fireRange) // 사거리 내로 진입 => 정지 && 사격 요청
+                        {
+                            isMoving = false;
+                            fireCall = true;
+                            animator.SetBool("isWalking", false);
+                        }
+                        else
+                        {
+                            Move(nextVec);
+                        }
                     }
                     else
                     {
                         Move(nextVec);
                     }
                 }
-                else
+
+                if (fireCoolTime > nowCooledTime)
                 {
-                    Move(nextVec);
+                    nowCooledTime += Time.fixedDeltaTime;
                 }
-            }
 
-            if (fireCoolTime > nowCooledTime)
+            }
+            else
             {
-                nowCooledTime += Time.fixedDeltaTime;
-            }
 
+            }
+            return;
         }
+
         else
         {
-
+            Move(nextVec);
         }
 ;
     }
