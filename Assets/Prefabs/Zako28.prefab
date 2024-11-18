@@ -170,12 +170,15 @@ MonoBehaviour:
   speed: 2.5
   player: {fileID: 0}
   target: {fileID: 0}
-  isLive: 0
+  isLive: 1
   isMoving: 0
   fireCall: 0
   isFiring: 0
   isMeleeing: 0
   animator: {fileID: 2478814230113909001}
   fireRange: 8
-  fireCoolTime: 4
+  fireCoolTime: 2
+  isMovingShotUnit: 0
   nowCooledTime: 0
+  isDebug: 0
+  isToofar: 0

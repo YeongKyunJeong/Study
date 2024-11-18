@@ -23,7 +23,14 @@ public class Enemy : MonoBehaviour
 
     public float fireRange;
     public float fireCoolTime;
+    [SerializeField] public bool isMovingShotUnit = false;
     [SerializeField] private float nowCooledTime;
+    [SerializeField] private bool isDebug = false;
+    [SerializeField] private bool isToofar = false;
+
+    private float nextVecDelta;
+    private float radToDegree = 180 / Mathf.PI;
+    private Coroutine animationCoroutine;
     //private bool isCooling;
 
 
@@ -32,95 +39,81 @@ public class Enemy : MonoBehaviour
         target = transform.parent.GetComponentInChildren<Player>().transform.GetComponent<Rigidbody2D>();
         isMoving = false;
         fireCall = false;
-        isFiring = false;
+        isFiring = false;   // 애니메이터에서 관리
         isMeleeing = false;
         //isCooling = false;
         nowCooledTime = fireCoolTime;
 
         rigidb = GetComponent<Rigidbody2D>();
+        nextVecDelta = speed * Time.fixedDeltaTime;
         //spriter = GetComponent<Sprite>();
     }
 
     // Update is called once per frame
     void FixedUpdate()
     {
-        Vector2 dirVec = target.position - rigidb.position;
-        Vector2 nextVec = dirVec.normalized * speed * Time.fixedDeltaTime;
-
-        // 이동
-        if (!fireCall && !isFiring) // 비 사격상태
+        if (!isLive)
         {
-            if (dirVec.magnitude >= 2)
+            return;
+        }
+
+        Vector2 dirVec = target.position - rigidb.position;
+        Vector2 nextVec = dirVec.normalized * nextVecDelta; /*speed * Time.fixedDeltaTime*/;
+
+        if (!isFiring) // 사격 애니메이션이 출력 중이 아님
+        {
+            if (fireCall) // 사격 명령 수신 상태
             {
-                if (!isMoving)
-                {
-                    isMoving = true;
-                    animator.SetBool("isWalking", true);
-                }
-            }
-            else
-            {
-                if (isMoving)
+                if (isMoving) // 이동 중인 경우 정지하고 다음 프레임으로
                 {
                     isMoving = false;
                     animator.SetBool("isWalking", false);
+                    //doPassThisFrame = true;
+                }
+                else // 정지 상태인 경우 사격
+                {
+                    Fire();
+                    animator.SetTrigger("fire");
+
                 }
             }
-        }
-
-        if(fireCoolTime <= nowCooledTime)
-        {
-            if(dirVec.magnitude <= fireRange)
+            else // 사격 명령 수신 전
             {
-                isMoving = false;
-                fireCall = true;
-                animator.SetBool("isWalking", false);
+                if (fireCoolTime <= nowCooledTime) // 사격 쿨타임 X
+                {
+                    if (dirVec.magnitude <= fireRange) // 사거리 내로 진입 => 정지 && 사격 요청
+                    {
+                        isMoving = false;
+                        fireCall = true;
+                        animator.SetBool("isWalking", false);
+                    }
+                    else
+                    {
+                        Move(nextVec);
+                    }
+                }
+                else
+                {
+                    Move(nextVec);
+                }
             }
-        }
 
-        if (fireCall && !isFiring)
+            if (fireCoolTime > nowCooledTime)
+            {
+                nowCooledTime += Time.fixedDeltaTime;
+            }
+
+        }
+        else
         {
-            //Debug.Log("Done");
-            animator.SetTrigger("fire");
-            fireCall = false;
-            nowCooledTime = 0;
+
         }
-        else if(fireCoolTime > nowCooledTime)
-        {
-            nowCooledTime += Time.deltaTime;
-        }
+;
+    }
 
 
-
-        // 사격
-        //if (fireCoolTime <= nowCooledTime) // 사격 가능 상태
-        //{
-        //    if (!isFiring && dirVec.magnitude <= fireRange) // 사거리 내에 들어옴
-        //    {
-        //        isFiring = true;
-
-        //        if (isMoving)   // 이동 중이면 사격 신호를 보내고 이동 중지
-        //        {
-        //            isMoving = false;
-        //            animator.SetBool("isWalking", false);
-        //        }
-        //    }
-        //    else if (isFiring && !isMoving) // 이동 중이 아니면 사격 후 쿨타임 적용
-        //    {
-        //        animator.SetTrigger("fire");
-        //        nowCooledTime = 0;
-        //    }
-        //}
-        //else if (fireCoolTime > nowCooledTime) // 사격 쿨타임 상태
-        //{
-        //    //if (!isCooling)
-        //    //{
-        //    //    isCooling = true;
-        //    //}
-        //    nowCooledTime += Time.fixedDeltaTime;
-        //}
-
-
+    public void Move(Vector2 nextVec)
+    {
         if (nextVec.x > 0)
         {
             if (nextVec.y == 0)
@@ -129,7 +122,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                moveDirZ = Mathf.Atan2(nextVec.y, nextVec.x) * 180 / Mathf.PI;
+                moveDirZ = Mathf.Atan2(nextVec.y, nextVec.x) * radToDegree/*180 / Mathf.PI*/;
             }
         }
         else if (nextVec.x < 0)
@@ -140,7 +133,7 @@ public class Enemy : MonoBehaviour
             }
             else
             {
-                moveDirZ = -Mathf.Atan2(nextVec.y, -nextVec.x) * 180 / Mathf.PI + 180f;
+                moveDirZ = -Mathf.Atan2(nextVec.y, -nextVec.x) * radToDegree/*180 / Mathf.PI*/ + 180f;
             }
         }
         else if (nextVec.x == 0)
@@ -157,10 +150,59 @@ public class Enemy : MonoBehaviour
 
         rigidb.SetRotation(moveDirZ);
 
-        if (isMoving)
-        {
-            rigidb.MovePosition(rigidb.position + nextVec);
-        }
+        rigidb.MovePosition(rigidb.position + nextVec);
+
         rigidb.velocity = Vector2.zero;
+        if (!isMoving)
+        {
+            animator.SetBool("isWalking", true);
+        }
+        return;
     }
+
+    public void Fire(int weaponNumber = 0, int weaponType = 0, float projectileDelay = 0)
+    {
+        string weaponAnimationName = "";
+        switch (weaponType)
+        {
+            case 0:
+                {
+                    weaponAnimationName = "fire";
+                    animationCoroutine = StartCoroutine(DirectFiringProjactile(projectileDelay));
+                    break;
+                }
+            default:
+                {
+                    weaponAnimationName = "fire";
+                    break;
+                }
+        }
+        animator.SetTrigger(weaponAnimationName);
+    }
+
+    public void OnFireAnimationStart()
+    {
+        if (isDebug)
+            Debug.Log("Fire Start");
+        isFiring = true;
+
+    }
+
+    public void OnFireAnimationEnd()
+    {
+        if (isDebug)
+            Debug.Log("Fire End");
+        isFiring = false;
+        fireCall = false;
+        nowCooledTime = -Time.fixedDeltaTime;
+        //nowCooledTime = 0;
+    }
+
+    IEnumerator DirectFiringProjactile(float DelayTime)
+    {
+        yield return new WaitForSecondsRealtime(DelayTime);
+
+        yield return null;
+    }
+
 }
