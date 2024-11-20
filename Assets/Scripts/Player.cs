@@ -7,6 +7,16 @@ public class Player : MonoBehaviour
 {
     public Vector2 inputVec;
     Rigidbody2D rigid;
+    public Rigidbody2D GetRigidbody
+    {
+        get
+        {
+            if (rigid)
+                return rigid;
+            else
+                return GetComponent<Rigidbody2D>();
+        }
+    }
     Transform boostEffectParent;
     Transform boostEffect;
     public float speed;
@@ -26,7 +36,8 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     private void Awake()
     {
-        rigid = GetComponent<Rigidbody2D>();
+        //rigid = GetComponent<Rigidbody2D>();
+        rigid = GetRigidbody;
         spriteR = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
 
@@ -44,13 +55,13 @@ public class Player : MonoBehaviour
     // 1. 직접 스크립팅
     //void Update()
     //{
-        //inputVec.x = Input.GetAxis("Horizontal"); // 부드럽게 움직임
-        //inputVec.y = Input.GetAxis("Vertical");
+    //inputVec.x = Input.GetAxis("Horizontal"); // 부드럽게 움직임
+    //inputVec.y = Input.GetAxis("Vertical");
 
-        //inputVec.x = Input.GetAxisRaw("Horizontal"); // 1, 0, -1로 끊어져서 움직임;
-        //inputVec.y = Input.GetAxisRaw("Vertical");
+    //inputVec.x = Input.GetAxisRaw("Horizontal"); // 1, 0, -1로 끊어져서 움직임;
+    //inputVec.y = Input.GetAxisRaw("Vertical");
 
-        //inputVec.Normalize();
+    //inputVec.Normalize();
 
 
     //}
@@ -75,7 +86,7 @@ public class Player : MonoBehaviour
             }
             else
             {
-                moveDirZ = Mathf.Atan2(nextVec.y, nextVec.x) * 180 / Mathf.PI ;
+                moveDirZ = Mathf.Atan2(nextVec.y, nextVec.x) * 180 / Mathf.PI;
             }
         }
         else if (nextVec.x < 0)
@@ -97,7 +108,7 @@ public class Player : MonoBehaviour
             }
             else if (nextVec.y < 0)
             {
-                moveDirZ =-+90f;
+                moveDirZ = -+90f;
             }
         }
         boostEffectSize = Mathf.Sqrt(nextVec.magnitude) * 3f;
@@ -107,11 +118,11 @@ public class Player : MonoBehaviour
         boostEffect.localScale = new Vector3(boostEffectSize, 0.5f + 0.2f * boostEffectSize, 1);
         boostEffect.localPosition = new Vector3(boostDist / 2 + 0.5f, 0, 0);
 
-        boostEffectParent.rotation = Quaternion.Euler(0f, 0f, moveDirZ+180f);
+        boostEffectParent.rotation = Quaternion.Euler(0f, 0f, moveDirZ + 180f);
         rigid.rotation = moveDirZ;
     }
 
-     //2. InputSytem 사용
+    //2. InputSytem 사용
     void OnMove(InputValue value)
     {
         inputVec = value.Get<Vector2>(); // nomalize는 Player Input에서 설정

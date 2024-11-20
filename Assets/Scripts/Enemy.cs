@@ -39,7 +39,13 @@ public class Enemy : MonoBehaviour
 
     void Awake()
     {
-        target = transform.parent.GetComponentInChildren<Player>().transform.GetComponent<Rigidbody2D>();
+        if (target == null)
+            if (GameManager.instance)
+                target = GameManager.instance.player.GetRigidbody;
+            else
+                target = this.transform.parent.GetComponentInChildren<Player>().GetRigidbody;
+
+        //target = transform.parent.GetComponentInChildren<Player>().transform.GetComponent<Rigidbody2D>();
         isMoving = false;
         fireCall = false;
         isFiring = false;   // 애니메이터에서 관리
@@ -53,9 +59,16 @@ public class Enemy : MonoBehaviour
         //spriter = GetComponent<Sprite>();
     }
 
+    private void OnEnable()
+    {
+        if (target == null)
+            target = GameManager.instance.player.GetRigidbody;
+    }
+
     // Update is called once per frame
     void FixedUpdate()
     {
+        #region 행동
         if (!isLive)
         {
             return;
@@ -133,7 +146,7 @@ public class Enemy : MonoBehaviour
         {
             Move(nextVec);
         }
-;
+        #endregion
     }
 
 

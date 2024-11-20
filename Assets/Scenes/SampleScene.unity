@@ -38296,6 +38296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 739501223}
+  poolManager: {fileID: 1679221766}
   area: {fileID: 518874260}
 --- !u!4 &1981735977
 Transform:
@@ -38319,6 +38320,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 580683991}
     m_Modifications:
+    - target: {fileID: 1219309993894148036, guid: 12300b9e8d73375488ee37569bd7d1f6, type: 3}
+      propertyPath: m_DefaultControlScheme
+      value: Keyboard&Mouse
+      objectReference: {fileID: 0}
     - target: {fileID: 1219309993894148042, guid: 12300b9e8d73375488ee37569bd7d1f6, type: 3}
       propertyPath: speed
       value: 8
