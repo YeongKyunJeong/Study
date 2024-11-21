@@ -167,6 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f8805806a69c834a8227ee0bd404bc5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyTier: 0
   speed: 2.5
   player: {fileID: 0}
   target: {fileID: 0}
@@ -178,9 +179,9 @@ MonoBehaviour:
   animator: {fileID: 2478814230113909001}
   fireRange: 8
   fireCoolTime: 2
+  respawnTriggerDistance: 30
   doUseWeapon: 1
   isMovingShotUnit: 0
   nowCooledTime: 0
   isDebug: 0
   isToofar: 0
-  respawnDistance: 30

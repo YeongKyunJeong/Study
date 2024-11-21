@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Enemy : MonoBehaviour
 {
+    public int enemyTier;
     public float speed;
     public Player player;
     public Rigidbody2D target;
@@ -23,12 +24,14 @@ public class Enemy : MonoBehaviour
 
     public float fireRange;
     public float fireCoolTime;
+    public float respawnTriggerDistance = 30;
+    private float respawnAppearingDistance = 50;
+
     [SerializeField] public bool doUseWeapon = true;
     [SerializeField] public bool isMovingShotUnit = false;
     [SerializeField] private float nowCooledTime;
     [SerializeField] private bool isDebug = false;
     [SerializeField] private bool isToofar = false;
-    [SerializeField] private float respawnDistance = 30;
     private float respawnDistSqr;
 
     private float nextVecDelta;
@@ -51,7 +54,7 @@ public class Enemy : MonoBehaviour
         isFiring = false;   // 애니메이터에서 관리
         isMeleeing = false;
         //isCooling = false;
-        respawnDistSqr = respawnDistance * respawnDistance;
+        respawnDistSqr = respawnTriggerDistance * respawnTriggerDistance;
         nowCooledTime = fireCoolTime;
 
         rigidb = GetComponent<Rigidbody2D>();
@@ -63,9 +66,11 @@ public class Enemy : MonoBehaviour
     {
         if (target == null)
             target = GameManager.instance.player.GetRigidbody;
+
     }
 
     // Update is called once per frame
+
     void FixedUpdate()
     {
         #region 행동
@@ -75,18 +80,32 @@ public class Enemy : MonoBehaviour
         }
 
         Vector2 dirVec = target.position - rigidb.position;
+        Vector2 nextVec = dirVec.normalized;
+
+
         if (dirVec.sqrMagnitude > respawnDistSqr)
         {
 
-            if (fireCoolTime > nowCooledTime)
+            if (!isFiring)
             {
-                // respawnMethod();
-                nowCooledTime += Time.fixedDeltaTime;
+                switch (enemyTier)
+                {
+                    case 0:
+                        {
+                            RespawnEnemy_Tier0(nextVec);
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                CoolingDown();
+                return;
             }
-            return;
         }
 
-        Vector2 nextVec = dirVec.normalized * nextVecDelta; /*speed * Time.fixedDeltaTime*/;
+
+        /*Vector2*/
+        nextVec = /*dirVec.normalized*/nextVec * nextVecDelta; /*speed * Time.fixedDeltaTime*/;
 
         if (doUseWeapon)
         {
@@ -129,10 +148,7 @@ public class Enemy : MonoBehaviour
                     }
                 }
 
-                if (fireCoolTime > nowCooledTime)
-                {
-                    nowCooledTime += Time.fixedDeltaTime;
-                }
+                CoolingDown();
 
             }
             else
@@ -141,7 +157,6 @@ public class Enemy : MonoBehaviour
             }
             return;
         }
-
         else
         {
             Move(nextVec);
@@ -149,6 +164,14 @@ public class Enemy : MonoBehaviour
         #endregion
     }
 
+    private void CoolingDown()
+    {
+        if (fireCoolTime > nowCooledTime)
+        {
+            nowCooledTime += Time.fixedDeltaTime;
+        }
+        return;
+    }
 
     public void Move(Vector2 nextVec)
     {
@@ -196,6 +219,14 @@ public class Enemy : MonoBehaviour
             animator.SetBool("isWalking", true);
         }
         return;
+    }
+
+
+    public void RespawnEnemy_Tier0(Vector2 dir)
+    {
+        rigidb.MovePosition(target.position + 20 * dir);
+        if ((target.position - rigidb.position ).magnitude < 10f)
+            Debug.Log((target.position - rigidb.position).magnitude);
     }
 
     public void Fire(int weaponNumber = 0, int weaponType = 0, float projectileDelay = 0)

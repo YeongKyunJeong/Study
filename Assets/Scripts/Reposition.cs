@@ -15,7 +15,7 @@ public class Reposition : MonoBehaviour
             return;
         }
 
-        Vector3 playerPosition = GameManager.instance.player.transform.position;
+        Vector3 playerPosition = GameManager.instance.playerTransform.position;
         Vector3 myPosition = transform.position;
 
         switch (transform.tag)
@@ -44,6 +44,10 @@ public class Reposition : MonoBehaviour
                     else if (distX < distY)
                     {
                         transform.Translate(Vector3.up * dirY * 60);
+                    }
+                    else if(distX == distY)
+                    {
+                        transform.Translate((Vector3.right * dirX + Vector3.up * dirY) * 60);
                     }
                     break;
                 }

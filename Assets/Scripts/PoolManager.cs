@@ -40,24 +40,4 @@ public class PoolManager : MonoBehaviour
         return selected;
     }
 
-
-    //public GameObject Get(int index)
-    //{
-    //    GameObject selected = null;
-
-    //    foreach (var item in spawnedPools[index]) // 죽은 유닛이 있으면 재활용
-    //    {
-    //        if (!item.gameObject.activeSelf)
-    //        {
-    //            item.SetActive(true);
-    //            return item;
-    //        }
-    //    }
-    //    // 이미 있는 유닛 중 죽은 유닛이 없음
-
-    //    selected = Instantiate(enemyPrefabs[index], transform);
-    //    spawnedPools[index].Add(selected);
-
-    //    return selected;
-    //}
 }
