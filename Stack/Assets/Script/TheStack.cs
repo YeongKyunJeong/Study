@@ -1,14 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TheStack : MonoBehaviour
 {
+    public Text scoreText;
+    public Color32[] gameColors = new Color32[4];
+    public Material stackMat;
+    public GameObject endPanel;
+    public Transform rubblesParent;
+    
+
     private const float BOUNDS_SIZE = 3.5f;
     private const float STACK_MOVING_SPEED = 5.0f;
     private const float ERROR_MARGIN = 0.1f;
     private const float STACK_BOUNDS_GAIN = 0.25f;
     private const int COMBO_START_GAIN = 3;
+    private const int STACK_COUNT = 12;
 
     private GameObject[] theStack;
     private Vector2 stackBounds = new Vector2(BOUNDS_SIZE, BOUNDS_SIZE);
@@ -30,31 +40,42 @@ public class TheStack : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        theStack = new GameObject[transform.childCount];
-        for (int i = 0; i < transform.childCount; i++)
+        endPanel.SetActive(false);
+        theStack = new GameObject[STACK_COUNT];
+        for (int i = 0; i < STACK_COUNT; i++)
         {
             theStack[i] = transform.GetChild(i).gameObject;
+            ColorMesh(theStack[i].GetComponent<MeshFilter>().mesh);
         }
-        stackIndex = transform.childCount - 1;
+        stackIndex = STACK_COUNT - 1;
 
     }
     private void CreateRubble(Vector3 pos, Vector3 scale)
     {
         GameObject go = GameObject.CreatePrimitive(PrimitiveType.Cube);
-        go.transform.localPosition = pos;
-        go.transform.localScale = scale;
+        Transform tr = go.transform;
+        tr.localPosition = pos;
+        tr.localScale = scale;
         go.AddComponent<Rigidbody>();
+        go.GetComponent<MeshRenderer>().material = stackMat;
+        tr.SetParent(rubblesParent); 
+
+        ColorMesh(go.GetComponent<MeshFilter>().mesh);
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (gameOver)
+            return;
+
         if (Input.GetMouseButtonDown(0))
         {
             if (PlaceTile())
             {
                 SpawnTile();
                 scoreCount++;
+                scoreText.text = scoreCount.ToString();
 
             }
             else
@@ -71,10 +92,6 @@ public class TheStack : MonoBehaviour
 
     private void MoveTile()
     {
-        if (gameOver)
-        {
-            return;
-        }
         tileTransition += Time.deltaTime * tileSpeed;
         if (isMovingOnX)
         {
@@ -92,13 +109,15 @@ public class TheStack : MonoBehaviour
         stackIndex--;
         if (stackIndex < 0)
         {
-            stackIndex = transform.childCount - 1;
+            stackIndex = STACK_COUNT - 1;
         }
         Transform transformNow = theStack[stackIndex].transform;
 
         desiredPosition = Vector3.down * scoreCount;
         transformNow.localScale = new Vector3(stackBounds.x, 1, stackBounds.y);
         transformNow.transform.localPosition = new Vector3(0, scoreCount, 0);
+        ColorMesh(transformNow.GetComponent<MeshFilter>().mesh, -1);
+
     }
 
     private bool PlaceTile()
@@ -196,11 +215,47 @@ public class TheStack : MonoBehaviour
         return true;
     }
 
+    private void ColorMesh(Mesh mesh, int  correction = 0)
+    {
+        Vector3[] vertices = mesh.vertices;
+        Color32[] colors = new Color32[vertices.Length];
+        float f = Mathf.Sin((scoreCount - correction) * 0.25f);
+
+        for (int i = 0; i < vertices.Length; i++)
+        {
+            colors[i] = Lerp4(gameColors[0], gameColors[1], gameColors[2], gameColors[3], f);
+        }
+
+        mesh.colors32 = colors;
+    }
+
+    private Color32 Lerp4(Color32 a, Color32 b, Color32 c, Color32 d, float t)
+    {
+        if (t < 0.33f)
+        {
+            return Color.Lerp(a, b, t / 0.33f);
+        }
+        else if (t < 0.66f)
+        {
+            return Color.Lerp(b, c, (t - 0.33f) / 0.33f);
+        }
+        else
+            return Color.Lerp(c, d, (t - 0.66f) / 0.33f);
+    }
+
     private void EndGame()
     {
-        Debug.Log("Lose");
+        if(PlayerPrefs.GetInt("score") < scoreCount)
+        {
+            PlayerPrefs.SetInt("score", scoreCount);
+        }
         gameOver = true;
+        endPanel.SetActive(true);
         theStack[stackIndex].AddComponent<Rigidbody>();
     }
 
+    public void OnButtonClick(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
 }
