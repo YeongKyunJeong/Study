@@ -332,4 +332,34 @@ namespace Coding_Test_Basic_Main2
             return result;
         }
     }
+    public class Solutions10
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181922
+        public int[] Courses_30_lessons_181922(int[] arr, int[,] queries)
+        {
+            int[] answer = new int[] { };
+            int[] query = new int[3];
+
+            for (int i = 0; i < queries.GetLength(0); i++)
+            {
+                for (int j = 0; j < 3; j++)
+                    query[j] = queries[i, j];
+                arr = DoQuery(arr, query);
+            }
+
+            answer = arr;
+            return answer;
+        }
+
+        public int[] DoQuery(int[] arr, int[] query)
+        {
+            int multipleCheck = query[2];
+            for (int i = query[0]; i < query[1] + 1; i++)
+            {
+                if (i % multipleCheck == 0)
+                    arr[i]++;
+            }
+            return arr;
+        }
+    }
 }
