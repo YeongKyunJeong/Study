@@ -14,9 +14,7 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-
         PlayerPrefs.DeleteAll();
-
 
         instance = this;
         //SceneManager.sceneLoaded += SaveState;
@@ -33,10 +31,17 @@ public class GameManager : MonoBehaviour
     // References
     public Player player;
     // public weapon weapon....
+    public FloatingTextManager floatingTextManager;
 
     // Logic
     public int pesos;
     public int experience;
+
+    // 온갖 곳에서 FloationgTextManager를 참조하게 하지 말고 Show()를 사용 가능하게 하기 위해서
+    public void ShowText(string msg, int fontSize, Color color, Vector3 position, Vector3 motion, float duration)
+    {
+        floatingTextManager.Show(msg, fontSize, color, position, motion, duration);
+    }
 
     // Save State
     /*
