@@ -3,7 +3,7 @@ guid: 9ee96b792af2f32438984a4cb2683212
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
-  serializedVersion: 11
+  serializedVersion: 13
   mipmaps:
     mipMapMode: 0
     enableMipMap: 0
@@ -20,11 +20,12 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
-  ignoreMasterTextureLimit: 0
+  ignoreMipmapLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -63,6 +64,8 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 1
   platformSettings:
   - serializedVersion: 3
     buildTarget: DefaultTexturePlatform
@@ -74,6 +77,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -86,6 +90,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -98,6 +103,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   - serializedVersion: 3
@@ -110,6 +116,7 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
@@ -943,7 +950,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -964,7 +971,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -985,7 +992,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1006,7 +1013,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1027,7 +1034,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1048,7 +1055,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1069,7 +1076,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1090,7 +1097,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1111,7 +1118,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1132,7 +1139,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1153,7 +1160,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1174,7 +1181,7 @@ TextureImporter:
         width: 8
         height: 21
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1182,6 +1189,48 @@ TextureImporter:
       bones: []
       spriteID: 57d8e97e269702f4db65790cdc4969e3
       internalID: 1263549327
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chest_1
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 48
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 53311b52b7b75334c9d4b6d641f73c1c
+      internalID: 1971057106
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: chest_0
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8b4ec2a052ec73349bea5c7172f7760d
+      internalID: -1453549113
       vertices: []
       indices: 
       edges: []
@@ -1197,60 +1246,61 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      pillar_1: -1729335951
-      stairs_0: 166775639
-      wall_0: 1768874517
-      torch_0: 1265415174
-      stairs_1: -750497775
-      floor_7: -1747426777
-      wall_1: -233931949
-      floor_5: 591053540
-      pillar_2: 595772042
-      torch_2: -47244855
-      player_0: -472265490
-      floor_4: 617378119
-      wall_3: -111165372
-      wall_5: -1102643939
-      torch_6: -94641460
-      crate_2: 1788338956
-      torch_3: 392182301
-      crate_3: 1706835329
-      wall_8: 2030107607
-      floor_2: -1044058032
-      floor_10: -450482829
-      torch_4: 1090862585
-      pillar_3: -1774966783
+      chest_0: -1453549113
+      chest_1: 1971057106
       crate_0: -1568060781
-      floor_6: 1680164482
-      wall_9: 1713554481
-      torch_5: -195669296
-      torch_1: -1324215646
+      crate_1: -1061382866
+      crate_2: 1788338956
+      crate_3: 1706835329
       floor_0: -806294749
-      player_1: -1050705783
+      floor_1: 592268676
+      floor_10: -450482829
+      floor_11: -387725086
+      floor_12: -754541686
+      floor_2: -1044058032
+      floor_3: 1018183630
+      floor_4: 617378119
+      floor_5: 591053540
+      floor_6: 1680164482
+      floor_7: -1747426777
+      floor_8: -348294917
+      floor_9: 1675242509
       healingFonutain_0: 795106079
-      pillar_4: 50708014
-      wall_2: -372926619
-      wall_6: -451521693
       healingFonutain_1: 1527036001
       healingFonutain_2: -1114915289
-      floor_8: -348294917
-      floor_11: -387725086
+      pillar_0: 483567867
+      pillar_1: -1729335951
+      pillar_2: 595772042
+      pillar_3: -1774966783
+      pillar_4: 50708014
+      pillar_5: -102284731
+      player_0: -472265490
+      player_1: -1050705783
+      stairs_0: 166775639
+      stairs_1: -750497775
+      stairs_2: 1677635691
+      stairs_3: 1502085887
+      torch_0: 1265415174
+      torch_1: -1324215646
+      torch_2: -47244855
+      torch_3: 392182301
+      torch_4: 1090862585
+      torch_5: -195669296
+      torch_6: -94641460
       torch_7: 1933124739
       torch_8: 1263549327
-      floor_9: 1675242509
-      floor_1: 592268676
+      wall_0: 1768874517
+      wall_1: -233931949
+      wall_2: -372926619
+      wall_3: -111165372
       wall_4: -1903716916
-      stairs_2: 1677635691
-      floor_12: -754541686
-      floor_3: 1018183630
-      pillar_5: -102284731
-      stairs_3: 1502085887
-      pillar_0: 483567867
+      wall_5: -1102643939
+      wall_6: -451521693
       wall_7: 1709003931
-      crate_1: -1061382866
-  spritePackingTag: 
+      wall_8: 2030107607
+      wall_9: 1713554481
+  mipmapLimitGroupName: 
   pSDRemoveMatte: 0
-  pSDShowRemoveMatteOption: 0
   userData: 
   assetBundleName: 
   assetBundleVariant: 
