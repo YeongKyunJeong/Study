@@ -32,15 +32,6 @@ public class Collidable : MonoBehaviour
 
     protected virtual void OnCollide(Collider2D coll)
     {
-        Debug.Log(coll.name);
-        if (this.tag == "NPC_0")
-        {
-            //say something
-            if (this.tag == "Some example")
-            {
-                
-            }
-        }
-
+        Debug.Log("OnCollide was not implemented in " + coll.name);
     }
 }
