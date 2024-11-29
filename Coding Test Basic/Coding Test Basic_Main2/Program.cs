@@ -362,4 +362,43 @@ namespace Coding_Test_Basic_Main2
             return arr;
         }
     }
+public class Solution11
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181932
+        public string Courses_30_lessons_181932(string code)
+        {
+            string answer = "";
+            bool isMode0 = true;
+
+            for (int idx = 0; idx < code.Length; idx++)
+            {
+                if (isMode0)
+                {
+                    if (code[idx] == '1')
+                        isMode0 = false;
+
+                    else if (idx % 2 == 0)
+                    {
+                        answer += code[idx];
+                    }
+                }
+                else
+                {
+                    if (code[idx] == '1')
+                        isMode0 = true;
+                    else if (idx % 2 == 1)
+                    {
+                        answer += code[idx];
+                    }
+
+                }
+            }
+
+            if (answer == "")
+                return "EMPTY";
+
+            return answer;
+        }
+    }
 }
+
