@@ -186,6 +186,7 @@ GameObject:
   - component: {fileID: 134492773}
   - component: {fileID: 134492772}
   - component: {fileID: 134492771}
+  - component: {fileID: 134492774}
   m_Layer: 9
   m_Name: weapon
   m_TagString: Untagged
@@ -335,6 +336,27 @@ MonoBehaviour:
   pushForce: 4
   weaponLevel: 0
   isCoroutine: 0
+--- !u!95 &134492774
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 134492769}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 101a530321905bc4781de649802c2e84, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &197283983
 GameObject:
   m_ObjectHideFlags: 0
@@ -442,7 +464,7 @@ SpriteRenderer:
   m_SortingOrder: 0
   m_Sprite: {fileID: 1091816890, guid: 9ee96b792af2f32438984a4cb2683212, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_FlipX: 0
+  m_FlipX: 1
   m_FlipY: 0
   m_DrawMode: 0
   m_Size: {x: 0.16, y: 0.16}
