@@ -362,7 +362,7 @@ namespace Coding_Test_Basic_Main2
             return arr;
         }
     }
-public class Solution11
+    public class Solutions11
     {
         //https://school.programmers.co.kr/learn/courses/30/lessons/181932
         public string Courses_30_lessons_181932(string code)
@@ -396,6 +396,23 @@ public class Solution11
 
             if (answer == "")
                 return "EMPTY";
+
+            return answer;
+        }
+    }
+    public class Solutions12
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181931
+        public int Courses_30_lessons_181931(int a, int d, bool[] included)
+        {
+            int answer = 0;
+            for (int i = 0; i < included.Length; i++)
+            {
+                if (included[i])
+                {
+                    answer += (a + d * i);
+                }
+            }
 
             return answer;
         }
