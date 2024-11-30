@@ -4,13 +4,19 @@ using UnityEngine;
 
 public class CameraMotor : MonoBehaviour
 {
-    public Transform lookAt;
+    private Transform lookAt;
     public float boundX = 0.3f;
     public float boundY = 0.15f;
 
     private float lerpSpeed = 0.02f;
     public bool isLerp = false;
     private Vector3 zCorrectedVector = Vector3.zero;
+
+    private void Start()
+    {
+        lookAt = GameManager.instance.player.transform;
+    }
+
     private void LateUpdate() // Follow after moving is done, unless there can be very small desync
     {
         Vector3 delta = Vector3.zero;

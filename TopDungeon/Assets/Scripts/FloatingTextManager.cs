@@ -7,9 +7,13 @@ public class FloatingTextManager : MonoBehaviour
 {
     public GameObject textContainer;
     public GameObject textPrefab;
-    public Camera mainCamera;
 
     private List<FloatingText> floatingTexts = new List<FloatingText>();
+
+    private void Start()
+    {
+        DontDestroyOnLoad(gameObject);
+    }
 
     private void Update()
     {
@@ -28,7 +32,7 @@ public class FloatingTextManager : MonoBehaviour
         floatingText.txt.fontSize = fontSize;
         floatingText.txt.color = color;
         
-        floatingText.go.transform.position = mainCamera.WorldToScreenPoint(position); // Transfer world space to screen sapce so we can use it in the UI
+        floatingText.go.transform.position = Camera.main.WorldToScreenPoint(position); // Transfer world space to screen sapce so we can use it in the UI
         floatingText.motion = motion;
         floatingText.duration = duration;
 
