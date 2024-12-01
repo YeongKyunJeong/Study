@@ -14,6 +14,7 @@ public class Weapon : Collidable
 
     // Swing
     private Animator anim;
+    private bool isPlayerAlive = true;
     private float cooldown = 0.5f;
     private float lastSwing;
     // Coroutine È°¿ë
@@ -70,7 +71,18 @@ public class Weapon : Collidable
 
     private void Swing()
     {
-        anim.SetTrigger("Swing");
+        if (isPlayerAlive)
+            anim.SetTrigger("Swing");
+    }
+
+    public void PlayerDead()
+    {
+        isPlayerAlive = false;
+    }
+
+    public void PlayerRespawn()
+    {
+        isPlayerAlive = true;
     }
 
     public void UpgradeWeapon()
@@ -88,9 +100,12 @@ public class Weapon : Collidable
 
     IEnumerator SwingCoroutine()
     {
-        Swing();
-        isCooldown = true;
-        yield return new WaitForSeconds(cooldown);
+        if (isPlayerAlive)
+        {
+            Swing();
+            isCooldown = true;
+            yield return new WaitForSeconds(cooldown);
+        }
         isCooldown = false;
         yield return null;
     }

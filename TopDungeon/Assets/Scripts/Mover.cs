@@ -4,14 +4,18 @@ using UnityEngine;
 
 public abstract class Mover : Fighter // abstract : 상속해서 쓸 건데 직접 스크립트를 오브젝트에 달아서 쓰진 않을 것
 {
+    private Vector3 originalSize;
+
     protected BoxCollider2D boxCollider;
     protected Vector3 moveDelta;
     protected RaycastHit2D hit;
-    protected float ySpeed = 0.75f; //*** 좌표 기준으로 이동할 때 직선으로 이동할 수 없으므로 수정해야 함
-    protected float xSpeed = 1.0f;
+    public float ySpeed = 0.75f; //*** 좌표 기준으로 이동할 때 직선으로 이동할 수 없으므로 수정해야 함
+    public float xSpeed = 1.0f;
+
 
     protected virtual void Start()
     {
+        originalSize = transform.localScale;
         boxCollider = GetComponent<BoxCollider2D>();
     }
 
@@ -24,11 +28,11 @@ public abstract class Mover : Fighter // abstract : 상속해서 쓸 건데 직접 스크립
         // Swap sprite direction, wether you're going right or left
         if (moveDelta.x > 0)
         {
-            transform.localScale = Vector3.one;
+            transform.localScale = originalSize;
         }
         else if (moveDelta.x < 0)
         {
-            transform.localScale = new Vector3(-1, 1, 1);
+            transform.localScale = new Vector3(-originalSize.x, originalSize.y, originalSize.z);
         }
 
         // Add push vector, if any

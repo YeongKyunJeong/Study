@@ -1433,7 +1433,7 @@ TextureImporter:
         width: 16
         height: 16
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -1441,6 +1441,90 @@ TextureImporter:
       bones: []
       spriteID: 46d345968e08bd140a5e2b05dbce55fb
       internalID: -2143238463
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: boss_0
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 48
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f6f6d6c2fe1de434fac6b4370315670f
+      internalID: 1241915367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_3
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 47bc64fc304c56f41b663000913b03da
+      internalID: 1161163547
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_2
+      rect:
+        serializedVersion: 2
+        x: 16
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 32ba394f2ec39434a8d233599f4131ee
+      internalID: 1225010710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: enemy_1
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 32
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171d6ee2119d20846a8d98ce6eb2d068
+      internalID: -845726668
       vertices: []
       indices: 
       edges: []
@@ -1456,6 +1540,7 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
+      boss_0: 1241915367
       chest_0: -1453549113
       chest_1: 1971057106
       crate_0: -1568060781
@@ -1463,6 +1548,9 @@ TextureImporter:
       crate_2: 1788338956
       crate_3: 1706835329
       enemy_0: 1091816890
+      enemy_1: -845726668
+      enemy_2: 1225010710
+      enemy_3: 1161163547
       floor_0: -806294749
       floor_1: 592268676
       floor_10: -450482829

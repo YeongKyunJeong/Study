@@ -13,15 +13,18 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             Destroy(player.gameObject);
             Destroy(floatingTextManager.gameObject);
+            Destroy(hud);
+            Destroy(menu);
             return;
         }
 
-        PlayerPrefs.DeleteAll();
+        //PlayerPrefs.DeleteAll();
 
         instance = this;
         //SceneManager.sceneLoaded += SaveState;
         SceneManager.sceneLoaded += LoadState;
-        DontDestroyOnLoad(gameObject);
+        SceneManager.sceneLoaded += OnSceneLoaded;
+        //DontDestroyOnLoad(gameObject);
     }
 
     // Resources
@@ -34,6 +37,10 @@ public class GameManager : MonoBehaviour
     public Player player;
     public Weapon weapon;
     public FloatingTextManager floatingTextManager;
+    public RectTransform hitpointBar;
+    public Animator deathMenuAnim;
+    public GameObject hud;
+    public GameObject menu;
 
     // Logic
     public int pesos;
@@ -62,6 +69,13 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+    // Hitpoint bar
+    public void OnHitpointChage()
+    {
+        float ratio = (float)player.hitPoint / (float)player.maxHitPoint;
+        hitpointBar.localScale = new Vector3(ratio, 1, 1);
+    }
+    
     // Experience System
     public int GetCurrentLevel()
     {
@@ -106,6 +120,21 @@ public class GameManager : MonoBehaviour
         Debug.Log("Level Up");
         player.OnLevelUp();
     }
+    // On Scene Loaded
+    public void OnSceneLoaded(Scene s, LoadSceneMode mode)
+    {
+        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+    }
+
+    // Death Menu and Respawn
+    public void Respawn()
+    {
+        deathMenuAnim.SetTrigger("Hide");
+        UnityEngine.SceneManagement.SceneManager.LoadScene("Main");
+        player.Respawn();
+
+    }
+
     // Save State
     /*
      * INT preferedSkin
@@ -129,6 +158,8 @@ public class GameManager : MonoBehaviour
 
     public void LoadState(Scene s, LoadSceneMode mode)
     {
+        SceneManager.sceneLoaded -= LoadState;
+
         if (!PlayerPrefs.HasKey("SaveState"))
             return;
 
@@ -141,7 +172,6 @@ public class GameManager : MonoBehaviour
         experience = int.Parse(data[2]);
         if (GetCurrentLevel() != 1)
         {
-            player.maxHitPoint = 10;
             player.SetLevel(GetCurrentLevel());
         }
         // Change weapon state
@@ -150,6 +180,6 @@ public class GameManager : MonoBehaviour
 
         Debug.Log("LoadState");
 
-        player.transform.position = GameObject.Find("SpawnPoint").transform.position;
+        //player.transform.position = GameObject.Find("SpawnPoint").transform.position;
     }
 }

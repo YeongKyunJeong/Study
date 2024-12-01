@@ -14,7 +14,8 @@ public class Portal : Collidable
         {
             //Teleport the player, 랜덤 던전으로 이동
             GameManager.instance.SaveState();
-            string sceneName = sceneNames[Random.Range(0, sceneNames.Length)];
+            //string sceneName = sceneNames[Random.Range(0, sceneNames.Length)];
+            string sceneName = sceneNames[1];
             UnityEngine.SceneManagement.SceneManager.LoadScene(sceneName);
         }
     }
