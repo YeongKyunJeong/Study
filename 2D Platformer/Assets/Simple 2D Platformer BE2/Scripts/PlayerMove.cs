@@ -5,9 +5,12 @@ using UnityEngine;
 public class PlayerMove : MonoBehaviour
 {
     public float maxSpeed;
+    public float jumpPower;
     Rigidbody2D rigid;
     SpriteRenderer spriteRenderer;
     Animator anim;
+    int platformLayerMask;
+    //bool isInAir = false;
 
     private void Awake()
     {
@@ -16,10 +19,21 @@ public class PlayerMove : MonoBehaviour
         anim = GetComponent<Animator>();
         if (maxSpeed < 1)
             maxSpeed = 4.5f;
+        if (jumpPower < 1)
+            jumpPower = 20;
+        platformLayerMask = LayerMask.GetMask("Platform");
     }
 
     private void Update() // 단발적인 키 입력
     {
+        // Jump
+        if (Input.GetButtonDown("Jump") && !anim.GetBool("isJumping"))
+        {
+            rigid.AddForce(Vector2.up * jumpPower, ForceMode2D.Impulse);
+            anim.SetBool("isJumping", true);
+            anim.SetBool("isUp", true);
+        }
+
         // Stop Speed
         if (Input.GetButtonUp("Horizontal"))    //*** 정지 조작감 수정 필요, a와 d가 동시에 눌렸을 때 상황 고려 필요
         {
@@ -65,5 +79,28 @@ public class PlayerMove : MonoBehaviour
             rigid.velocity = new Vector2(maxSpeed, rigid.velocity.y);
         else if (rigid.velocity.x < -maxSpeed) // Right Max Speed
             rigid.velocity = new Vector2(-maxSpeed, rigid.velocity.y);
+
+        // Landing Platform
+        //Debug.DrawRay(rigid.position, 0.6f * Vector3.down, Color.green);
+
+
+        if (rigid.velocity.y <= 0)
+        {
+            RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 0.6f, platformLayerMask);
+            if (rayHit.collider != null)
+            {
+                anim.SetBool("isJumping", false);
+            }
+            else
+            {
+                anim.SetBool("isJumping", true);
+                anim.SetBool("isUp", false);
+            }
+        }
+        else
+        {
+
+        }
     }
+
 }
