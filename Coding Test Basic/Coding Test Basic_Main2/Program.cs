@@ -417,5 +417,56 @@ namespace Coding_Test_Basic_Main2
             return answer;
         }
     }
+    public class Solutions13
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181930
+        public int Courses_30_lessons_181930(int a, int b, int c)
+        {
+            int answer = 0;
+
+            int[] numCounts = new int[7];
+            numCounts[a]++;
+            numCounts[b]++;
+            numCounts[c]++;
+
+            int maxCount = 0;
+            for (int i = 1; i < 7; i++)
+            {
+                if (maxCount < numCounts[i])
+                    maxCount = numCounts[i];
+            }
+
+            if (maxCount == 3)
+                answer = 27 * (a * a * a * a * a * a);
+            else if (maxCount == 2)
+                answer = (a + b + c) * (a * a + b * b + c * c);
+            else
+                answer = (a + b + c);
+
+            return answer;
+        }
+    }
+    public class Solutions14
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181929
+        public int Courses_30_lessons_181929(int[] num_list)
+        {
+            int mult = 1;
+            int sumSqr = 0;
+
+            for (int i = 0; i < num_list.Length; i++)
+            {
+                mult *= num_list[i];
+                sumSqr += num_list[i];
+            }
+
+            sumSqr *= sumSqr;
+
+            if (mult < sumSqr)
+                return 1;
+            else
+                return 0;
+        }
+    }
 }
 
