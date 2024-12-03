@@ -468,5 +468,56 @@ namespace Coding_Test_Basic_Main2
                 return 0;
         }
     }
+    public class Solutions15
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181928
+        public int Courses_30_lessons_181928(int[] num_list)
+        {
+            int answer = 0;
+            int odd = 0;
+            int even = 0;
+            for (int i = 0; i < num_list.Length; i++)
+            {
+                if (num_list[i] % 2 == 0)
+                    even = 10 * even + num_list[i];
+                else
+                    odd = 10 * odd + num_list[i];
+
+            }
+            answer = even + odd;
+            return answer;
+        }
+    }
+    public class Solutions16
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181927
+        public int[] Courses_30_lessons_181927(int[] num_list)
+        {
+            int[] answer = new int[] { };
+            int length = num_list.Length;
+
+            if (num_list[length - 1] > num_list[length - 2])
+            {
+                answer = IncreaseArrayLength(num_list, num_list[length - 1] - num_list[length - 2]);
+            }
+            else
+            {
+                answer = IncreaseArrayLength(num_list, num_list[length - 1] * 2);
+            }
+
+            return answer;
+        }
+
+        private int[] IncreaseArrayLength(int[] arr, int newEle)
+        {
+            int[] newArr = new int[arr.Length + 1];
+            for (int i = 0; i < arr.Length; i++)
+            {
+                newArr[i] = arr[i];
+            }
+            newArr[arr.Length] = newEle;
+            return newArr;
+        }
+    }
 }
 

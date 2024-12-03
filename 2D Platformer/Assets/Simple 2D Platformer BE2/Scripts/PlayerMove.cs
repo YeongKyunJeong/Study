@@ -10,6 +10,11 @@ public class PlayerMove : MonoBehaviour
     SpriteRenderer spriteRenderer;
     Animator anim;
     int platformLayerMask;
+    [SerializeField]
+    int playerDamagedLayerNum;
+    int playerBaseLayerNum;
+    float immuneTime;
+    Color playerDamagedColor = new Color(1, 1, 1, 0.4f);
     //bool isInAir = false;
 
     private void Awake()
@@ -22,6 +27,12 @@ public class PlayerMove : MonoBehaviour
         if (jumpPower < 1)
             jumpPower = 20;
         platformLayerMask = LayerMask.GetMask("Platform");
+        if (immuneTime < 1)
+        {
+            immuneTime = 3.0f;
+        }
+        playerDamagedLayerNum = LayerMask.NameToLayer("PlayerDamaged");
+        playerBaseLayerNum = gameObject.layer;
     }
 
     private void Update() // 단발적인 키 입력
@@ -57,15 +68,6 @@ public class PlayerMove : MonoBehaviour
             anim.SetBool("isWalking", false);
         }
 
-        //if(Mathf.Abs(rigid.velocity.x) <= 0.3f) // 속도 기준 애니메이션 변경
-        //{
-        //    anim.SetBool("isWalking", false);
-        //}
-        //else
-        //{
-        //    anim.SetBool("isWalking", true);
-        //}
-
     }
 
     private void FixedUpdate() // 지속적인 키 입력
@@ -91,7 +93,12 @@ public class PlayerMove : MonoBehaviour
             {
                 anim.SetBool("isJumping", false);
             }
-            else
+            else if (!anim.GetBool("isJumping"))
+            {
+                anim.SetBool("isJumping", true);
+                anim.SetBool("isUp", false);
+            }
+            else if (anim.GetBool("isUp"))
             {
                 anim.SetBool("isJumping", true);
                 anim.SetBool("isUp", false);
@@ -99,8 +106,75 @@ public class PlayerMove : MonoBehaviour
         }
         else
         {
+            
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            if (rigid.velocity.y < 0 && (transform.position.y > collision.transform.position.y))
+            {
+                OnAttack(collision.transform);
+                GameManager.instance.stagePoint += 100;
+            }
+            else
+                StartCoroutine(DamagedCoroutine(collision.transform.position));
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Item")
+        {
+            if (collision.gameObject.name.Contains("Bronze Coin"))
+                GameManager.instance.stagePoint += 50;
+            else if (collision.gameObject.name.Contains("Silver Coin"))
+                GameManager.instance.stagePoint += 100;
+            else if (collision.gameObject.name.Contains("Gold Coin"))
+                GameManager.instance.stagePoint += 200;
+
+
+            collision.gameObject.SetActive(false);
+        }
+        else if (collision.gameObject.tag == "Finish")
+        {
 
         }
     }
 
+    void OnAttack(Transform enemy)
+    {
+        // Point
+
+        // Reaction Force;
+        rigid.velocity = new Vector2(rigid.velocity.x, 0);
+        rigid.AddForce(Vector2.up * 7, ForceMode2D.Impulse);
+        // Enemy Die
+        EnemyMove enemyMove = enemy.GetComponent<EnemyMove>();
+        enemyMove.OnDamaged();
+    }
+
+
+    IEnumerator DamagedCoroutine(Vector2 enemyPos)
+    {
+        gameObject.layer = playerDamagedLayerNum;
+        int dirc = transform.position.x - enemyPos.x > 0 ? 1 : -1;
+        rigid.velocity = new Vector2(rigid.velocity.x, 5);
+        rigid.AddForce(new Vector2(dirc, 1) * 7, ForceMode2D.Impulse);
+        anim.SetBool("isImmuned", true);
+        anim.SetTrigger("isDamaged");
+
+        yield return new WaitForSeconds(immuneTime);
+        gameObject.layer = playerBaseLayerNum;
+        anim.SetBool("isImmuned", false);
+
+        yield return null;
+
+    }
+
+    void Damaged()
+    {
+
+    }
 }
