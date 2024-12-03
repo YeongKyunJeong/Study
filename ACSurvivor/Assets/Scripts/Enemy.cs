@@ -123,7 +123,7 @@ public class Enemy : MonoBehaviour
                     else // 정지 상태인 경우 사격
                     {
                         Fire();
-                        animator.SetTrigger("fire");
+                        //animator.SetTrigger("fire");
 
                     }
                 }
@@ -225,7 +225,7 @@ public class Enemy : MonoBehaviour
     public void RespawnEnemy_Tier0(Vector2 dir)
     {
         rigidb.MovePosition(target.position + 20 * dir);
-        if ((target.position - rigidb.position ).magnitude < 10f)
+        if ((target.position - rigidb.position ).magnitude < 15f)
             Debug.Log((target.position - rigidb.position).magnitude);
     }
 
