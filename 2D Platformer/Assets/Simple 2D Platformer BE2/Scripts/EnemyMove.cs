@@ -2,21 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyMove : MonoBehaviour
+public class EnemyMove : Enemy
 {
+    #region InternalRef
     Rigidbody2D rigid;
+    Animator anim;
+    SpriteRenderer spriteRenderer;
+    CapsuleCollider2D coll;
+    Coroutine thinkCoroutine;
+    #endregion
+    #region ExternalRef
+    #endregion
+    #region Parameters
     public int nextMove;
     public float moveSpeed;
     public float thinkMaxTime;
-
-    private Animator anim;
-    private SpriteRenderer spriteRenderer;
-    private float resultmoveSpeed;
     float immuneTime;
     int platformLayerMask;
     bool isMoving;
-    CapsuleCollider2D coll;
-    Coroutine thinkCoroutine;
+    float resultmoveSpeed;
+    #endregion
+    #region Strings
+    string isWalking = "isWalking";
+    #endregion
 
     private void Awake()
     {
@@ -75,19 +83,6 @@ public class EnemyMove : MonoBehaviour
         StartCoroutine(DamagedCoroutine());
     }
 
-    void Think()
-    {
-        nextMove = Random.Range(-1, 2);
-        Debug.Log(Time.time + " " + nextMove);
-
-        if (nextMove == 0)
-            isMoving = false;
-        else
-            isMoving = true;
-
-        resultmoveSpeed = nextMove * moveSpeed;
-        Invoke("Think", thinkMaxTime);
-    }
 
     private void Deactivate()
     {
@@ -99,6 +94,7 @@ public class EnemyMove : MonoBehaviour
         //anim.SetBool("isImmuned", true);
         spriteRenderer.color = new Color(1, 1, 1, 0.3f);
         spriteRenderer.flipY = true;
+        rigid.velocity = Vector2.zero;
         rigid.AddForce(Vector2.up*5, ForceMode2D.Impulse);
         coll.enabled = false;
         yield return new WaitForSeconds(immuneTime);
@@ -130,7 +126,7 @@ public class EnemyMove : MonoBehaviour
             if (nextMove == 0)
             {
                 isMoving = false;
-                anim.SetBool("isWalking", false);
+                anim.SetBool(isWalking, false);
             }
             else
             {
@@ -140,7 +136,7 @@ public class EnemyMove : MonoBehaviour
                     spriteRenderer.flipX = false;
 
                 isMoving = true;
-                anim.SetBool("isWalking", true);
+                anim.SetBool(isWalking, true);
             }
 
             resultmoveSpeed = nextMove * moveSpeed;
