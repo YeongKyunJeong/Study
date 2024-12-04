@@ -20,7 +20,8 @@ public class PlayerMove : MonoBehaviour
     public float jumpPower;
     float immuneTime;
     RaycastHit2D rayHit;
-    Vector2 landingDetectionBoxSize = new Vector2(0.25f, 0.5f)/*new Vector2(1f, 1f)*/;
+    public Vector2 landingDetectionBoxSize = new Vector2(0.25f, 1f)/*new Vector2(1f, 1f)*/;
+    public float dist = 0;
     #endregion
 
     #region Strings
@@ -139,9 +140,14 @@ public class PlayerMove : MonoBehaviour
         if (rigid.velocity.y <= 0)
         {
 
-            rayHit = Physics2D.BoxCast(rigid.position, landingDetectionBoxSize, 0, Vector2.down, 0.7f, platformLayerMask);///////
+            //rayHit = Physics2D.BoxCast(rigid.position, landingDetectionBoxSize, 0, Vector2.down, 0.7f, platformLayerMask);
+            rayHit = Physics2D.BoxCast(rigid.position + dist * Vector2.down, landingDetectionBoxSize, 0, Vector2.down, 0, platformLayerMask);
+            //Collider2D[] temp = Physics2D.OverlapBoxAll(rigid.position + dist * Vector2.down, landingDetectionBoxSize,0, platformLayerMask);
+            //hit = Physics2D.BoxCast(transform.position, boxCollider.size, 0, new Vector2(0, moveDelta.y), Mathf.Abs(moveDelta.y * Time.deltaTime), LayerMask.GetMask("Actor", "Blocking"));
+            //rayHit = Physics2D.BoxCast(rigid.position)
             //RaycastHit2D rayHit = Physics2D.Raycast(rigid.position, Vector3.down, 0.7f, platformLayerMask);
             if (rayHit.collider != null)
+            //if (temp.Length != 0)
             {
                 anim.SetBool(isJumping, false);
             }
