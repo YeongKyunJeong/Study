@@ -224,7 +224,7 @@ public class Enemy : MonoBehaviour
 
     public void RespawnEnemy_Tier0(Vector2 dir)
     {
-        rigidb.MovePosition(target.position + 20 * dir);
+        transform.position =target.position + 20 * dir;// movePosition 말고 다른 거 쓰기
         if ((target.position - rigidb.position ).magnitude < 15f)
             Debug.Log((target.position - rigidb.position).magnitude);
     }
