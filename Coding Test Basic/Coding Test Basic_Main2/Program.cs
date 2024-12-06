@@ -519,5 +519,87 @@ namespace Coding_Test_Basic_Main2
             return newArr;
         }
     }
+
+    public class Solution17
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181926
+        public int Courses_30_lessons_181926(int n, string control)
+        {
+            int answer = 0;
+            for (int i = 0; i < control.Length; i++)
+            {
+                char input = control[i];
+                switch (input)
+                {
+                    case 'w':
+                        {
+                            n += 1;
+                            break;
+                        }
+                    case 's':
+                        {
+                            n -= 1;
+                            break;
+                        }
+                    case 'd':
+                        {
+                            n += 10;
+                            break;
+                        }
+                    case 'a':
+                        {
+                            n -= 10;
+                            break;
+                        }
+                    default: break;
+                }
+            }
+            answer = n;
+            return answer;
+        }
+    }
+
+    public class Solution18
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181925
+        public string Courses_30_lessons_181925(int[] numLog)
+        {
+            string answer = "";
+            int diff = 0;
+            for (int i = 0; i < numLog.Length - 1; i++)
+            {
+                diff = numLog[i + 1] - numLog[i];
+                answer += FindInput(diff);
+            }
+
+            return answer;
+        }
+
+        public string FindInput(int logDiff)
+        {
+            switch (logDiff)
+            {
+                case 1:
+                    {
+                        return "w";
+                    }
+                case -1:
+                    {
+                        return "s";
+                    }
+                case 10:
+                    {
+                        return "d";
+                    }
+                case -10:
+                    {
+                        return "a";
+                    }
+                default: return "";
+            }
+            return "";
+        }
+    }
+
 }
 

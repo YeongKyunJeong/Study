@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coding Test Basic_Main", "C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Coding Test Basic_Main2", "Coding Test Basic_Main2\Coding Test Basic_Main2.csproj", "{30708E37-45B1-470F-9721-89F320BC890B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Algorithm Study", "Algorithm Study\Algorithm Study.csproj", "{1A4CF8DB-68F5-4D8E-9D74-4C285AE7431B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{30708E37-45B1-470F-9721-89F320BC890B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{30708E37-45B1-470F-9721-89F320BC890B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{30708E37-45B1-470F-9721-89F320BC890B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1A4CF8DB-68F5-4D8E-9D74-4C285AE7431B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1A4CF8DB-68F5-4D8E-9D74-4C285AE7431B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1A4CF8DB-68F5-4D8E-9D74-4C285AE7431B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1A4CF8DB-68F5-4D8E-9D74-4C285AE7431B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
