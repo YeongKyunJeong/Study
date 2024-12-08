@@ -8,6 +8,8 @@ public class JewelRoom : MonoBehaviour
     public Vector2Int cord { get; set; }
     public Vector2 cordForCheck;
     public Jewel jewel { get; set; }
+    public int state = 0; // 0: Deactivate / 1: Activated this click / 2: Activated
+    public SpriteRenderer spriteRenderer;
     //public Jewel jewel;
     //private void OnValidate()
     //{
@@ -19,5 +21,6 @@ public class JewelRoom : MonoBehaviour
     {
         if (coll == null)
             coll = GetComponent<BoxCollider2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
     }
 }
