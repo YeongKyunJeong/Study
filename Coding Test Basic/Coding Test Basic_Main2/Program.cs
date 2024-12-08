@@ -601,5 +601,22 @@ namespace Coding_Test_Basic_Main2
         }
     }
 
+    public class Solution19
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181924
+        public int[] Courses_30_lessons_181924(int[] arr, int[,] queries)
+        {
+            int[] answer = new int[] { };
+            for (int i = 0; i < queries.GetLength(0); i++)
+            {
+                arr[queries[i, 0]] += arr[queries[i, 1]];
+                arr[queries[i, 1]] = arr[queries[i, 0]] - arr[queries[i, 1]];
+                arr[queries[i, 0]] -= arr[queries[i, 1]];
+            }
+            answer = arr;
+            return answer;
+        }
+    }
+
 }
 
