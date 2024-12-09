@@ -11,17 +11,32 @@ public class JewelBoard : MonoBehaviour
     public float gap = 1.2f;
     public Camera mainCamera;
     private Collider2D clickedColl;
-    private int roomLayerMask;
+    private int enabledRoomLayer;
+    private int enabledRoomLayerMask;
+    private int disabledRoomLayer;
     private Vector3 mouseClickedPosition;
     private bool isMouseHeld = false;
+
+    private bool updateJewel = false;
     private bool isActivating = false;
     private bool isDeactivating = false;
-    private JewelRoom nowHeldJewel = null;
+    public JewelRoom nowHeldJewel = null;
     private Vector2Int nowHeldJewelInd = -Vector2Int.one;
 
-    private int tempInd = 0;
+    private int tempInd = 0; // int값 계산용
+    private int xDiff = 0;
+    private int yDiff = 0;
+
+    [SerializeField]
+    private int chainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
+    [SerializeField]
+    private List<int> prevChainDirHistory = new List<int>() { };
+    [SerializeField]
+    private List<int> thisTimeChainDirHistory = new List<int>() { };
+
     public List<JewelRoom> thisTimeClickedRooms = new List<JewelRoom>();
     public List<JewelRoom> prevClickedRooms = new List<JewelRoom>();
+    //public JewelRoom beforeHeldJewel = null;
 
     private Color[] selectableSignColors = new Color[2];
 
@@ -47,7 +62,11 @@ public class JewelBoard : MonoBehaviour
 
     private void Awake()
     {
-        roomLayerMask = LayerMask.GetMask("Room");
+        enabledRoomLayerMask = LayerMask.GetMask("EnabledRoom");
+        enabledRoomLayer = LayerMask.NameToLayer("EnabledRoom");
+        disabledRoomLayer = LayerMask.NameToLayer("DisabledRoom");
+        chainDir = 5;
+        prevChainDirHistory = new List<int>() { };
     }
 
     private void Start()
@@ -58,11 +77,11 @@ public class JewelBoard : MonoBehaviour
             {
                 //jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
-                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
                 //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
                 jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
+                jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
 
-                jewels[7 * i + j].cord = new Vector2Int (j, i );
+                jewels[7 * i + j].cord = new Vector2Int(j, i);
             }
         }
         selectableSignColors[0] = jewelRooms[0].spriteRenderer.color;
@@ -83,15 +102,14 @@ public class JewelBoard : MonoBehaviour
 
                 if (clickedColl != null) // 게임판을 클릭
                 {
+                    updateJewel = true;
                     JewelRoom clickedRoom = clickedColl.GetComponent<JewelRoom>();
-                    Debug.Log(clickedRoom.jewel.cord.x);
-                    Debug.Log(clickedRoom.jewel.cord.y);
-                    Debug.Log(clickedRoom.jewel.name);
 
                     if (nowHeldJewel == clickedRoom) // 클릭이 이전 보석을 벗어나지 않았다면 아무 것도 하지 않음
                         return;
                     else
                     {
+                        //beforeHeldJewel = nowHeldJewel;
                         nowHeldJewel = clickedRoom;
                     }
 
@@ -128,16 +146,17 @@ public class JewelBoard : MonoBehaviour
             }
         }
 
-        if (Input.GetMouseButtonUp(0))
-        {
-            ConfirmActivationJewel();
-        }
+        if (updateJewel)
+            if (Input.GetMouseButtonUp(0))
+            {
+                ConfirmActivationJewel();
+            }
     }
     Collider2D ShotRayAndDetectCollier()
     {
         mouseClickedPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
         mouseClickedPosition.z = 0;
-        return Physics2D.OverlapPoint(mouseClickedPosition, roomLayerMask);
+        return Physics2D.OverlapPoint(mouseClickedPosition, enabledRoomLayerMask);
     }
 
     void ActivateJewel(JewelRoom jewelRoom)
@@ -145,6 +164,11 @@ public class JewelBoard : MonoBehaviour
         thisTimeClickedRooms.Add(jewelRoom);
         jewelRoom.state = 1;
         jewelRoom.jewel.anim.SetBool(isSelected, true);
+
+        chainDir = jewelRoom.nextChainDir;
+        thisTimeChainDirHistory.Add(chainDir);
+
+        UpdateSelectable();
     }
 
     void ConfirmActivationJewel()
@@ -154,13 +178,39 @@ public class JewelBoard : MonoBehaviour
             jewelRoom.state = 2;
         }
 
+        UpdateSelectable();
         prevClickedRooms.AddRange(thisTimeClickedRooms);
         thisTimeClickedRooms = new List<JewelRoom> { };
+        prevChainDirHistory.AddRange(thisTimeChainDirHistory);
+        thisTimeChainDirHistory = new List<int> { };
 
+        //beforeHeldJewel = nowHeldJewel;
+        updateJewel = false;
         nowHeldJewel = null;
         isMouseHeld = false;
         isActivating = false;
         isDeactivating = false;
+    }
+    void DeactivateJewel(JewelRoom jewelRoom) // 이전 클릭에 활성화된 보석을 비활성화 시키는 경우
+    {
+        // 이어진 체인을 모두 찾아서 비활성화
+        tempInd = prevClickedRooms.IndexOf(jewelRoom);
+
+        for (int i = tempInd; i < prevClickedRooms.Count; i++)
+        {
+            CancelActivationofJewel(prevClickedRooms[i]);
+        }
+
+        prevClickedRooms = prevClickedRooms.GetRange(0, tempInd);
+        prevChainDirHistory = prevChainDirHistory.GetRange(0, tempInd);
+
+        if (tempInd == 0)
+            nowHeldJewel = null;
+
+        else
+            nowHeldJewel = prevClickedRooms[tempInd - 1];
+
+        UpdateSelectable();
     }
 
     void Rollback(JewelRoom jewelRoom)
@@ -169,63 +219,383 @@ public class JewelBoard : MonoBehaviour
         if (!thisTimeClickedRooms.Contains(jewelRoom)) // 전부 초기화
         {
             isActivating = false;
-            for (int i = tempInd; i < thisTimeClickedRooms.Count; i++)
+            chainDir = prevChainDirHistory[prevChainDirHistory.Count - 1];
+            for (int i = 0; i < thisTimeClickedRooms.Count; i++)
             {
-                DeactivateJewel(thisTimeClickedRooms[i]);
+                CancelActivationofJewel(thisTimeClickedRooms[i]);
             }
             thisTimeClickedRooms = new List<JewelRoom> { };
+            thisTimeChainDirHistory = new List<int> { };
+            nowHeldJewel = prevClickedRooms[prevClickedRooms.Count - 1];
 
         }
         else
         {
             tempInd = thisTimeClickedRooms.IndexOf(jewelRoom); // 현재 마우스가 올라가있는 보석 이후 활성화된 보석만 초기화
+            chainDir = thisTimeChainDirHistory[tempInd];
+            nowHeldJewel = jewelRooms[tempInd];
             for (int i = tempInd + 1; i < thisTimeClickedRooms.Count; i++)
             {
-                DeactivateJewel(thisTimeClickedRooms[i]);
+                CancelActivationofJewel(thisTimeClickedRooms[i]);
             }
             thisTimeClickedRooms = thisTimeClickedRooms.GetRange(0, tempInd + 1);
+            thisTimeChainDirHistory = thisTimeChainDirHistory.GetRange(0, tempInd + 1);
+
+
+            nowHeldJewel = jewelRoom;
         }
+
+        UpdateSelectable();
     }
 
-    void DeactivateJewel(JewelRoom jewelRoom)
+    void CancelActivationofJewel(JewelRoom jewelRoom) // 이번 클릭에 활성화된 보석을 되돌리는 경우
     {
         jewelRoom.state = 0;
         jewelRoom.jewel.anim.SetBool(isSelected, false);
     }
 
+
+
     public void UpdateSelectable()
     {
-        if (prevClickedRooms.Count == 0)
+        if (prevClickedRooms.Count == 0 && thisTimeClickedRooms.Count == 0)
         {
             for (int i = 0; i < jewelRooms.Count; i++)
             {
-                if (jewelRooms[i].jewel.cord.x == 0)
+                JewelRoom targetRoom = jewelRooms[i];
+                if (targetRoom.jewel.cord.x == 0)
                 {
-                    jewelRooms[i].spriteRenderer.color = selectableSignColors[0];
+
+                    MakeSelectable(targetRoom, true);
+
+                    if (targetRoom.jewel.cord.y == 0)
+                    {
+                        targetRoom.nextChainDir = 3;
+                    }
+                    else if (targetRoom.jewel.cord.y == 6)
+                    {
+                        targetRoom.nextChainDir = 9;
+                    }
+                    else
+                    {
+                        targetRoom.nextChainDir = 6;
+                    }
                 }
-                else if (jewelRooms[i].jewel.cord.x == 6)
+                else if (targetRoom.jewel.cord.x == 6)
                 {
-                    jewelRooms[i].spriteRenderer.color = selectableSignColors[0];
+                    MakeSelectable(targetRoom, true);
+
+                    if (targetRoom.jewel.cord.y == 0)
+                    {
+                        targetRoom.nextChainDir = 1;
+                    }
+                    else if (targetRoom.jewel.cord.y == 6)
+                    {
+                        targetRoom.nextChainDir = 7;
+                    }
+                    else
+                    {
+                        targetRoom.nextChainDir = 4;
+                    }
                 }
-                else if (jewelRooms[i].jewel.cord.y == 0)
+                else if (targetRoom.jewel.cord.y == 0)
                 {
-                    jewelRooms[i].spriteRenderer.color = selectableSignColors[0];
+                    MakeSelectable(targetRoom, true);
+                    targetRoom.nextChainDir = 2;
                 }
-                else if (jewelRooms[i].jewel.cord.y == 6)
+                else if (targetRoom.jewel.cord.y == 6)
                 {
-                    jewelRooms[i].spriteRenderer.color = selectableSignColors[0];
+                    MakeSelectable(targetRoom, true);
+                    targetRoom.nextChainDir = 8;
                 }
                 else
                 {
-                    jewelRooms[i].spriteRenderer.color = selectableSignColors[1];
+                    MakeSelectable(targetRoom, false);
+                    targetRoom.nextChainDir = 5;
                 }
             }
         }
-        else /*if(nowHeldJewel)*/
+        else
         {
+            for (int i = 0; i < jewelRooms.Count; i++)
+            {
+                JewelRoom targetRoom = jewelRooms[i];
 
+                if (prevClickedRooms.Contains(targetRoom))
+                {
+                    targetRoom.nextChainDir = prevChainDirHistory[prevClickedRooms.IndexOf(targetRoom)];
+                }
+                else if (thisTimeClickedRooms.Contains(targetRoom))
+                {
+                    targetRoom.nextChainDir = thisTimeChainDirHistory[thisTimeClickedRooms.IndexOf(targetRoom)];
+                }
+                else
+                {
+                    xDiff = targetRoom.cord.x - nowHeldJewel.cord.x;
+                    yDiff = targetRoom.cord.y - nowHeldJewel.cord.y;
+                    switch (chainDir)
+                    {
+                        case 6:
+                            {
+                                if (xDiff != 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else if (Mathf.Abs(yDiff) > 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, true);
+                                    targetRoom.nextChainDir = 6;
+                                }
+                                break;
+                            }
+                        case 4:
+                            {
+                                if (xDiff != -1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else if (Mathf.Abs(yDiff) > 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, true);
+                                    targetRoom.nextChainDir = 4;
+                                }
+                                break;
+                            }
+                        case 2:
+                            {
+                                if (yDiff != 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else if (Mathf.Abs(xDiff) > 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, true);
+                                    targetRoom.nextChainDir = 2;
+                                }
+                                break;
+                            }
+                        case 8:
+                            {
+                                if (yDiff != -1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else if (Mathf.Abs(xDiff) > 1)
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, true);
+                                    targetRoom.nextChainDir = 8;
+                                }
+                                break;
+                            }
+                        case 3:
+                            {
+                                if (xDiff == 1)
+                                {
+                                    if (yDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 3;
+                                    }
+                                    else if (yDiff == 0 || yDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 6;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else if (yDiff == 1)
+                                {
+                                    if (xDiff == 0 || xDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 2;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+
+                                break;
+                            }
+                        case 1:
+                            {
+                                if (xDiff == -1)
+                                {
+                                    if (yDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 1;
+                                    }
+                                    else if (yDiff == 0 || yDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 4;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else if (yDiff == 1)
+                                {
+                                    if (xDiff == 0 || xDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 2;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+
+                                break;
+                            }
+                        case 9:
+                            {
+                                if (xDiff == 1)
+                                {
+                                    if (yDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 9;
+                                    }
+                                    else if (yDiff == 0 || yDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 6;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else if (yDiff == -1)
+                                {
+                                    if (xDiff == 0 || xDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 8;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+
+                                break;
+                            }
+                        case 7:
+                            {
+                                if (xDiff == -1)
+                                {
+                                    if (yDiff == -1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 7;
+                                    }
+                                    else if (yDiff == 0 || yDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 4;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else if (yDiff == -1)
+                                {
+                                    if (xDiff == 0 || xDiff == 1)
+                                    {
+                                        MakeSelectable(targetRoom, true);
+                                        targetRoom.nextChainDir = 8;
+                                    }
+                                    else
+                                    {
+                                        MakeSelectable(targetRoom, false);
+                                        //targetRoom.nextChainDir = 5;
+                                    }
+                                }
+                                else
+                                {
+                                    MakeSelectable(targetRoom, false);
+                                    //targetRoom.nextChainDir = 5;
+                                }
+
+                                break;
+                            }
+                        default:
+                            break;
+                    }
+                }
+
+            }
         }
+    }
 
+    private void MakeSelectable(JewelRoom targetRoom, bool toSelectable = true, bool isChained = false)
+    {
 
+        if (toSelectable)
+        {
+            targetRoom.spriteRenderer.color = selectableSignColors[0];
+            targetRoom.gameObject.layer = enabledRoomLayer;
+        }
+        else
+        {
+            targetRoom.spriteRenderer.color = selectableSignColors[1];
+            targetRoom.gameObject.layer = disabledRoomLayer;
+        }
     }
 }
