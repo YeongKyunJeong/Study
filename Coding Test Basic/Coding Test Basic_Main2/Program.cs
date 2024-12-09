@@ -618,5 +618,34 @@ namespace Coding_Test_Basic_Main2
         }
     }
 
+    public class Solution20
+    {
+        //https://school.programmers.co.kr/learn/courses/30/lessons/181923
+        public int[] Courses_30_lessons_181923(int[] arr, int[,] queries)
+        {
+            int[] answer = new int[queries.GetLength(0)];
+            int save = -1;
+            for (int i = 0; i < queries.GetLength(0); i++)
+            {
+                save = -1;
+                for (int j = queries[i, 0]; j < queries[i, 1] + 1; j++)
+                {
+                    if (arr[j] > queries[i, 2])
+                    {
+                        if (save == -1)
+                        {
+                            save = arr[j];
+                        }
+                        else if (arr[j] < save)
+                        {
+                            save = arr[j];
+                        }
+                    }
+                }
+                answer[i] = save;
+            }
+            return answer;
+        }
+    }
 }
 
