@@ -18,10 +18,13 @@ public class JewelRoom : MonoBehaviour
     //        coll = GetComponent<BoxCollider2D>();
 
     //}
-    private void Awake()
+    public void Initialize(Jewel jewel, Vector2Int cord)
     {
         if (coll == null)
             coll = GetComponent<BoxCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
+        
+        this.jewel = jewel;
+        this.cord = cord;
     }
 }

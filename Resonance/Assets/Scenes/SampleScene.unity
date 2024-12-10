@@ -7468,11 +7468,7 @@ MonoBehaviour:
   isDeactivating: 0
   nowHeldJewel: {fileID: 0}
   chainDir: 5
-  prevChainDirHistory: 
-  thisTimeChainDirHistory: 
-  thisTimeSelectedRooms: []
   tempJewelList: []
-  prevSelectedRooms: []
   chainedRooms: []
   chainDirHistory: 
   testCase: -1

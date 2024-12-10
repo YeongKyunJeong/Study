@@ -64,11 +64,11 @@ public class JewelBoard : MonoBehaviour
     //        }
     //    }
     //}
-
+    public const string EnabledRoom = "EnabledRoom";
     private void Awake()
     {
-        enabledRoomLayerMask = LayerMask.GetMask("EnabledRoom");
-        enabledRoomLayer = LayerMask.NameToLayer("EnabledRoom");
+        enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
+        enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer("DisabledRoom");
         chainDir = 5;
         prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
@@ -91,8 +91,11 @@ public class JewelBoard : MonoBehaviour
                 //jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
-                jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
-                jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
+                
+                jewelRooms[7 * i + j].Initialize(jewels[7 * i + j], new Vector2Int(j, i));
+                
+                // jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
+                // jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
 
                 jewels[7 * i + j].cord = new Vector2Int(j, i);
             }
@@ -110,61 +113,7 @@ public class JewelBoard : MonoBehaviour
         {
             if (!isDeactivating) // 이번 클릭으로 보석을 비활성화 하지 않음
             {
-                isMouseHeld = true;
-                clickedColl = ShotRayAndDetectCollier();
-
-                if (clickedColl != null) // 게임판을 클릭
-                {
-                    updateJewel = true;
-                    //tempBool = false;
-                    JewelRoom clickedRoom = clickedColl.GetComponent<JewelRoom>();
-
-                    if (nowHeldJewel == clickedRoom) // 클릭이 이전 보석을 벗어나지 않았다면 아무 것도 하지 않음
-                        return;
-                    else
-                    {
-                        //beforeHeldJewel = nowHeldJewel;
-                        nowHeldJewel = clickedRoom;
-                    }
-
-                    if (clickedRoom.state == 0)
-                    {
-
-                        if (chainedRooms.Count > 1 && prevSelectableRoomsSets[^2].Contains(clickedRoom))
-                        {
-                            Rollback(chainedRooms[^2]);
-                            UpdateSelectable();
-                            nowHeldJewel = clickedRoom;
-                        }
-
-
-                        //tempBool = true;
-                        isActivating = true;
-                        ActivateJewel(clickedRoom);
-                    }
-                    else if (clickedRoom.state == 1)
-                    {
-                        Rollback(clickedRoom);// ToDo: 현재 마우스가 클릭 중인 보석 뒤 연결된, 이번 클릭에서 활성화된 보석을 취소
-                    }
-                    else
-                    {
-                        if (isActivating) // 이번 클릭에서 보석을 활성화 한 적이 있음
-                        {
-                            Rollback(clickedRoom); // ToDo:이번 클릭에서 활성화된 보석을 모두 취소
-                        }
-                        else
-                        {
-                            isDeactivating = true;
-                            DeactivateJewel(clickedRoom);
-                        }
-                    }
-
-                    UpdateSelectable(/*tempBool*/);
-                }
-                else // 게임판 바깥을 클릭
-                {
-                    return;
-                }
+                if (CalculateJewel()) return;
             }
             else // 이번 클릭으로 이미 보석을 비활성화 한 경우 마우스 클릭을 떼기 전까지 입력을 받지 않음
             {
@@ -183,6 +132,68 @@ public class JewelBoard : MonoBehaviour
             EndClick();
         }
     }
+
+    private bool CalculateJewel()
+    {
+        isMouseHeld = true;
+        clickedColl = ShotRayAndDetectCollier();
+
+        if (clickedColl != null) // 게임판을 클릭
+        {
+            updateJewel = true;
+            //tempBool = false;
+            JewelRoom clickedRoom = clickedColl.GetComponent<JewelRoom>();
+                    
+            if (nowHeldJewel == clickedRoom) // 클릭이 이전 보석을 벗어나지 않았다면 아무 것도 하지 않음
+                return true;
+                  
+                    
+            //beforeHeldJewel = nowHeldJewel;
+            nowHeldJewel = clickedRoom;
+                
+
+            if (clickedRoom.state == 0)
+            {
+
+                if (chainedRooms.Count > 1 && prevSelectableRoomsSets[^2].Contains(clickedRoom))
+                {
+                    Rollback(chainedRooms[^2]);
+                    UpdateSelectable();
+                    nowHeldJewel = clickedRoom;
+                }
+
+
+                //tempBool = true;
+                isActivating = true;
+                ActivateJewel(clickedRoom);
+            }
+            else if (clickedRoom.state == 1)
+            {
+                Rollback(clickedRoom);// ToDo: 현재 마우스가 클릭 중인 보석 뒤 연결된, 이번 클릭에서 활성화된 보석을 취소
+            }
+            else
+            {
+                if (isActivating) // 이번 클릭에서 보석을 활성화 한 적이 있음
+                {
+                    Rollback(clickedRoom); // ToDo:이번 클릭에서 활성화된 보석을 모두 취소
+                }
+                else
+                {
+                    isDeactivating = true;
+                    DeactivateJewel(clickedRoom);
+                }
+            }
+
+            UpdateSelectable(/*tempBool*/);
+        }
+        else // 게임판 바깥을 클릭
+        {
+            return true;
+        }
+
+        return false;
+    }
+
     Collider2D ShotRayAndDetectCollier()
     {
         mouseClickedPosition = mainCamera.ScreenToWorldPoint(Input.mousePosition);
