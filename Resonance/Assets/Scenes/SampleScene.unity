@@ -268,6 +268,7 @@ MonoBehaviour:
   coll: {fileID: 10336369}
   cordForCheck: {x: 3, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &14593006
 GameObject:
@@ -534,6 +535,7 @@ MonoBehaviour:
   coll: {fileID: 40258868}
   cordForCheck: {x: 6, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &70654128
 GameObject:
@@ -1157,6 +1159,7 @@ MonoBehaviour:
   coll: {fileID: 188574704}
   cordForCheck: {x: 5, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &201519953
 GameObject:
@@ -1423,6 +1426,7 @@ MonoBehaviour:
   coll: {fileID: 206363758}
   cordForCheck: {x: 5, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &206841704
 GameObject:
@@ -1689,6 +1693,7 @@ MonoBehaviour:
   coll: {fileID: 220731491}
   cordForCheck: {x: 1, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &257425463
 GameObject:
@@ -1836,6 +1841,7 @@ MonoBehaviour:
   coll: {fileID: 257425465}
   cordForCheck: {x: 2, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &286607806
 GameObject:
@@ -1983,6 +1989,7 @@ MonoBehaviour:
   coll: {fileID: 286607808}
   cordForCheck: {x: 0, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &333837415
 GameObject:
@@ -2606,6 +2613,7 @@ MonoBehaviour:
   coll: {fileID: 462312668}
   cordForCheck: {x: 6, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &462681426
 GameObject:
@@ -2753,6 +2761,7 @@ MonoBehaviour:
   coll: {fileID: 462681428}
   cordForCheck: {x: 6, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &462899785
 GameObject:
@@ -2900,6 +2909,7 @@ MonoBehaviour:
   coll: {fileID: 462899787}
   cordForCheck: {x: 2, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
@@ -3422,6 +3432,7 @@ MonoBehaviour:
   coll: {fileID: 574893045}
   cordForCheck: {x: 3, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &580089068
 GameObject:
@@ -3768,6 +3779,7 @@ MonoBehaviour:
   coll: {fileID: 595757623}
   cordForCheck: {x: 5, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &598492172
 GameObject:
@@ -3915,6 +3927,7 @@ MonoBehaviour:
   coll: {fileID: 598492174}
   cordForCheck: {x: 4, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &631689855
 GameObject:
@@ -4300,6 +4313,7 @@ MonoBehaviour:
   coll: {fileID: 645625950}
   cordForCheck: {x: 4, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &651797478
 GameObject:
@@ -4923,6 +4937,7 @@ MonoBehaviour:
   coll: {fileID: 730218217}
   cordForCheck: {x: 2, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &732772127
 GameObject:
@@ -5070,6 +5085,7 @@ MonoBehaviour:
   coll: {fileID: 732772129}
   cordForCheck: {x: 5, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &756773565
 GameObject:
@@ -5336,6 +5352,7 @@ MonoBehaviour:
   coll: {fileID: 811242597}
   cordForCheck: {x: 2, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &838423621
 GameObject:
@@ -5483,6 +5500,7 @@ MonoBehaviour:
   coll: {fileID: 838423623}
   cordForCheck: {x: 0, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &863611300
 GameObject:
@@ -5630,6 +5648,7 @@ MonoBehaviour:
   coll: {fileID: 863611302}
   cordForCheck: {x: 4, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &883401612
 GameObject:
@@ -5777,6 +5796,7 @@ MonoBehaviour:
   coll: {fileID: 883401614}
   cordForCheck: {x: 2, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &887606984
 GameObject:
@@ -5924,6 +5944,7 @@ MonoBehaviour:
   coll: {fileID: 887606986}
   cordForCheck: {x: 3, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &904892079
 GameObject:
@@ -6190,6 +6211,7 @@ MonoBehaviour:
   coll: {fileID: 945408500}
   cordForCheck: {x: 1, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &951902411
 GameObject:
@@ -6337,6 +6359,7 @@ MonoBehaviour:
   coll: {fileID: 951902413}
   cordForCheck: {x: 1, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &971123254
 GameObject:
@@ -6484,6 +6507,7 @@ MonoBehaviour:
   coll: {fileID: 971123256}
   cordForCheck: {x: 3, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &975364109
 GameObject:
@@ -6631,6 +6655,7 @@ MonoBehaviour:
   coll: {fileID: 975364111}
   cordForCheck: {x: 2, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &981333074
 GameObject:
@@ -7135,6 +7160,7 @@ MonoBehaviour:
   coll: {fileID: 1021989982}
   cordForCheck: {x: 2, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1027761484
 GameObject:
@@ -7435,11 +7461,21 @@ MonoBehaviour:
   - {fileID: 598492176}
   - {fileID: 188574706}
   - {fileID: 462681430}
-  DoArrangeJewel: 0
+  DoArrangeJewel: 1
   gap: 1.2
   mainCamera: {fileID: 519420031}
-  thisTimeClickedRooms: []
-  prevClickedRooms: []
+  updateJewel: 0
+  isDeactivating: 0
+  nowHeldJewel: {fileID: 0}
+  chainDir: 5
+  prevChainDirHistory: 
+  thisTimeChainDirHistory: 
+  thisTimeSelectedRooms: []
+  tempJewelList: []
+  prevSelectedRooms: []
+  chainedRooms: []
+  chainDirHistory: 
+  testCase: -1
 --- !u!212 &1045670341
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7653,6 +7689,7 @@ MonoBehaviour:
   coll: {fileID: 1063765302}
   cordForCheck: {x: 3, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1103308871
 GameObject:
@@ -7800,6 +7837,7 @@ MonoBehaviour:
   coll: {fileID: 1103308873}
   cordForCheck: {x: 1, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1117062795
 GameObject:
@@ -7947,6 +7985,7 @@ MonoBehaviour:
   coll: {fileID: 1117062797}
   cordForCheck: {x: 0, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1129981320
 GameObject:
@@ -8094,6 +8133,7 @@ MonoBehaviour:
   coll: {fileID: 1129981322}
   cordForCheck: {x: 6, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1158402902
 GameObject:
@@ -8241,6 +8281,7 @@ MonoBehaviour:
   coll: {fileID: 1158402904}
   cordForCheck: {x: 6, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1175675860
 GameObject:
@@ -8388,6 +8429,7 @@ MonoBehaviour:
   coll: {fileID: 1175675862}
   cordForCheck: {x: 0, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1225513715
 GameObject:
@@ -8853,6 +8895,7 @@ MonoBehaviour:
   coll: {fileID: 1348008863}
   cordForCheck: {x: 1, y: 6}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1398082776
 GameObject:
@@ -9119,6 +9162,7 @@ MonoBehaviour:
   coll: {fileID: 1399019073}
   cordForCheck: {x: 3, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1403637654
 GameObject:
@@ -9266,6 +9310,7 @@ MonoBehaviour:
   coll: {fileID: 1403637656}
   cordForCheck: {x: 4, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1403779732
 GameObject:
@@ -9532,6 +9577,7 @@ MonoBehaviour:
   coll: {fileID: 1433246580}
   cordForCheck: {x: 5, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1452893290
 GameObject:
@@ -10036,6 +10082,7 @@ MonoBehaviour:
   coll: {fileID: 1505788909}
   cordForCheck: {x: 1, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1552652950
 GameObject:
@@ -10183,6 +10230,7 @@ MonoBehaviour:
   coll: {fileID: 1552652952}
   cordForCheck: {x: 0, y: 0}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1556476943
 GameObject:
@@ -10330,6 +10378,7 @@ MonoBehaviour:
   coll: {fileID: 1556476945}
   cordForCheck: {x: 1, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1572443437
 GameObject:
@@ -10596,6 +10645,7 @@ MonoBehaviour:
   coll: {fileID: 1573748163}
   cordForCheck: {x: 4, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1574656938
 GameObject:
@@ -10743,6 +10793,7 @@ MonoBehaviour:
   coll: {fileID: 1574656940}
   cordForCheck: {x: 3, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1629335386
 GameObject:
@@ -11485,6 +11536,7 @@ MonoBehaviour:
   coll: {fileID: 1753266730}
   cordForCheck: {x: 4, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1766494915
 GameObject:
@@ -12108,6 +12160,7 @@ MonoBehaviour:
   coll: {fileID: 1876282985}
   cordForCheck: {x: 0, y: 2}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1886140416
 GameObject:
@@ -12255,6 +12308,7 @@ MonoBehaviour:
   coll: {fileID: 1886140418}
   cordForCheck: {x: 0, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &1895531325
 GameObject:
@@ -12640,6 +12694,7 @@ MonoBehaviour:
   coll: {fileID: 2003643310}
   cordForCheck: {x: 6, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &2022825000
 GameObject:
@@ -13025,6 +13080,7 @@ MonoBehaviour:
   coll: {fileID: 2028089069}
   cordForCheck: {x: 6, y: 4}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &2030954442
 GameObject:
@@ -13410,6 +13466,7 @@ MonoBehaviour:
   coll: {fileID: 2122353271}
   cordForCheck: {x: 4, y: 1}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &2128563470
 GameObject:
@@ -13557,6 +13614,7 @@ MonoBehaviour:
   coll: {fileID: 2128563472}
   cordForCheck: {x: 5, y: 3}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1 &2131960388
 GameObject:
@@ -13704,6 +13762,7 @@ MonoBehaviour:
   coll: {fileID: 2131960390}
   cordForCheck: {x: 5, y: 5}
   state: 0
+  nextChainDir: 5
   spriteRenderer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:

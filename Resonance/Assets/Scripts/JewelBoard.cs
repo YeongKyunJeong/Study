@@ -16,28 +16,29 @@ public class JewelBoard : MonoBehaviour
     private int disabledRoomLayer;
     private Vector3 mouseClickedPosition;
     private bool isMouseHeld = false;
-
+    [SerializeField]
     private bool updateJewel = false;
     private bool isActivating = false;
+    [SerializeField]
     private bool isDeactivating = false;
     public JewelRoom nowHeldJewel = null;
     private Vector2Int nowHeldJewelInd = -Vector2Int.one;
 
     private int tempInd = 0; // int값 계산용
+    private bool tempBool = false;
     private int xDiff = 0;
     private int yDiff = 0;
 
     [SerializeField]
     private int chainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
-    [SerializeField]
-    private List<int> prevChainDirHistory = new List<int>() { };
-    [SerializeField]
-    private List<int> thisTimeChainDirHistory = new List<int>() { };
 
-    public List<JewelRoom> thisTimeSelectedRooms = new List<JewelRoom>();
-    public List<List<JewelRoom>> prevSelectableRoomsSets = new List<List<JewelRoom>>();
+    public List<List<JewelRoom>> prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { } */};
     public List<JewelRoom> tempJewelList;
-    public List<JewelRoom> prevSelectedRooms = new List<JewelRoom>();
+
+    public List<JewelRoom> chainedRooms = new List<JewelRoom>();
+    [SerializeField]
+    private List<int> chainDirHistory = new List<int>();
+
     //public JewelRoom beforeHeldJewel = null;
 
     public int testCase = -1;
@@ -70,7 +71,11 @@ public class JewelBoard : MonoBehaviour
         enabledRoomLayer = LayerMask.NameToLayer("EnabledRoom");
         disabledRoomLayer = LayerMask.NameToLayer("DisabledRoom");
         chainDir = 5;
-        prevChainDirHistory = new List<int>() { };
+        prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
+
+        chainedRooms = new List<JewelRoom>();
+        chainDirHistory = new List<int>();
+
         if (testCase == -1)
         {
             testCase = 1;
@@ -111,6 +116,7 @@ public class JewelBoard : MonoBehaviour
                 if (clickedColl != null) // 게임판을 클릭
                 {
                     updateJewel = true;
+                    //tempBool = false;
                     JewelRoom clickedRoom = clickedColl.GetComponent<JewelRoom>();
 
                     if (nowHeldJewel == clickedRoom) // 클릭이 이전 보석을 벗어나지 않았다면 아무 것도 하지 않음
@@ -123,6 +129,16 @@ public class JewelBoard : MonoBehaviour
 
                     if (clickedRoom.state == 0)
                     {
+
+                        if (chainedRooms.Count > 1 && prevSelectableRoomsSets[^2].Contains(clickedRoom))
+                        {
+                            Rollback(chainedRooms[^2]);
+                            UpdateSelectable();
+                            nowHeldJewel = clickedRoom;
+                        }
+
+
+                        //tempBool = true;
                         isActivating = true;
                         ActivateJewel(clickedRoom);
                     }
@@ -142,6 +158,8 @@ public class JewelBoard : MonoBehaviour
                             DeactivateJewel(clickedRoom);
                         }
                     }
+
+                    UpdateSelectable(/*tempBool*/);
                 }
                 else // 게임판 바깥을 클릭
                 {
@@ -154,11 +172,16 @@ public class JewelBoard : MonoBehaviour
             }
         }
 
-        if (updateJewel)
-            if (Input.GetMouseButtonUp(0))
+
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (updateJewel)
             {
                 ConfirmActivationJewel();
             }
+
+            EndClick();
+        }
     }
     Collider2D ShotRayAndDetectCollier()
     {
@@ -167,115 +190,89 @@ public class JewelBoard : MonoBehaviour
         return Physics2D.OverlapPoint(mouseClickedPosition, enabledRoomLayerMask);
     }
 
-    void ActivateJewel(JewelRoom jewelRoom)
+    void ActivateJewel(JewelRoom targetRoom)
     {
-        thisTimeSelectedRooms.Add(jewelRoom);
-        jewelRoom.state = 1;
-        jewelRoom.jewel.anim.SetBool(isSelected, true);
+        targetRoom.state = 1;
+        targetRoom.jewel.anim.SetBool(isSelected, true);
 
-        chainDir = jewelRoom.nextChainDir;
-        thisTimeChainDirHistory.Add(chainDir);
+        chainDir = targetRoom.nextChainDir;
 
-        UpdateSelectable();
+        chainDirHistory.Add(chainDir);
+        chainedRooms.Add(targetRoom);
+
+        //UpdateSelectable();
     }
 
     void ConfirmActivationJewel()
     {
-        foreach (JewelRoom jewelRoom in thisTimeSelectedRooms)
+        foreach (JewelRoom jewelRoom in chainedRooms)
         {
             jewelRoom.state = 2;
         }
 
-        UpdateSelectable();
-        prevSelectedRooms.AddRange(thisTimeSelectedRooms);
-        thisTimeSelectedRooms = new List<JewelRoom> { };
-        prevChainDirHistory.AddRange(thisTimeChainDirHistory);
-        thisTimeChainDirHistory = new List<int> { };
 
-        //beforeHeldJewel = nowHeldJewel;
+
+
+        //UpdateSelectable();
+    }
+
+    void EndClick()
+    {
         updateJewel = false;
         nowHeldJewel = null;
         isMouseHeld = false;
         isActivating = false;
         isDeactivating = false;
     }
-    void DeactivateJewel(JewelRoom jewelRoom) // 이전 클릭에 활성화된 보석을 비활성화 시키는 경우
+
+    void DeactivateJewel(JewelRoom targetRoom)
     {
-        // 이어진 체인을 모두 찾아서 비활성화
-        tempInd = prevSelectedRooms.IndexOf(jewelRoom);
 
-        for (int i = tempInd; i < prevSelectedRooms.Count; i++)
+        tempInd = chainedRooms.IndexOf(targetRoom);
+
+        for (int i = tempInd; i < chainedRooms.Count; i++)
         {
-            CancelActivationofJewel(prevSelectedRooms[i]);
+            CancelActivationofJewel(chainedRooms[i]);
         }
-
-        prevSelectedRooms = prevSelectedRooms.GetRange(0, tempInd);
-        prevChainDirHistory = prevChainDirHistory.GetRange(0, tempInd);
+        chainedRooms = chainedRooms.GetRange(0, tempInd);
+        chainDirHistory = chainDirHistory.GetRange(0, tempInd);
         if (tempInd == 0)
         {
             nowHeldJewel = null;
             chainDir = 5;
+            prevSelectableRoomsSets = new List<List<JewelRoom>>();
         }
         else
         {
-            nowHeldJewel = prevSelectedRooms[tempInd - 1];
-            chainDir = prevChainDirHistory[tempInd - 1];
+            nowHeldJewel = chainedRooms[^1];
+            prevSelectableRoomsSets = prevSelectableRoomsSets.GetRange(0, tempInd - 1);
+            chainDir = chainDirHistory[tempInd - 1];
         }
 
-        UpdateSelectable();
+        //UpdateSelectable();
     }
 
-    void Rollback(JewelRoom jewelRoom)
+    void Rollback(JewelRoom targetRoom)
     {
-        tempInd = 0;
-        if (jewelRoom.state == 2 /*!thisTimeSelectedRooms.Contains(jewelRoom)*/) // 전부 초기화
-        {
-            if (testCase == 0) // option 0: 이전 클릭에 활성화된 보석 이후 보석만 초기화
-            {
-                chainDir = prevChainDirHistory[prevChainDirHistory.Count - 1];
-                for (int i = 0; i < thisTimeSelectedRooms.Count; i++)
-                {
-                    CancelActivationofJewel(thisTimeSelectedRooms[i]);
-                }
-                thisTimeSelectedRooms = new List<JewelRoom> { };
-                thisTimeChainDirHistory = new List<int> { };
-                nowHeldJewel = prevSelectedRooms[prevSelectedRooms.Count - 1];
-            }
-            else  // option 1: 해당 위치에서 다시 시작
-            {
-                tempInd = prevSelectedRooms.IndexOf(jewelRoom);
-                chainDir = prevChainDirHistory[tempInd];
-                for (int i = 0; i < thisTimeSelectedRooms.Count; i++)
-                {
-                    CancelActivationofJewel(thisTimeSelectedRooms[i]);
-                }
-                for (int i = tempInd + 1; i < prevSelectedRooms.Count; i++)
-                {
-                    CancelActivationofJewel(prevSelectedRooms[i]);
-                }
-                nowHeldJewel = jewelRoom;
-                nowHeldJewel.state = 1;
-                thisTimeSelectedRooms = new List<JewelRoom> { jewelRoom };
-                prevSelectedRooms = prevSelectedRooms.GetRange(0, tempInd);
-                thisTimeChainDirHistory = new List<int> { chainDir };
-                prevChainDirHistory = prevChainDirHistory.GetRange(0, tempInd);
-            }
 
-        }
-        else
+        tempInd = chainedRooms.IndexOf(targetRoom);
+        chainDir = chainDirHistory[tempInd];
+
+        for (int i = tempInd + 1; i < chainedRooms.Count; i++)
         {
-            tempInd = thisTimeSelectedRooms.IndexOf(jewelRoom); // 현재 마우스가 올라가있는 보석 이후 활성화된 보석만 초기화
-            chainDir = thisTimeChainDirHistory[tempInd];
-            nowHeldJewel = jewelRoom;
-            for (int i = tempInd + 1; i < thisTimeSelectedRooms.Count; i++)
-            {
-                CancelActivationofJewel(thisTimeSelectedRooms[i]);
-            }
-            thisTimeSelectedRooms = thisTimeSelectedRooms.GetRange(0, tempInd + 1);
-            thisTimeChainDirHistory = thisTimeChainDirHistory.GetRange(0, tempInd + 1);
+            CancelActivationofJewel(chainedRooms[i]);
         }
 
-        UpdateSelectable();
+        nowHeldJewel = chainedRooms[tempInd];
+        nowHeldJewel.state = 1;
+        prevSelectableRoomsSets = prevSelectableRoomsSets.GetRange(0, tempInd);
+
+
+        chainedRooms = chainedRooms.GetRange(0, tempInd + 1);
+        chainDirHistory = chainDirHistory.GetRange(0, tempInd + 1);
+
+
+
     }
 
     void CancelActivationofJewel(JewelRoom jewelRoom) // 이번 클릭에 활성화된 보석을 되돌리는 경우
@@ -286,9 +283,9 @@ public class JewelBoard : MonoBehaviour
 
 
 
-    public void UpdateSelectable()
+    public void UpdateSelectable(/*bool add = false*/)
     {
-        tempInd = prevSelectedRooms.Count + thisTimeSelectedRooms.Count;
+        tempInd = chainDirHistory.Count;
         if (tempInd == 0)
         {
             for (int i = 0; i < jewelRooms.Count; i++)
@@ -348,24 +345,20 @@ public class JewelBoard : MonoBehaviour
         }
         else
         {
+            tempBool = false;
             tempJewelList = new List<JewelRoom>();
 
             for (int i = 0; i < jewelRooms.Count; i++)
             {
                 JewelRoom targetRoom = jewelRooms[i];
 
-                //if(tempInd >1 && prevSelectableRoomsSets[^1].Contains(targetRoom))
-                //{
-                //    MakeSelectable(targetRoom, true, true);
-                //}
-
-                /*else */if (prevSelectedRooms.Contains(targetRoom))
+                if (chainedRooms.Contains(targetRoom))
                 {
-                    targetRoom.nextChainDir = prevChainDirHistory[prevSelectedRooms.IndexOf(targetRoom)];
+                    targetRoom.nextChainDir = chainDirHistory[chainedRooms.IndexOf(targetRoom)];
                 }
-                else if (thisTimeSelectedRooms.Contains(targetRoom))
+                else if (tempInd > 1 && prevSelectableRoomsSets[^1].Contains(targetRoom) && targetRoom != nowHeldJewel)
                 {
-                    targetRoom.nextChainDir = thisTimeChainDirHistory[thisTimeSelectedRooms.IndexOf(targetRoom)];
+                    MakeSelectable(targetRoom, true, true);
                 }
                 else
                 {
@@ -617,15 +610,18 @@ public class JewelBoard : MonoBehaviour
                             break;
                     }
                 }
-
-                //if (tempInd > 1 && prevSelectableRoomsSets[^1].Contains(targetRoom) && targetRoom != nowHeldJewel)
-                //{
-                //    MakeSelectable(targetRoom, true, true);
-                //}
-
+                ////////////////////////////////////////////////////////////
             }
+            //if (add)
+            //{
             prevSelectableRoomsSets.Add(tempJewelList);
+            //}
+            Debug.Log(prevSelectableRoomsSets.Count);
         }
+
+
+
+
     }
 
     private void MakeSelectable(JewelRoom targetRoom, bool toSelectable = true, bool beforeRoom = false)
@@ -635,14 +631,14 @@ public class JewelBoard : MonoBehaviour
         {
             if (beforeRoom)
             {
-                targetRoom.spriteRenderer.color = selectableSignColors[1];
+                targetRoom.spriteRenderer.color = 0.2f*Color.yellow;
             }
             else
             {
                 targetRoom.spriteRenderer.color = selectableSignColors[0];
+                tempJewelList.Add(targetRoom);
             }
             targetRoom.gameObject.layer = enabledRoomLayer;
-            tempJewelList.Add(targetRoom);
         }
         else
         {
