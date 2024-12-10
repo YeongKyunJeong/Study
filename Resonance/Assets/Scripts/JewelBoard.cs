@@ -65,11 +65,12 @@ public class JewelBoard : MonoBehaviour
     //    }
     //}
     public const string EnabledRoom = "EnabledRoom";
+    public const string DisabledRoom = "DisabledRoom";
     private void Awake()
     {
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
-        disabledRoomLayer = LayerMask.NameToLayer("DisabledRoom");
+        disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
         chainDir = 5;
         prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
 
@@ -93,9 +94,9 @@ public class JewelBoard : MonoBehaviour
                 //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
                 
                 jewelRooms[7 * i + j].Initialize(jewels[7 * i + j], new Vector2Int(j, i));
-                
-                // jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
-                // jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
+
+                //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
+                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
 
                 jewels[7 * i + j].cord = new Vector2Int(j, i);
             }
@@ -109,21 +110,23 @@ public class JewelBoard : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButtonDown(0))
         {
-            if (!isDeactivating) // 이번 클릭으로 보석을 비활성화 하지 않음
-            {
-                if (CalculateJewel()) return;
-            }
-            else // 이번 클릭으로 이미 보석을 비활성화 한 경우 마우스 클릭을 떼기 전까지 입력을 받지 않음
-            {
-                return;
-            }
+            inputTrigger = true;
+            //if (!isDeactivating) // 이번 클릭으로 보석을 비활성화 하지 않음
+            //{
+            //    if (TouchOrClick()) return;
+            //}
+            //else // 이번 클릭으로 이미 보석을 비활성화 한 경우 마우스 클릭을 떼기 전까지 입력을 받지 않음
+            //{
+            //    return;
+            //}
         }
 
 
         if (Input.GetMouseButtonUp(0))
         {
+            inputTrigger = false;
             if (updateJewel)
             {
                 ConfirmActivationJewel();
@@ -133,7 +136,24 @@ public class JewelBoard : MonoBehaviour
         }
     }
 
-    private bool CalculateJewel()
+    private bool inputTrigger = false;
+
+    private void FixedUpdate()
+    {
+        if (inputTrigger)
+        {
+            if (!isDeactivating) // 이번 클릭으로 보석을 비활성화 하지 않음
+            {
+                if (TouchOrClick()) return;
+            }
+            else // 이번 클릭으로 이미 보석을 비활성화 한 경우 마우스 클릭을 떼기 전까지 입력을 받지 않음
+            {
+                return;
+            }
+        }
+    }
+
+    private bool TouchOrClick()
     {
         isMouseHeld = true;
         clickedColl = ShotRayAndDetectCollier();
