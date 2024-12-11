@@ -338,6 +338,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &14593010
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -606,6 +609,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &70654132
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -725,6 +731,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &97524032
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -844,6 +853,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &101234532
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -963,6 +975,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &144783583
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1210,6 +1225,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &201519956
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1499,6 +1517,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &206841708
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2065,6 +2086,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &333837419
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2184,6 +2208,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &355988970
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2303,6 +2330,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &431342408
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2422,6 +2452,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &436991393
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3080,6 +3113,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &526979549
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3245,6 +3281,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &535968711
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -3513,6 +3552,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &580089072
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4010,6 +4052,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &631689859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4129,6 +4174,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &632095385
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4397,6 +4445,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &651797482
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4516,6 +4567,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &676253476
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4635,6 +4689,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &687379709
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -4754,6 +4811,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &693498527
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -5171,6 +5231,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &756773569
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6035,6 +6098,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &904892083
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6750,6 +6816,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &981333078
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6869,6 +6938,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1006516583
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -6988,6 +7060,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1021727859
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7256,6 +7331,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1027761488
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7342,6 +7420,7 @@ MonoBehaviour:
   DoArrangeJewel: 1
   gap: 1.2
   mainCamera: {fileID: 519420031}
+  jewelData: {fileID: 11400000, guid: 20bd730052f85214d80066df1e5fd3de, type: 2}
   jewels:
   - {fileID: 201519955}
   - {fileID: 14593009}
@@ -8620,6 +8699,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1237436045
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8739,6 +8821,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1347767748
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9007,6 +9092,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1398082780
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9424,6 +9512,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1403779736
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9692,6 +9783,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1452893294
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9811,6 +9905,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1468000646
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -9930,6 +10027,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1490159159
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10496,6 +10596,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1572443441
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -10913,6 +11016,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1629335390
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11032,6 +11138,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1677804323
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11151,6 +11260,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1679949092
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11270,6 +11382,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1687420979
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11389,6 +11504,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1753154825
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11657,6 +11775,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1766494919
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11776,6 +11897,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1802757113
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -11828,56 +11952,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!1 &1814034320
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1814034322}
-  - component: {fileID: 1814034321}
-  m_Layer: 0
-  m_Name: JewelData
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1814034321
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814034320}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5ef93ef82d08a4a4cbdff17c90b8a858, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  jewelSprites:
-  - {fileID: 7482667652216324306, guid: 2399c317c2a596c4185c3485ed687622, type: 3}
-  jewelAnimationClipSet:
-  - animationClips:
-    - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
-    - {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
---- !u!4 &1814034322
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1814034320}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857308487
 GameObject:
   m_ObjectHideFlags: 0
@@ -11945,6 +12019,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1857308491
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12064,6 +12141,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1861407641
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12481,6 +12561,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1895531329
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12600,6 +12683,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &1922496719
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12868,6 +12954,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &2022825004
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -12987,6 +13076,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &2026126276
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13255,6 +13347,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &2030954446
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13374,6 +13469,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2204de87019337b43bc57ad6bc728f3d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cord: {x: 0, y: 0}
+  anim: {fileID: 0}
+  spriteRenderer: {fileID: 0}
 --- !u!212 &2119795482
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -13882,4 +13980,3 @@ SceneRoots:
   - {fileID: 1045670342}
   - {fileID: 1225513716}
   - {fileID: 584089689}
-  - {fileID: 1814034322}

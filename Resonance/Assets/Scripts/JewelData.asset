@@ -12,6 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ef93ef82d08a4a4cbdff17c90b8a858, type: 3}
   m_Name: JewelData
   m_EditorClassIdentifier: 
-  jewelSprites: []
-  jewelAnimationClipSet: []
+  jewelSprites:
+  - {fileID: 7482667652216324306, guid: 2399c317c2a596c4185c3485ed687622, type: 3}
+  jewelAnimationClipSet:
+  - animationClips:
+    - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
+    - {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
   popAnimationTime: 1
