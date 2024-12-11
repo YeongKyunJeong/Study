@@ -12,10 +12,19 @@ public class JewelBoard : MonoBehaviour
 
     #region External Reference
     public Camera mainCamera;
+
+    private GameManager gameManager;
+
+    [SerializeField] private JewelData jewelData;
     [SerializeField] private List<Jewel> jewels;
     [SerializeField] private List<Transform> jewelTransforms;
     [SerializeField] private List<JewelRoom> jewelRooms;
     #endregion
+
+    //#region Internal Reference
+    //private JewelInputControler jewelInputControler;
+
+    //#endregion
 
     #region Static Parameter
     private static Color[] selectableSignColors = new Color[3];
@@ -33,7 +42,7 @@ public class JewelBoard : MonoBehaviour
     public JewelRoom nowHeldJewel = null;
 
     // History
-    public List<List<JewelRoom>> selectableRoomsSets = new List<List<JewelRoom>>() {};
+    public List<List<JewelRoom>> selectableRoomsSets = new List<List<JewelRoom>>() { };
     public List<JewelRoom> chainedRooms = new List<JewelRoom>();
     [SerializeField]
     private List<int> chainDirHistory = new List<int>();
@@ -92,6 +101,8 @@ public class JewelBoard : MonoBehaviour
     //}
     private void Awake()
     {
+        //jewelInputControler = GetComponent<JewelInputControler>();
+
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
@@ -105,30 +116,47 @@ public class JewelBoard : MonoBehaviour
         {
             testCase = 1;
         }
-    }
-
-    private void Start()
-    {
         for (int i = 0; i < puzzlSize; i++)
         {
             for (int j = 0; j < puzzlSize; j++)
             {
+                //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
+                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
+
+                jewelRooms[puzzlSize * i + j].Initialize(jewels[puzzlSize * i + j], new Vector2Int(j, i));
+
+                jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
+                jewels[puzzlSize * i + j].Initialize(jewelData);
+            }
+        }
+    }
+
+    private void Start()
+    {
+        //for (int i = 0; i < puzzlSize; i++)
+        //{
+        //    for (int j = 0; j < puzzlSize; j++)
+        //    {
                 //jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
 
-                jewelRooms[puzzlSize * i + j].Initialize(jewels[puzzlSize * i + j], new Vector2Int(j, i));
 
                 //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
                 //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
 
-                jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
-            }
-        }
+                //jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
+                //jewels[puzzlSize * i + j].jewelData = jewelData;
+                //jewels[puzzlSize * i + j].Initialize();
+        //    }
+        //}
+
+        gameManager = GameManager.Instance;
+
         selectableSignColors[0] = jewelRooms[0].spriteRenderer.color;
         Color temp = new Color(selectableSignColors[0].r, selectableSignColors[0].g, selectableSignColors[0].b, 0);
         selectableSignColors[1] = temp;
-        selectableSignColors[2] = 0.4f * Color.yellow; 
+        selectableSignColors[2] = 0.4f * Color.yellow;
 
         UpdateSelectable();
     }
@@ -598,7 +626,7 @@ public class JewelBoard : MonoBehaviour
                     targetRoom.nextChainDir = 6;
                 }
             }
-            else if (targetRoom.jewel.cord.x == puzzlSize-1)
+            else if (targetRoom.jewel.cord.x == puzzlSize - 1)
             {
                 MakeSelectable(targetRoom, true);
 
@@ -620,7 +648,7 @@ public class JewelBoard : MonoBehaviour
                 MakeSelectable(targetRoom, true);
                 targetRoom.nextChainDir = 2;
             }
-            else if (targetRoom.jewel.cord.y == puzzlSize-1)
+            else if (targetRoom.jewel.cord.y == puzzlSize - 1)
             {
                 MakeSelectable(targetRoom, true);
                 targetRoom.nextChainDir = 8;

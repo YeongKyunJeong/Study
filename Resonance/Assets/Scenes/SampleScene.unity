@@ -267,9 +267,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 10336369}
   cordForCheck: {x: 3, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &14593006
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,9 +535,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 40258868}
   cordForCheck: {x: 6, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &70654128
 GameObject:
   m_ObjectHideFlags: 0
@@ -1158,9 +1160,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 188574704}
   cordForCheck: {x: 5, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &201519953
 GameObject:
   m_ObjectHideFlags: 0
@@ -1425,9 +1428,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 206363758}
   cordForCheck: {x: 5, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &206841704
 GameObject:
   m_ObjectHideFlags: 0
@@ -1692,9 +1696,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 220731491}
   cordForCheck: {x: 1, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &257425463
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,9 +1845,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 257425465}
   cordForCheck: {x: 2, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &286607806
 GameObject:
   m_ObjectHideFlags: 0
@@ -1988,9 +1994,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 286607808}
   cordForCheck: {x: 0, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &333837415
 GameObject:
   m_ObjectHideFlags: 0
@@ -2612,9 +2619,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 462312668}
   cordForCheck: {x: 6, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &462681426
 GameObject:
   m_ObjectHideFlags: 0
@@ -2760,9 +2768,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 462681428}
   cordForCheck: {x: 6, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &462899785
 GameObject:
   m_ObjectHideFlags: 0
@@ -2908,9 +2917,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 462899787}
   cordForCheck: {x: 2, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -3166,7 +3176,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35d90da37f3023d479aae1bba859c575, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  CycleCount: 10
+  cycleCount: 10
+  score: 0
 --- !u!1 &535968707
 GameObject:
   m_ObjectHideFlags: 0
@@ -3431,9 +3442,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 574893045}
   cordForCheck: {x: 3, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &580089068
 GameObject:
   m_ObjectHideFlags: 0
@@ -3778,9 +3790,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 595757623}
   cordForCheck: {x: 5, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &598492172
 GameObject:
   m_ObjectHideFlags: 0
@@ -3926,9 +3939,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 598492174}
   cordForCheck: {x: 4, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &631689855
 GameObject:
   m_ObjectHideFlags: 0
@@ -4312,9 +4326,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 645625950}
   cordForCheck: {x: 4, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &651797478
 GameObject:
   m_ObjectHideFlags: 0
@@ -4936,9 +4951,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 730218217}
   cordForCheck: {x: 2, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &732772127
 GameObject:
   m_ObjectHideFlags: 0
@@ -5084,9 +5100,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 732772129}
   cordForCheck: {x: 5, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &756773565
 GameObject:
   m_ObjectHideFlags: 0
@@ -5351,9 +5368,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 811242597}
   cordForCheck: {x: 2, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &838423621
 GameObject:
   m_ObjectHideFlags: 0
@@ -5499,9 +5517,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 838423623}
   cordForCheck: {x: 0, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &863611300
 GameObject:
   m_ObjectHideFlags: 0
@@ -5647,9 +5666,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 863611302}
   cordForCheck: {x: 4, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &883401612
 GameObject:
   m_ObjectHideFlags: 0
@@ -5795,9 +5815,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 883401614}
   cordForCheck: {x: 2, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &887606984
 GameObject:
   m_ObjectHideFlags: 0
@@ -5943,9 +5964,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 887606986}
   cordForCheck: {x: 3, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &904892079
 GameObject:
   m_ObjectHideFlags: 0
@@ -6210,9 +6232,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 945408500}
   cordForCheck: {x: 1, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &951902411
 GameObject:
   m_ObjectHideFlags: 0
@@ -6358,9 +6381,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 951902413}
   cordForCheck: {x: 1, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &971123254
 GameObject:
   m_ObjectHideFlags: 0
@@ -6506,9 +6530,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 971123256}
   cordForCheck: {x: 3, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &975364109
 GameObject:
   m_ObjectHideFlags: 0
@@ -6654,9 +6679,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 975364111}
   cordForCheck: {x: 2, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &981333074
 GameObject:
   m_ObjectHideFlags: 0
@@ -7159,9 +7185,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1021989982}
   cordForCheck: {x: 2, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1027761484
 GameObject:
   m_ObjectHideFlags: 0
@@ -7290,8 +7317,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1045670342}
-  - component: {fileID: 1045670341}
   - component: {fileID: 1045670340}
+  - component: {fileID: 1045670343}
+  - component: {fileID: 1045670341}
   m_Layer: 0
   m_Name: JewelBoard
   m_TagString: Untagged
@@ -7311,6 +7339,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: acbd4158e29e8004687b2ef2e8f0b2f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  DoArrangeJewel: 1
+  gap: 1.2
+  mainCamera: {fileID: 519420031}
   jewels:
   - {fileID: 201519955}
   - {fileID: 14593009}
@@ -7461,17 +7492,14 @@ MonoBehaviour:
   - {fileID: 598492176}
   - {fileID: 188574706}
   - {fileID: 462681430}
-  DoArrangeJewel: 1
-  gap: 1.2
-  mainCamera: {fileID: 519420031}
-  updateJewel: 0
-  isDeactivating: 0
-  nowHeldJewel: {fileID: 0}
   chainDir: 5
-  tempJewelList: []
+  nowHeldJewel: {fileID: 0}
   chainedRooms: []
   chainDirHistory: 
+  isActivating: 0
+  isDeactivating: 0
   testCase: -1
+  tempJewelList: []
 --- !u!212 &1045670341
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7539,6 +7567,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1045670343
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1045670339}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 079e76be6a05fa040b5d97463ecf40a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1063765300
 GameObject:
   m_ObjectHideFlags: 0
@@ -7684,9 +7724,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1063765302}
   cordForCheck: {x: 3, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1103308871
 GameObject:
   m_ObjectHideFlags: 0
@@ -7832,9 +7873,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1103308873}
   cordForCheck: {x: 1, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1117062795
 GameObject:
   m_ObjectHideFlags: 0
@@ -7980,9 +8022,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1117062797}
   cordForCheck: {x: 0, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1129981320
 GameObject:
   m_ObjectHideFlags: 0
@@ -8128,9 +8171,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1129981322}
   cordForCheck: {x: 6, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1158402902
 GameObject:
   m_ObjectHideFlags: 0
@@ -8276,9 +8320,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1158402904}
   cordForCheck: {x: 6, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1175675860
 GameObject:
   m_ObjectHideFlags: 0
@@ -8424,9 +8469,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1175675862}
   cordForCheck: {x: 0, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1225513715
 GameObject:
   m_ObjectHideFlags: 0
@@ -8890,9 +8936,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1348008863}
   cordForCheck: {x: 1, y: 6}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1398082776
 GameObject:
   m_ObjectHideFlags: 0
@@ -9157,9 +9204,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1399019073}
   cordForCheck: {x: 3, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1403637654
 GameObject:
   m_ObjectHideFlags: 0
@@ -9305,9 +9353,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1403637656}
   cordForCheck: {x: 4, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1403779732
 GameObject:
   m_ObjectHideFlags: 0
@@ -9572,9 +9621,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1433246580}
   cordForCheck: {x: 5, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1452893290
 GameObject:
   m_ObjectHideFlags: 0
@@ -10077,9 +10127,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1505788909}
   cordForCheck: {x: 1, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1552652950
 GameObject:
   m_ObjectHideFlags: 0
@@ -10225,9 +10276,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1552652952}
   cordForCheck: {x: 0, y: 0}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1556476943
 GameObject:
   m_ObjectHideFlags: 0
@@ -10373,9 +10425,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1556476945}
   cordForCheck: {x: 1, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1572443437
 GameObject:
   m_ObjectHideFlags: 0
@@ -10640,9 +10693,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1573748163}
   cordForCheck: {x: 4, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1574656938
 GameObject:
   m_ObjectHideFlags: 0
@@ -10788,9 +10842,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1574656940}
   cordForCheck: {x: 3, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1629335386
 GameObject:
   m_ObjectHideFlags: 0
@@ -11531,9 +11586,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1753266730}
   cordForCheck: {x: 4, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1766494915
 GameObject:
   m_ObjectHideFlags: 0
@@ -11772,6 +11828,56 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1814034320
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1814034322}
+  - component: {fileID: 1814034321}
+  m_Layer: 0
+  m_Name: JewelData
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1814034321
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814034320}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef93ef82d08a4a4cbdff17c90b8a858, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  jewelSprites:
+  - {fileID: 7482667652216324306, guid: 2399c317c2a596c4185c3485ed687622, type: 3}
+  jewelAnimationClipSet:
+  - animationClips:
+    - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
+    - {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
+--- !u!4 &1814034322
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814034320}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1857308487
 GameObject:
   m_ObjectHideFlags: 0
@@ -12155,9 +12261,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1876282985}
   cordForCheck: {x: 0, y: 2}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1886140416
 GameObject:
   m_ObjectHideFlags: 0
@@ -12303,9 +12410,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 1886140418}
   cordForCheck: {x: 0, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &1895531325
 GameObject:
   m_ObjectHideFlags: 0
@@ -12689,9 +12797,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 2003643310}
   cordForCheck: {x: 6, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &2022825000
 GameObject:
   m_ObjectHideFlags: 0
@@ -13075,9 +13184,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 2028089069}
   cordForCheck: {x: 6, y: 4}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &2030954442
 GameObject:
   m_ObjectHideFlags: 0
@@ -13461,9 +13571,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 2122353271}
   cordForCheck: {x: 4, y: 1}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &2128563470
 GameObject:
   m_ObjectHideFlags: 0
@@ -13609,9 +13720,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 2128563472}
   cordForCheck: {x: 5, y: 3}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1 &2131960388
 GameObject:
   m_ObjectHideFlags: 0
@@ -13757,9 +13869,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coll: {fileID: 2131960390}
   cordForCheck: {x: 5, y: 5}
+  spriteRenderer: {fileID: 0}
+  jewelType: -1
   state: 0
   nextChainDir: 5
-  spriteRenderer: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -13769,3 +13882,4 @@ SceneRoots:
   - {fileID: 1045670342}
   - {fileID: 1225513716}
   - {fileID: 584089689}
+  - {fileID: 1814034322}

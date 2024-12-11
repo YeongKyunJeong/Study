@@ -8,7 +8,9 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } private set { instance = value; }  }
 
-    public int CycleCount = 10;
+    public int cycleCount = 10;
+
+    public int score;
 
     private void Awake()
     {
