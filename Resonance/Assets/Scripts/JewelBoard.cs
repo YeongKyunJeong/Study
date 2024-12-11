@@ -4,48 +4,74 @@ using UnityEngine;
 
 public class JewelBoard : MonoBehaviour
 {
+
+    #region Arrange Before Runtime
+    public bool DoArrangeJewel = false;
+    public float gap = 1.2f;
+    #endregion
+
+    #region External Reference
+    public Camera mainCamera;
     [SerializeField] private List<Jewel> jewels;
     [SerializeField] private List<Transform> jewelTransforms;
     [SerializeField] private List<JewelRoom> jewelRooms;
-    public bool DoArrangeJewel = false;
-    public float gap = 1.2f;
-    public Camera mainCamera;
-    private Collider2D clickedColl;
-    private int enabledRoomLayer;
-    private int enabledRoomLayerMask;
-    private int disabledRoomLayer;
+    #endregion
+
+    #region Static Parameter
+    private static Color[] selectableSignColors = new Color[3];
+    private static int puzzlSize = 7;
+
+    #endregion
+
+    #region Parameter for Logic
+    // Input
     private Vector3 mouseClickedPosition;
-    private bool isMouseHeld = false;
-    [SerializeField]
-    private bool updateJewel = false;
-    private bool isActivating = false;
-    [SerializeField]
-    private bool isDeactivating = false;
+    private Collider2D clickedColl;
+
+    // State
+    [SerializeField] private int chainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
     public JewelRoom nowHeldJewel = null;
-    private Vector2Int nowHeldJewelInd = -Vector2Int.one;
 
-    private int tempInd = 0; // int값 계산용
-    private bool tempBool = false;
-    private int xDiff = 0;
-    private int yDiff = 0;
-
-    [SerializeField]
-    private int chainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
-
-    public List<List<JewelRoom>> prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { } */};
-    public List<JewelRoom> tempJewelList;
-
+    // History
+    public List<List<JewelRoom>> selectableRoomsSets = new List<List<JewelRoom>>() {};
     public List<JewelRoom> chainedRooms = new List<JewelRoom>();
     [SerializeField]
     private List<int> chainDirHistory = new List<int>();
+    #endregion
 
-    //public JewelRoom beforeHeldJewel = null;
+    #region Temporary Parameter Caching
+    private int tempInd = 0;
+    private int xDiff = 0;
+    private int yDiff = 0;
+    #endregion
 
-    public int testCase = -1;
+    #region Trigger
+    [SerializeField] private bool isActivating = false;
+    [SerializeField] private bool isDeactivating = false;
+    private bool updateJewel = false;
+    #endregion
 
-    private Color[] selectableSignColors = new Color[2];
+    #region Layer
+    private int enabledRoomLayer;
+    private int enabledRoomLayerMask;
+    private int disabledRoomLayer;
+    #endregion
 
+    #region Strings Caching
     private string isSelected = "isSelected";
+    public const string EnabledRoom = "EnabledRoom";
+    public const string DisabledRoom = "DisabledRoom";
+    #endregion
+
+    #region Not Uesd Yet
+    private Vector2Int nowHeldJewelInd = -Vector2Int.one;
+    #endregion
+
+    #region Parameter for Debugging
+    public int testCase = -1;
+    public List<JewelRoom> tempJewelList;
+    #endregion
+
     //private void OnValidate()
     //{
     //    if (DoArrangeJewel)
@@ -64,15 +90,13 @@ public class JewelBoard : MonoBehaviour
     //        }
     //    }
     //}
-    public const string EnabledRoom = "EnabledRoom";
-    public const string DisabledRoom = "DisabledRoom";
     private void Awake()
     {
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
         chainDir = 5;
-        prevSelectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
+        selectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
 
         chainedRooms = new List<JewelRoom>();
         chainDirHistory = new List<int>();
@@ -85,25 +109,26 @@ public class JewelBoard : MonoBehaviour
 
     private void Start()
     {
-        for (int i = 0; i < 7; i++)
+        for (int i = 0; i < puzzlSize; i++)
         {
-            for (int j = 0; j < 7; j++)
+            for (int j = 0; j < puzzlSize; j++)
             {
                 //jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
                 //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
-                
-                jewelRooms[7 * i + j].Initialize(jewels[7 * i + j], new Vector2Int(j, i));
+
+                jewelRooms[puzzlSize * i + j].Initialize(jewels[puzzlSize * i + j], new Vector2Int(j, i));
 
                 //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
                 //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
 
-                jewels[7 * i + j].cord = new Vector2Int(j, i);
+                jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
             }
         }
         selectableSignColors[0] = jewelRooms[0].spriteRenderer.color;
         Color temp = new Color(selectableSignColors[0].r, selectableSignColors[0].g, selectableSignColors[0].b, 0);
         selectableSignColors[1] = temp;
+        selectableSignColors[2] = 0.4f * Color.yellow; 
 
         UpdateSelectable();
     }
@@ -113,14 +138,6 @@ public class JewelBoard : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             inputTrigger = true;
-            //if (!isDeactivating) // 이번 클릭으로 보석을 비활성화 하지 않음
-            //{
-            //    if (TouchOrClick()) return;
-            //}
-            //else // 이번 클릭으로 이미 보석을 비활성화 한 경우 마우스 클릭을 떼기 전까지 입력을 받지 않음
-            //{
-            //    return;
-            //}
         }
 
 
@@ -155,33 +172,28 @@ public class JewelBoard : MonoBehaviour
 
     private bool TouchOrClick()
     {
-        isMouseHeld = true;
         clickedColl = ShotRayAndDetectCollier();
 
         if (clickedColl != null) // 게임판을 클릭
         {
             updateJewel = true;
-            //tempBool = false;
             JewelRoom clickedRoom = clickedColl.GetComponent<JewelRoom>();
-                    
+
             if (nowHeldJewel == clickedRoom) // 클릭이 이전 보석을 벗어나지 않았다면 아무 것도 하지 않음
                 return true;
-                  
-                    
-            //beforeHeldJewel = nowHeldJewel;
+
             nowHeldJewel = clickedRoom;
-                
+
 
             if (clickedRoom.state == 0)
             {
 
-                if (chainedRooms.Count > 1 && prevSelectableRoomsSets[^2].Contains(clickedRoom))
+                if (chainedRooms.Count > 1 && selectableRoomsSets[^2].Contains(clickedRoom))
                 {
                     Rollback(chainedRooms[^2]);
                     UpdateSelectable();
                     nowHeldJewel = clickedRoom;
                 }
-
 
                 //tempBool = true;
                 isActivating = true;
@@ -204,7 +216,7 @@ public class JewelBoard : MonoBehaviour
                 }
             }
 
-            UpdateSelectable(/*tempBool*/);
+            UpdateSelectable();
         }
         else // 게임판 바깥을 클릭
         {
@@ -230,8 +242,6 @@ public class JewelBoard : MonoBehaviour
 
         chainDirHistory.Add(chainDir);
         chainedRooms.Add(targetRoom);
-
-        //UpdateSelectable();
     }
 
     void ConfirmActivationJewel()
@@ -240,18 +250,12 @@ public class JewelBoard : MonoBehaviour
         {
             jewelRoom.state = 2;
         }
-
-
-
-
-        //UpdateSelectable();
     }
 
     void EndClick()
     {
         updateJewel = false;
         nowHeldJewel = null;
-        isMouseHeld = false;
         isActivating = false;
         isDeactivating = false;
     }
@@ -271,18 +275,17 @@ public class JewelBoard : MonoBehaviour
         {
             nowHeldJewel = null;
             chainDir = 5;
-            prevSelectableRoomsSets = new List<List<JewelRoom>>();
+            selectableRoomsSets = new List<List<JewelRoom>>();
         }
         else
         {
             nowHeldJewel = chainedRooms[^1];
-            prevSelectableRoomsSets = prevSelectableRoomsSets.GetRange(0, tempInd - 1);
+            selectableRoomsSets = selectableRoomsSets.GetRange(0, tempInd - 1);
             chainDir = chainDirHistory[tempInd - 1];
         }
-
-        //UpdateSelectable();
     }
 
+    // 드래그 중 이전 보석으로 마우스 위치를 바꾼 경우 or 마지막으로 선택한 보석을 다른 보석으로 바꾸기 위해 돌아가는 경우
     void Rollback(JewelRoom targetRoom)
     {
 
@@ -296,13 +299,11 @@ public class JewelBoard : MonoBehaviour
 
         nowHeldJewel = chainedRooms[tempInd];
         nowHeldJewel.state = 1;
-        prevSelectableRoomsSets = prevSelectableRoomsSets.GetRange(0, tempInd);
+        selectableRoomsSets = selectableRoomsSets.GetRange(0, tempInd);
 
 
         chainedRooms = chainedRooms.GetRange(0, tempInd + 1);
         chainDirHistory = chainDirHistory.GetRange(0, tempInd + 1);
-
-
 
     }
 
@@ -312,71 +313,17 @@ public class JewelBoard : MonoBehaviour
         jewelRoom.jewel.anim.SetBool(isSelected, false);
     }
 
-
-
-    public void UpdateSelectable(/*bool add = false*/)
+    public void UpdateSelectable() // 선택 후 각 Room의 상태, 선택 가능 여부, 선택 시 반응 갱신
     {
         tempInd = chainDirHistory.Count;
+        // 게임 시작 시 or 모든 보석 선택을 취소해서 초기 상태로 되돌아 갔을 경우
+        // (이전 보석의 이전 보석의 선택 여부가 없음)
         if (tempInd == 0)
         {
-            for (int i = 0; i < jewelRooms.Count; i++)
-            {
-                JewelRoom targetRoom = jewelRooms[i];
-                if (targetRoom.jewel.cord.x == 0)
-                {
-
-                    MakeSelectable(targetRoom, true);
-
-                    if (targetRoom.jewel.cord.y == 0)
-                    {
-                        targetRoom.nextChainDir = 3;
-                    }
-                    else if (targetRoom.jewel.cord.y == 6)
-                    {
-                        targetRoom.nextChainDir = 9;
-                    }
-                    else
-                    {
-                        targetRoom.nextChainDir = 6;
-                    }
-                }
-                else if (targetRoom.jewel.cord.x == 6)
-                {
-                    MakeSelectable(targetRoom, true);
-
-                    if (targetRoom.jewel.cord.y == 0)
-                    {
-                        targetRoom.nextChainDir = 1;
-                    }
-                    else if (targetRoom.jewel.cord.y == 6)
-                    {
-                        targetRoom.nextChainDir = 7;
-                    }
-                    else
-                    {
-                        targetRoom.nextChainDir = 4;
-                    }
-                }
-                else if (targetRoom.jewel.cord.y == 0)
-                {
-                    MakeSelectable(targetRoom, true);
-                    targetRoom.nextChainDir = 2;
-                }
-                else if (targetRoom.jewel.cord.y == 6)
-                {
-                    MakeSelectable(targetRoom, true);
-                    targetRoom.nextChainDir = 8;
-                }
-                else
-                {
-                    MakeSelectable(targetRoom, false);
-                    targetRoom.nextChainDir = 5;
-                }
-            }
+            FisrtTimeUpdate();
         }
         else
         {
-            tempBool = false;
             tempJewelList = new List<JewelRoom>();
 
             for (int i = 0; i < jewelRooms.Count; i++)
@@ -387,7 +334,7 @@ public class JewelBoard : MonoBehaviour
                 {
                     targetRoom.nextChainDir = chainDirHistory[chainedRooms.IndexOf(targetRoom)];
                 }
-                else if (tempInd > 1 && prevSelectableRoomsSets[^1].Contains(targetRoom) && targetRoom != nowHeldJewel)
+                else if (tempInd > 1 && selectableRoomsSets[^1].Contains(targetRoom) && targetRoom != nowHeldJewel)
                 {
                     MakeSelectable(targetRoom, true, true);
                 }
@@ -402,12 +349,10 @@ public class JewelBoard : MonoBehaviour
                                 if (xDiff != 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else if (Mathf.Abs(yDiff) > 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else
                                 {
@@ -421,12 +366,10 @@ public class JewelBoard : MonoBehaviour
                                 if (xDiff != -1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else if (Mathf.Abs(yDiff) > 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else
                                 {
@@ -440,12 +383,10 @@ public class JewelBoard : MonoBehaviour
                                 if (yDiff != 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else if (Mathf.Abs(xDiff) > 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else
                                 {
@@ -459,12 +400,10 @@ public class JewelBoard : MonoBehaviour
                                 if (yDiff != -1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else if (Mathf.Abs(xDiff) > 1)
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
                                 else
                                 {
@@ -490,7 +429,6 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else if (yDiff == 1)
@@ -503,13 +441,11 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
 
                                 break;
@@ -531,7 +467,6 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else if (yDiff == 1)
@@ -544,13 +479,11 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
 
                                 break;
@@ -572,7 +505,6 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else if (yDiff == -1)
@@ -585,13 +517,11 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
 
                                 break;
@@ -613,7 +543,6 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else if (yDiff == -1)
@@ -626,13 +555,11 @@ public class JewelBoard : MonoBehaviour
                                     else
                                     {
                                         MakeSelectable(targetRoom, false);
-                                        //targetRoom.nextChainDir = 5;
                                     }
                                 }
                                 else
                                 {
                                     MakeSelectable(targetRoom, false);
-                                    //targetRoom.nextChainDir = 5;
                                 }
 
                                 break;
@@ -641,18 +568,69 @@ public class JewelBoard : MonoBehaviour
                             break;
                     }
                 }
-                ////////////////////////////////////////////////////////////
             }
-            //if (add)
-            //{
-            prevSelectableRoomsSets.Add(tempJewelList);
-            //}
-            Debug.Log(prevSelectableRoomsSets.Count);
+            // 각 단계에서 선택 가능했던 보석 모음
+            // 마지막 보석 선택을 단순 드래그로 바꾸는 데 사용
+            selectableRoomsSets.Add(tempJewelList);
         }
+    }
 
+    private void FisrtTimeUpdate()
+    {
+        for (int i = 0; i < jewelRooms.Count; i++)
+        {
+            JewelRoom targetRoom = jewelRooms[i];
+            if (targetRoom.jewel.cord.x == 0)
+            {
 
+                MakeSelectable(targetRoom, true);
 
+                if (targetRoom.jewel.cord.y == 0)
+                {
+                    targetRoom.nextChainDir = 3;
+                }
+                else if (targetRoom.jewel.cord.y == 6)
+                {
+                    targetRoom.nextChainDir = 9;
+                }
+                else
+                {
+                    targetRoom.nextChainDir = 6;
+                }
+            }
+            else if (targetRoom.jewel.cord.x == puzzlSize-1)
+            {
+                MakeSelectable(targetRoom, true);
 
+                if (targetRoom.jewel.cord.y == 0)
+                {
+                    targetRoom.nextChainDir = 1;
+                }
+                else if (targetRoom.jewel.cord.y == 6)
+                {
+                    targetRoom.nextChainDir = 7;
+                }
+                else
+                {
+                    targetRoom.nextChainDir = 4;
+                }
+            }
+            else if (targetRoom.jewel.cord.y == 0)
+            {
+                MakeSelectable(targetRoom, true);
+                targetRoom.nextChainDir = 2;
+            }
+            else if (targetRoom.jewel.cord.y == puzzlSize-1)
+            {
+                MakeSelectable(targetRoom, true);
+                targetRoom.nextChainDir = 8;
+            }
+            else
+            {
+                MakeSelectable(targetRoom, false);
+                targetRoom.nextChainDir = 5;
+            }
+        }
     }
 
     private void MakeSelectable(JewelRoom targetRoom, bool toSelectable = true, bool beforeRoom = false)
@@ -662,7 +640,7 @@ public class JewelBoard : MonoBehaviour
         {
             if (beforeRoom)
             {
-                targetRoom.spriteRenderer.color = 0.2f*Color.yellow;
+                targetRoom.spriteRenderer.color = selectableSignColors[2];
             }
             else
             {
