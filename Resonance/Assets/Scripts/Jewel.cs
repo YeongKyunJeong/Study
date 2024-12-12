@@ -12,44 +12,54 @@ public class Jewel : MonoBehaviour
     private string pop = "pop";
     public WaitForSeconds popAnimationTime;
 
-    public void Initialize(JewelData jewelData)
+    public void Initialize(Vector2Int cord,JewelData jewelData)
     {
-        if(anim == null)
+        if (anim == null)
         {
             anim = GetComponent<Animator>();
         }
-        if(spriteRenderer == null)
+        if (spriteRenderer == null)
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
         this.jewelData = jewelData;
+        this.cord = cord;
         popAnimationTime = jewelData.popAnimationWaitforSecond;
     }
 
     public void ChangeJewelSprite(bool isPop = true, int targetID = -1)
     {
-        if(animationCoroutine != null)
+        if (animationCoroutine != null)
         {
             StopCoroutine(animationCoroutine);
         }
-        
+
         animationCoroutine = StartCoroutine(SpriteChangeCoroutine(isPop, targetID));
     }
-
+    
     IEnumerator SpriteChangeCoroutine(bool isPop, int targetID)
     {
         if (isPop) // 보석이 터지는 이펙트
         {
             anim.SetTrigger(pop);
-            
+            //Debug.Log(this.name + " poped!");
+            // 임시 pop animation
+            transform.localScale = 1.4f * Vector2.one;
+
+
             yield return popAnimationTime;
+
+            // 임시 pop animation
+            transform.localScale = 1f * Vector2.one;
+            //Debug.Log(this.name + "'s pop animation Ends");
         }
+        spriteRenderer.sprite = jewelData.jewelSprites[targetID];
+        //Debug.Log(this.name + "'s Type changes to " + targetID.ToString());
+
         
-
-
         yield return null;
     }
 
-    
-    
+
+
 }

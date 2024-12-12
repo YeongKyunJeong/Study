@@ -29,7 +29,6 @@ public class JewelBoard : MonoBehaviour
     #region Static Parameter
     private static Color[] selectableSignColors = new Color[3];
     private static int puzzlSize = 7;
-
     #endregion
 
     #region Parameter for Logic
@@ -49,6 +48,8 @@ public class JewelBoard : MonoBehaviour
     #endregion
 
     #region Temporary Parameter Caching
+    public List<JewelRoom> tempJewelList;
+    private int[] defaultNextJewelTypeIDs = new int[puzzlSize];
     private int tempInd = 0;
     private int xDiff = 0;
     private int yDiff = 0;
@@ -78,36 +79,28 @@ public class JewelBoard : MonoBehaviour
 
     #region Parameter for Debugging
     public int testCase = -1;
-    public List<JewelRoom> tempJewelList;
     #endregion
 
     //private void OnValidate()
     //{
     //    if (DoArrangeJewel)
     //    {
-    //        DoArrangeJewel = false;
-    //        for (int i = 0; i < 7; i++)
-    //        {
-    //            for (int j = 0; j < 7; j++)
-    //            {
-    //                jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
-    //                //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
-    //                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
-    //                //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
-    //                jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
-    //            }
-    //        }
     //    }
     //}
-    private void Awake()
+    public void Initialize(JewelData jewelData)
     {
         //jewelInputControler = GetComponent<JewelInputControler>();
+        this.jewelData = jewelData;
 
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
         chainDir = 5;
-        selectableRoomsSets = new List<List<JewelRoom>>() {/* new List<JewelRoom> { }*/ };
+        for (int i = 0; i < puzzlSize; i++)
+        {
+            defaultNextJewelTypeIDs[i] = -1;
+        }
+        selectableRoomsSets = new List<List<JewelRoom>>() { };
 
         chainedRooms = new List<JewelRoom>();
         chainDirHistory = new List<int>();
@@ -120,37 +113,16 @@ public class JewelBoard : MonoBehaviour
         {
             for (int j = 0; j < puzzlSize; j++)
             {
-                //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
-                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
+                jewelRooms[puzzlSize * i + j].Initialize(jewels[puzzlSize * i + j], new Vector2Int(j, i), jewelData);
 
-                jewelRooms[puzzlSize * i + j].Initialize(jewels[puzzlSize * i + j], new Vector2Int(j, i));
-
-                jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
-                jewels[puzzlSize * i + j].Initialize(jewelData);
+                //jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
+                //jewels[puzzlSize * i + j].Initialize(jewelData);
             }
         }
     }
 
     private void Start()
     {
-        //for (int i = 0; i < puzzlSize; i++)
-        //{
-        //    for (int j = 0; j < puzzlSize; j++)
-        //    {
-                //jewels[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
-                //jewelRooms[7 * i + j].transform.position = new Vector2(-3.6f + gap * j, 3.6f - gap * i);
-                //jewelRooms[7 * i + j].cordForCheck = new Vector2(j, i);
-
-
-                //jewelRooms[7 * i + j].jewel = jewels[7 * i + j];
-                //jewelRooms[7 * i + j].cord = new Vector2Int(j, i);
-
-                //jewels[puzzlSize * i + j].cord = new Vector2Int(j, i);
-                //jewels[puzzlSize * i + j].jewelData = jewelData;
-                //jewels[puzzlSize * i + j].Initialize();
-        //    }
-        //}
-
         gameManager = GameManager.Instance;
 
         selectableSignColors[0] = jewelRooms[0].spriteRenderer.color;
@@ -172,13 +144,39 @@ public class JewelBoard : MonoBehaviour
         if (Input.GetMouseButtonUp(0))
         {
             inputTrigger = false;
+
             if (updateJewel)
             {
                 ConfirmActivationJewel();
+
+                if (chainedRooms.Count >= puzzlSize)
+                {
+                    PopJewel(chainedRooms);
+                    DeactivateJewel(chainedRooms[0]);
+                    UpdateSelectable();
+                }
+
             }
 
             EndClick();
         }
+    }
+
+    private void PopJewel(List<JewelRoom> targetJewels, int[] nextJewelTypeIDs = null)
+    {
+        if (nextJewelTypeIDs == null)
+        {
+            nextJewelTypeIDs = defaultNextJewelTypeIDs;
+        }
+
+        for (int i = 0; i < targetJewels.Count; i++)
+        {
+            targetJewels[i].JewelUpdate(true, nextJewelTypeIDs[i]);
+
+
+
+        }
+
     }
 
     private bool inputTrigger = false;
@@ -223,7 +221,6 @@ public class JewelBoard : MonoBehaviour
                     nowHeldJewel = clickedRoom;
                 }
 
-                //tempBool = true;
                 isActivating = true;
                 ActivateJewel(clickedRoom);
             }

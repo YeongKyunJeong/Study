@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: JewelData
   m_EditorClassIdentifier: 
   jewelSprites:
-  - {fileID: 7482667652216324306, guid: 2399c317c2a596c4185c3485ed687622, type: 3}
+  - {fileID: 21300000, guid: 2ab27434504737040970c60516b84e9b, type: 3}
+  - {fileID: 21300000, guid: 9945243ef46fc324eaf1f5ce92cca14d, type: 3}
+  - {fileID: 21300000, guid: 62115365f3b074947a1c6a25484209d1, type: 3}
+  - {fileID: 21300000, guid: 5f8af9afc2c72514183d173afe42b150, type: 3}
+  - {fileID: 21300000, guid: db035cdfea10614488086e4b7398d6ba, type: 3}
+  - {fileID: 21300000, guid: 3132cff062369914f91a2cfe69468889, type: 3}
+  - {fileID: 21300000, guid: 423020cc842cbda4692ccf4119549b26, type: 3}
   jewelAnimationClipSet:
   - animationClips:
     - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}

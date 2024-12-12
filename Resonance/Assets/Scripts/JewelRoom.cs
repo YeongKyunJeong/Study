@@ -16,7 +16,7 @@ public class JewelRoom : MonoBehaviour
     public int nextChainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
 
 
-    public void Initialize(Jewel jewel, Vector2Int cord)
+    public void Initialize(Jewel jewel, Vector2Int cord, JewelData jewelData)
     {
         if (coll == null)
             coll = GetComponent<BoxCollider2D>();
@@ -24,23 +24,16 @@ public class JewelRoom : MonoBehaviour
         jewelType = Random.Range(0, 7);
         this.jewel = jewel;
         this.cord = cord;
-        JewelUpdate(false);
+        jewel.Initialize(cord, jewelData);
+        JewelUpdate(false, jewelType);
     }
 
     public void JewelUpdate(bool isPop = true, int targetID = -1)
     {
+        if (targetID == -1) // 다음 보석을 지정하지 않음
+            jewelType = Random.Range(0, 7);
 
-        jewelType = Random.Range(0, 7);
-
-        if (targetID == -1)  // 다음 보석을 지정하지 않음
-        {
-            jewel.ChangeJewelSprite(isPop);
-
-        }
-        else  // 다음 보석을 지정
-        {
-            jewel.ChangeJewelSprite(isPop, jewelType);
-        }
+        jewel.ChangeJewelSprite(isPop, jewelType);
 
     }
 }

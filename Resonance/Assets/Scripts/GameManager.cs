@@ -8,6 +8,11 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } private set { instance = value; }  }
 
+    [SerializeField]
+    private JewelBoard jewelBoard;
+    [SerializeField]
+    private JewelData jewelData;
+
     public int cycleCount = 10;
 
     public int score;
@@ -15,6 +20,9 @@ public class GameManager : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        jewelData.Initialize();
+
+        jewelBoard.Initialize(jewelData);
     }
 
 
