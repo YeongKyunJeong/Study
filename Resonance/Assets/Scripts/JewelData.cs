@@ -7,7 +7,9 @@ public class JewelData : ScriptableObject
 {
     public Sprite[] jewelSprites;
 
-    public AnimationClipSet[] jewelAnimationClipSet;
+    public AnimatorOverrideController[] jewelAOCs;
+
+    //public AnimationClipSet[] jewelAnimationClipSet;
 
     public float popAnimationTime = 1f;
 
@@ -19,8 +21,8 @@ public class JewelData : ScriptableObject
     }
 }
 
-[System.Serializable]
-public class AnimationClipSet
-{
-    public AnimationClip[] animationClips;
-}
+//[System.Serializable]
+//public class AnimationClipSet
+//{
+//    public AnimationClip[] animationClips;
+//}

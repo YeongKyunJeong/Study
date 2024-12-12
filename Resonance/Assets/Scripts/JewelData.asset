@@ -20,8 +20,12 @@ MonoBehaviour:
   - {fileID: 21300000, guid: db035cdfea10614488086e4b7398d6ba, type: 3}
   - {fileID: 21300000, guid: 3132cff062369914f91a2cfe69468889, type: 3}
   - {fileID: 21300000, guid: 423020cc842cbda4692ccf4119549b26, type: 3}
-  jewelAnimationClipSet:
-  - animationClips:
-    - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
-    - {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
+  jewelAOCs:
+  - {fileID: 22100000, guid: 74c63c0d1e1c99b45a8570bebbbfb867, type: 2}
+  - {fileID: 22100000, guid: cbccde0ecee76bb478faf7824588343b, type: 2}
+  - {fileID: 22100000, guid: ffd5d4586e8fccb4bb856812987c0244, type: 2}
+  - {fileID: 22100000, guid: 43124f1725a29d34eaea95fe607367c0, type: 2}
+  - {fileID: 22100000, guid: 95e6861edfd7b684e88f6e25d8676c09, type: 2}
+  - {fileID: 22100000, guid: dedc22a2bc0dac048ba858f0d7e199c5, type: 2}
+  - {fileID: 22100000, guid: 6aa86cded33620c4b95d94cb73cd14aa, type: 2}
   popAnimationTime: 0.25

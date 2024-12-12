@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Jewel6_AOC
+  m_Controller: {fileID: 9100000, guid: b89164c7867290d4db07afcfe225d200, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: f42e32ffdf9b13e4fb3e8e42a4d82b12, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 111e0a8e9221c23439c3cb9e28f56a17, type: 2}

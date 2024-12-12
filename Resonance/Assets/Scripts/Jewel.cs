@@ -53,7 +53,9 @@ public class Jewel : MonoBehaviour
             transform.localScale = 1f * Vector2.one;
             //Debug.Log(this.name + "'s pop animation Ends");
         }
+        anim.runtimeAnimatorController = jewelData.jewelAOCs[targetID];
         spriteRenderer.sprite = jewelData.jewelSprites[targetID];
+
         //Debug.Log(this.name + "'s Type changes to " + targetID.ToString());
 
         
