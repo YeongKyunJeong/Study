@@ -24,4 +24,4 @@ MonoBehaviour:
   - animationClips:
     - {fileID: 7400000, guid: 4a60848c2cda28f45a4f73661a71aba8, type: 2}
     - {fileID: 7400000, guid: d35482bf97a80644f9947123beb4c377, type: 2}
-  popAnimationTime: 1
+  popAnimationTime: 0.25
