@@ -9,8 +9,6 @@ public class JewelData : ScriptableObject
 
     public AnimatorOverrideController[] jewelAOCs;
 
-    //public AnimationClipSet[] jewelAnimationClipSet;
-
     public float popAnimationTime = 1f;
 
     public WaitForSeconds popAnimationWaitforSecond { get; private set; }
@@ -20,9 +18,3 @@ public class JewelData : ScriptableObject
         popAnimationWaitforSecond = new WaitForSeconds(popAnimationTime);
     }
 }
-
-//[System.Serializable]
-//public class AnimationClipSet
-//{
-//    public AnimationClip[] animationClips;
-//}

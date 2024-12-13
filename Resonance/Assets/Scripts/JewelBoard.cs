@@ -81,12 +81,6 @@ public class JewelBoard : MonoBehaviour
     public int testCase = -1;
     #endregion
 
-    //private void OnValidate()
-    //{
-    //    if (DoArrangeJewel)
-    //    {
-    //    }
-    //}
     public void Initialize(JewelData jewelData)
     {
         //jewelInputControler = GetComponent<JewelInputControler>();
