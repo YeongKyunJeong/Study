@@ -12,4 +12,10 @@ public class UIManager : MonoBehaviour
         scoreManager.Initialize(initGoalScore, initChance, initMyScore);
         ButtonManager.Initializie();
     }
+
+    public void ScoreChangeCall(int resultScore)
+    {
+        scoreManager.myScoreSetter = resultScore;
+        scoreManager.chanceSetter = scoreManager.chanceSetter - 1;
+    }
 }

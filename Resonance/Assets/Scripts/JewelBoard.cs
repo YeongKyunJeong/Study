@@ -50,6 +50,7 @@ public class JewelBoard : MonoBehaviour
     #region Temporary Parameter Caching
     public List<JewelRoom> tempJewelList;
     private int[] defaultNextJewelTypeIDs = new int[puzzlSize];
+    private int[] tempIntArray = new int[puzzlSize];
     private int tempInd = 0;
     private int xDiff = 0;
     private int yDiff = 0;
@@ -151,6 +152,7 @@ public class JewelBoard : MonoBehaviour
 
                 if (chainedRooms.Count >= puzzlSize)
                 {
+
                     PopJewel(chainedRooms);
                     DeactivateJewel(chainedRooms[0]);
                     UpdateSelectable();
@@ -164,18 +166,36 @@ public class JewelBoard : MonoBehaviour
 
     private void PopJewel(List<JewelRoom> targetJewels, int[] nextJewelTypeIDs = null)
     {
+        tempInd = targetJewels.Count;
+        tempIntArray = new int[tempInd];
+
         if (nextJewelTypeIDs == null)
         {
             nextJewelTypeIDs = defaultNextJewelTypeIDs;
         }
 
-        for (int i = 0; i < targetJewels.Count; i++)
+        for (int i = 0; i < tempInd; i++)
         {
+            tempIntArray[targetJewels[i].jewelType]++;
             targetJewels[i].JewelUpdate(true, nextJewelTypeIDs[i]);
-
-
-
         }
+
+        PopingToScore(tempIntArray);
+    }
+
+    public void PopingToScore(int[] popingJewelTypeCounts)
+    {
+        tempInd = 0;
+        for (int i = 0; i < popingJewelTypeCounts.Length; i++)
+        {
+            if (popingJewelTypeCounts[i] > 1)
+            {
+                tempInd += 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]); 
+                Debug.Log(i + " : " + popingJewelTypeCounts[i] + " : " + 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]));
+
+            }
+        }
+        gameManager.ScoreChangeCall(tempInd);
 
     }
 

@@ -8,41 +8,48 @@ public class ScoreManager : MonoBehaviour
     public TextMeshProUGUI goalScore;
     public int goalScoreSetter
     {
-        get { return int.Parse(goalScore.text); }
+        get { return goalScoreInt; }
         set
         {
-            int raw = value <= 99999999 ? value : 99999999;
-            goalScore.text = ScoreTextSet(raw);
+            goalScoreInt = value <= 99999999 ? value : 99999999;
+            goalScore.text = ScoreTextSet(goalScoreInt);
         }
     }
+    private int goalScoreInt;
 
     public TextMeshProUGUI myScore;
     public int myScoreSetter
     {
-        get { return int.Parse(myScore.text); }
+        get { return myScoreInt; }
         set
         {
-            int raw = value <= 99999999 ? value : 99999999;
-            myScore.text = ScoreTextSet(raw);
+            myScoreInt = value <= 99999999 ? value : 99999999;
+            gameManager.myScore = myScoreInt;
+            myScore.text = ScoreTextSet(myScoreInt);
         }
     }
+    private int myScoreInt;
 
 
     public TextMeshProUGUI chance;
     public int chanceSetter
     {
-        get { return int.Parse(chance.text); }
+        get { return chanceInt; }
         set
         {
             chance.text = ChanceTextSet(value);
         }
     }
+    private int chanceInt;
 
     private string stringForWork = "";
     private int intForWork = 0;
 
+    private GameManager gameManager;
+
     public void Initialize(int initGoalScore, int initChance = 10, int initMyScore = 0)
     {
+        gameManager = GameManager.Instance;
         goalScoreSetter = initGoalScore;
         myScoreSetter = initMyScore;
         chanceSetter = initChance;
@@ -50,8 +57,24 @@ public class ScoreManager : MonoBehaviour
 
     private string ChanceTextSet(int rawInt, int totalChance = 10)
     {
+        if (rawInt == 0)
+        {
+            if (CheckGameEnd())
+            {
+                chanceInt = totalChance;
+            }
+            else
+            {
+                chanceInt = totalChance;
+                return chanceInt.ToString();
+            }
+        }
+        else
+        {
+            chanceInt = rawInt;
+        }
         stringForWork = "";
-        stringForWork = rawInt.ToString() + " / " + totalChance.ToString();
+        stringForWork = chanceInt.ToString() + " / " + totalChance.ToString();
         return stringForWork;
     }
 
@@ -64,5 +87,26 @@ public class ScoreManager : MonoBehaviour
             stringForWork = "0" + stringForWork;
         }
         return stringForWork;
+    }
+
+    private bool CheckGameEnd()
+    {
+        if (myScoreInt > goalScoreInt)
+        {
+            // юс╫ц
+            if (goalScoreInt < 99999999)
+                goalScoreSetter *= 10;
+            else
+            {
+                goalScoreSetter = 99999999;
+                myScoreSetter = 0;
+            }
+            return true;
+        }
+        else
+        {
+            gameManager.GameOver();
+            return false;
+        }
     }
 }

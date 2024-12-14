@@ -17,7 +17,7 @@ public class GameManager : MonoBehaviour
 
     public int cycleCount = 10;
 
-    public int score;
+    public int myScore = 0;
 
     private void Awake()
     {
@@ -29,5 +29,14 @@ public class GameManager : MonoBehaviour
         jewelBoard.Initialize(jewelData);
     }
 
+    public void ScoreChangeCall(int resultScore)
+    {
+        myScore += resultScore;
+        uIManager.ScoreChangeCall(myScore);
+    }
+    public void GameOver()
+    {
+        Debug.Log("Game Over");
+    }
 
 }
