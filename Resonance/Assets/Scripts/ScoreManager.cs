@@ -47,7 +47,7 @@ public class ScoreManager : MonoBehaviour
 
     private GameManager gameManager;
 
-    public void Initialize(int initGoalScore, int initChance = 10, int initMyScore = 0)
+    public void Initialize(int initGoalScore, int initChance = 6, int initMyScore = 0)
     {
         gameManager = GameManager.Instance;
         goalScoreSetter = initGoalScore;
@@ -55,7 +55,7 @@ public class ScoreManager : MonoBehaviour
         chanceSetter = initChance;
     }
 
-    private string ChanceTextSet(int rawInt, int totalChance = 10)
+    private string ChanceTextSet(int rawInt, int totalChance = 6)
     {
         if (rawInt == 0)
         {
@@ -95,7 +95,7 @@ public class ScoreManager : MonoBehaviour
         {
             // юс╫ц
             if (goalScoreInt < 99999999)
-                goalScoreSetter *= 10;
+                goalScoreSetter *= 2;
             else
             {
                 goalScoreSetter = 99999999;
