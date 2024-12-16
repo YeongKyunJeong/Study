@@ -10,7 +10,7 @@ public class JewelRoom : MonoBehaviour
     public Jewel jewel { get; set; }
     public SpriteRenderer spriteRenderer;
 
-    public int jewelType = -1;
+    public int jewelType = -1; // 0 ~ 6 : Jewel, 10 : Trap, 20: Item
     public int state = 0; // -1: 이전 클릭에서 활성화 가능  0: 비활성화 / 1: 이번 클릭에서 활성화 / 2: 활성화 완료
 
     public int nextChainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
@@ -32,6 +32,14 @@ public class JewelRoom : MonoBehaviour
     {
         if (targetID == -1) // 다음 보석을 지정하지 않음
             jewelType = Random.Range(0, 7);
+        else if(targetID  > 9)  // 함정 추가 대비
+        {
+            jewelType = Random.Range(0, 1) + 10;
+        }
+        else if(targetID > 19)  // 아이템 추가 대비
+        {
+            jewelType = Random.Range(0, 1) + 20;
+        }
 
         jewel.ChangeJewelSprite(isPop, jewelType);
 

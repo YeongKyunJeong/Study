@@ -6,8 +6,13 @@ using UnityEngine;
 public class JewelData : ScriptableObject
 {
     public Sprite[] jewelSprites;
-
     public AnimatorOverrideController[] jewelAOCs;
+
+    public Sprite[] trapSprites;
+    public AnimatorOverrideController[] trapAOCs;
+
+    public Sprite[] itemSprites;
+    public AnimatorOverrideController[] itemAOCs;
 
     //public AnimationClipSet[] jewelAnimationClipSet;
 

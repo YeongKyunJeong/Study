@@ -37,6 +37,9 @@ public class JewelBoard : MonoBehaviour
     private Collider2D clickedColl;
 
     // State
+    public int level = 0;
+    [SerializeField] private int itemCount = 0;
+    [SerializeField] private int trapCount = 0;
     [SerializeField] private int chainDir = 5; // 5: 클릭 불가, 1: ↙, 2: ↓. 3: ↘, 4: ←, 6: →, 7: ↖, 8: ↑, 9: ↗
     public JewelRoom nowHeldJewel = null;
 
@@ -92,7 +95,8 @@ public class JewelBoard : MonoBehaviour
     {
         //jewelInputControler = GetComponent<JewelInputControler>();
         this.jewelData = jewelData;
-
+        gameManager = GameManager.Instance;
+        level = gameManager.gameLevel;
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
@@ -124,7 +128,6 @@ public class JewelBoard : MonoBehaviour
 
     private void Start()
     {
-        gameManager = GameManager.Instance;
 
         selectableSignColors[0] = jewelRooms[0].spriteRenderer.color;
         Color temp = new Color(selectableSignColors[0].r, selectableSignColors[0].g, selectableSignColors[0].b, 0);
@@ -152,7 +155,6 @@ public class JewelBoard : MonoBehaviour
 
                 if (chainedRooms.Count >= puzzlSize)
                 {
-
                     PopJewel(chainedRooms);
                     DeactivateJewel(chainedRooms[0]);
                     UpdateSelectable();

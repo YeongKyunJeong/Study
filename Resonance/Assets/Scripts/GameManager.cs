@@ -31,10 +31,14 @@ public class GameManager : MonoBehaviour
 
     public int myScore = 0;
 
+    public int gameLevel;
+
     private void Awake()
     {
         GameManager.Instance = this;
-        uIManager.Initialize();
+        myScore = 0;
+        gameLevel = 0;
+        uIManager.Initialize(gameLevel);
         aspectRatioEnforcer.Initialize(uIManager.GetComponent<RectTransform>(), screenWidth, screenHeight);
         jewelData.Initialize();
         jewelBoard.Initialize(jewelData);
@@ -67,4 +71,9 @@ public class GameManager : MonoBehaviour
         Debug.Log("Game Over");
     }
 
+    public void LevelChanged(int level)
+    {
+        gameLevel = level;
+        jewelBoard.level = level;
+    }
 }

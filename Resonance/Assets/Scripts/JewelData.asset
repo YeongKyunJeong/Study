@@ -28,4 +28,12 @@ MonoBehaviour:
   - {fileID: 22100000, guid: 95e6861edfd7b684e88f6e25d8676c09, type: 2}
   - {fileID: 22100000, guid: dedc22a2bc0dac048ba858f0d7e199c5, type: 2}
   - {fileID: 22100000, guid: 6aa86cded33620c4b95d94cb73cd14aa, type: 2}
+  trapSprites:
+  - {fileID: 21300000, guid: b6200d29cc962594b9b271a6bcf1e8f4, type: 3}
+  trapAOCs:
+  - {fileID: 22100000, guid: 333181bc78e074640ad575915bf99e5d, type: 2}
+  itemSprites:
+  - {fileID: 21300000, guid: 10e263ed734e5364ab7b457fc8631ad4, type: 3}
+  itemAOCs:
+  - {fileID: 22100000, guid: 7f7d0ac74dbad4d43928b2dc14966242, type: 2}
   popAnimationTime: 0.25

@@ -7,9 +7,9 @@ public class UIManager : MonoBehaviour
     public ScoreManager scoreManager;
     public ButtonManager ButtonManager;
 
-    public void Initialize(int initGoalScore = 500, int initChance = 6, int initMyScore = 0)
+    public void Initialize(int startlevel, int initGoalScore = 500, int initChance = 6, int initMyScore = 0)
     {
-        scoreManager.Initialize(initGoalScore, initChance, initMyScore);
+        scoreManager.Initialize(startlevel, initGoalScore, initChance, initMyScore);
         ButtonManager.Initializie();
     }
 

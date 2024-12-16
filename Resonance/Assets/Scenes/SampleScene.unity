@@ -3757,6 +3757,7 @@ MonoBehaviour:
   uIManager: {fileID: 1099689873}
   cycleCount: 10
   myScore: 0
+  gameLevel: 0
 --- !u!114 &529820411
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -8828,6 +8829,9 @@ MonoBehaviour:
   - {fileID: 598492176}
   - {fileID: 188574706}
   - {fileID: 462681430}
+  level: 0
+  itemCount: 0
+  trapCount: 0
   chainDir: 5
   nowHeldJewel: {fileID: 0}
   chainedRooms: []
@@ -9141,7 +9145,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1099689869
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -16200,6 +16204,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e404c1102216fef469a94884e9a90a19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  levelTMP: {fileID: 0}
   goalScore: {fileID: 23570479}
   myScore: {fileID: 1165015954}
   chance: {fileID: 971910117}

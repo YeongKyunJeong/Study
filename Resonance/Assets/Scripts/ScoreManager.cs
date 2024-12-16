@@ -5,6 +5,20 @@ using TMPro;
 
 public class ScoreManager : MonoBehaviour
 {
+    public TextMeshProUGUI levelTMP;
+    public int level {
+        get { return level; } 
+        set 
+        {
+            levelTMP.text = value.ToString();
+            if(gameManager != null)
+            {
+                gameManager.LevelChanged(value);
+            }
+            level = value;
+        }
+    }
+
     public TextMeshProUGUI goalScore;
     public int goalScoreSetter
     {
@@ -47,9 +61,10 @@ public class ScoreManager : MonoBehaviour
 
     private GameManager gameManager;
 
-    public void Initialize(int initGoalScore, int initChance = 6, int initMyScore = 0)
+    public void Initialize(int startLevel, int initGoalScore, int initChance = 6, int initMyScore = 0)
     {
         gameManager = GameManager.Instance;
+        level = startLevel;
         goalScoreSetter = initGoalScore;
         myScoreSetter = initMyScore;
         chanceSetter = initChance;
@@ -93,6 +108,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (myScoreInt > goalScoreInt)
         {
+            level++;
             // юс╫ц
             if (goalScoreInt < 99999999)
                 goalScoreSetter *= 2;

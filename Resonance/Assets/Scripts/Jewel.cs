@@ -12,7 +12,7 @@ public class Jewel : MonoBehaviour
     private string pop = "pop";
     public WaitForSeconds popAnimationTime;
 
-    public void Initialize(Vector2Int cord,JewelData jewelData)
+    public void Initialize(Vector2Int cord, JewelData jewelData)
     {
         if (anim == null)
         {
@@ -36,7 +36,7 @@ public class Jewel : MonoBehaviour
 
         animationCoroutine = StartCoroutine(SpriteChangeCoroutine(isPop, targetID));
     }
-    
+
     IEnumerator SpriteChangeCoroutine(bool isPop, int targetID)
     {
         if (isPop) // 보석이 터지는 이펙트
@@ -53,12 +53,25 @@ public class Jewel : MonoBehaviour
             transform.localScale = 1f * Vector2.one;
             //Debug.Log(this.name + "'s pop animation Ends");
         }
-        anim.runtimeAnimatorController = jewelData.jewelAOCs[targetID];
-        spriteRenderer.sprite = jewelData.jewelSprites[targetID];
+        if (targetID > 19)
+        {
+            anim.runtimeAnimatorController = jewelData.itemAOCs[targetID - 20];
+            spriteRenderer.sprite = jewelData.itemSprites[targetID - 20];
+        }
+        else if (targetID > 9)
+        {
+            anim.runtimeAnimatorController = jewelData.trapAOCs[targetID - 20];
+            spriteRenderer.sprite = jewelData.trapSprites[targetID - 20];
+        }
+        else
+        {
+            anim.runtimeAnimatorController = jewelData.jewelAOCs[targetID];
+            spriteRenderer.sprite = jewelData.jewelSprites[targetID];
+        }
 
         //Debug.Log(this.name + "'s Type changes to " + targetID.ToString());
 
-        
+
         yield return null;
     }
 
