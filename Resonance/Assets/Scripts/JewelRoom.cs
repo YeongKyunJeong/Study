@@ -32,13 +32,9 @@ public class JewelRoom : MonoBehaviour
     {
         if (targetID == -1) // 다음 보석을 지정하지 않음
             jewelType = Random.Range(0, 7);
-        else if(targetID  > 9)  // 함정 추가 대비
+        else
         {
-            jewelType = Random.Range(0, 1) + 10;
-        }
-        else if(targetID > 19)  // 아이템 추가 대비
-        {
-            jewelType = Random.Range(0, 1) + 20;
+            jewelType = targetID;
         }
 
         jewel.ChangeJewelSprite(isPop, jewelType);

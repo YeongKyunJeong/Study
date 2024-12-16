@@ -54,7 +54,12 @@ public class JewelBoard : MonoBehaviour
     public List<JewelRoom> tempJewelList;
     private int[] defaultNextJewelTypeIDs = new int[puzzlSize];
     private int[] tempIntArray = new int[puzzlSize];
+    private int[] trapActivatedArray;
+    private int[] trapDefaultActivatedArray;
+    private int[] itemActivatedArray;
+    private int[] itemDefaultActivatedArray;
     private int tempInd = 0;
+    private int tempInd2 = 0;
     private int xDiff = 0;
     private int yDiff = 0;
     #endregion
@@ -97,6 +102,13 @@ public class JewelBoard : MonoBehaviour
         this.jewelData = jewelData;
         gameManager = GameManager.Instance;
         level = gameManager.gameLevel;
+
+        trapActivatedArray = new int[jewelData.trapSprites.Length];
+        trapDefaultActivatedArray = new int[jewelData.trapSprites.Length];
+
+        itemActivatedArray = new int[jewelData.itemSprites.Length];
+        itemDefaultActivatedArray = new int[jewelData.itemSprites.Length];
+
         enabledRoomLayerMask = LayerMask.GetMask(EnabledRoom);
         enabledRoomLayer = LayerMask.NameToLayer(EnabledRoom);
         disabledRoomLayer = LayerMask.NameToLayer(DisabledRoom);
@@ -173,26 +185,52 @@ public class JewelBoard : MonoBehaviour
 
         if (nextJewelTypeIDs == null)
         {
-            nextJewelTypeIDs = defaultNextJewelTypeIDs;
+            nextJewelTypeIDs = new int[defaultNextJewelTypeIDs.Length];
+            defaultNextJewelTypeIDs.CopyTo(nextJewelTypeIDs, 0);
+
+            if (level > /*1*/ -1 /*임시*/)
+            {
+                tempInd2 = Random.Range(0, targetJewels.Count);
+                nextJewelTypeIDs[tempInd2] = Random.Range(0, 1) + 10;
+            }
+
         }
+        itemDefaultActivatedArray.CopyTo(itemActivatedArray, 0);
+        trapDefaultActivatedArray.CopyTo(trapActivatedArray, 0);
 
         for (int i = 0; i < tempInd; i++)
         {
-            tempIntArray[targetJewels[i].jewelType]++;
+            tempInd2 = targetJewels[i].jewelType;
+
+            if (tempInd2 < 9)
+            {
+                tempIntArray[targetJewels[i].jewelType]++;
+            }
+            else if (tempInd2 > 19)
+            {
+                itemActivatedArray[tempInd2 - 20]++; // 터진 아이템 개수
+            }
+            else if (tempInd2 > 9)
+            {
+                trapActivatedArray[tempInd2 - 10]++; // 터진 함정 개수
+            }
+            Debug.Log(trapActivatedArray[0]);
+            
             targetJewels[i].JewelUpdate(true, nextJewelTypeIDs[i]);
         }
 
-        PopingToScore(tempIntArray);
+        PopingToScore(tempIntArray, trapActivatedArray, itemActivatedArray);
     }
 
-    public void PopingToScore(int[] popingJewelTypeCounts)
+    public void PopingToScore(int[] popingJewelTypeCounts, int[] popingTrapTypeCounts, int[] popingItemTypeCounts) ///////////////////
     {
+        Debug.ClearDeveloperConsole();
         tempInd = 0;
         for (int i = 0; i < popingJewelTypeCounts.Length; i++)
         {
             if (popingJewelTypeCounts[i] > 1)
             {
-                tempInd += 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]); 
+                tempInd += 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]);
                 Debug.Log(i + " : " + popingJewelTypeCounts[i] + " : " + 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]));
 
             }

@@ -60,8 +60,8 @@ public class Jewel : MonoBehaviour
         }
         else if (targetID > 9)
         {
-            anim.runtimeAnimatorController = jewelData.trapAOCs[targetID - 20];
-            spriteRenderer.sprite = jewelData.trapSprites[targetID - 20];
+            anim.runtimeAnimatorController = jewelData.trapAOCs[targetID - 10];
+            spriteRenderer.sprite = jewelData.trapSprites[targetID - 10];
         }
         else
         {
