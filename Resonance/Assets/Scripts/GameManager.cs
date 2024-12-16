@@ -12,8 +12,6 @@ public class GameManager : MonoBehaviour
     private JewelBoard jewelBoard;
     [SerializeField]
     private JewelData jewelData;
-    [SerializeField]
-    private UIManager uIManager;
 
     public int cycleCount = 10;
 
@@ -25,8 +23,6 @@ public class GameManager : MonoBehaviour
         jewelData.Initialize();
 
         jewelBoard.Initialize(jewelData);
-
-        uIManager.Initialize();
     }
 
 
