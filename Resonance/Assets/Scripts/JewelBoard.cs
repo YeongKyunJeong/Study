@@ -214,8 +214,7 @@ public class JewelBoard : MonoBehaviour
             {
                 trapActivatedArray[tempInd2 - 10]++; // 터진 함정 개수
             }
-            Debug.Log(trapActivatedArray[0]);
-            
+
             targetJewels[i].JewelUpdate(true, nextJewelTypeIDs[i]);
         }
 
@@ -233,6 +232,15 @@ public class JewelBoard : MonoBehaviour
                 tempInd += 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]);
                 Debug.Log(i + " : " + popingJewelTypeCounts[i] + " : " + 10 * (int)Mathf.Pow(2, popingJewelTypeCounts[i]));
 
+            }
+        }
+        Debug.Log("\n");
+        for (int i = 0; i < popingTrapTypeCounts.Length; i++)
+        {
+            if (popingTrapTypeCounts[i] > 0)
+            {
+                tempInd -= 30/*임시 값*/;
+                Debug.Log(i + " : " + popingTrapTypeCounts[i] + " : " + - 30/*임시 값*/);
             }
         }
         gameManager.ScoreChangeCall(tempInd);

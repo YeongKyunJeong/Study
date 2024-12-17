@@ -47,6 +47,10 @@ public class GameManager : MonoBehaviour
     public void ScoreChangeCall(int resultScore)
     {
         myScore += resultScore;
+        if(myScore < 0)
+        {
+            myScore = 0;
+        }
         uIManager.ScoreChangeCall(myScore);
     }
 
