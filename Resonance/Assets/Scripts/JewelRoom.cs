@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class JewelRoom : MonoBehaviour
 {
-    public BoxCollider2D coll;
+    public PolygonCollider2D coll;
     public Vector2Int cord { get; set; }
     public Vector2 cordForCheck;
     public Jewel jewel { get; set; }
@@ -19,7 +19,7 @@ public class JewelRoom : MonoBehaviour
     public void Initialize(Jewel jewel, Vector2Int cord, JewelData jewelData)
     {
         if (coll == null)
-            coll = GetComponent<BoxCollider2D>();
+            coll = GetComponent<PolygonCollider2D>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         jewelType = Random.Range(0, 7);
         this.jewel = jewel;
