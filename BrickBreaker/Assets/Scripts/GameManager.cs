@@ -12,25 +12,62 @@ public class GameManager : MonoBehaviour
     public int myScore = 0;
     public int lives = 3;
 
+    [SerializeField] private bool isTemporary = true;   // GM used when stage scene run independently
+
     [SerializeField] private bool isNewGame = true;
 
+    [SerializeField] private Paddle paddle;
+
+    [SerializeField] private Ball ball;
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
     private void Awake()
     {
+
         if (instance == null)
         {
             Instance = this;
         }
-        DontDestroyOnLoad(this.gameObject);
+        else
+        {
+            if (isTemporary)   // Turn it off if there is true GameManager
+            {
+                this.gameObject.SetActive(false);
+            }
 
+        }
 
-        Initialize();
+        if (!isTemporary)   // Only make true GameManager DontdestroyOnLoad 
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+
+        Initialize(isTemporary);
     }
 
-    private void Initialize()
+    private void Initialize(bool isTemporaryGameManager = true)
     {
-        if (isNewGame)
-            StartNewGame();
+        if (isTemporaryGameManager)
+        {
+            StartStageIndependently();
+        }
+        else
+        {
+            if (isNewGame)
+                StartNewGame();
+
+        }
+
+        if (paddle == null)
+        {
+            paddle = FindFirstObjectByType<Paddle>();
+        }
+        paddle.Initialize();
+
+        if (ball == null)
+        {
+            ball = FindFirstObjectByType<Ball>();
+        }
+        ball.Initialize();
     }
 
     private void StartNewGame()
@@ -39,6 +76,11 @@ public class GameManager : MonoBehaviour
         lives = 3;
 
         LoadLevel(1);
+    }
+    private void StartStageIndependently()
+    {
+        myScore = 0;
+        lives = 3;
     }
 
     private void LoadLevel(int level)
@@ -53,6 +95,7 @@ public class GameManager : MonoBehaviour
             tempString = $"{levelCallingStringWith0}{level}";
         }
         Debug.Log(tempString);
+        SceneManager.LoadScene(tempString);
         //SceneManager.LoadScene(level);
     }
 }

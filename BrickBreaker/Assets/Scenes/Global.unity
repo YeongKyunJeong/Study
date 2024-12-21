@@ -151,6 +151,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29171de368a68040adb7975376c42bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
+  myScore: 0
+  lives: 3
+  isTemporary: 0
+  isNewGame: 1
+  paddle: {fileID: 0}
 --- !u!4 &1263048570
 Transform:
   m_ObjectHideFlags: 0
