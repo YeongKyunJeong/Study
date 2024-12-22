@@ -24,6 +24,7 @@ public class Ball : MonoBehaviour
     //private WaitForFixedUpdate waitForFixedFrame;
     private LayerMask ballLayer;
     private LayerMask paddleLayer;
+    //private LayerMask bricksLayer;
 
     public void Initialize()
     {
@@ -33,6 +34,7 @@ public class Ball : MonoBehaviour
         }
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
+        //bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
         halfWidth = 2.5f;
         corectedHalfWidth = halfWidth - deflectionStartOffset;
@@ -60,7 +62,7 @@ public class Ball : MonoBehaviour
     {
         yield return new WaitForFixedUpdate();
         bounceBallSpeed = rigidBody.velocity.magnitude;
-        Debug.Log(bounceBallSpeed);
+        //Debug.Log(bounceBallSpeed);
         yield return null;
     }
 
@@ -93,8 +95,13 @@ public class Ball : MonoBehaviour
         {
             Debug.Log("Ball");
         }
+        //else if (collision.gameObject.layer == bricksLayer)
+        //{
+        //    collision.
+        //}
         else
         {
+
         }
         StartCoroutine(SaveStartSpeed());
     }

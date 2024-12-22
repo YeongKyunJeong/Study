@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.AddressableAssets;
+using UnityEngine.ResourceManagement.AsyncOperations;
 
 public class GameManager : MonoBehaviour
 {
@@ -12,13 +14,21 @@ public class GameManager : MonoBehaviour
     public int myScore = 0;
     public int lives = 3;
 
-    [SerializeField] private bool isTemporary = true;   // GM used when stage scene run independently
+    //private 
 
     [SerializeField] private bool isNewGame = true;
 
     [SerializeField] private Paddle paddle;
 
     [SerializeField] private Ball ball;
+
+    [SerializeField] private BrickData brickData;
+
+    [SerializeField] private StageManager stageManager;
+
+    private LayerMask ballLayer;
+
+
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
     private void Awake()
     {
@@ -27,47 +37,59 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-        else
-        {
-            if (isTemporary)   // Turn it off if there is true GameManager
-            {
-                this.gameObject.SetActive(false);
-            }
 
-        }
+        ballLayer = LayerMask.NameToLayer("Ball");
+        //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
+        brickData = Resources.Load<BrickData>("Data/BrickData");
+        brickData.Initialize();
 
-        if (!isTemporary)   // Only make true GameManager DontdestroyOnLoad 
-        {
-            DontDestroyOnLoad(this.gameObject);
-        }
 
-        Initialize(isTemporary);
+        DontDestroyOnLoad(this.gameObject);
+
+        Initialize();
     }
 
-    private void Initialize(bool isTemporaryGameManager = true)
+    //private void OnBrickDataLoad(AsyncOperationHandle<BrickData> loadedBrickData)
+    //{
+    //    if (loadedBrickData.Status == AsyncOperationStatus.Succeeded)
+    //    {
+    //        brickData = loadedBrickData.Result;
+    //        brickData.Initialize();
+    //    }
+    //    else
+    //    {
+    //        Debug.LogError("GameManager : BrickData load error");
+    //    }
+    //}
+
+    private void Initialize()
     {
-        if (isTemporaryGameManager)
+        SceneManager.sceneLoaded += OnSceneLoaded;
+
+        if (isNewGame)
+            StartNewGame();
+    }
+
+    private void FindStageManagerAndInitialize()
+    {
+        stageManager = FindFirstObjectByType<StageManager>();
+        if (stageManager == null)
         {
-            StartStageIndependently();
+            Debug.LogError("No StageManager detected");
+            return;
         }
         else
         {
-            if (isNewGame)
-                StartNewGame();
-
+            stageManager.Initialize(ballLayer, brickData);
+            //paddle = stageManager.paddle;
+            //paddle.Initialize();
+            //ball = stageManager.ball;
+            //ball.Initialize();
+            //for (int i = 0; i < stageManager.bricks.Length; i++)
+            //{
+            //    stageManager.bricks[i].Initialize(brickData);
+            //}
         }
-
-        if (paddle == null)
-        {
-            paddle = FindFirstObjectByType<Paddle>();
-        }
-        paddle.Initialize();
-
-        if (ball == null)
-        {
-            ball = FindFirstObjectByType<Ball>();
-        }
-        ball.Initialize();
     }
 
     private void StartNewGame()
@@ -76,11 +98,6 @@ public class GameManager : MonoBehaviour
         lives = 3;
 
         LoadLevel(1);
-    }
-    private void StartStageIndependently()
-    {
-        myScore = 0;
-        lives = 3;
     }
 
     private void LoadLevel(int level)
@@ -94,8 +111,35 @@ public class GameManager : MonoBehaviour
         {
             tempString = $"{levelCallingStringWith0}{level}";
         }
+
+
         Debug.Log(tempString);
         SceneManager.LoadScene(tempString);
         //SceneManager.LoadScene(level);
+    }
+
+    private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
+    {
+        if (loadedScene == SceneManager.GetSceneByBuildIndex(0))
+        {
+            Debug.Log("Main Scene");
+        }
+        else
+            FindStageManagerAndInitialize();
+    }
+
+    public void ScoreUp(int score, bool isBroken = false)
+    {
+        myScore += score;
+        Debug.Log($"StageManager : {score}");
+        if (isBroken)
+        {
+            Debug.Log("Broken");
+        }
+    }
+
+    public void DeadZoneOut()
+    {
+
     }
 }
