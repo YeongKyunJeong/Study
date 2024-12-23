@@ -31,11 +31,11 @@ public class DeadZone : MonoBehaviour
             {
                 if (doesGameManagerExist)
                 {
-                    stageManager.TempDeadZoneOut();
+                    gameManager.DeadZoneOut();
                 }
                 else
                 {
-                    gameManager.DeadZoneOut();
+                    stageManager.TempDeadZoneOut();
                 }
             }
     }

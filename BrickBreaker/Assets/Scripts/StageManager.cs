@@ -16,7 +16,8 @@ public class StageManager : MonoBehaviour
     private LayerMask ballLayer;
 
     public int tempScore;
-    public int lives;
+    public int tempLives;
+    public int tempLeftBrickCount;
 
     private void Awake()
     {
@@ -36,7 +37,7 @@ public class StageManager : MonoBehaviour
     {
         ballLayer = LayerMask.NameToLayer("Ball");
         doesGameManagerExists = false;
-        lives = 3;
+        tempLives = 3;
         Initialize(ballLayer, null);
     }
 
@@ -57,6 +58,11 @@ public class StageManager : MonoBehaviour
         if (bricks.Length == 0)
         {
             bricks = FindObjectsByType<Brick>(0);
+        }
+
+        if (!doesGameManagerExists)
+        {
+            tempLeftBrickCount = bricks.Length;
         }
 
         if (brickData == null)
@@ -89,11 +95,43 @@ public class StageManager : MonoBehaviour
     {
         tempScore += score;
         Debug.Log($"StageManager : {tempScore}");
+        if (isBroken)
+        {
+            Debug.Log("Broken");
+
+            tempLeftBrickCount--;
+            if (tempLeftBrickCount == 0)
+            {
+                Debug.Log("GameClaer");
+            }
+        }
     }
-    
+
     public void TempDeadZoneOut()
     {
-        
+        if (tempLives > 1)
+        {
+            tempLives--;
+            ResetBallCall();
+            // lives UI Change
+        }
+        else
+        {
+            Debug.Log("Game Over");
+        }
+    }
+
+    public void ResetBallCall(bool reshootBall = true)
+    {
+        ball.ResetBall();
+        if (reshootBall)
+            ball.ShootBallAtStart();
+    }
+
+
+    public void ResetPaddleCall()
+    {
+        paddle.ResetPaddle();
     }
 
     //private void OnBrickDataLoad(AsyncOperationHandle<BrickData> loadedBrickData)

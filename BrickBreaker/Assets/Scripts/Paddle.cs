@@ -14,6 +14,7 @@ public class Paddle : MonoBehaviour
     [SerializeField]
     private int movingMode = 0;
 
+    private Vector2 firstPosition;
     private string horizontalBtn = "Horizontal";
     private float horizontalInput = 0;
     private float inputMin = 0.1f;
@@ -23,7 +24,10 @@ public class Paddle : MonoBehaviour
         if (rigidBody == null)
         {
             rigidBody = GetComponent<Rigidbody2D>();
+
         }
+        firstPosition = transform.position;
+
         deltaTime = Time.fixedDeltaTime;
         //Debug.Log("Paddle Ready");
     }
@@ -43,6 +47,12 @@ public class Paddle : MonoBehaviour
         {
             direction = Vector2.zero;
         }
+    }
+
+    public void ResetPaddle()
+    {
+        transform.position = firstPosition;
+        rigidBody.velocity = Vector2.zero;
     }
 
     private void FixedUpdate()

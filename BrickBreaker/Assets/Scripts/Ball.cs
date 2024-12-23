@@ -16,6 +16,7 @@ public class Ball : MonoBehaviour
     private float corectedHalfWidth;
     private Coroutine coroutine;
     private Quaternion rotation;
+    private Vector2 firstPosition;
 
     public float speed;
     private float bounceBallSpeed;
@@ -37,6 +38,9 @@ public class Ball : MonoBehaviour
         //bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
         halfWidth = 2.5f;
+
+        firstPosition = transform.position;
+
         corectedHalfWidth = halfWidth - deflectionStartOffset;
         waitFor1s = new WaitForSeconds(1f);
         //waitForFixedFrame = new WaitForFixedUpdate();
@@ -44,7 +48,7 @@ public class Ball : MonoBehaviour
         coroutine = StartCoroutine(CoroutineAtStart());
     }
 
-    private void SetRandomDirection()
+    public void SetRandomDirection()
     {
         force = Vector2.zero;
         force.x = Random.Range(-1f, 1f);
@@ -56,6 +60,21 @@ public class Ball : MonoBehaviour
         rigidBody.AddForce(force.normalized * speed);
         StartCoroutine(SaveStartSpeed());
 
+    }
+
+    public void ShootBallAtStart() 
+    {
+        if(coroutine != null)
+        {
+            coroutine = null;
+        }
+        coroutine = StartCoroutine(CoroutineAtStart());
+    }
+
+    public void ResetBall()
+    {
+        rigidBody.velocity = Vector2.zero;
+        transform.position = firstPosition;
     }
 
     IEnumerator SaveStartSpeed()

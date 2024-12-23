@@ -15,6 +15,7 @@ public class Brick : MonoBehaviour
     private LayerMask ballLayer;
     private BrickData brickData;
     private StageManager stageManager;
+    private bool isBroken = false;
     private bool doesGameManagerExists = true;
 
 
@@ -22,9 +23,10 @@ public class Brick : MonoBehaviour
     {
         this.brickData = brickData;
         this.ballLayer = ballLayer;
+        isBroken = false;
         health = initialHealth;
-        
-        if(stageManager != null)
+
+        if (stageManager != null)
         {
             this.stageManager = stageManager;
             doesGameManagerExists = false;
@@ -49,14 +51,6 @@ public class Brick : MonoBehaviour
 
     private void Hit()
     {
-        if (doesGameManagerExists)
-        {
-            gameManager.ScoreUp(points);
-        }
-        else
-        {
-            stageManager.TempScoreUp(points);
-        }
         if (health > 1)
         {
             this.health--;
@@ -65,7 +59,17 @@ public class Brick : MonoBehaviour
         else
         {
             this.gameObject.SetActive(false);
-            
+            isBroken = true;
         }
+
+        if (doesGameManagerExists)
+        {
+            gameManager.ScoreUp(points, isBroken);
+        }
+        else
+        {
+            stageManager.TempScoreUp(points, isBroken);
+        }
+
     }
 }

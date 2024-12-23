@@ -2,12 +2,14 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using System;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
     public int level = 1;
+    private int totalLevelCount = 0;
     private string levelCallingStringWith0 = "Level0";
     private string levelCallingString = "Level";
     private string tempString = null;
@@ -28,6 +30,8 @@ public class GameManager : MonoBehaviour
 
     private LayerMask ballLayer;
 
+    private bool stageCleared = false;
+    [SerializeField] private int leftBrickCount = -1;
 
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
     private void Awake()
@@ -37,7 +41,8 @@ public class GameManager : MonoBehaviour
         {
             Instance = this;
         }
-
+        totalLevelCount = SceneManager.sceneCountInBuildSettings;
+        Debug.Log(totalLevelCount);
         ballLayer = LayerMask.NameToLayer("Ball");
         //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
         brickData = Resources.Load<BrickData>("Data/BrickData");
@@ -81,6 +86,7 @@ public class GameManager : MonoBehaviour
         else
         {
             stageManager.Initialize(ballLayer, brickData);
+            leftBrickCount = stageManager.bricks.Length;
             //paddle = stageManager.paddle;
             //paddle.Initialize();
             //ball = stageManager.ball;
@@ -102,6 +108,7 @@ public class GameManager : MonoBehaviour
 
     private void LoadLevel(int level)
     {
+        stageCleared = false;
         this.level = level;
         if (level > 9)
         {
@@ -134,12 +141,67 @@ public class GameManager : MonoBehaviour
         Debug.Log($"StageManager : {score}");
         if (isBroken)
         {
+            leftBrickCount--;
+            if (leftBrickCount == 0)
+            {
+                stageCleared = true;
+            }
             Debug.Log("Broken");
+        }
+        if (stageCleared)
+        {
+            if (level < totalLevelCount)
+                level++;
+            LoadLevel(level);
         }
     }
 
+    private bool StageClear()
+    {
+        return false;
+    }
+
+    private void GameOver()
+    {
+        // StartNewGame();
+    }
+
+    private void ResetGame(bool isFullRest)
+    {
+        if (isFullRest)
+        {
+            if (lives < 3)
+            {
+                lives = 3;
+            }
+            stageManager.ResetPaddleCall();
+        }
+        stageManager.ResetBallCall();
+    }
+
+    private void ResetBall()
+    {
+        stageManager.ResetBallCall();
+    }
+
+    //private void ResetPaddle()
+    //{
+    //    stageManager.ResetPaddleCall();
+    //}
+
     public void DeadZoneOut()
     {
+        if (lives > 1)
+        {
+            lives--;
 
+            ResetBall();
+
+            // lives UI Change
+        }
+        else
+        {
+            Debug.Log("Game Over");
+        }
     }
 }
