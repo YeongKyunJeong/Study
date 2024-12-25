@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class StageManager : MonoBehaviour
 {
+    [SerializeField] private int level;
     public Paddle paddle;
     public Ball ball;
     public Brick[] bricks;
@@ -14,6 +15,8 @@ public class StageManager : MonoBehaviour
     public bool doesGameManagerExists = true;
 
     private LayerMask ballLayer;
+    [SerializeField] private GameObject uiPrefab;
+    [SerializeField] private UIManager uiManager;
 
     public int tempScore;
     public int tempLives;
@@ -38,6 +41,9 @@ public class StageManager : MonoBehaviour
         ballLayer = LayerMask.NameToLayer("Ball");
         doesGameManagerExists = false;
         tempLives = 3;
+        uiManager = Instantiate(uiPrefab).GetComponent<UIManager>();
+        uiManager.Initialize();
+        uiManager.ChangeScore(level, true);
         Initialize(ballLayer, null);
     }
 
@@ -94,7 +100,7 @@ public class StageManager : MonoBehaviour
     public void TempScoreUp(int score, bool isBroken = false)
     {
         tempScore += score;
-        Debug.Log($"StageManager : {tempScore}");
+        uiManager.ChangeScore(tempScore);
         if (isBroken)
         {
             Debug.Log("Broken");

@@ -16,17 +16,16 @@ public class GameManager : MonoBehaviour
     public int myScore = 0;
     public int lives = 3;
 
-    //private 
+    [SerializeField] private UIManager uiManager;
 
     [SerializeField] private bool isNewGame = true;
-
     [SerializeField] private Paddle paddle;
-
     [SerializeField] private Ball ball;
-
     [SerializeField] private BrickData brickData;
-
     [SerializeField] private StageManager stageManager;
+
+    [SerializeField]
+    private AspectRatioEnforcer aspectRatioEnforcer;
 
     private LayerMask ballLayer;
 
@@ -45,9 +44,6 @@ public class GameManager : MonoBehaviour
         Debug.Log(totalLevelCount);
         ballLayer = LayerMask.NameToLayer("Ball");
         //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
-        brickData = Resources.Load<BrickData>("Data/BrickData");
-        brickData.Initialize();
-
 
         DontDestroyOnLoad(this.gameObject);
 
@@ -69,6 +65,21 @@ public class GameManager : MonoBehaviour
 
     private void Initialize()
     {
+        brickData = Resources.Load<BrickData>("Data/BrickData");
+        brickData.Initialize();
+
+
+        if (uiManager == null)
+        {
+            uiManager = FindFirstObjectByType<UIManager>();
+        }
+        if(aspectRatioEnforcer == null)
+        {
+            uiManager.GetComponent<AspectRatioEnforcer>();
+        }
+        uiManager.Initialize();
+        aspectRatioEnforcer.Initialize(uiManager.GetComponent<RectTransform>());
+
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (isNewGame)
@@ -86,15 +97,8 @@ public class GameManager : MonoBehaviour
         else
         {
             stageManager.Initialize(ballLayer, brickData);
+            aspectRatioEnforcer.ChangeSceneWithoutCamera();
             leftBrickCount = stageManager.bricks.Length;
-            //paddle = stageManager.paddle;
-            //paddle.Initialize();
-            //ball = stageManager.ball;
-            //ball.Initialize();
-            //for (int i = 0; i < stageManager.bricks.Length; i++)
-            //{
-            //    stageManager.bricks[i].Initialize(brickData);
-            //}
         }
     }
 
@@ -120,9 +124,8 @@ public class GameManager : MonoBehaviour
         }
 
 
-        Debug.Log(tempString);
+        uiManager.ChangeScore(this.level, true);
         SceneManager.LoadScene(tempString);
-        //SceneManager.LoadScene(level);
     }
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
@@ -138,7 +141,7 @@ public class GameManager : MonoBehaviour
     public void ScoreUp(int score, bool isBroken = false)
     {
         myScore += score;
-        Debug.Log($"StageManager : {score}");
+        uiManager.ChangeScore(myScore);
         if (isBroken)
         {
             leftBrickCount--;
@@ -146,12 +149,14 @@ public class GameManager : MonoBehaviour
             {
                 stageCleared = true;
             }
-            Debug.Log("Broken");
         }
         if (stageCleared)
         {
             if (level < totalLevelCount)
+            {
                 level++;
+                uiManager.ChangeScore(level, true);
+            }
             LoadLevel(level);
         }
     }
