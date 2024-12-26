@@ -4,12 +4,21 @@ using UnityEngine;
 using TMPro;
 using System.Text;
 
+public enum UINumberCategory
+{
+    Score,
+    Life,
+    Level
+}
+
 public class ScoreManager : MonoBehaviour
 {
     private const int MAX_SCORE = 99999999;
     private const int MAX_SOCRE_LENGTH = 8;
     private const int MAX_LEVEL = 99;
     private const int MAX_LEVEL_LENGTH = 2;
+    private const int MAX_LIFE = 99;
+    private const int MAX_LIFE_LENGTH = 2;
 
     [SerializeField] private TextMeshProUGUI scoreTMP;
     private int scoreValue;
@@ -32,6 +41,25 @@ public class ScoreManager : MonoBehaviour
     private StringBuilder stringBuilder;
     private string tempString;
     private int tempInt;
+
+    [SerializeField] private TextMeshProUGUI lifeTMP;
+    private int lifeValue;
+    public int LifeSetter
+    {
+        get { return lifeValue; }
+        set
+        {
+            if (value > MAX_LIFE)
+            {
+                lifeValue = MAX_LIFE;
+            }
+            else
+            {
+                lifeValue = value;
+            }
+            lifeTMP.text = MakeIntToString(lifeValue, MAX_LIFE_LENGTH);
+        }
+    }
 
     [SerializeField] private TextMeshProUGUI levelTMP;
     private int levelValue;
@@ -57,16 +85,32 @@ public class ScoreManager : MonoBehaviour
         stringBuilder = new StringBuilder(10);
     }
 
-    public void ChangeScore(int inputInt, bool isLevelChanged = false)
+    public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score) // 0: Score, 1: Life, 2: Level
     {
-        if (isLevelChanged)
+        switch (changedNumber)
         {
-            LevelSetter = inputInt;
+            case UINumberCategory.Score:
+                {
+                    ScoreSetter = inputInt;
+                    break;
+                }
+            case UINumberCategory.Life:
+                {
+                    LifeSetter = inputInt;
+                    break;
+                }
+            case UINumberCategory.Level:
+                {
+                    LevelSetter = inputInt;
+                    break;
+                }
+            default:
+                {
+                    Debug.LogError("ScoreManager : Changing value order error");
+                    break;
+                }
         }
-        else
-        {
-            ScoreSetter = inputInt;
-        }
+
     }
 
     private string MakeIntToString(int inputScore, int maxLength)

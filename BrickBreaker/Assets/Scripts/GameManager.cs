@@ -73,7 +73,7 @@ public class GameManager : MonoBehaviour
         {
             uiManager = FindFirstObjectByType<UIManager>();
         }
-        if(aspectRatioEnforcer == null)
+        if (aspectRatioEnforcer == null)
         {
             uiManager.GetComponent<AspectRatioEnforcer>();
         }
@@ -113,6 +113,7 @@ public class GameManager : MonoBehaviour
     private void LoadLevel(int level)
     {
         stageCleared = false;
+        TimeControler.TimeScaler(1);
         this.level = level;
         if (level > 9)
         {
@@ -124,7 +125,9 @@ public class GameManager : MonoBehaviour
         }
 
 
-        uiManager.ChangeScore(this.level, true);
+        uiManager.ChangeNumber(this.level, UINumberCategory.Level);
+        uiManager.ChangeNumber(lives, UINumberCategory.Life);
+        uiManager.ChangeNumber(myScore, UINumberCategory.Score);
         SceneManager.LoadScene(tempString);
     }
 
@@ -141,7 +144,7 @@ public class GameManager : MonoBehaviour
     public void ScoreUp(int score, bool isBroken = false)
     {
         myScore += score;
-        uiManager.ChangeScore(myScore);
+        uiManager.ChangeNumber(myScore);
         if (isBroken)
         {
             leftBrickCount--;
@@ -155,7 +158,7 @@ public class GameManager : MonoBehaviour
             if (level < totalLevelCount)
             {
                 level++;
-                uiManager.ChangeScore(level, true);
+                uiManager.ChangeNumber(level, UINumberCategory.Level);
             }
             LoadLevel(level);
         }
@@ -171,15 +174,21 @@ public class GameManager : MonoBehaviour
         // StartNewGame();
     }
 
+    public void ResetCall(bool isFullReset)
+    {
+        ResetGame(isFullReset);
+    }
+
     private void ResetGame(bool isFullRest)
     {
+        uiManager.ResetStage();
         if (isFullRest)
         {
-            if (lives < 3)
-            {
-                lives = 3;
-            }
-            stageManager.ResetPaddleCall();
+            StartNewGame();
+        }
+        else
+        {
+            stageManager.ResetCall();
         }
         stageManager.ResetBallCall();
     }
@@ -196,17 +205,26 @@ public class GameManager : MonoBehaviour
 
     public void DeadZoneOut()
     {
-        if (lives > 1)
+        lives--;
+        uiManager.ChangeNumber(lives, UINumberCategory.Life);
+        if (lives > 0)
         {
-            lives--;
-
             ResetBall();
-
-            // lives UI Change
         }
         else
         {
+            TimeControler.TimeScaler(0);
+            uiManager.GameOver();
             Debug.Log("Game Over");
         }
     }
 }
+
+public static class TimeControler
+{
+    public static void TimeScaler(float timeScale)
+    {
+        Time.timeScale = timeScale;
+    }
+}
+

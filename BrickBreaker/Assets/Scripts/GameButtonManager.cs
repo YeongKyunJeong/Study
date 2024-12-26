@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class GameButtonManager : MonoBehaviour
 {
-    // Start is called before the first frame update
-    public void Initialize()
+    public void Initialize(StageManager stageManager = null)
     {
 
     }

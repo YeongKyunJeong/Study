@@ -38,12 +38,14 @@ public class StageManager : MonoBehaviour
 
     private void ActAsGameManager()
     {
+        TimeControler.TimeScaler(1);
         ballLayer = LayerMask.NameToLayer("Ball");
         doesGameManagerExists = false;
-        tempLives = 3;
         uiManager = Instantiate(uiPrefab).GetComponent<UIManager>();
-        uiManager.Initialize();
-        uiManager.ChangeScore(level, true);
+        uiManager.Initialize(this);
+        uiManager.ChangeNumber(level, UINumberCategory.Level);
+        tempLives = 3;
+        uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
         Initialize(ballLayer, null);
     }
 
@@ -100,7 +102,7 @@ public class StageManager : MonoBehaviour
     public void TempScoreUp(int score, bool isBroken = false)
     {
         tempScore += score;
-        uiManager.ChangeScore(tempScore);
+        uiManager.ChangeNumber(tempScore);
         if (isBroken)
         {
             Debug.Log("Broken");
@@ -115,14 +117,16 @@ public class StageManager : MonoBehaviour
 
     public void TempDeadZoneOut()
     {
-        if (tempLives > 1)
+        tempLives--;
+        uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
+        if (tempLives > 0)
         {
-            tempLives--;
             ResetBallCall();
             // lives UI Change
         }
         else
         {
+            TimeControler.TimeScaler(0);
             Debug.Log("Game Over");
         }
     }
@@ -134,10 +138,20 @@ public class StageManager : MonoBehaviour
             ball.ShootBallAtStart();
     }
 
-
     public void ResetPaddleCall()
     {
         paddle.ResetPaddle();
+    }
+
+    public void ResetCall()
+    {
+        ResetStage();
+    }
+
+    public void ResetStage()
+    {
+        Debug.Log("Reset Stage");
+        //
     }
 
     //private void OnBrickDataLoad(AsyncOperationHandle<BrickData> loadedBrickData)

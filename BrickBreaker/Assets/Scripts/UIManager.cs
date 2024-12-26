@@ -6,19 +6,10 @@ public class UIManager : MonoBehaviour
 {
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameButtonManager gsButtonManager;
-    [SerializeField] private MenuButtonManager msButtonManager;
-    [SerializeField] private GameObject screenPanel;
+    [SerializeField] private PanelButtonManager panelButtonManager;
 
-    public void Initialize()
+    public void Initialize(StageManager stageManager = null)
     {
-        if(screenPanel != null)
-        {
-            screenPanel.SetActive(false);
-        }
-        else
-        {
-            Debug.LogError("ScorePanel Not Detected");
-        }
 
         if (scoreManager != null)
         {
@@ -29,9 +20,24 @@ public class UIManager : MonoBehaviour
             Debug.LogError("ScoreManager Not Detected");
         }
 
-        if(gsButtonManager != null)
+        if (gsButtonManager != null)
         {
-            gsButtonManager.Initialize();
+            if (stageManager == null)
+                gsButtonManager.Initialize();
+            else
+                gsButtonManager.Initialize(stageManager); ;
+        }
+        else
+        {
+            Debug.LogError("GameScreenButtonManager Not Detected");
+        }
+
+        if (panelButtonManager != null)
+        {
+            if (stageManager == null)
+                panelButtonManager.Initialize();
+            else
+                panelButtonManager.Initialize(stageManager); ;
         }
         else
         {
@@ -40,8 +46,20 @@ public class UIManager : MonoBehaviour
 
     }
 
-    public void ChangeScore(int inputInt,bool isLevelChanged = false)
+    public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)
     {
-        scoreManager.ChangeScore(inputInt, isLevelChanged);
+        scoreManager.ChangeNumber(inputInt, changedNumber);
     }
+
+    public void ResetStage(/* Data of this stage at start*/)
+    {
+        panelButtonManager.ResetStage();
+    }
+
+    public void GameOver()
+    {
+        panelButtonManager.GameOver();
+    }
+
+
 }
