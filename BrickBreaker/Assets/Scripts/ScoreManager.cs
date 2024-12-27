@@ -127,4 +127,9 @@ public class ScoreManager : MonoBehaviour
         return stringBuilder.ToString();
     }
 
+    public void ResetStage(int scoreAtStart, int livesAtStart)
+    {
+        ScoreSetter = scoreAtStart ;
+        LifeSetter = livesAtStart;
+    }
 }

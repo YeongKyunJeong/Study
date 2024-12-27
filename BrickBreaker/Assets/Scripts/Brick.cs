@@ -24,7 +24,6 @@ public class Brick : MonoBehaviour
         this.brickData = brickData;
         this.ballLayer = ballLayer;
         isBroken = false;
-        health = initialHealth;
 
         if (stageManager != null)
         {
@@ -36,6 +35,9 @@ public class Brick : MonoBehaviour
             gameManager = GameManager.Instance;
         }
 
+        ResetBrick();
+
+        health = initialHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = brickData.brickSprites[health];
     }
@@ -70,6 +72,13 @@ public class Brick : MonoBehaviour
         {
             stageManager.TempScoreUp(points, isBroken);
         }
+    }
 
+    public void ResetBrick()
+    {
+        this.gameObject.SetActive(true);
+        this.health = initialHealth;
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        spriteRenderer.sprite = brickData.brickSprites[health];
     }
 }

@@ -27,8 +27,8 @@ public class GameOverPopUp : PopUp
     public void SetActive(bool isOn)
     {
         go.SetActive(isOn);
-        buttons[0].enabled = true;
-        buttons[1].enabled = doseGameManagerExist;
+        buttons[0].interactable = true;
+        buttons[1].interactable = doseGameManagerExist;
     }
 
     public void ClickResetButton(bool isFullReset)

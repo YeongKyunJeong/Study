@@ -3,18 +3,23 @@ using UnityEngine.SceneManagement;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System;
+using System.Collections.Generic;
 
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
-    public int level = 1;
-    private int totalLevelCount = 0;
     private string levelCallingStringWith0 = "Level0";
+    private int totalLevelCount = 0;
     private string levelCallingString = "Level";
     private string tempString = null;
+    public int level = 1;
     public int myScore = 0;
     public int lives = 3;
+
+    public int myScoreAtStart = 0;
+    public int livesAtStart = 0;
+
 
     [SerializeField] private UIManager uiManager;
 
@@ -25,7 +30,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private StageManager stageManager;
 
     [SerializeField]
-    private AspectRatioEnforcer aspectRatioEnforcer;
 
     private LayerMask ballLayer;
 
@@ -73,12 +77,7 @@ public class GameManager : MonoBehaviour
         {
             uiManager = FindFirstObjectByType<UIManager>();
         }
-        if (aspectRatioEnforcer == null)
-        {
-            uiManager.GetComponent<AspectRatioEnforcer>();
-        }
         uiManager.Initialize();
-        aspectRatioEnforcer.Initialize(uiManager.GetComponent<RectTransform>());
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -97,7 +96,6 @@ public class GameManager : MonoBehaviour
         else
         {
             stageManager.Initialize(ballLayer, brickData);
-            aspectRatioEnforcer.ChangeSceneWithoutCamera();
             leftBrickCount = stageManager.bricks.Length;
         }
     }
@@ -124,11 +122,15 @@ public class GameManager : MonoBehaviour
             tempString = $"{levelCallingStringWith0}{level}";
         }
 
+        SceneManager.LoadScene(tempString);
+
+        myScoreAtStart = myScore;
+        livesAtStart = lives;
 
         uiManager.ChangeNumber(this.level, UINumberCategory.Level);
-        uiManager.ChangeNumber(lives, UINumberCategory.Life);
-        uiManager.ChangeNumber(myScore, UINumberCategory.Score);
-        SceneManager.LoadScene(tempString);
+        uiManager.ResetStage(myScore, lives);
+        //uiManager.ChangeNumber(lives, UINumberCategory.Life);
+        //uiManager.ChangeNumber(myScore, UINumberCategory.Score);
     }
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
@@ -181,16 +183,17 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame(bool isFullRest)
     {
-        uiManager.ResetStage();
         if (isFullRest)
         {
             StartNewGame();
         }
         else
         {
+            uiManager.ResetStage(myScoreAtStart, livesAtStart);
+            myScore = myScoreAtStart;
+            lives = livesAtStart;
             stageManager.ResetCall();
         }
-        stageManager.ResetBallCall();
     }
 
     private void ResetBall()

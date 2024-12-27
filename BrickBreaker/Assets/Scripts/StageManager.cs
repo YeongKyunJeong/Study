@@ -127,6 +127,7 @@ public class StageManager : MonoBehaviour
         else
         {
             TimeControler.TimeScaler(0);
+            uiManager.GameOver();
             Debug.Log("Game Over");
         }
     }
@@ -150,7 +151,14 @@ public class StageManager : MonoBehaviour
 
     public void ResetStage()
     {
-        Debug.Log("Reset Stage");
+        TimeControler.TimeScaler(1);
+
+        paddle.ResetPaddle();
+        ResetBallCall();
+        foreach (Brick brick in bricks)
+        {
+            brick.ResetBrick();
+        }
         //
     }
 

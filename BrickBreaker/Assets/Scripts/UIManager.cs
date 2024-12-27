@@ -7,6 +7,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameButtonManager gsButtonManager;
     [SerializeField] private PanelButtonManager panelButtonManager;
+    [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
 
     public void Initialize(StageManager stageManager = null)
     {
@@ -43,7 +44,15 @@ public class UIManager : MonoBehaviour
         {
             Debug.LogError("GameScreenButtonManager Not Detected");
         }
+        if(aspectRatioEnforcer != null)
+        {
+            aspectRatioEnforcer.Initialize(GetComponent<RectTransform>());
+        }
+    }
 
+    public void ChangeStage()
+    {
+        aspectRatioEnforcer.ChangeSceneWithoutCamera();
     }
 
     public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)
@@ -51,8 +60,9 @@ public class UIManager : MonoBehaviour
         scoreManager.ChangeNumber(inputInt, changedNumber);
     }
 
-    public void ResetStage(/* Data of this stage at start*/)
+    public void ResetStage(int scoreAtStart, int livesAtStart)
     {
+        scoreManager.ResetStage(scoreAtStart, livesAtStart);
         panelButtonManager.ResetStage();
     }
 

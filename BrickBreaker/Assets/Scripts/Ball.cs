@@ -46,6 +46,7 @@ public class Ball : MonoBehaviour
         //waitForFixedFrame = new WaitForFixedUpdate();
         coroutine = null;
         coroutine = StartCoroutine(CoroutineAtStart());
+
     }
 
     public void SetRandomDirection()
@@ -64,6 +65,7 @@ public class Ball : MonoBehaviour
 
     public void ShootBallAtStart() 
     {
+        ResetBall();
         if(coroutine != null)
         {
             coroutine = null;
@@ -122,7 +124,7 @@ public class Ball : MonoBehaviour
         {
 
         }
-        StartCoroutine(SaveStartSpeed());
+        //StartCoroutine(SaveStartSpeed());
     }
 
     private void DeflectBall(Collision2D collision)

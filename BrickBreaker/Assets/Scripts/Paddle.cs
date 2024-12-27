@@ -30,6 +30,7 @@ public class Paddle : MonoBehaviour
 
         deltaTime = Time.fixedDeltaTime;
         //Debug.Log("Paddle Ready");
+        ResetPaddle();
     }
 
     private void Update()
