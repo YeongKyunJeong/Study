@@ -9,6 +9,7 @@ public abstract class PopUp : MonoBehaviour
     protected bool doseGameManagerExist;
     protected GameManager gameManager;
     protected StageManager stageManager;
+    protected bool isInitializing = true;
     public Button[] buttons;
 
     public abstract void Initialize(StageManager stageManager = null);

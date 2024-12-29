@@ -18,6 +18,8 @@ public class Brick : MonoBehaviour
     private bool isBroken = false;
     private bool doesGameManagerExists = true;
 
+    private SFXType brickHitType = SFXType.BrickHit;
+    private SFXType brickBreakType = SFXType.BrickBreak;
 
     public void Initialize(LayerMask ballLayer, BrickData brickData, StageManager stageManager = null)
     {
@@ -56,11 +58,13 @@ public class Brick : MonoBehaviour
         if (health > 1)
         {
             this.health--;
+            PlayBrickSFX(brickHitType);
             this.spriteRenderer.sprite = brickData.brickSprites[health];
         }
         else
         {
             this.gameObject.SetActive(false);
+            PlayBrickSFX(brickBreakType);
             isBroken = true;
         }
 
@@ -74,6 +78,18 @@ public class Brick : MonoBehaviour
         }
     }
 
+    public void PlayBrickSFX(SFXType inputSFX)
+    {
+        if (doesGameManagerExists)
+        {
+            gameManager.PlaySFX(inputSFX);
+        }
+        else
+        {
+            stageManager.PlaySFX(inputSFX);
+        }
+    }
+    
     public void ResetBrick()
     {
         this.gameObject.SetActive(true);

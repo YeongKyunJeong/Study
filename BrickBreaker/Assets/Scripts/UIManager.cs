@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private SoundManager soundManager;
     [SerializeField] private ScoreManager scoreManager;
     [SerializeField] private GameButtonManager gsButtonManager;
     [SerializeField] private PanelButtonManager panelButtonManager;
     [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
 
-    public void Initialize(StageManager stageManager = null)
+    public void Initialize(BrickData brickData, StageManager stageManager = null)
     {
 
         if (scoreManager != null)
@@ -30,7 +31,7 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameScreenButtonManager Not Detected");
+            Debug.LogError("GameButtonManager Not Detected");
         }
 
         if (panelButtonManager != null)
@@ -42,12 +43,28 @@ public class UIManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameScreenButtonManager Not Detected");
+            Debug.LogError("PanelButtonManager Not Detected");
         }
-        if(aspectRatioEnforcer != null)
+
+        if (soundManager != null)
+        {
+            soundManager.Initialize(brickData);
+        }
+        else
+        {
+            Debug.LogError("SoundManager Not Detected");
+        }
+
+
+        if (aspectRatioEnforcer != null)
         {
             aspectRatioEnforcer.Initialize(GetComponent<RectTransform>());
         }
+    }
+
+    public void PlaySFX(SFXType inputSFXType)
+    {
+        soundManager.PlaySFX(inputSFXType);
     }
 
     public void ChangeStage()

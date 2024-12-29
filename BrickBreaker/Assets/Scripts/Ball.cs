@@ -6,6 +6,9 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rigidBody { get; private set; }
 
+    private GameManager gameManager;
+    private StageManager stageManager;
+
     private float deflectionStartOffset = 0.75f;
     private Vector2 force = Vector2.zero;
     private Vector3 paddPosition;
@@ -17,6 +20,8 @@ public class Ball : MonoBehaviour
     private Coroutine coroutine;
     private Quaternion rotation;
     private Vector2 firstPosition;
+    private bool doesGameManagerExist = true;
+    private SFXType paddleHitType = SFXType.PaddleHit;
 
     public float speed;
     private float bounceBallSpeed;
@@ -27,7 +32,7 @@ public class Ball : MonoBehaviour
     private LayerMask paddleLayer;
     //private LayerMask bricksLayer;
 
-    public void Initialize()
+    public void Initialize(StageManager stageManager = null)
     {
         if (rigidBody == null)
         {
@@ -38,6 +43,17 @@ public class Ball : MonoBehaviour
         //bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
         halfWidth = 2.5f;
+
+        if (stageManager == null)
+        {
+            doesGameManagerExist = true;
+            gameManager = GameManager.Instance;
+        }
+        else
+        {
+            doesGameManagerExist = false;
+            this.stageManager = stageManager;
+        }
 
         firstPosition = transform.position;
 
@@ -129,6 +145,7 @@ public class Ball : MonoBehaviour
 
     private void DeflectBall(Collision2D collision)
     {
+        PlayPaddleHitSFX();
         paddPosition = collision.transform.position;
         contactPosition = collision.GetContact(0).point;
         offset = contactPosition.x - paddPosition.x;
@@ -152,5 +169,17 @@ public class Ball : MonoBehaviour
         rigidBody.velocity = rigidBody.velocity.normalized * bounceBallSpeed;
 
         return;
+    }
+
+    public void PlayPaddleHitSFX()
+    {
+        if (doesGameManagerExist)
+        {
+            gameManager.PlaySFX(paddleHitType);
+        }
+        else
+        {
+            stageManager.PlaySFX(paddleHitType);
+        }
     }
 }

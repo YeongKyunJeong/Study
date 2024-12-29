@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
 
 
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private SoundManager soundManager;
 
     [SerializeField] private bool isNewGame = true;
     [SerializeField] private Paddle paddle;
@@ -29,7 +30,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private BrickData brickData;
     [SerializeField] private StageManager stageManager;
 
-    [SerializeField]
+    private SFXType fallSFXTye = SFXType.Fall;
 
     private LayerMask ballLayer;
 
@@ -72,12 +73,17 @@ public class GameManager : MonoBehaviour
         brickData = Resources.Load<BrickData>("Data/BrickData");
         brickData.Initialize();
 
-
         if (uiManager == null)
         {
             uiManager = FindFirstObjectByType<UIManager>();
         }
-        uiManager.Initialize();
+        uiManager.Initialize(brickData);
+
+        if(soundManager == null)
+        {
+            soundManager = FindFirstObjectByType<SoundManager>();
+        }
+        soundManager.Initialize(brickData);
 
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -166,9 +172,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private bool StageClear()
+    public void PlaySFX(SFXType inputSFX)
     {
-        return false;
+        uiManager.PlaySFX(inputSFX);
     }
 
     private void GameOver()
@@ -209,7 +215,9 @@ public class GameManager : MonoBehaviour
     public void DeadZoneOut()
     {
         lives--;
+        PlaySFX(fallSFXTye);
         uiManager.ChangeNumber(lives, UINumberCategory.Life);
+
         if (lives > 0)
         {
             ResetBall();

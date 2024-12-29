@@ -12,7 +12,8 @@ public class StageManager : MonoBehaviour
     public Brick[] bricks;
     public BrickData brickData;
     public DeadZone[] walls;
-    public bool doesGameManagerExists = true;
+    public bool doesGameManagerExist = true;
+    private SFXType fallSFXTye;
 
     private LayerMask ballLayer;
     [SerializeField] private GameObject uiPrefab;
@@ -32,7 +33,7 @@ public class StageManager : MonoBehaviour
         else
         {
             Debug.Log("GameManager Detected");
-            doesGameManagerExists = true;
+            doesGameManagerExist = true;
         }
     }
 
@@ -40,13 +41,14 @@ public class StageManager : MonoBehaviour
     {
         TimeControler.TimeScaler(1);
         ballLayer = LayerMask.NameToLayer("Ball");
-        doesGameManagerExists = false;
+        doesGameManagerExist = false;
+        fallSFXTye = SFXType.Fall;
+        Initialize(ballLayer, null);
         uiManager = Instantiate(uiPrefab).GetComponent<UIManager>();
-        uiManager.Initialize(this);
+        uiManager.Initialize(brickData, this);
         uiManager.ChangeNumber(level, UINumberCategory.Level);
         tempLives = 3;
         uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
-        Initialize(ballLayer, null);
     }
 
     public void Initialize(LayerMask ballLayer, BrickData brickData = null)
@@ -57,20 +59,25 @@ public class StageManager : MonoBehaviour
         }
         paddle.Initialize();
 
-        if (ball == null)
-        {
-            ball = FindFirstObjectByType<Ball>();
-        }
-        ball.Initialize();
 
         if (bricks.Length == 0)
         {
             bricks = FindObjectsByType<Brick>(0);
         }
 
-        if (!doesGameManagerExists)
+        if (doesGameManagerExist)
         {
+            ball.Initialize();
+        }
+        else
+        {
+            ball.Initialize(this);
             tempLeftBrickCount = bricks.Length;
+        }
+
+        if (ball == null)
+        {
+            ball = FindFirstObjectByType<Ball>();
         }
 
         if (brickData == null)
@@ -83,7 +90,7 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < bricks.Length; i++)
         {
-            if (doesGameManagerExists)
+            if (doesGameManagerExist)
                 bricks[i].Initialize(ballLayer, brickData);
             else
                 bricks[i].Initialize(ballLayer, brickData, this);
@@ -92,7 +99,7 @@ public class StageManager : MonoBehaviour
 
         for (int i = 0; i < 4; i++)
         {
-            if (doesGameManagerExists)
+            if (doesGameManagerExist)
                 walls[i].Initialize(ballLayer);
             else
                 walls[i].Initialize(ballLayer, this);
@@ -118,6 +125,7 @@ public class StageManager : MonoBehaviour
     public void TempDeadZoneOut()
     {
         tempLives--;
+        PlaySFX(fallSFXTye);
         uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
         if (tempLives > 0)
         {
@@ -160,6 +168,11 @@ public class StageManager : MonoBehaviour
             brick.ResetBrick();
         }
         //
+    }
+
+    public void PlaySFX(SFXType inputSFXType)
+    {
+        uiManager.PlaySFX(inputSFXType);
     }
 
     //private void OnBrickDataLoad(AsyncOperationHandle<BrickData> loadedBrickData)

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,13 +6,28 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewBrickData", menuName = "ScriptableObjects/BrickData", order = 1)]
 public class BrickData : ScriptableObject
 {
-    [SerializeField] private Sprite[] brickSpritesField;
+    [SerializeField] 
+    private Sprite[] brickSpritesField;
+    [SerializeField]
+    private AudioClip audioClip_PaddleHit;
+    [SerializeField]
+    private AudioClip audioClip_BrickHit;
+    [SerializeField]
+    private AudioClip audioClip_BrickBreak;
+    [SerializeField]
+    private AudioClip audioClip_Fall;
 
     public Sprite[] brickSprites { get; private set; }
+    public AudioClip[] sFXaudioClips;
 
     public void Initialize()
     {
         brickSprites = new Sprite[brickSpritesField.Length];
         brickSpritesField.CopyTo(brickSprites, 0);
+        sFXaudioClips = new AudioClip[Enum.GetValues(typeof(SFXType)).Length];
+        sFXaudioClips[0] = audioClip_PaddleHit;
+        sFXaudioClips[1] = audioClip_BrickHit;
+        sFXaudioClips[2] = audioClip_BrickBreak;
+        sFXaudioClips[3] = audioClip_Fall;
     }
 }
