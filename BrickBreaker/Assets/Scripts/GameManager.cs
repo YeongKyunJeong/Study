@@ -79,12 +79,6 @@ public class GameManager : MonoBehaviour
         }
         uiManager.Initialize(brickData);
 
-        if(soundManager == null)
-        {
-            soundManager = FindFirstObjectByType<SoundManager>();
-        }
-        soundManager.Initialize(brickData);
-
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (isNewGame)
@@ -101,7 +95,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            stageManager.Initialize(ballLayer, brickData);
+            stageManager.Initialize(ballLayer, uiManager ,brickData);
             leftBrickCount = stageManager.bricks.Length;
         }
     }
@@ -195,10 +189,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            uiManager.ResetStage(myScoreAtStart, livesAtStart);
             myScore = myScoreAtStart;
             lives = livesAtStart;
-            stageManager.ResetCall();
+            stageManager.ResetCall(myScoreAtStart, livesAtStart);
         }
     }
 

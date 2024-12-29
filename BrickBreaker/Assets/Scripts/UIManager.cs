@@ -9,6 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameButtonManager gsButtonManager;
     [SerializeField] private PanelButtonManager panelButtonManager;
     [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
+    [SerializeField] private InputManager inputManager;
+    public InputManager GetInputManager{ get { return inputManager; } private set { inputManager = value; } }
 
     public void Initialize(BrickData brickData, StageManager stageManager = null)
     {
@@ -55,6 +57,14 @@ public class UIManager : MonoBehaviour
             Debug.LogError("SoundManager Not Detected");
         }
 
+        if(inputManager != null)
+        {
+            inputManager.Initialize();
+        }
+        else
+        {
+            Debug.LogError("InputManager Not Detected");
+        }
 
         if (aspectRatioEnforcer != null)
         {
@@ -67,9 +77,10 @@ public class UIManager : MonoBehaviour
         soundManager.PlaySFX(inputSFXType);
     }
 
-    public void ChangeStage()
+    public void ChangeStage(Paddle newPaddle)
     {
         aspectRatioEnforcer.ChangeSceneWithoutCamera();
+        inputManager.ChangePaddle(newPaddle);
     }
 
     public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)

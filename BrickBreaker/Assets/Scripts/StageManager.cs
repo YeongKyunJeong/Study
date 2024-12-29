@@ -15,6 +15,7 @@ public class StageManager : MonoBehaviour
     public bool doesGameManagerExist = true;
     private SFXType fallSFXTye;
 
+    private InputManager inputManager;
     private LayerMask ballLayer;
     [SerializeField] private GameObject uiPrefab;
     [SerializeField] private UIManager uiManager;
@@ -43,22 +44,36 @@ public class StageManager : MonoBehaviour
         ballLayer = LayerMask.NameToLayer("Ball");
         doesGameManagerExist = false;
         fallSFXTye = SFXType.Fall;
-        Initialize(ballLayer, null);
-        uiManager = Instantiate(uiPrefab).GetComponent<UIManager>();
-        uiManager.Initialize(brickData, this);
-        uiManager.ChangeNumber(level, UINumberCategory.Level);
+        Initialize(ballLayer, null, null);
         tempLives = 3;
-        uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
+        DoUIManagerSetting(false);
     }
 
-    public void Initialize(LayerMask ballLayer, BrickData brickData = null)
+    private void DoUIManagerSetting(bool doesGameManagerExist, UIManager uiManager = null)
+    {
+        if (doesGameManagerExist)
+        {
+            this.uiManager = uiManager;
+        }
+        else
+        {
+            this.uiManager = Instantiate(uiPrefab).GetComponent<UIManager>();
+            this.uiManager.Initialize(brickData, this);
+            this.uiManager.ChangeNumber(level, UINumberCategory.Level);
+            this.uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
+        }
+
+        this.uiManager.ChangeStage(paddle);
+        inputManager = this.uiManager.GetInputManager;
+    }
+
+    public void Initialize(LayerMask ballLayer, UIManager uiManager, BrickData brickData = null)
     {
         if (paddle == null)
         {
             paddle = FindFirstObjectByType<Paddle>();
         }
         paddle.Initialize();
-
 
         if (bricks.Length == 0)
         {
@@ -103,6 +118,11 @@ public class StageManager : MonoBehaviour
                 walls[i].Initialize(ballLayer);
             else
                 walls[i].Initialize(ballLayer, this);
+        }
+
+        if (doesGameManagerExist)
+        {
+            DoUIManagerSetting(true, uiManager);
         }
     }
 
@@ -149,19 +169,19 @@ public class StageManager : MonoBehaviour
 
     public void ResetPaddleCall()
     {
-        paddle.ResetPaddle();
+        inputManager.ResetPaddle();
     }
 
-    public void ResetCall()
+    public void ResetCall(int score = 0, int lives = 3)
     {
-        ResetStage();
+        ResetStage(score, lives);
     }
 
-    public void ResetStage()
+    public void ResetStage(int score, int lives)
     {
         TimeControler.TimeScaler(1);
-
-        paddle.ResetPaddle();
+        uiManager.ResetStage(score, lives);
+        inputManager.ResetPaddle();
         ResetBallCall();
         foreach (Brick brick in bricks)
         {

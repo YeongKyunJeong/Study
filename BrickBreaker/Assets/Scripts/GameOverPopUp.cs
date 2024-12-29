@@ -12,8 +12,8 @@ public class GameOverPopUp : PopUp
 
     public override void Initialize(StageManager stageManager = null)
     {
+        isInitializing = true;
         go = this.gameObject;
-        go.SetActive(false);
         if (stageManager == null)
         {
             doseGameManagerExist = true;
@@ -24,7 +24,7 @@ public class GameOverPopUp : PopUp
             doseGameManagerExist = false;
             this.stageManager = stageManager;
         }
-        SetActive(true);
+        SetActive(false);
 
     }
 
@@ -36,7 +36,7 @@ public class GameOverPopUp : PopUp
             isInitializing = false;
             buttons[0].interactable = true;
             buttons[1].interactable = doseGameManagerExist;
-            if (doseGameManagerExist)
+            if (!doseGameManagerExist)
             {
                 TextMeshProUGUI disabledBtnTMP = buttons[1].GetComponentInChildren<TextMeshProUGUI>();
                 Color disabledBtnTMPColor = disabledBtnTMP.color ;
