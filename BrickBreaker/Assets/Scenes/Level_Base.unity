@@ -515,7 +515,7 @@ MonoBehaviour:
   - {fileID: 345560087}
   - {fileID: 441860935}
   - {fileID: 1656981575}
-  doesGameManagerExists: 1
+  doesGameManagerExist: 1
   uiPrefab: {fileID: 5467720938249228142, guid: 581ee7ce83ef4184eaaf29ec41c89440, type: 3}
   uiManager: {fileID: 0}
   tempScore: 0
@@ -1600,7 +1600,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 500
-  maxBounceAngle: 75
+  maxBounceAngle: 60
 --- !u!1 &2007438647
 GameObject:
   m_ObjectHideFlags: 0

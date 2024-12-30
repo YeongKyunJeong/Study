@@ -14,7 +14,7 @@ public class InputManager : MonoBehaviour
     public Rigidbody2D paddleRigidBody { get; private set; }
     public Transform paddleTransform { get; private set; }
     public Vector2 direction { get; private set; }
-    public float speed = 25f;
+    private float speed = 15f;
     private float realSpeed;
     private float deltaTime;
 

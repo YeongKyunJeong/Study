@@ -24,8 +24,9 @@ public class Ball : MonoBehaviour
     private SFXType paddleHitType = SFXType.PaddleHit;
 
     public float speed;
+    private float speedCorrector;
     private float bounceBallSpeed;
-    public float maxBounceAngle = 75f;
+    public float maxBounceAngle = 60f;
     private WaitForSeconds waitFor1s;
     //private WaitForFixedUpdate waitForFixedFrame;
     private LayerMask ballLayer;
@@ -79,10 +80,10 @@ public class Ball : MonoBehaviour
 
     }
 
-    public void ShootBallAtStart() 
+    public void ShootBallAtStart()
     {
         ResetBall();
-        if(coroutine != null)
+        if (coroutine != null)
         {
             coroutine = null;
         }
@@ -124,8 +125,8 @@ public class Ball : MonoBehaviour
     {
         if (collision.gameObject.layer == paddleLayer)
         {
-
-            DeflectBall(collision);
+            if (rigidBody.velocity.y > 0)
+                DeflectBall(collision);
 
         }
         if (collision.gameObject.layer == ballLayer)
@@ -149,24 +150,33 @@ public class Ball : MonoBehaviour
         paddPosition = collision.transform.position;
         contactPosition = collision.GetContact(0).point;
         offset = contactPosition.x - paddPosition.x;
-        if (offset > deflectionStartOffset)
+
+        if ((offset < deflectionStartOffset) && (offset > -deflectionStartOffset))
         {
-            offset = offset > halfWidth ? halfWidth - deflectionStartOffset : offset - deflectionStartOffset;
-        }
-        else if (offset < -deflectionStartOffset)
-        {
-            offset = offset < -halfWidth ? -halfWidth + deflectionStartOffset : offset + deflectionStartOffset;
+
         }
         else
         {
-            rigidBody.velocity = rigidBody.velocity.normalized * bounceBallSpeed;
-            return;
+            if (offset >= deflectionStartOffset)
+            {
+                offset = offset > halfWidth ? halfWidth - deflectionStartOffset : offset - deflectionStartOffset;
+            }
+            else/* if (offset <= -deflectionStartOffset)*/
+            {
+                offset = offset < -halfWidth ? -halfWidth + deflectionStartOffset : offset + deflectionStartOffset;
+            }
+            angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
+            angle = Mathf.Clamp(angle - (offset / halfWidth) * maxBounceAngle, -maxBounceAngle, maxBounceAngle);
+            rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            rigidBody.velocity = rotation * Vector2.up;
+            //Debug.Log("Angle :" + angle + "/ " + Mathf.Cos(angle));
+            //Debug.Log(Mathf.Cos(angle));
+            speedCorrector = Mathf.Abs(angle) / 90f;
         }
-        angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
-        angle = Mathf.Clamp(angle - (offset / halfWidth) * maxBounceAngle, -maxBounceAngle, maxBounceAngle);
-        rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        rigidBody.velocity = rotation * Vector2.up;
-        rigidBody.velocity = rigidBody.velocity.normalized * bounceBallSpeed;
+        if(Mathf.Abs(angle) > 10)
+        speedCorrector = 1 / (1 - speedCorrector * speedCorrector * speedCorrector);
+        Debug.Log(speedCorrector);
+        rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
 
         return;
     }

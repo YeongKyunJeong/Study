@@ -3125,7 +3125,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameOverPopUp: {fileID: 1718163883364477604}
-  pausePopUp: {fileID: 0}
+  pausePopUp: {fileID: 6152412338318101003}
 --- !u!222 &38549058400444200
 CanvasRenderer:
   m_ObjectHideFlags: 0
