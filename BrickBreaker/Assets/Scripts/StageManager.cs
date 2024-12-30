@@ -20,6 +20,8 @@ public class StageManager : MonoBehaviour
     [SerializeField] private GameObject uiPrefab;
     [SerializeField] private UIManager uiManager;
 
+    private bool isMainMenuOn = false;
+
     public int tempScore;
     public int tempLives;
     public int tempLeftBrickCount;
@@ -47,6 +49,7 @@ public class StageManager : MonoBehaviour
         Initialize(ballLayer, null, null);
         tempLives = 3;
         DoUIManagerSetting(false);
+        isMainMenuOn = false;
     }
 
     private void DoUIManagerSetting(bool doesGameManagerExist, UIManager uiManager = null)
@@ -54,6 +57,7 @@ public class StageManager : MonoBehaviour
         if (doesGameManagerExist)
         {
             this.uiManager = uiManager;
+            this.uiManager.ChangeStage(paddle);
         }
         else
         {
@@ -61,9 +65,9 @@ public class StageManager : MonoBehaviour
             this.uiManager.Initialize(brickData, this);
             this.uiManager.ChangeNumber(level, UINumberCategory.Level);
             this.uiManager.ChangeNumber(tempLives, UINumberCategory.Life);
+            this.uiManager.ChangeStage(paddle, this);
         }
 
-        this.uiManager.ChangeStage(paddle);
         inputManager = this.uiManager.GetInputManager;
     }
 
@@ -177,7 +181,7 @@ public class StageManager : MonoBehaviour
         ResetStage(score, lives);
     }
 
-    public void ResetStage(int score, int lives)
+    private void ResetStage(int score, int lives)
     {
         TimeControler.TimeScaler(1);
         uiManager.ResetStage(score, lives);
@@ -187,7 +191,42 @@ public class StageManager : MonoBehaviour
         {
             brick.ResetBrick();
         }
-        //
+    }
+
+    public void ESCCall()
+    {
+        if (isMainMenuOn)
+        {
+            isMainMenuOn = false;
+            ResumeCall();
+        }
+        else
+        {
+            isMainMenuOn = true;
+            PauseGame();
+        }
+    }
+
+    public void ResumeCall()
+    {
+        ResumeGame();
+    }
+
+    private void ResumeGame()
+    {
+        TimeControler.TimeScaler(1);
+        uiManager.ResumeGame();
+    }
+
+    public void PauseCall()
+    {
+        PauseGame();
+    }
+
+    private void PauseGame()
+    {
+        TimeControler.TimeScaler(0);
+        uiManager.PauseGame();
     }
 
     public void PlaySFX(SFXType inputSFXType)

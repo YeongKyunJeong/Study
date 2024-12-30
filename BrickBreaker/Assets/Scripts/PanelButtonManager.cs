@@ -5,6 +5,7 @@ using UnityEngine;
 public class PanelButtonManager : MonoBehaviour
 {
     public GameOverPopUp gameOverPopUp;
+    public PausePopUp pausePopUp;
 
     public void Initialize(StageManager stageManager = null)
     {
@@ -12,12 +13,29 @@ public class PanelButtonManager : MonoBehaviour
         {
             gameOverPopUp = FindFirstObjectByType<GameOverPopUp>();
         }
-        if (stageManager == null)
-            gameOverPopUp.Initialize();
-        else
-            gameOverPopUp.Initialize(stageManager);
+        if (pausePopUp == null)
+        {
+            pausePopUp = FindFirstObjectByType<PausePopUp>();
+        }
 
-        SetActive(false);
+        if (stageManager == null)
+        {
+            gameOverPopUp.Initialize();
+            pausePopUp.Initialize();
+        }
+        else
+        {
+            gameOverPopUp.Initialize(stageManager);
+            pausePopUp.Initialize(stageManager);
+        }
+
+        ResetPanel();
+    }
+
+    public void PauseGame()
+    {
+        SetActive(true);
+        pausePopUp.SetActive(true);
     }
 
     public void SetActive(bool isOn)
@@ -25,9 +43,12 @@ public class PanelButtonManager : MonoBehaviour
         gameObject.SetActive(isOn);
     }
 
-    public void ResetStage()
+    public void ResetPanel()
     {
         SetActive(false);
+        gameOverPopUp.SetActive(false);
+        pausePopUp.SetActive(false);
+
     }
 
     public void GameOver()

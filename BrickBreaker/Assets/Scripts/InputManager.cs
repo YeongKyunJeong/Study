@@ -6,6 +6,10 @@ public class InputManager : MonoBehaviour
 {
     private Paddle paddleThisStage;
     private bool isPaddleSet;
+    private bool doesGameManagerExist;
+
+    private GameManager gameManager;
+    private StageManager stageManager;
 
     public Rigidbody2D paddleRigidBody { get; private set; }
     public Transform paddleTransform { get; private set; }
@@ -19,6 +23,7 @@ public class InputManager : MonoBehaviour
 
     private Vector2 firstPosition;
     private string horizontalBtn = "Horizontal";
+    private string escButton = "Cancel";
     private float horizontalInput = 0;
     private float inputMin = 0.1f;
 
@@ -28,12 +33,22 @@ public class InputManager : MonoBehaviour
         isPaddleSet = false;
     }
 
-    public void ChangePaddle(Paddle newPaddle)
+    public void ChangeStage(Paddle newPaddle, StageManager stageManager = null)
     {
         paddleThisStage = newPaddle;
         paddleRigidBody = paddleThisStage.rigidBody;
         paddleTransform = paddleThisStage.transform;
         firstPosition = newPaddle.firstPosition;
+        if (stageManager == null)
+        {
+            gameManager = GameManager.Instance;
+            doesGameManagerExist = true;
+        }
+        else
+        {
+            this.stageManager = stageManager;
+            doesGameManagerExist = false;
+        }
         isPaddleSet = true;
 
         ResetPaddle();
@@ -53,6 +68,18 @@ public class InputManager : MonoBehaviour
         else
         {
             direction = Vector2.zero;
+        }
+
+        if (Input.GetButtonDown("Cancel"))
+        {
+            if (doesGameManagerExist)
+            {
+                gameManager.ESCCall();
+            }
+            else
+            {
+                stageManager.ESCCall();
+            }
         }
     }
 

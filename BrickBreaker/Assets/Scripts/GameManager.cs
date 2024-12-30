@@ -16,6 +16,7 @@ public class GameManager : MonoBehaviour
     public int level = 1;
     public int myScore = 0;
     public int lives = 3;
+    private bool isMainMenuOn = false;
 
     public int myScoreAtStart = 0;
     public int livesAtStart = 0;
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         totalLevelCount = SceneManager.sceneCountInBuildSettings;
         Debug.Log(totalLevelCount);
         ballLayer = LayerMask.NameToLayer("Ball");
+        isMainMenuOn = false;
         //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
 
         DontDestroyOnLoad(this.gameObject);
@@ -95,7 +97,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            stageManager.Initialize(ballLayer, uiManager ,brickData);
+            stageManager.Initialize(ballLayer, uiManager, brickData);
             leftBrickCount = stageManager.bricks.Length;
         }
     }
@@ -171,9 +173,40 @@ public class GameManager : MonoBehaviour
         uiManager.PlaySFX(inputSFX);
     }
 
-    private void GameOver()
+    public void ESCCall()
     {
-        // StartNewGame();
+        if (isMainMenuOn)
+        {
+            isMainMenuOn = false;
+            ResumeCall();
+        }
+        else
+        {
+            isMainMenuOn = true;
+            PauseGame();
+        }
+    }
+
+    public void ResumeCall()
+    {
+        ResumeGame();
+    }
+
+    private void ResumeGame()
+    {
+        TimeControler.TimeScaler(1);
+        uiManager.ResumeGame();
+    }
+
+    public void PauseCall()
+    {
+        PauseGame();
+    }
+
+    private void PauseGame()
+    {
+        TimeControler.TimeScaler(0);
+        uiManager.PauseGame();
     }
 
     public void ResetCall(bool isFullReset)
@@ -195,16 +228,6 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ResetBall()
-    {
-        stageManager.ResetBallCall();
-    }
-
-    //private void ResetPaddle()
-    //{
-    //    stageManager.ResetPaddleCall();
-    //}
-
     public void DeadZoneOut()
     {
         lives--;
@@ -213,7 +236,7 @@ public class GameManager : MonoBehaviour
 
         if (lives > 0)
         {
-            ResetBall();
+            stageManager.ResetBallCall();
         }
         else
         {

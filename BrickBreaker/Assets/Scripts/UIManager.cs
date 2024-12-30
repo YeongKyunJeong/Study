@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PanelButtonManager panelButtonManager;
     [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
     [SerializeField] private InputManager inputManager;
-    public InputManager GetInputManager{ get { return inputManager; } private set { inputManager = value; } }
+    public InputManager GetInputManager { get { return inputManager; } private set { inputManager = value; } }
 
     public void Initialize(BrickData brickData, StageManager stageManager = null)
     {
@@ -57,7 +57,7 @@ public class UIManager : MonoBehaviour
             Debug.LogError("SoundManager Not Detected");
         }
 
-        if(inputManager != null)
+        if (inputManager != null)
         {
             inputManager.Initialize();
         }
@@ -77,10 +77,17 @@ public class UIManager : MonoBehaviour
         soundManager.PlaySFX(inputSFXType);
     }
 
-    public void ChangeStage(Paddle newPaddle)
+    public void ChangeStage(Paddle newPaddle, StageManager stageManager = null)
     {
         aspectRatioEnforcer.ChangeSceneWithoutCamera();
-        inputManager.ChangePaddle(newPaddle);
+        if (stageManager == null)
+        {
+            inputManager.ChangeStage(newPaddle);
+        }
+        else
+        {
+            inputManager.ChangeStage(newPaddle, stageManager);
+        }
     }
 
     public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)
@@ -88,10 +95,20 @@ public class UIManager : MonoBehaviour
         scoreManager.ChangeNumber(inputInt, changedNumber);
     }
 
+    public void ResumeGame()
+    {
+        panelButtonManager.ResetPanel();
+    }
+
+    public void PauseGame()
+    {
+        panelButtonManager.PauseGame();
+    }
+
     public void ResetStage(int scoreAtStart, int livesAtStart)
     {
         scoreManager.ResetStage(scoreAtStart, livesAtStart);
-        panelButtonManager.ResetStage();
+        panelButtonManager.ResetPanel();
     }
 
     public void GameOver()
