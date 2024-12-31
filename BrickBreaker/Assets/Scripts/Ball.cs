@@ -82,7 +82,6 @@ public class Ball : MonoBehaviour
 
     public void ShootBallAtStart()
     {
-        ResetBall();
         if (coroutine != null)
         {
             coroutine = null;
@@ -90,10 +89,14 @@ public class Ball : MonoBehaviour
         coroutine = StartCoroutine(CoroutineAtStart());
     }
 
-    public void ResetBall()
+    public void ResetBall(bool reshootBall)
     {
         rigidBody.velocity = Vector2.zero;
         transform.position = firstPosition;
+        if (reshootBall)
+        {
+            ShootBallAtStart();
+        }
     }
 
     IEnumerator SaveStartSpeed()
@@ -153,7 +156,6 @@ public class Ball : MonoBehaviour
 
         if ((offset < deflectionStartOffset) && (offset > -deflectionStartOffset))
         {
-
         }
         else
         {
@@ -173,8 +175,12 @@ public class Ball : MonoBehaviour
             //Debug.Log(Mathf.Cos(angle));
             speedCorrector = Mathf.Abs(angle) / 90f;
         }
-        if(Mathf.Abs(angle) > 10)
-        speedCorrector = 1 / (1 - speedCorrector * speedCorrector * speedCorrector);
+        if (Mathf.Abs(angle) > 10)
+            speedCorrector = 1 / (1 - speedCorrector * speedCorrector * speedCorrector);
+        else
+        {
+            speedCorrector = 1;
+        }
         Debug.Log(speedCorrector);
         rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
 
