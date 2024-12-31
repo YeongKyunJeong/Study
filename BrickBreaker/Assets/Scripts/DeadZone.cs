@@ -5,22 +5,12 @@ using UnityEngine;
 public class DeadZone : MonoBehaviour
 {
     private LayerMask ballLayer;
-    private bool doesGameManagerExist = true;
-    private StageManager stageManager;
     private GameManager gameManager;
     [SerializeField] private bool isBelowWall = false;
 
-    public void Initialize(LayerMask ballLayer, StageManager stageManager = null)
+    public void Initialize(LayerMask ballLayer)
     {
-        if (stageManager != null)
-        {
-            doesGameManagerExist = false;
-            this.stageManager = stageManager;
-        }
-        else
-        {
-            gameManager = GameManager.Instance;
-        }
+        gameManager = GameManager.Instance;
         this.ballLayer = ballLayer;
     }
 
@@ -29,14 +19,7 @@ public class DeadZone : MonoBehaviour
         if (isBelowWall)
             if (collision.gameObject.layer == ballLayer)
             {
-                if (doesGameManagerExist)
-                {
-                    gameManager.DeadZoneOut();
-                }
-                else
-                {
-                    stageManager.TempDeadZoneOut();
-                }
+                gameManager.DeadZoneOut();
             }
     }
 }

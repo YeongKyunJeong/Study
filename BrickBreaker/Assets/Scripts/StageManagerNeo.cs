@@ -23,10 +23,33 @@ public class StageManagerNeo : MonoBehaviour
 
     #region External Reference
     private GameManager gameManager;
-    private GameObject GameManagerPrefab;
+    public GameObject GameManagerPrefab;
     #endregion
 
     private void Awake()
+    {
+        CheckGameManager();
+        CheckGameElemets();
+        SendStageDataToGameManager();
+    }
+
+    private void CheckGameElemets()
+    {
+        if (paddle == null)
+        {
+            paddle = FindFirstObjectByType<Paddle>();
+        }
+        if (ball == null)
+        {
+            ball = FindFirstObjectByType<Ball>();
+        }
+        if (bricks.Length == 0)
+        {
+            bricks = FindObjectsByType<Brick>(FindObjectsSortMode.None);
+        }
+    }
+
+    private void CheckGameManager()
     {
         if (GameManager.Instance == null)
         {
@@ -36,10 +59,9 @@ public class StageManagerNeo : MonoBehaviour
         else
         {
             Debug.Log("GameManager Detected");
-            return;
         }
         gameManager = GameManager.Instance;
-        SendStageDataToGameManager();
+
     }
 
     private void SendStageDataToGameManager()

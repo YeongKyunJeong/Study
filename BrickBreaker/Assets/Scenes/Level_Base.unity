@@ -535,10 +535,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 347835532}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81a4a60b7094e54bbedc17bfbb7184f, type: 3}
+  m_Script: {fileID: 11500000, guid: 39c44c3c3db5e4d479f026630c2c7e1e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  level: 1
+  level: 0
   paddle: {fileID: 114553254}
   ball: {fileID: 1981119325}
   bricks:
@@ -577,18 +577,12 @@ MonoBehaviour:
   - {fileID: 1914211627}
   - {fileID: 1914211626}
   - {fileID: 1914211625}
-  brickData: {fileID: 0}
   walls:
   - {fileID: 1127597723}
   - {fileID: 345560087}
   - {fileID: 441860935}
   - {fileID: 1656981575}
-  doesGameManagerExist: 1
-  uiPrefab: {fileID: 5467720938249228142, guid: 581ee7ce83ef4184eaaf29ec41c89440, type: 3}
-  uiManager: {fileID: 0}
-  tempScore: 0
-  tempLives: 0
-  tempLeftBrickCount: 0
+  GameManagerPrefab: {fileID: 3380511778232568454, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
 --- !u!4 &427236254 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7436125756531227570, guid: 382d8d55858e8094aae624b39d6b3d63, type: 3}

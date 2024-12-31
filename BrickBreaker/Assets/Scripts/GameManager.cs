@@ -19,7 +19,7 @@ public class GameManager : MonoBehaviour
     private bool isMainMenuOn = false;
 
     public int myScoreAtStart = 0;
-    public int livesAtStart = 0;
+    public int livesAtStart = 3;
 
 
     [SerializeField] private UIManager uiManager;
@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Ball ball;
     [SerializeField] private Brick[] bricks;
     [SerializeField] private BrickData brickData;
+    [SerializeField] private DeadZone[] walls;
+
     //[SerializeField] private StageManager stageManager;
     [SerializeField] private StageManagerNeo stageManagerNeo;
 
@@ -52,10 +54,11 @@ public class GameManager : MonoBehaviour
 
         if (isTemporaryGameManager)
         {
-            DontDestroyOnLoad(this.gameObject);
+
         }
         else
         {
+            DontDestroyOnLoad(this.gameObject);
             totalLevelCount = SceneManager.sceneCountInBuildSettings;
             Debug.Log(totalLevelCount);
         }
@@ -88,7 +91,7 @@ public class GameManager : MonoBehaviour
         {
             uiManager = FindFirstObjectByType<UIManager>();
         }
-        uiManager.Initialize(brickData);
+        uiManager.Initialize(brickData, isTemporaryGameManager);
         InputManager.OnESCInput += ESCCall;
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -110,8 +113,20 @@ public class GameManager : MonoBehaviour
         this.stageManagerNeo = stageManagerNeo;
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
+        leftBrickCount = bricks.Length;
+        foreach (Brick brick in bricks)
+        {
+            brick.Initialize(ballLayer, brickData);
+        }
+        walls = stageManagerNeo.walls;
+        foreach (DeadZone wall in walls)
+        {
+            wall.Initialize(ballLayer);
+        }
         ball = stageManagerNeo.ball;
+        ball.Initialize();
         paddle = stageManagerNeo.paddle;
+        paddle.Initialize();
 
         DoUIManagerSetting();
     }
@@ -276,7 +291,7 @@ public class GameManager : MonoBehaviour
 
         if (lives > 0)
         {
-            stageManager.ResetBallCall();
+            ResetBallCall();
         }
         else
         {

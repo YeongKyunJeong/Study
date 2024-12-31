@@ -7,7 +7,6 @@ public class Ball : MonoBehaviour
     public Rigidbody2D rigidBody { get; private set; }
 
     private GameManager gameManager;
-    private StageManager stageManager;
 
     private float deflectionStartOffset = 0.75f;
     private Vector2 force = Vector2.zero;
@@ -20,7 +19,6 @@ public class Ball : MonoBehaviour
     private Coroutine coroutine;
     private Quaternion rotation;
     private Vector2 firstPosition;
-    private bool doesGameManagerExist = true;
     private SFXType paddleHitType = SFXType.PaddleHit;
 
     public float speed;
@@ -31,9 +29,10 @@ public class Ball : MonoBehaviour
     //private WaitForFixedUpdate waitForFixedFrame;
     private LayerMask ballLayer;
     private LayerMask paddleLayer;
+    private LayerMask bricksLayer;
     //private LayerMask bricksLayer;
 
-    public void Initialize(StageManager stageManager = null)
+    public void Initialize()
     {
         if (rigidBody == null)
         {
@@ -41,20 +40,12 @@ public class Ball : MonoBehaviour
         }
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
+        bricksLayer = LayerMask.NameToLayer("Bricks");
         //bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
         halfWidth = 2.5f;
 
-        if (stageManager == null)
-        {
-            doesGameManagerExist = true;
-            gameManager = GameManager.Instance;
-        }
-        else
-        {
-            doesGameManagerExist = false;
-            this.stageManager = stageManager;
-        }
+        gameManager = GameManager.Instance;
 
         firstPosition = transform.position;
 
@@ -123,13 +114,15 @@ public class Ball : MonoBehaviour
         SetRandomDirection();
         yield return null;
     }
-
+    float save = 0;
+    float save2 = 0;
+    float save3 = 0;
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == paddleLayer)
         {
             if (rigidBody.velocity.y > 0)
-                DeflectBall(collision);
+                HitPaddle(collision);
 
         }
         if (collision.gameObject.layer == ballLayer)
@@ -140,14 +133,14 @@ public class Ball : MonoBehaviour
         //{
         //    collision.
         //}
-        else
+        else if (collision.gameObject.layer == bricksLayer)
         {
-
+            HitBrick(collision);
         }
         //StartCoroutine(SaveStartSpeed());
     }
 
-    private void DeflectBall(Collision2D collision)
+    private void HitPaddle(Collision2D collision)
     {
         PlayPaddleHitSFX();
         paddPosition = collision.transform.position;
@@ -173,29 +166,41 @@ public class Ball : MonoBehaviour
             rigidBody.velocity = rotation * Vector2.up;
             //Debug.Log("Angle :" + angle + "/ " + Mathf.Cos(angle));
             //Debug.Log(Mathf.Cos(angle));
-            speedCorrector = Mathf.Abs(angle) / 90f;
         }
         if (Mathf.Abs(angle) > 10)
-            speedCorrector = 1 / (1 - speedCorrector * speedCorrector * speedCorrector);
+        {
+            speedCorrector = Mathf.Abs(angle) / 90f;
+            save = speedCorrector;
+            save2 = (1 - Mathf.Abs(save * save * save));
+            speedCorrector = 1 / (1 - Mathf.Abs(speedCorrector * speedCorrector * speedCorrector));
+            save3 = 1 / save2;
+        }
         else
         {
             speedCorrector = 1;
         }
-        Debug.Log(speedCorrector);
+
+        if ((Mathf.Abs(speedCorrector) > 2) || (Mathf.Abs(speedCorrector) < 1))
+        {
+            Debug.Log("speedCorrector : " + speedCorrector);
+            Debug.Log("angle : " + angle);
+            Debug.Log("x : " + Mathf.Abs(angle) / 90f);
+
+        }
+
+        //Debug.Log(speedCorrector);
         rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
 
-        return;
     }
+
+    private void HitBrick(Collision2D collision)
+    {
+
+    }
+
 
     public void PlayPaddleHitSFX()
     {
-        if (doesGameManagerExist)
-        {
-            gameManager.PlaySFX(paddleHitType);
-        }
-        else
-        {
-            stageManager.PlaySFX(paddleHitType);
-        }
+        gameManager.PlaySFX(paddleHitType);
     }
 }

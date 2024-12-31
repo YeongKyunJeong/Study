@@ -14,28 +14,19 @@ public class Brick : MonoBehaviour
 
     private LayerMask ballLayer;
     private BrickData brickData;
-    private StageManager stageManager;
     private bool isBroken = false;
     private bool doesGameManagerExists = true;
 
     private SFXType brickHitType = SFXType.BrickHit;
     private SFXType brickBreakType = SFXType.BrickBreak;
 
-    public void Initialize(LayerMask ballLayer, BrickData brickData, StageManager stageManager = null)
+    public void Initialize(LayerMask ballLayer, BrickData brickData)
     {
         this.brickData = brickData;
         this.ballLayer = ballLayer;
         isBroken = false;
 
-        if (stageManager != null)
-        {
-            this.stageManager = stageManager;
-            doesGameManagerExists = false;
-        }
-        else
-        {
-            gameManager = GameManager.Instance;
-        }
+        gameManager = GameManager.Instance;
 
         ResetBrick();
 
@@ -68,28 +59,15 @@ public class Brick : MonoBehaviour
             isBroken = true;
         }
 
-        if (doesGameManagerExists)
-        {
-            gameManager.ScoreUp(points, isBroken);
-        }
-        else
-        {
-            stageManager.TempScoreUp(points, isBroken);
-        }
+        gameManager.ScoreUp(points, isBroken);
+
     }
 
     public void PlayBrickSFX(SFXType inputSFX)
     {
-        if (doesGameManagerExists)
-        {
-            gameManager.PlaySFX(inputSFX);
-        }
-        else
-        {
-            stageManager.PlaySFX(inputSFX);
-        }
+        gameManager.PlaySFX(inputSFX);
     }
-    
+
     public void ResetBrick()
     {
         this.gameObject.SetActive(true);

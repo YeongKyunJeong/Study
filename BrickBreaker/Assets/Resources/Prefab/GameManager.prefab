@@ -49,14 +49,17 @@ MonoBehaviour:
   myScore: 0
   lives: 3
   myScoreAtStart: 0
-  livesAtStart: 0
+  livesAtStart: 3
   uiManager: {fileID: 4941341726098871294}
-  soundManager: {fileID: 0}
+  soundManager: {fileID: 9134776751690177078}
+  isTemporaryGameManager: 1
   isNewGame: 1
   paddle: {fileID: 0}
   ball: {fileID: 0}
+  bricks: []
   brickData: {fileID: 0}
-  stageManager: {fileID: 0}
+  walls: []
+  stageManagerNeo: {fileID: 0}
   leftBrickCount: -1
 --- !u!1001 &8010402854619454450
 PrefabInstance:
@@ -169,5 +172,16 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9b6a5bd864f20342a3d928495df26a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &9134776751690177078 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1292416519785103812, guid: 581ee7ce83ef4184eaaf29ec41c89440, type: 3}
+  m_PrefabInstance: {fileID: 8010402854619454450}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6b7563842baacda4daa440ed4fb46ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

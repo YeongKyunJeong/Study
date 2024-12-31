@@ -25,9 +25,9 @@ public class Paddle : MonoBehaviour
         if (paddleHandler == null)
         {
             paddleHandler = GetComponent<PaddleHandler>();
-            paddleHandler.OnMovementInput += MovePaddle;
         }
         paddleHandler.Initialize();
+        paddleHandler.OnMovementInput += MovePaddle;
 
         ResetPaddle();
     }
