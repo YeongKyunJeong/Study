@@ -50,6 +50,7 @@ public class StageManager : MonoBehaviour
         tempLives = 3;
         DoUIManagerSetting(false);
         isMainMenuOn = false;
+        InputManager.OnESCInput += ESCCall;
     }
 
     private void DoUIManagerSetting(bool doesGameManagerExist, UIManager uiManager = null)
@@ -166,14 +167,12 @@ public class StageManager : MonoBehaviour
 
     public void ResetBallCall(bool reshootBall = true)
     {
-        ball.ResetBall();
-        if (reshootBall)
-            ball.ShootBallAtStart();
+        ball.ResetBall(reshootBall);
     }
 
     public void ResetPaddleCall()
     {
-        inputManager.ResetPaddle();
+        paddle.ResetPaddle();
     }
 
     public void ResetCall(int score = 0, int lives = 3)
@@ -185,7 +184,7 @@ public class StageManager : MonoBehaviour
     {
         TimeControler.TimeScaler(1);
         uiManager.ResetStage(score, lives);
-        inputManager.ResetPaddle();
+        ResetPaddleCall();
         ResetBallCall();
         foreach (Brick brick in bricks)
         {

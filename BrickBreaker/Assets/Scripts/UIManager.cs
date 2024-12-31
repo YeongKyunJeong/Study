@@ -80,14 +80,6 @@ public class UIManager : MonoBehaviour
     public void ChangeStage(Paddle newPaddle, StageManager stageManager = null)
     {
         aspectRatioEnforcer.ChangeSceneWithoutCamera();
-        if (stageManager == null)
-        {
-            inputManager.ChangeStage(newPaddle);
-        }
-        else
-        {
-            inputManager.ChangeStage(newPaddle, stageManager);
-        }
     }
 
     public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)

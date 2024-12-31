@@ -80,7 +80,7 @@ public class GameManager : MonoBehaviour
             uiManager = FindFirstObjectByType<UIManager>();
         }
         uiManager.Initialize(brickData);
-
+        InputManager.OnESCInput += ESCCall;
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         if (isNewGame)

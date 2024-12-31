@@ -5,12 +5,11 @@ using UnityEngine.InputSystem;
 
 public class Paddle : MonoBehaviour
 {
-    public Rigidbody2D rigidBody { get; private set; }
-    public Vector2 direction { get; private set; }
-    public float speed = 25f;
-
     [SerializeField]
-    private int movingMode = 0;
+    private PaddleHandler paddleHandler;
+
+    public float speed = 15f;
+    public Rigidbody2D rigidBody { get; private set; }
 
     public Vector2 firstPosition { get; private set; }
 
@@ -23,54 +22,34 @@ public class Paddle : MonoBehaviour
         }
         firstPosition = transform.position;
 
+        if (paddleHandler == null)
+        {
+            paddleHandler = GetComponent<PaddleHandler>();
+            paddleHandler.OnMovementInput += MovePaddle;
+        }
+        paddleHandler.Initialize();
 
-        //Debug.Log("Paddle Ready");
+        ResetPaddle();
     }
 
-    //private void Update()
-    //{
-    //    horizontalInput = Input.GetAxisRaw(horizontalBtn);
-    //    if (horizontalInput > inputMin)
-    //    {
-    //        direction = Vector2.right;
-    //    }
-    //    else if (horizontalInput < -inputMin)
-    //    {
-    //        direction = Vector2.left;
-    //    }
-    //    else
-    //    {
-    //        direction = Vector2.zero;
-    //    }
-    //}
+    public void MovePaddle(Vector2 moveDirection)
+    {
+        if (moveDirection == Vector2.zero)
+        {
+            //rigidBody.velocity = Vector2.zero;
+            return;
+        }
+        else
+        {
+            rigidBody.velocity = moveDirection * speed;
+        }
+    }
 
-    //public void ResetPaddle()
-    //{
-    //    transform.position = firstPosition;
-    //    rigidBody.velocity = Vector2.zero;
-    //}
+    public void ResetPaddle()
+    {
+        transform.position = firstPosition;
+        rigidBody.velocity = Vector2.zero;
+    }
 
-    //private void FixedUpdate()
-    //{
-    //    if (movingMode == 0)
-    //    {
-    //        if (direction == Vector2.zero)
-    //        {
-    //            //rigidBody.velocity = Vector2.zero;
-    //            return;
-    //        }
-    //        else
-    //        {
-    //            rigidBody.velocity = direction * speed;
-    //        }
-    //    }
-    //    //else
-    //    //{
-    //    //    if (direction != Vector2.zero)
-    //    //    { 
-    //    //        rigidBody.AddForce(direction * speed);
-    //    //    }
-    //    //}
-    //}
 
 }
