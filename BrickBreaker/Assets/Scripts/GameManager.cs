@@ -25,11 +25,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SoundManager soundManager;
 
+    [SerializeField] private bool isTemporaryGameManager = true;
+
     [SerializeField] private bool isNewGame = true;
     [SerializeField] private Paddle paddle;
     [SerializeField] private Ball ball;
+    [SerializeField] private Brick[] bricks;
     [SerializeField] private BrickData brickData;
-    [SerializeField] private StageManager stageManager;
+    //[SerializeField] private StageManager stageManager;
+    [SerializeField] private StageManagerNeo stageManagerNeo;
 
     private SFXType fallSFXTye = SFXType.Fall;
 
@@ -41,18 +45,23 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
     private void Awake()
     {
-
         if (instance == null)
         {
             Instance = this;
         }
-        totalLevelCount = SceneManager.sceneCountInBuildSettings;
-        Debug.Log(totalLevelCount);
+
+        if (isTemporaryGameManager)
+        {
+            DontDestroyOnLoad(this.gameObject);
+        }
+        else
+        {
+            totalLevelCount = SceneManager.sceneCountInBuildSettings;
+            Debug.Log(totalLevelCount);
+        }
         ballLayer = LayerMask.NameToLayer("Ball");
         isMainMenuOn = false;
         //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
-
-        DontDestroyOnLoad(this.gameObject);
 
         Initialize();
     }
@@ -83,23 +92,36 @@ public class GameManager : MonoBehaviour
         InputManager.OnESCInput += ESCCall;
         SceneManager.sceneLoaded += OnSceneLoaded;
 
-        if (isNewGame)
-            StartNewGame();
-    }
-
-    private void FindStageManagerAndInitialize()
-    {
-        stageManager = FindFirstObjectByType<StageManager>();
-        if (stageManager == null)
+        if (isTemporaryGameManager)
         {
-            Debug.LogError("No StageManager detected");
             return;
         }
         else
         {
-            stageManager.Initialize(ballLayer, uiManager, brickData);
-            leftBrickCount = stageManager.bricks.Length;
+            if (isNewGame)
+                StartNewGame();
+            else
+            { }// # To do: Add other game starting options;
         }
+    }
+
+    public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
+    {
+        this.stageManagerNeo = stageManagerNeo;
+        level = stageManagerNeo.GetLevel;
+        bricks = stageManagerNeo.bricks;
+        ball = stageManagerNeo.ball;
+        paddle = stageManagerNeo.paddle;
+
+        DoUIManagerSetting();
+    }
+
+    private void DoUIManagerSetting()
+    {
+        this.uiManager.ChangeNumber(level, UINumberCategory.Level);
+        this.uiManager.ChangeNumber(lives, UINumberCategory.Life);
+        this.uiManager.ChangeNumber(myScore, UINumberCategory.Score);
+        this.uiManager.ChangeStage();
     }
 
     private void StartNewGame()
@@ -141,8 +163,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("Main Scene");
         }
-        else
-            FindStageManagerAndInitialize();
+        //else
+        //    FindStageManagerAndInitialize();
     }
 
     public void ScoreUp(int score, bool isBroken = false)
@@ -224,8 +246,26 @@ public class GameManager : MonoBehaviour
         {
             myScore = myScoreAtStart;
             lives = livesAtStart;
-            stageManager.ResetCall(myScoreAtStart, livesAtStart);
+
+            TimeControler.TimeScaler(1);
+            uiManager.ResetStage(myScore, lives);
+            ResetPaddleCall();
+            ResetBallCall();
+            foreach (Brick brick in bricks)
+            {
+                brick.ResetBrick();
+            }
         }
+    }
+
+    public void ResetBallCall(bool reshootBall = true)
+    {
+        ball.ResetBall(reshootBall);
+    }
+
+    public void ResetPaddleCall()
+    {
+        paddle.ResetPaddle();
     }
 
     public void DeadZoneOut()
@@ -245,6 +285,7 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game Over");
         }
     }
+
 }
 
 public static class TimeControler

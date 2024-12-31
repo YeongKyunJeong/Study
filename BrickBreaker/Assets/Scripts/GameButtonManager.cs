@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class GameButtonManager : MonoBehaviour
 {
-    public void Initialize(StageManager stageManager = null)
+    public void Initialize(bool isTemporaryGameManager)
     {
 
     }

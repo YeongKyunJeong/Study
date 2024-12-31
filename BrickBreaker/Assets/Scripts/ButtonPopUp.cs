@@ -5,20 +5,12 @@ using UnityEngine;
 
 public class ButtonPopUp : PopUp
 {
-    public override void Initialize(StageManager stageManager = null)
+    public override void Initialize(bool isTemporaryGameManager)
     {
         isInitializing = true;
         go = this.gameObject;
-        if (stageManager == null)
-        {
-            doseGameManagerExist = true;
-            gameManager = GameManager.Instance;
-        }
-        else
-        {
-            doseGameManagerExist = false;
-            this.stageManager = stageManager;
-        }
+        this.isTemporaryGameManager = isTemporaryGameManager;
+        gameManager = GameManager.Instance;
         SetActive(false);
     }
 
@@ -29,8 +21,8 @@ public class ButtonPopUp : PopUp
         {
             isInitializing = false;
             buttons[0].interactable = true;
-            buttons[1].interactable = doseGameManagerExist;
-            if (!doseGameManagerExist)
+            buttons[1].interactable = !isTemporaryGameManager;
+            if (isTemporaryGameManager)
             {
                 TextMeshProUGUI disabledBtnTMP = buttons[1].GetComponentInChildren<TextMeshProUGUI>();
                 Color disabledBtnTMPColor = disabledBtnTMP.color;

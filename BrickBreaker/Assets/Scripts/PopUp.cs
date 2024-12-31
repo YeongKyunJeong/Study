@@ -6,12 +6,11 @@ using UnityEngine.UI;
 public abstract class PopUp : MonoBehaviour
 {
     protected GameObject go;
-    protected bool doseGameManagerExist;
+    protected bool isTemporaryGameManager;
     protected GameManager gameManager;
-    protected StageManager stageManager;
     protected bool isInitializing = true;
     public Button[] buttons;
 
-    public abstract void Initialize(StageManager stageManager = null);
+    public abstract void Initialize(bool isTemporaryGameManager);
 
 }

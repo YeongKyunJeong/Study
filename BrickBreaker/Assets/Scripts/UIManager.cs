@@ -12,7 +12,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private InputManager inputManager;
     public InputManager GetInputManager { get { return inputManager; } private set { inputManager = value; } }
 
-    public void Initialize(BrickData brickData, StageManager stageManager = null)
+    public void Initialize(BrickData brickData, bool isTemporaryGameManager)
     {
 
         if (scoreManager != null)
@@ -26,10 +26,7 @@ public class UIManager : MonoBehaviour
 
         if (gsButtonManager != null)
         {
-            if (stageManager == null)
-                gsButtonManager.Initialize();
-            else
-                gsButtonManager.Initialize(stageManager); ;
+                gsButtonManager.Initialize(isTemporaryGameManager); ;
         }
         else
         {
@@ -38,10 +35,7 @@ public class UIManager : MonoBehaviour
 
         if (panelButtonManager != null)
         {
-            if (stageManager == null)
-                panelButtonManager.Initialize();
-            else
-                panelButtonManager.Initialize(stageManager); ;
+                panelButtonManager.Initialize(isTemporaryGameManager); ;
         }
         else
         {
@@ -77,7 +71,7 @@ public class UIManager : MonoBehaviour
         soundManager.PlaySFX(inputSFXType);
     }
 
-    public void ChangeStage(Paddle newPaddle, StageManager stageManager = null)
+    public void ChangeStage()
     {
         aspectRatioEnforcer.ChangeSceneWithoutCamera();
     }

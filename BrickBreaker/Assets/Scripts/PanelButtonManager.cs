@@ -7,7 +7,7 @@ public class PanelButtonManager : MonoBehaviour
     public GameOverPopUp gameOverPopUp;
     public PausePopUp pausePopUp;
 
-    public void Initialize(StageManager stageManager = null)
+    public void Initialize(bool isTemporaryGameManager)
     {
         if (gameOverPopUp == null)
         {
@@ -18,16 +18,10 @@ public class PanelButtonManager : MonoBehaviour
             pausePopUp = FindFirstObjectByType<PausePopUp>();
         }
 
-        if (stageManager == null)
-        {
-            gameOverPopUp.Initialize();
-            pausePopUp.Initialize();
-        }
-        else
-        {
-            gameOverPopUp.Initialize(stageManager);
-            pausePopUp.Initialize(stageManager);
-        }
+        
+            gameOverPopUp.Initialize(isTemporaryGameManager);
+            pausePopUp.Initialize(isTemporaryGameManager);
+        
 
         ResetPanel();
     }

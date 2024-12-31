@@ -13,8 +13,8 @@ public class GameOverPopUp : ButtonPopUp
         {
             isInitializing = false;
             buttons[0].interactable = true;
-            buttons[1].interactable = doseGameManagerExist;
-            if (!doseGameManagerExist)
+            buttons[1].interactable = !isTemporaryGameManager;
+            if (isTemporaryGameManager)
             {
                 TextMeshProUGUI disabledBtnTMP = buttons[1].GetComponentInChildren<TextMeshProUGUI>();
                 Color disabledBtnTMPColor = disabledBtnTMP.color ;
@@ -25,9 +25,6 @@ public class GameOverPopUp : ButtonPopUp
     }
     public void ClickResetButton(bool isFullReset)
     {
-        if (doseGameManagerExist)
             gameManager.ResetCall(isFullReset);
-        else
-            stageManager.ResetCall();
     }
 }
