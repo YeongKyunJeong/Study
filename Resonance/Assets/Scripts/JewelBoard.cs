@@ -60,6 +60,9 @@ public class JewelBoard : MonoBehaviour
     private int[] itemDefaultActivatedArray;
     private int tempInd = 0;
     private int tempInd2 = 0;
+    private int tempInd3 = 0;
+    public JewelRoom tempJewelRoom;
+    Vector2Int tempVector2Int = Vector2Int.zero;
     private int xDiff = 0;
     private int yDiff = 0;
     #endregion
@@ -167,15 +170,71 @@ public class JewelBoard : MonoBehaviour
 
                 if (chainedRooms.Count >= puzzlSize)
                 {
-                    PopJewel(chainedRooms);
-                    DeactivateJewel(chainedRooms[0]);
-                    UpdateSelectable();
+                    Resonance(chainedRooms);
                 }
 
             }
 
             EndClick();
         }
+    }
+
+    private void Resonance(List<JewelRoom> completedJewelRooms)
+    {
+        PopJewel(completedJewelRooms);
+        EliminateNearbyTrap();
+        DeactivateJewel(completedJewelRooms[0]);
+        UpdateSelectable();
+    }
+
+    private void EliminateNearbyTrap()
+    {
+        // check four nearby jewels of poped jewels
+        for (int i = 0; i < chainedRooms.Count; i++)
+        {
+            tempVector2Int = chainedRooms[i].cord;
+            tempInd = -1;
+
+            if (tempVector2Int.x > 0)   // Left jewel
+            {
+                tempJewelRoom = jewelRooms[tempVector2Int.x - 1 + tempVector2Int.y * puzzlSize];
+                if (!chainedRooms.Contains(tempJewelRoom))
+                    if (tempJewelRoom.jewelType >= 10 && tempJewelRoom.jewelType < 20)
+                    {
+                        tempJewelRoom.JewelUpdate(false, Random.Range(0, 7));
+                    }
+            }
+
+            if (tempVector2Int.x < puzzlSize - 1)   // Right jewel
+            {
+                tempJewelRoom = jewelRooms[tempVector2Int.x + 1 + tempVector2Int.y * puzzlSize];
+                if (!chainedRooms.Contains(tempJewelRoom))
+                    if (tempJewelRoom.jewelType >= 10 && tempJewelRoom.jewelType < 20)
+                    {
+                        tempJewelRoom.JewelUpdate(false, Random.Range(0, 7));
+                    }
+            }
+            if (tempVector2Int.y > 0)   // Above jewel
+            {
+                tempJewelRoom = jewelRooms[tempVector2Int.x + (tempVector2Int.y - 1) * puzzlSize];
+                if (!chainedRooms.Contains(tempJewelRoom))
+                    if (tempJewelRoom.jewelType >= 10 && tempJewelRoom.jewelType < 20)
+                    {
+                        tempJewelRoom.JewelUpdate(false, Random.Range(0, 7));
+                    }
+            }
+            if (tempVector2Int.y < puzzlSize - 1)   // Bellow jewel
+            {
+                tempJewelRoom = jewelRooms[tempVector2Int.x + (tempVector2Int.y + 1) * puzzlSize];
+                if (!chainedRooms.Contains(tempJewelRoom))
+                    if (tempJewelRoom.jewelType >= 10 && tempJewelRoom.jewelType < 20)
+                    {
+                        tempJewelRoom.JewelUpdate(false, Random.Range(0, 7));
+                    }
+            }
+
+        }
+
     }
 
     private void PopJewel(List<JewelRoom> targetJewels, int[] nextJewelTypeIDs = null)
@@ -188,7 +247,18 @@ public class JewelBoard : MonoBehaviour
             nextJewelTypeIDs = new int[defaultNextJewelTypeIDs.Length];
             defaultNextJewelTypeIDs.CopyTo(nextJewelTypeIDs, 0);
 
-            if (level > /*1*/ -1 /*임시*/)
+            if (level >= 10)
+            {
+                tempInd2 = Random.Range(0, targetJewels.Count);
+                nextJewelTypeIDs[tempInd2] = Random.Range(0, 1) + 10;
+                do
+                {
+                    tempInd3 = Random.Range(0, targetJewels.Count);
+                } while (tempInd3 != tempInd2);
+                nextJewelTypeIDs[tempInd3] = Random.Range(0, 1) + 10;
+
+            }
+            else if (level >= 1)
             {
                 tempInd2 = Random.Range(0, targetJewels.Count);
                 nextJewelTypeIDs[tempInd2] = Random.Range(0, 1) + 10;
@@ -240,7 +310,7 @@ public class JewelBoard : MonoBehaviour
             if (popingTrapTypeCounts[i] > 0)
             {
                 tempInd -= 30/*임시 값*/;
-                Debug.Log(i + " : " + popingTrapTypeCounts[i] + " : " + - 30/*임시 값*/);
+                Debug.Log(i + " : " + popingTrapTypeCounts[i] + " : " + -30/*임시 값*/);
             }
         }
         gameManager.ScoreChangeCall(tempInd);
@@ -353,7 +423,7 @@ public class JewelBoard : MonoBehaviour
         isDeactivating = false;
     }
 
-    void DeactivateJewel(JewelRoom targetRoom)
+    void DeactivateJewel(JewelRoom targetRoom, bool resetChainedRoom = true)
     {
 
         tempInd = chainedRooms.IndexOf(targetRoom);
@@ -377,6 +447,7 @@ public class JewelBoard : MonoBehaviour
             chainDir = chainDirHistory[tempInd - 1];
         }
     }
+
 
     // 드래그 중 이전 보석으로 마우스 위치를 바꾼 경우 or 마지막으로 선택한 보석을 다른 보석으로 바꾸기 위해 돌아가는 경우
     void Rollback(JewelRoom targetRoom)
