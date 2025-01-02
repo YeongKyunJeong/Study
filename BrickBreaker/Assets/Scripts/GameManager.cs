@@ -9,40 +9,55 @@ public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
+    #region Magic Number
     private string levelCallingStringWith0 = "Level0";
     private int totalLevelCount = 0;
     private string levelCallingString = "Level";
-    private string tempString = null;
+    private string titleSceneString = "Global";
+    private int titleSceneNumber = 0;
+    private SFXType fallSFXTye = SFXType.Fall;
+    private LayerMask ballLayer;
+    #endregion
+
+    #region Player Status
+    public int myScoreAtStageStart = 0;
+    private int myScoreAtGameStart = 0;
+    public int livesAtStageStart = 3;
+    private int livesAtGameStart = 3;
+
     public int level = 1;
     public int myScore = 0;
     public int lives = 3;
+
+    [SerializeField] private int leftBrickCount = -1;
+    private bool stageCleared = false;
+    #endregion
+
+    #region Boolean
+    [SerializeField] private bool isNewGame = true;
+    [SerializeField] private bool isTemporaryGameManager = true;
     private bool isMainMenuOn = false;
+    #endregion
 
-    public int myScoreAtStart = 0;
-    public int livesAtStart = 3;
+    #region Logic Parameter
+    private string tempString = null;
+    #endregion
 
-
+    #region External Reference
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SoundManager soundManager;
+    [SerializeField] private TitleScene titleScene;
 
-    [SerializeField] private bool isTemporaryGameManager = true;
-
-    [SerializeField] private bool isNewGame = true;
+    #region Stage Object
     [SerializeField] private Paddle paddle;
     [SerializeField] private Ball ball;
     [SerializeField] private Brick[] bricks;
     [SerializeField] private BrickData brickData;
     [SerializeField] private DeadZone[] walls;
-
-    //[SerializeField] private StageManager stageManager;
     [SerializeField] private StageManagerNeo stageManagerNeo;
+    #endregion
 
-    private SFXType fallSFXTye = SFXType.Fall;
-
-    private LayerMask ballLayer;
-
-    private bool stageCleared = false;
-    [SerializeField] private int leftBrickCount = -1;
+    #endregion
 
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
     private void Awake()
@@ -64,27 +79,17 @@ public class GameManager : MonoBehaviour
         }
         ballLayer = LayerMask.NameToLayer("Ball");
         isMainMenuOn = false;
-        //Addressables.LoadAssetAsync<BrickData>("Assets/Scripts/BrickData.asset").Completed += OnBrickDataLoad;
 
         Initialize();
     }
 
-    //private void OnBrickDataLoad(AsyncOperationHandle<BrickData> loadedBrickData)
-    //{
-    //    if (loadedBrickData.Status == AsyncOperationStatus.Succeeded)
-    //    {
-    //        brickData = loadedBrickData.Result;
-    //        brickData.Initialize();
-    //    }
-    //    else
-    //    {
-    //        Debug.LogError("GameManager : BrickData load error");
-    //    }
-    //}
-
     private void Initialize()
     {
-        brickData = Resources.Load<BrickData>("Data/BrickData");
+        //brickData = Resources.Load<BrickData>("Address");
+        if (brickData == null)
+        {
+            Debug.LogError("BrickData asset not detected");
+        }
         brickData.Initialize();
 
         if (uiManager == null)
@@ -97,15 +102,65 @@ public class GameManager : MonoBehaviour
 
         if (isTemporaryGameManager)
         {
-            return;
+            uiManager.gameObject.SetActive(true);
         }
         else
         {
-            if (isNewGame)
-                StartNewGame();
-            else
-            { }// # To do: Add other game starting options;
+            uiManager.gameObject.SetActive(false);
+
+            if (titleScene == null)
+            {
+                titleScene = FindFirstObjectByType<TitleScene>();
+            }
+            titleScene.gameObject.SetActive(true);
+            titleScene.Initialize();
         }
+    }
+
+    public void StartGameCall()
+    {
+        StartGame();
+    }
+
+    private void StartGame()
+    {
+        uiManager.gameObject.SetActive(true);
+        if (isNewGame)
+        {
+            StartNewGame();
+        }
+        else
+        { }// # To do: Add other game starting options;
+    }
+
+    public void OpenSetting()
+    {
+
+    }
+
+    public void QuitGameCall()
+    {
+        QuitGame();
+    }
+
+    private void QuitGame()
+    {
+#if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+    Application.Quit();
+#endif
+    }
+
+    public void BackToTitleSceneCall()
+    {
+        uiManager.gameObject.SetActive(false);
+        BackToTitleScene();
+    }
+
+    private void BackToTitleScene()
+    {
+        LoadLevel(titleSceneNumber);
     }
 
     public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
@@ -128,15 +183,12 @@ public class GameManager : MonoBehaviour
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
-        DoUIManagerSetting();
+        DoUIManagerSetting(level, lives, myScore);
     }
 
-    private void DoUIManagerSetting()
+    private void DoUIManagerSetting(int level, int lives, int score)
     {
-        this.uiManager.ChangeNumber(level, UINumberCategory.Level);
-        this.uiManager.ChangeNumber(lives, UINumberCategory.Life);
-        this.uiManager.ChangeNumber(myScore, UINumberCategory.Score);
-        this.uiManager.ChangeStage();
+        uiManager.DoUIManagerSetting(level, lives, score);
     }
 
     private void StartNewGame()
@@ -150,36 +202,44 @@ public class GameManager : MonoBehaviour
     private void LoadLevel(int level)
     {
         stageCleared = false;
+        isMainMenuOn = false;
         TimeControler.TimeScaler(1);
         this.level = level;
-        if (level > 9)
+        if (level == 0)
         {
-            tempString = $"{levelCallingString}{level}";
+            myScore = myScoreAtGameStart;
+            lives = livesAtGameStart;
+            tempString = titleSceneString;
         }
         else
         {
-            tempString = $"{levelCallingStringWith0}{level}";
+
+            if (level > 9)
+            {
+                tempString = $"{levelCallingString}{level}";
+            }
+            else
+            {
+                tempString = $"{levelCallingStringWith0}{level}";
+            }
+
+            myScoreAtStageStart = myScore;
+            livesAtStageStart = lives;
         }
 
         SceneManager.LoadScene(tempString);
 
-        myScoreAtStart = myScore;
-        livesAtStart = lives;
 
         uiManager.ChangeNumber(this.level, UINumberCategory.Level);
         uiManager.ResetStage(myScore, lives);
-        //uiManager.ChangeNumber(lives, UINumberCategory.Life);
-        //uiManager.ChangeNumber(myScore, UINumberCategory.Score);
     }
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
     {
         if (loadedScene == SceneManager.GetSceneByBuildIndex(0))
         {
-            Debug.Log("Main Scene");
+            Debug.Log("Title Scene");
         }
-        //else
-        //    FindStageManagerAndInitialize();
     }
 
     public void ScoreUp(int score, bool isBroken = false)
@@ -220,7 +280,7 @@ public class GameManager : MonoBehaviour
         else
         {
             isMainMenuOn = true;
-            PauseGame();
+            PauseCall();
         }
     }
 
@@ -232,6 +292,7 @@ public class GameManager : MonoBehaviour
     private void ResumeGame()
     {
         TimeControler.TimeScaler(1);
+        isMainMenuOn = false;
         uiManager.ResumeGame();
     }
 
@@ -259,8 +320,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            myScore = myScoreAtStart;
-            lives = livesAtStart;
+            myScore = myScoreAtStageStart;
+            lives = livesAtStageStart;
+            isMainMenuOn = false;
 
             TimeControler.TimeScaler(1);
             uiManager.ResetStage(myScore, lives);

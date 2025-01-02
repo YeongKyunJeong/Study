@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PausePopUp : ButtonPopUp
+public class PausePopUp : InGameButtonPopUp
 {
     public override void SetActive(bool isOn)
     {
@@ -21,17 +21,29 @@ public class PausePopUp : ButtonPopUp
                 disabledBtnTMPColor.a = 0.4f;
                 disabledBtnTMP.color = disabledBtnTMPColor;
             }
+            buttons[3].interactable = true;
         }
-        base.SetActive(isOn);
     }
 
-    public void ClickResetButton(bool isFullReset)
+    public void OnResetButtonClick(bool isFullReset)
     {
             gameManager.ResetCall(isFullReset);
     }
 
-    public void ClickResumeButton()
+    public void OnResumeButtonClick()
     {
             gameManager.ResumeCall();
+    }
+
+    public void OnBackToTitleButtonClick()
+    {
+        if (isTemporaryGameManager)
+        {
+            gameManager.QuitGameCall();
+        }
+        else
+        {
+            gameManager.BackToTitleSceneCall();
+        }
     }
 }

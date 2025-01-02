@@ -66,6 +66,13 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void DoUIManagerSetting(int level, int lives, int score)
+    {
+        ChangeNumber(level, UINumberCategory.Level);
+        ChangeNumber(lives, UINumberCategory.Life);
+        ChangeNumber(score, UINumberCategory.Score);
+        ChangeStage();
+    }
     public void PlaySFX(SFXType inputSFXType)
     {
         soundManager.PlaySFX(inputSFXType);
