@@ -36,7 +36,7 @@ public class GameManager : MonoBehaviour
     #region Boolean
     [SerializeField] private bool isNewGame = true;
     [SerializeField] private bool isTemporaryGameManager = true;
-    private bool isMainMenuOn = false;
+    [SerializeField] private bool isMainMenuOn = false;
     #endregion
 
     #region Logic Parameter
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
     #region External Reference
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SoundManager soundManager;
-    [SerializeField] private TitleScene titleScene;
+    public TitleScene titleScene;
 
     #region Stage Object
     [SerializeField] private Paddle paddle;
@@ -65,6 +65,14 @@ public class GameManager : MonoBehaviour
         if (instance == null)
         {
             Instance = this;
+        }
+        else
+        {
+            instance.titleScene = this.titleScene;
+            Debug.Log(instance == this);
+            titleScene.Initialize();
+            Destroy(this.gameObject);
+            return;
         }
 
         if (isTemporaryGameManager)
@@ -238,7 +246,8 @@ public class GameManager : MonoBehaviour
     {
         if (loadedScene == SceneManager.GetSceneByBuildIndex(0))
         {
-            Debug.Log("Title Scene");
+            //titleScene = FindFirstObjectByType<TitleScene>();
+            //titleScene.Initialize();
         }
     }
 
@@ -370,6 +379,7 @@ public static class TimeControler
     public static void TimeScaler(float timeScale)
     {
         Time.timeScale = timeScale;
+        Debug.Log(Time.timeScale.ToString());
     }
 }
 

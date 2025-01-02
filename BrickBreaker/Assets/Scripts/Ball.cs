@@ -101,16 +101,16 @@ public class Ball : MonoBehaviour
     IEnumerator CoroutineAtStart()
     {
         // Temp
-        Debug.Log("Count : 3");
+        //Debug.Log("Count : 3");
         yield return waitFor1s;
 
-        Debug.Log("Count : 2");
+        //Debug.Log("Count : 2");
         yield return waitFor1s;
 
-        Debug.Log("Count : 1");
+        //Debug.Log("Count : 1");
         yield return waitFor1s;
 
-        Debug.Log("Start!");
+        //Debug.Log("Start!");
         SetRandomDirection();
         yield return null;
     }
@@ -182,9 +182,9 @@ public class Ball : MonoBehaviour
 
         if ((Mathf.Abs(speedCorrector) > 2) || (Mathf.Abs(speedCorrector) < 1))
         {
-            Debug.Log("speedCorrector : " + speedCorrector);
-            Debug.Log("angle : " + angle);
-            Debug.Log("x : " + Mathf.Abs(angle) / 90f);
+            //Debug.Log("speedCorrector : " + speedCorrector);
+            //Debug.Log("angle : " + angle);
+            //Debug.Log("x : " + Mathf.Abs(angle) / 90f);
 
         }
 
