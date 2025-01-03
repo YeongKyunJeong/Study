@@ -45,16 +45,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29171de368a68040adb7975376c42bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  myScoreAtStart: 0
-  livesAtStart: 3
+  myScoreAtStageStart: 0
+  livesAtStageStart: 3
   level: 1
   myScore: 0
   lives: 3
   leftBrickCount: -1
   isNewGame: 1
   isTemporaryGameManager: 1
+  isMainMenuOn: 0
   uiManager: {fileID: 4941341726098871294}
   soundManager: {fileID: 9134776751690177078}
+  droppingItemPrefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
   titleScene: {fileID: 0}
   paddle: {fileID: 0}
   ball: {fileID: 0}

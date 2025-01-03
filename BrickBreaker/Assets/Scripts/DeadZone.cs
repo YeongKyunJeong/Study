@@ -14,12 +14,20 @@ public class DeadZone : MonoBehaviour
         this.ballLayer = ballLayer;
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (isBelowWall)
-            if (collision.gameObject.layer == ballLayer)
-            {
-                gameManager.DeadZoneOut();
-            }
+        if (collision.gameObject.layer == ballLayer)
+        {
+            gameManager.DeadZoneOut();
+        }
     }
+
+    //private void OnCollisionEnter2D(Collision2D collision)
+    //{
+    //    if (isBelowWall)
+    //        if (collision.gameObject.layer == ballLayer)
+    //        {
+    //            gameManager.DeadZoneOut();
+    //        }
+    //}
 }

@@ -10,12 +10,12 @@ public class Brick : MonoBehaviour
     public SpriteRenderer spriteRenderer { get; private set; }
 
     [SerializeField] private bool isBreakable = true;
-    GameManager gameManager;
+    private GameManager gameManager;
 
+    private Transform selfTransform;
     private LayerMask ballLayer;
     private BrickData brickData;
     private bool isBroken = false;
-    private bool doesGameManagerExists = true;
 
     private SFXType brickHitType = SFXType.BrickHit;
     private SFXType brickBreakType = SFXType.BrickBreak;
@@ -25,6 +25,7 @@ public class Brick : MonoBehaviour
         this.brickData = brickData;
         this.ballLayer = ballLayer;
         isBroken = false;
+        selfTransform = transform;
 
         gameManager = GameManager.Instance;
 
@@ -58,8 +59,7 @@ public class Brick : MonoBehaviour
             PlayBrickSFX(brickBreakType);
             isBroken = true;
         }
-
-        gameManager.ScoreUp(points, isBroken);
+        gameManager.ScoreUpAndCreateItem(points, selfTransform.position,isBroken);
 
     }
 

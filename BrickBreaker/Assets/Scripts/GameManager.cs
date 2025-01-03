@@ -17,6 +17,8 @@ public class GameManager : MonoBehaviour
     private int titleSceneNumber = 0;
     private SFXType fallSFXTye = SFXType.Fall;
     private LayerMask ballLayer;
+    private LayerMask paddleLayer;
+    private LayerMask deadZoneLayer;
     #endregion
 
     #region Player Status
@@ -46,6 +48,9 @@ public class GameManager : MonoBehaviour
     #region External Reference
     [SerializeField] private UIManager uiManager;
     [SerializeField] private SoundManager soundManager;
+    [SerializeField] private GameObject droppingItemPrefab;
+    private DroppingItem droppingItemInitializer;
+    private List<DroppingItem> enabledDroppingItems;
     public TitleScene titleScene;
 
     #region Stage Object
@@ -69,7 +74,6 @@ public class GameManager : MonoBehaviour
         else
         {
             instance.titleScene = this.titleScene;
-            Debug.Log(instance == this);
             titleScene.Initialize();
             Destroy(this.gameObject);
             return;
@@ -86,6 +90,9 @@ public class GameManager : MonoBehaviour
             Debug.Log(totalLevelCount);
         }
         ballLayer = LayerMask.NameToLayer("Ball");
+        paddleLayer = LayerMask.NameToLayer("Paddle");
+        deadZoneLayer = LayerMask.NameToLayer("DeadZone");
+
         isMainMenuOn = false;
 
         Initialize();
@@ -105,6 +112,15 @@ public class GameManager : MonoBehaviour
             uiManager = FindFirstObjectByType<UIManager>();
         }
         uiManager.Initialize(brickData, isTemporaryGameManager);
+
+        if (droppingItemPrefab == null)
+        {
+            Debug.LogError("DropingItemPrefab not detected");
+        }
+        droppingItemInitializer = droppingItemPrefab.GetComponent<DroppingItem>();
+        droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
+        droppingItemInitializer = null;
+
         InputManager.OnESCInput += ESCCall;
         SceneManager.sceneLoaded += OnSceneLoaded;
 
@@ -211,6 +227,7 @@ public class GameManager : MonoBehaviour
     {
         stageCleared = false;
         isMainMenuOn = false;
+        enabledDroppingItems = new List<DroppingItem>();
         TimeControler.TimeScaler(1);
         this.level = level;
         if (level == 0)
@@ -251,10 +268,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ScoreUp(int score, bool isBroken = false)
+    public void ScoreUpAndCreateItem(int score, Vector3 brokenBrickPosition, bool isBroken = false)
     {
         myScore += score;
         uiManager.ChangeNumber(myScore);
+
+        // Add probability Logic
+        CreateDroppingItem(brokenBrickPosition);
         if (isBroken)
         {
             leftBrickCount--;
@@ -372,6 +392,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ItemGettodaze(Item item)
+    {
+        Debug.Log(item.ToString());
+    }
+
+    public void CreateDroppingItem(Vector3 creationPosition)
+    {
+        for (int i = 0; i < enabledDroppingItems.Count; i++)
+        {
+            if (!enabledDroppingItems[i].isEnable)
+            {
+                droppingItemInitializer = enabledDroppingItems[i];
+                droppingItemInitializer.SelfInitialize(creationPosition);
+                return;
+            }
+        }
+
+        droppingItemInitializer = Instantiate(droppingItemPrefab).GetComponent<DroppingItem>();
+        enabledDroppingItems.Add(droppingItemInitializer);
+        droppingItemInitializer.SelfInitialize(creationPosition);
+    }
 }
 
 public static class TimeControler
