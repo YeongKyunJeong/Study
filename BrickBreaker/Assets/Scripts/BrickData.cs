@@ -29,7 +29,7 @@ public class BrickData : ScriptableObject
         brickSprites = new Sprite[brickSpritesField.Length];
         brickSpritesField.CopyTo(brickSprites, 0);
 
-        itemColors = new Color[itemColors.Length];
+        itemColors = new Color[itemColorsField.Length];
         itemColorsField.CopyTo(itemColors, 0);
 
         sFXaudioClips = new AudioClip[Enum.GetValues(typeof(SFXType)).Length];

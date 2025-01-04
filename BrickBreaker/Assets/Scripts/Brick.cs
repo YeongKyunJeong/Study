@@ -9,37 +9,58 @@ public class Brick : MonoBehaviour
 
     public SpriteRenderer spriteRenderer { get; private set; }
 
-    [SerializeField] private bool isBreakable = true;
-    private GameManager gameManager;
+    private static GameManager gameManager;
 
+    private static LayerMask BallLayer = 0;
+    private static int brickDamage = 0;
+    private static Vector3 zeroVector = Vector3.zero;
+    private static BrickData brickData;
+
+    public int BrickDamagerSetter { get { return brickDamage; } set { brickDamage = value; } }
+    [SerializeField] private Item fixedDropItem = Item.None;
+    private Item resultDropItem;
+
+    [SerializeField] private bool isBreakable = true;
     private Transform selfTransform;
-    private LayerMask ballLayer;
-    private BrickData brickData;
     private bool isBroken = false;
 
     private SFXType brickHitType = SFXType.BrickHit;
     private SFXType brickBreakType = SFXType.BrickBreak;
 
-    public void Initialize(LayerMask ballLayer, BrickData brickData)
+    public void Initialize(LayerMask givenBallLayer, int givenBrickDamage, BrickData givenBrickData)
     {
-        this.brickData = brickData;
-        this.ballLayer = ballLayer;
+        if (gameManager == null)
+        {
+            gameManager = GameManager.Instance;
+        }
+        if (brickData == null)
+        {
+            brickData = givenBrickData;
+        }
+        if (BallLayer == 0)
+        {
+            BallLayer = givenBallLayer;
+        }
+        if (brickDamage == 0)
+        {
+            brickDamage = givenBrickDamage;
+        }
+
         isBroken = false;
         selfTransform = transform;
-
-        gameManager = GameManager.Instance;
+        resultDropItem = fixedDropItem;
 
         ResetBrick();
 
         health = initialHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = brickData.brickSprites[health];
+        spriteRenderer.sprite = givenBrickData.brickSprites[health];
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (isBreakable)
-            if (collision.gameObject.layer == ballLayer)
+            if (collision.gameObject.layer == BallLayer)
             {
                 Hit();
             }
@@ -47,20 +68,22 @@ public class Brick : MonoBehaviour
 
     private void Hit()
     {
-        if (health > 1)
+        health -= brickDamage;
+        if (health > 0)
         {
-            this.health--;
             PlayBrickSFX(brickHitType);
             this.spriteRenderer.sprite = brickData.brickSprites[health];
+            gameManager.HitBrick(points, zeroVector);
+
         }
         else
         {
+            health = 0;
             this.gameObject.SetActive(false);
             PlayBrickSFX(brickBreakType);
             isBroken = true;
+            gameManager.HitBrick(points, selfTransform.position, isBroken, resultDropItem);
         }
-        gameManager.ScoreUpAndCreateItem(points, selfTransform.position,isBroken);
-
     }
 
     public void PlayBrickSFX(SFXType inputSFX)

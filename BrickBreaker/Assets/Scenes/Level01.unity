@@ -1530,8 +1530,7 @@ PrefabInstance:
       propertyPath: dampingTime
       value: 0.02
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6725712724702046564, guid: 8473a60955f50964c8ad5f62917beab1, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

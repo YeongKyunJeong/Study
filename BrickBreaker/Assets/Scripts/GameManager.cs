@@ -31,6 +31,8 @@ public class GameManager : MonoBehaviour
     public int myScore = 0;
     public int lives = 3;
 
+    public int brickDamage = 1;
+
     [SerializeField] private int leftBrickCount = -1;
     private bool stageCleared = false;
     #endregion
@@ -50,7 +52,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private GameObject droppingItemPrefab;
     private DroppingItem droppingItemInitializer;
-    private List<DroppingItem> enabledDroppingItems;
+    private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
     public TitleScene titleScene;
 
     #region Stage Object
@@ -195,7 +197,7 @@ public class GameManager : MonoBehaviour
         leftBrickCount = bricks.Length;
         foreach (Brick brick in bricks)
         {
-            brick.Initialize(ballLayer, brickData);
+            brick.Initialize(ballLayer, brickDamage, brickData);
         }
         walls = stageManagerNeo.walls;
         foreach (DeadZone wall in walls)
@@ -268,19 +270,21 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ScoreUpAndCreateItem(int score, Vector3 brokenBrickPosition, bool isBroken = false)
+    public void HitBrick(int score, Vector3 brokenBrickPosition, bool isBroken = false, Item targetItem = Item.None)
     {
         myScore += score;
         uiManager.ChangeNumber(myScore);
 
-        // Add probability Logic
-        CreateDroppingItem(brokenBrickPosition);
         if (isBroken)
         {
             leftBrickCount--;
             if (leftBrickCount == 0)
             {
                 stageCleared = true;
+            }
+            else if (targetItem != Item.None)
+            {
+                CreateDroppingItem(brokenBrickPosition, targetItem);
             }
         }
         if (stageCleared)
@@ -394,24 +398,41 @@ public class GameManager : MonoBehaviour
 
     public void ItemGettodaze(Item item)
     {
-        Debug.Log(item.ToString());
+        switch (item)
+        {
+            case Item.PowerUp:
+                {
+                    BrickDamageUp();
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
     }
 
-    public void CreateDroppingItem(Vector3 creationPosition)
+    private void BrickDamageUp(int brickDamageDelta = 1)
+    {
+        brickDamage = brickDamageDelta;
+        bricks[0].BrickDamagerSetter += brickDamage;
+    }
+
+    public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
     {
         for (int i = 0; i < enabledDroppingItems.Count; i++)
         {
             if (!enabledDroppingItems[i].isEnable)
             {
                 droppingItemInitializer = enabledDroppingItems[i];
-                droppingItemInitializer.SelfInitialize(creationPosition);
+                droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
                 return;
             }
         }
 
         droppingItemInitializer = Instantiate(droppingItemPrefab).GetComponent<DroppingItem>();
         enabledDroppingItems.Add(droppingItemInitializer);
-        droppingItemInitializer.SelfInitialize(creationPosition);
+        droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
     }
 }
 
