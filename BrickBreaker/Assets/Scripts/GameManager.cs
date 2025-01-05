@@ -50,6 +50,9 @@ public class GameManager : MonoBehaviour
     #region Logic Parameter
     private Item[] itemSetting;
     private string tempString = null;
+    private int tempInt = 0;
+    private int tempInt2 = 0;
+    private int totalWeight = 0;
 
     private Coroutine PowerUpCoroutine;
     #endregion
@@ -62,6 +65,7 @@ public class GameManager : MonoBehaviour
     private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
     public TitleScene titleScene;
     private static int itemTypeNumber;
+    private int[] defaultItemProbability;
 
     #region Stage Object
     [SerializeField] private Paddle paddle;
@@ -117,6 +121,12 @@ public class GameManager : MonoBehaviour
         }
         brickData.Initialize();
         itemTypeNumber = brickData.itemTypeNumber;
+        defaultItemProbability = brickData.defaultItemProbability;
+        totalWeight = 0;
+        foreach (int weight in defaultItemProbability)
+        {
+            totalWeight += weight;
+        }
 
         if (uiManager == null)
         {
@@ -210,8 +220,8 @@ public class GameManager : MonoBehaviour
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
         leftBrickCount = bricks.Length;
-
-        MakeItemSetting(stageManagerNeo.isRandomItemSet);
+        
+        MakeItemSetting(stageManagerNeo.isRandomItemSet, stageManagerNeo.itemSettingWeight);
         for (int i = 0; i < leftBrickCount; i++)
         {
             bricks[i].Initialize(ballLayer, brickDamage, brickData, itemSetting[i]);
@@ -230,14 +240,35 @@ public class GameManager : MonoBehaviour
         DoUIManagerSetting(level, lives, myScore);
     }
 
-    private void MakeItemSetting(bool isRandomSetting)
+    private void MakeItemSetting(bool isRandomSetting, int[] givenItemProbability)
     {
+        if (givenItemProbability.Length != itemTypeNumber)
+        {
+            givenItemProbability = defaultItemProbability;
+        }
+
         itemSetting = new Item[leftBrickCount];
         if (isRandomSetting)
             for (int i = 0; i < leftBrickCount; i++)
             {
-                itemSetting[i] = (Item)Random.Range(0, itemTypeNumber);
+                itemSetting[i] = (Item)WeightedRandom(givenItemProbability);
             }
+    }
+
+    private int WeightedRandom(int[] weights)
+    {
+        tempInt2 = Random.Range(0, totalWeight);
+        tempInt = 0;
+        for (int i = 0; i < itemTypeNumber; i++)
+        {
+            tempInt += weights[i];
+            if (tempInt2 < tempInt)
+            {
+                return i;
+            }
+        }
+        Debug.LogError("Item setting probability error");
+        return -1; // errror
     }
 
     private void DoUIManagerSetting(int level, int lives, int score)

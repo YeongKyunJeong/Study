@@ -14,6 +14,7 @@ public class StageManagerNeo : MonoBehaviour
     public Brick[] bricks;
     public DeadZone[] walls;
     public bool isRandomItemSet = true;
+    public int[] itemSettingWeight = new int[0];
     #endregion
 
     #region Fixed Parameter

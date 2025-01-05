@@ -6,7 +6,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewBrickData", menuName = "ScriptableObjects/BrickData", order = 1)]
 public class BrickData : ScriptableObject
 {
-    [SerializeField] 
+    [SerializeField]
     private Sprite[] brickSpritesField;
     [SerializeField]
     private AudioClip audioClip_PaddleHit;
@@ -18,7 +18,7 @@ public class BrickData : ScriptableObject
     private AudioClip audioClip_Fall;
 
     [SerializeField]
-    private int[] itemProbability;
+    private int[] defaultItemProbabilityField;
 
     [SerializeField]
     private Color[] itemColorsField; // Temporary instead of sprite
@@ -31,6 +31,7 @@ public class BrickData : ScriptableObject
     [HideInInspector]
     public int ballSpriteNumber;
     public Sprite[] brickSprites { get; private set; }
+    public int[] defaultItemProbability { get; private set; }
     public Color[] itemColors { get; private set; }
     public Color[] ballColors { get; private set; }
 
@@ -40,6 +41,9 @@ public class BrickData : ScriptableObject
     {
         brickSprites = new Sprite[brickSpritesField.Length];
         brickSpritesField.CopyTo(brickSprites, 0);
+
+        defaultItemProbability = new int[defaultItemProbabilityField.Length];
+        defaultItemProbabilityField.CopyTo(defaultItemProbability, 0);
 
         itemTypeNumber = itemColorsField.Length;
         itemColors = new Color[itemTypeNumber];
@@ -56,5 +60,5 @@ public class BrickData : ScriptableObject
         sFXaudioClips[3] = audioClip_Fall;
     }
 
-    
+
 }
