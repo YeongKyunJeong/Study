@@ -42,7 +42,7 @@ public class DroppingItem : MonoBehaviour
             paddleLayer = givenPaddleLayer;
             deadZoneLayer = givenDeadZoneLayer;
             fallingSpeedVector = fallingSpeedField * Time.fixedDeltaTime * Vector3.down;
-            itemTypeNumber = Enum.GetValues(typeof(Item)).Length + 1;
+            itemTypeNumber = brickData.itemTypeNumber + 1;
             isGlobalReady = true;
         }
     }
@@ -67,6 +67,7 @@ public class DroppingItem : MonoBehaviour
             }
             selfTransform.position = startPosition;
             itemType = targetItem/*(Item)Random.Range(1, itemTypeNumber)*/;
+            spriteRenderer.color = brickData.itemColors[(int)itemType];
 
         }
         else
@@ -87,9 +88,9 @@ public class DroppingItem : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         collidedObjectLayer = collision.gameObject.layer;
-        Debug.Log(collision.name);
         if (collidedObjectLayer == paddleLayer)
         {
+            Debug.Log(itemType.ToString());
             isEnable = false;
             gameObject.SetActive(false);
             gameManager.ItemGettodaze(itemType);

@@ -18,10 +18,22 @@ public class BrickData : ScriptableObject
     private AudioClip audioClip_Fall;
 
     [SerializeField]
+    private int[] itemProbability;
+
+    [SerializeField]
     private Color[] itemColorsField; // Temporary instead of sprite
 
+    [SerializeField]
+    private Color[] ballColorsField; // Temporary instead of sprite
+
+    [HideInInspector]
+    public int itemTypeNumber;
+    [HideInInspector]
+    public int ballSpriteNumber;
     public Sprite[] brickSprites { get; private set; }
     public Color[] itemColors { get; private set; }
+    public Color[] ballColors { get; private set; }
+
     public AudioClip[] sFXaudioClips;
 
     public void Initialize()
@@ -29,8 +41,13 @@ public class BrickData : ScriptableObject
         brickSprites = new Sprite[brickSpritesField.Length];
         brickSpritesField.CopyTo(brickSprites, 0);
 
-        itemColors = new Color[itemColorsField.Length];
+        itemTypeNumber = itemColorsField.Length;
+        itemColors = new Color[itemTypeNumber];
         itemColorsField.CopyTo(itemColors, 0);
+
+        ballSpriteNumber = ballColorsField.Length;
+        ballColors = new Color[ballSpriteNumber];
+        ballColorsField.CopyTo(ballColors, 0);
 
         sFXaudioClips = new AudioClip[Enum.GetValues(typeof(SFXType)).Length];
         sFXaudioClips[0] = audioClip_PaddleHit;

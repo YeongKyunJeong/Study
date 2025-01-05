@@ -50,6 +50,7 @@ MonoBehaviour:
   level: 1
   myScore: 0
   lives: 3
+  brickDamage: 1
   leftBrickCount: -1
   isNewGame: 1
   isTemporaryGameManager: 1

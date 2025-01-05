@@ -523,7 +523,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 347835534}
-  - component: {fileID: 347835535}
   - component: {fileID: 347835536}
   m_Layer: 0
   m_Name: StageManager
@@ -547,18 +546,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &347835535
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 347835532}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f81a4a60b7094e54bbedc17bfbb7184f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &347835536
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -615,6 +602,7 @@ MonoBehaviour:
   - {fileID: 345560087}
   - {fileID: 441860935}
   - {fileID: 1656981575}
+  isRandomItemSet: 1
   GameManagerPrefab: {fileID: 3380511778232568454, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
 --- !u!4 &427236254 stripped
 Transform:
@@ -1169,7 +1157,7 @@ GameObject:
   - component: {fileID: 1656981574}
   - component: {fileID: 1656981575}
   - component: {fileID: 1656981573}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Wall D
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ public class StageManagerNeo : MonoBehaviour
     public Ball ball;
     public Brick[] bricks;
     public DeadZone[] walls;
-    [SerializeField]
+    public bool isRandomItemSet = true;
     #endregion
 
     #region Fixed Parameter

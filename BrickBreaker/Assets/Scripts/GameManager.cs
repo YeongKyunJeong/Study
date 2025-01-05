@@ -4,6 +4,8 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using System;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
+using System.Collections;
 
 public class GameManager : MonoBehaviour
 {
@@ -19,6 +21,8 @@ public class GameManager : MonoBehaviour
     private LayerMask ballLayer;
     private LayerMask paddleLayer;
     private LayerMask deadZoneLayer;
+    [SerializeField] private float powerUpContinuanceTime = 10f;
+    private WaitForSeconds powerUpWaitForSec;
     #endregion
 
     #region Player Status
@@ -44,7 +48,10 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region Logic Parameter
+    private Item[] itemSetting;
     private string tempString = null;
+
+    private Coroutine PowerUpCoroutine;
     #endregion
 
     #region External Reference
@@ -54,6 +61,7 @@ public class GameManager : MonoBehaviour
     private DroppingItem droppingItemInitializer;
     private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
     public TitleScene titleScene;
+    private static int itemTypeNumber;
 
     #region Stage Object
     [SerializeField] private Paddle paddle;
@@ -94,7 +102,7 @@ public class GameManager : MonoBehaviour
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
         deadZoneLayer = LayerMask.NameToLayer("DeadZone");
-
+        powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
         isMainMenuOn = false;
 
         Initialize();
@@ -108,6 +116,7 @@ public class GameManager : MonoBehaviour
             Debug.LogError("BrickData asset not detected");
         }
         brickData.Initialize();
+        itemTypeNumber = brickData.itemTypeNumber;
 
         if (uiManager == null)
         {
@@ -191,25 +200,44 @@ public class GameManager : MonoBehaviour
 
     public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
     {
+        if(PowerUpCoroutine != null)
+        {
+            StopCoroutine(PowerUpCoroutine);
+            PowerUpCoroutine = null;
+        }
+        
         this.stageManagerNeo = stageManagerNeo;
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
         leftBrickCount = bricks.Length;
-        foreach (Brick brick in bricks)
+
+        MakeItemSetting(stageManagerNeo.isRandomItemSet);
+        for (int i = 0; i < leftBrickCount; i++)
         {
-            brick.Initialize(ballLayer, brickDamage, brickData);
+            bricks[i].Initialize(ballLayer, brickDamage, brickData, itemSetting[i]);
         }
+
         walls = stageManagerNeo.walls;
         foreach (DeadZone wall in walls)
         {
             wall.Initialize(ballLayer);
         }
         ball = stageManagerNeo.ball;
-        ball.Initialize();
+        ball.Initialize(brickData, brickDamage);
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
         DoUIManagerSetting(level, lives, myScore);
+    }
+
+    private void MakeItemSetting(bool isRandomSetting)
+    {
+        itemSetting = new Item[leftBrickCount];
+        if (isRandomSetting)
+            for (int i = 0; i < leftBrickCount; i++)
+            {
+                itemSetting[i] = (Item)Random.Range(0, itemTypeNumber);
+            }
     }
 
     private void DoUIManagerSetting(int level, int lives, int score)
@@ -402,7 +430,7 @@ public class GameManager : MonoBehaviour
         {
             case Item.PowerUp:
                 {
-                    BrickDamageUp();
+                    StartCoroutine(BrickDamagerUp());
                     break;
                 }
             default:
@@ -412,10 +440,25 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void BrickDamageUp(int brickDamageDelta = 1)
+
+    IEnumerator BrickDamagerUp(int upedPower = 2)
     {
-        brickDamage = brickDamageDelta;
-        bricks[0].BrickDamagerSetter += brickDamage;
+        
+        if(upedPower > brickDamage)
+        {
+            brickDamage = upedPower;
+        }
+        bricks[0].BrickDamagerSetter = brickDamage;
+        ball.ChangeColor(brickDamage);
+
+
+        yield return powerUpWaitForSec;
+
+        brickDamage = 1;
+        bricks[0].BrickDamagerSetter = brickDamage;
+        ball.ChangeColor(brickDamage);
+
+        yield return null;
     }
 
     public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)

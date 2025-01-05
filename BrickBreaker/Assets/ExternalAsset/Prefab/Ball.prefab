@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2599c566e84ce5242b05f351d3b4dd8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  spriteRenderer: {fileID: 7488152059144569305}
   speed: 500
   maxBounceAngle: 60
 --- !u!212 &7488152059144569305

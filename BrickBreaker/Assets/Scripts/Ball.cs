@@ -6,8 +6,9 @@ public class Ball : MonoBehaviour
 {
     public Rigidbody2D rigidBody { get; private set; }
 
-    private GameManager gameManager;
-
+    private static GameManager gameManager;
+    private static BrickData brickData;
+    [SerializeField] private SpriteRenderer spriteRenderer;
     private float deflectionStartOffset = 0.75f;
     private Vector2 force = Vector2.zero;
     private Vector3 paddPosition;
@@ -32,11 +33,15 @@ public class Ball : MonoBehaviour
     private LayerMask bricksLayer;
     //private LayerMask bricksLayer;
 
-    public void Initialize()
+    public void Initialize(BrickData givenBrickData, int ballPower)
     {
         if (rigidBody == null)
         {
             rigidBody = GetComponent<Rigidbody2D>();
+        }
+        if (spriteRenderer)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
         }
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
@@ -44,8 +49,10 @@ public class Ball : MonoBehaviour
         //bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
         halfWidth = 2.5f;
-
-        gameManager = GameManager.Instance;
+        if (gameManager == null)
+            gameManager = GameManager.Instance;
+        if (brickData == null)
+            brickData = givenBrickData;
 
         firstPosition = transform.position;
 
@@ -55,6 +62,7 @@ public class Ball : MonoBehaviour
         coroutine = null;
         coroutine = StartCoroutine(CoroutineAtStart());
 
+        spriteRenderer.color = brickData.ballColors[ballPower-1];
     }
 
     public void SetRandomDirection()
@@ -88,6 +96,11 @@ public class Ball : MonoBehaviour
         {
             ShootBallAtStart();
         }
+    }
+
+    public void ChangeColor(int ballPower)
+    {
+        spriteRenderer.color = brickData.ballColors[ballPower - 1];
     }
 
     IEnumerator SaveStartSpeed()

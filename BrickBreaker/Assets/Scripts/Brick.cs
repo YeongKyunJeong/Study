@@ -18,7 +18,7 @@ public class Brick : MonoBehaviour
 
     public int BrickDamagerSetter { get { return brickDamage; } set { brickDamage = value; } }
     [SerializeField] private Item fixedDropItem = Item.None;
-    private Item resultDropItem;
+    [SerializeField] private Item resultDropItem;
 
     [SerializeField] private bool isBreakable = true;
     private Transform selfTransform;
@@ -27,7 +27,7 @@ public class Brick : MonoBehaviour
     private SFXType brickHitType = SFXType.BrickHit;
     private SFXType brickBreakType = SFXType.BrickBreak;
 
-    public void Initialize(LayerMask givenBallLayer, int givenBrickDamage, BrickData givenBrickData)
+    public void Initialize(LayerMask givenBallLayer, int givenBrickDamage, BrickData givenBrickData, Item givenItem = Item.None)
     {
         if (gameManager == null)
         {
@@ -48,7 +48,10 @@ public class Brick : MonoBehaviour
 
         isBroken = false;
         selfTransform = transform;
-        resultDropItem = fixedDropItem;
+        if (givenItem == Item.None)
+            resultDropItem = fixedDropItem;
+        else
+            resultDropItem = givenItem;
 
         ResetBrick();
 
