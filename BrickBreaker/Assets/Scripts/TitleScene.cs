@@ -25,6 +25,11 @@ public class TitleScene : MonoBehaviour
 
     public void OnGameStartButtonClick()
     {
+        foreach (Setter setter in setters)
+        {
+            setter.SendValueToGameManager();
+        }
+
         gameManager.StartGameCall();
     }
 
@@ -38,8 +43,4 @@ public class TitleScene : MonoBehaviour
         gameManager.QuitGameCall();
     }
 
-    public void SendValueToGameManager()
-    {
-        
-    }
 }

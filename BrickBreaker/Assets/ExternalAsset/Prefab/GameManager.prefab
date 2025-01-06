@@ -45,9 +45,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c29171de368a68040adb7975376c42bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  powerUpContinuanceTime: 10
   myScoreAtStageStart: 0
   livesAtStageStart: 3
-  level: 1
+  level: 0
   myScore: 0
   lives: 3
   brickDamage: 1

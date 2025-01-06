@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     public int livesAtStageStart = 3;
     private int livesAtGameStart = 3;
 
-    public int level = 1;
+    public int level = 0;
     public int myScore = 0;
     public int lives = 3;
 
@@ -294,6 +294,15 @@ public class GameManager : MonoBehaviour
         isMainMenuOn = false;
         enabledDroppingItems = new List<DroppingItem>();
         TimeControler.TimeScaler(1);
+
+        if (this.level == 0)
+        {
+            myScore = myScoreAtGameStart;
+            myScoreAtStageStart = myScoreAtGameStart;
+            lives = livesAtGameStart;
+            livesAtStageStart = livesAtGameStart;
+        }
+
         this.level = level;
         if (level == 0)
         {
@@ -305,14 +314,6 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if(this.level == 0)
-            {
-                myScore = myScoreAtGameStart;
-                myScoreAtStageStart = myScoreAtGameStart;
-                lives = livesAtGameStart;
-                livesAtStageStart = livesAtGameStart;
-            }
-
             if (level > 9)
             {
                 tempString = $"{LEVEL_CALLING_STRING}{level}";
@@ -543,10 +544,18 @@ public class GameManager : MonoBehaviour
         droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
     }
 
-    public void TakeSettingValue(int value)
+    public void TakeSettingValue(int value, TitleSceneSetterType setterType)
     {
-        myScore = value;
-        
+        switch (setterType)
+        {
+            case TitleSceneSetterType.Life:
+                {
+                    livesAtGameStart = value;
+                    break;
+                }
+            default:
+                break;
+        }
     }
 
 }
