@@ -8,6 +8,9 @@ public class TitleScene : MonoBehaviour
     private GameManager gameManager;
     [SerializeField] private GameObject settingPanel;
 
+    [SerializeField] private Setter[] setters;
+    [SerializeField] private LifeSetter lifeSetter;
+
     [SerializeField] private Button[] buttons;
 
     public bool isReady { get; private set; }
@@ -16,6 +19,7 @@ public class TitleScene : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         settingPanel.SetActive(false);
+        lifeSetter.Initialize();
         isReady = true;
     }
 
@@ -32,5 +36,10 @@ public class TitleScene : MonoBehaviour
     public void OnQuitButtonClick()
     {
         gameManager.QuitGameCall();
+    }
+
+    public void SendValueToGameManager()
+    {
+        
     }
 }

@@ -298,11 +298,20 @@ public class GameManager : MonoBehaviour
         if (level == 0)
         {
             myScore = myScoreAtGameStart;
+            myScoreAtStageStart = myScoreAtGameStart;
             lives = livesAtGameStart;
+            livesAtStageStart = livesAtGameStart;
             tempString = TITLE_SCENE_STRING;
         }
         else
         {
+            if(this.level == 0)
+            {
+                myScore = myScoreAtGameStart;
+                myScoreAtStageStart = myScoreAtGameStart;
+                lives = livesAtGameStart;
+                livesAtStageStart = livesAtGameStart;
+            }
 
             if (level > 9)
             {
@@ -533,6 +542,13 @@ public class GameManager : MonoBehaviour
         enabledDroppingItems.Add(droppingItemInitializer);
         droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
     }
+
+    public void TakeSettingValue(int value)
+    {
+        myScore = value;
+        
+    }
+
 }
 
 public static class TimeControler
