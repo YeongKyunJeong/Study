@@ -12,12 +12,16 @@ public class GameManager : MonoBehaviour
     private static GameManager instance;
 
     #region Magic Number
-    private string levelCallingStringWith0 = "Level0";
-    private int totalLevelCount = 0;
-    private string levelCallingString = "Level";
-    private string titleSceneString = "Global";
-    private int titleSceneNumber = 0;
+    private const string LEVEL_CALLING_STRING_W0 = "Level0";
+    private const string LEVEL_CALLING_STRING = "Level";
+    private const string TITLE_SCENE_STRING = "Global";
+    private const int TITLE_SCENE_INT = 0;
+    private const int MAX_LIFE = 99;
+    private const int MAX_SCORE = 99999999;
+    private const int LIFE_TO_SCORE = 10000;
+
     private SFXType fallSFXTye = SFXType.Fall;
+    private int totalLevelCount = 0;
     private LayerMask ballLayer;
     private LayerMask paddleLayer;
     private LayerMask deadZoneLayer;
@@ -205,22 +209,22 @@ public class GameManager : MonoBehaviour
 
     private void BackToTitleScene()
     {
-        LoadLevel(titleSceneNumber);
+        LoadLevel(TITLE_SCENE_INT);
     }
 
     public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
     {
-        if(PowerUpCoroutine != null)
+        if (PowerUpCoroutine != null)
         {
             StopCoroutine(PowerUpCoroutine);
             PowerUpCoroutine = null;
         }
-        
+
         this.stageManagerNeo = stageManagerNeo;
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
         leftBrickCount = bricks.Length;
-        
+
         MakeItemSetting(stageManagerNeo.isRandomItemSet, stageManagerNeo.itemSettingWeight);
         for (int i = 0; i < leftBrickCount; i++)
         {
@@ -295,18 +299,18 @@ public class GameManager : MonoBehaviour
         {
             myScore = myScoreAtGameStart;
             lives = livesAtGameStart;
-            tempString = titleSceneString;
+            tempString = TITLE_SCENE_STRING;
         }
         else
         {
 
             if (level > 9)
             {
-                tempString = $"{levelCallingString}{level}";
+                tempString = $"{LEVEL_CALLING_STRING}{level}";
             }
             else
             {
-                tempString = $"{levelCallingStringWith0}{level}";
+                tempString = $"{LEVEL_CALLING_STRING_W0}{level}";
             }
 
             myScoreAtStageStart = myScore;
@@ -464,6 +468,11 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(BrickDamagerUp());
                     break;
                 }
+            case Item.LifeUp:
+                {
+                    LifeUp();
+                    break;
+                }
             default:
                 {
                     break;
@@ -471,11 +480,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void LifeUp(int deltaLife = 1)
+    {
+        if (lives < MAX_LIFE)
+        {
+            lives += deltaLife;
+            if (lives > MAX_LIFE)
+            {
+                lives = MAX_LIFE;
+            }
+            uiManager.ChangeNumber(lives, UINumberCategory.Life);
+        }
+        else if (myScore < MAX_SCORE)
+        {
+            myScore += LIFE_TO_SCORE;
+            uiManager.ChangeNumber(myScore);
+        }
+    }
 
     IEnumerator BrickDamagerUp(int upedPower = 2)
     {
-        
-        if(upedPower > brickDamage)
+        if (upedPower > brickDamage)
         {
             brickDamage = upedPower;
         }

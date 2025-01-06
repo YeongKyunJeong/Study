@@ -515,6 +515,7 @@ MonoBehaviour:
   - {fileID: 441860935}
   - {fileID: 1656981575}
   isRandomItemSet: 1
+  itemSettingWeight: 
   GameManagerPrefab: {fileID: 3380511778232568454, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
 --- !u!4 &427236254 stripped
 Transform:
@@ -1738,9 +1739,9 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ball
       objectReference: {fileID: 0}
-    - target: {fileID: 4257627283828870406, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
-      propertyPath: m_SleepingMode
-      value: 0
+    - target: {fileID: 6188949591687194572, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
+      propertyPath: speed
+      value: 500
       objectReference: {fileID: 0}
     - target: {fileID: 8024903704689775265, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
       propertyPath: m_LocalPosition.x

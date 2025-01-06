@@ -8,7 +8,7 @@ public enum Item
 {
     None,
     PowerUp,
-    type2
+    LifeUp
 }
 
 public class DroppingItem : MonoBehaviour
