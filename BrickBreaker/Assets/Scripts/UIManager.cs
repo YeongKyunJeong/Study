@@ -4,20 +4,17 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField] private SoundManager soundManager;
-    [SerializeField] private ScoreManager scoreManager;
+    [SerializeField] private ScoreManager scoreTMPSetter;
     [SerializeField] private GameButtonManager gsButtonManager;
     [SerializeField] private PanelButtonManager panelButtonManager;
     [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
-    [SerializeField] private InputManager inputManager;
-    public InputManager GetInputManager { get { return inputManager; } private set { inputManager = value; } }
 
     public void Initialize(BrickData brickData, bool isTemporaryGameManager)
     {
 
-        if (scoreManager != null)
+        if (scoreTMPSetter != null)
         {
-            scoreManager.Initialize();
+            scoreTMPSetter.Initialize();
         }
         else
         {
@@ -42,28 +39,12 @@ public class UIManager : MonoBehaviour
             Debug.LogError("PanelButtonManager Not Detected");
         }
 
-        if (soundManager != null)
-        {
-            soundManager.Initialize(brickData);
-        }
-        else
-        {
-            Debug.LogError("SoundManager Not Detected");
-        }
-
-        if (inputManager != null)
-        {
-            inputManager.Initialize();
-        }
-        else
-        {
-            Debug.LogError("InputManager Not Detected");
-        }
-
         if (aspectRatioEnforcer != null)
         {
             aspectRatioEnforcer.Initialize(GetComponent<RectTransform>());
         }
+
+        DontDestroyOnLoad(this.gameObject);
     }
 
     public void DoUIManagerSetting(int level, int lives, int score)
@@ -73,10 +54,6 @@ public class UIManager : MonoBehaviour
         ChangeNumber(score, UINumberCategory.Score);
         ChangeStage();
     }
-    public void PlaySFX(SFXType inputSFXType)
-    {
-        soundManager.PlaySFX(inputSFXType);
-    }
 
     public void ChangeStage()
     {
@@ -85,7 +62,7 @@ public class UIManager : MonoBehaviour
 
     public void ChangeNumber(int inputInt, UINumberCategory changedNumber = UINumberCategory.Score)
     {
-        scoreManager.ChangeNumber(inputInt, changedNumber);
+        scoreTMPSetter.ChangeNumber(inputInt, changedNumber);
     }
 
     public void ResumeGame()
@@ -100,7 +77,7 @@ public class UIManager : MonoBehaviour
 
     public void ResetStage(int scoreAtStart, int livesAtStart)
     {
-        scoreManager.ResetStage(scoreAtStart, livesAtStart);
+        scoreTMPSetter.ResetStage(scoreAtStart, livesAtStart);
         panelButtonManager.ResetPanel();
     }
 

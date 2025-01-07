@@ -59,11 +59,14 @@ public class GameManager : MonoBehaviour
     private int totalWeight = 0;
 
     private Coroutine PowerUpCoroutine;
+    private List<Coroutine> CoroutineLists = new List<Coroutine>();
     #endregion
 
     #region External Reference
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private GameObject uiManagerPrefab;
     [SerializeField] private SoundManager soundManager;
+    [SerializeField] private InputManager inputManager;
     [SerializeField] private GameObject droppingItemPrefab;
     private DroppingItem droppingItemInitializer;
     private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
@@ -134,9 +137,21 @@ public class GameManager : MonoBehaviour
 
         if (uiManager == null)
         {
-            uiManager = FindFirstObjectByType<UIManager>();
+            uiManager = Instantiate(uiManagerPrefab).GetComponent<UIManager>();
         }
         uiManager.Initialize(brickData, isTemporaryGameManager);
+
+        if (soundManager == null)
+        {
+            soundManager = FindFirstObjectByType<SoundManager>();
+        }
+        soundManager.Initialize(brickData);
+
+        if (inputManager == null)
+        {
+            inputManager = FindFirstObjectByType<InputManager>();
+        }
+        inputManager.Initialize();
 
         if (droppingItemPrefab == null)
         {
@@ -371,9 +386,9 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlaySFX(SFXType inputSFX)
+    public void PlaySFX(SFXType inputSFXType)
     {
-        uiManager.PlaySFX(inputSFX);
+        soundManager.PlaySFX(inputSFXType);
     }
 
     public void ESCCall()
@@ -420,6 +435,7 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame(bool isFullRest)
     {
+        ResetCoroutines();
         if (isFullRest)
         {
             StartNewGame();
@@ -525,6 +541,23 @@ public class GameManager : MonoBehaviour
         ball.ChangeColor(brickDamage);
 
         yield return null;
+    }
+
+    private void ResetCoroutines()
+    {
+        if (CoroutineLists.Count == 0)
+        {
+            CoroutineLists.Add(PowerUpCoroutine);
+        }
+
+        for (int i = 0; i < CoroutineLists.Count; i++)
+        {
+            if(CoroutineLists[i] != null)
+            {
+                StopCoroutine(CoroutineLists[i]);
+                CoroutineLists[i] = null;
+            }
+        }
     }
 
     public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
