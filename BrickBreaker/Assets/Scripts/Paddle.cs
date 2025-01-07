@@ -11,6 +11,11 @@ public class Paddle : MonoBehaviour
 
     public float speed = 100f;
     private bool doDamping = false;
+    private static float paddleSizeHalf = 2.5f;
+    private static float screenEdgeX = 18f;
+    private static float stopXPos;
+    private Vector3 leftStopPosVec;
+    private Vector3 rightStopPosVec;
     // public Rigidbody2D rigidBody { get; private set; }
 
     public Vector2 firstPosition { get; private set; }
@@ -29,7 +34,6 @@ public class Paddle : MonoBehaviour
         //
         // }
         firstPosition = transform.position;
-
         if (paddleHandler == null)
         {
             paddleHandler = GetComponent<PaddleHandler>();
@@ -37,6 +41,9 @@ public class Paddle : MonoBehaviour
         paddleHandler.Initialize();
         paddleHandler.OnMovementInput += MovePaddle;
         ResetPaddle();
+        stopXPos = screenEdgeX - paddleSizeHalf;
+        leftStopPosVec = new Vector3(-stopXPos, firstPosition.y, 0);
+        rightStopPosVec = new Vector3(stopXPos, firstPosition.y, 0);
     }
 
     public void MovePaddle(Vector2 moveDirection)
@@ -57,6 +64,13 @@ public class Paddle : MonoBehaviour
 
     }
 
+    public void ChangePaddleStopX(float changedPaddleWidthHalf)
+    {
+        stopXPos = screenEdgeX - changedPaddleWidthHalf;
+        leftStopPosVec = new Vector3(-stopXPos, firstPosition.y, 0);
+        rightStopPosVec = new Vector3(stopXPos, firstPosition.y, 0);
+    }
+
     private void Update()
     {
         if (doDamping)
@@ -64,7 +78,21 @@ public class Paddle : MonoBehaviour
             if (velocity.x != 0)
                 velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref velocity, dampingTime);
         }
+
+
         transform.position += velocity * (speed * Time.deltaTime);
+
+
+        if (transform.position.x <= -stopXPos)
+        {
+            transform.position = leftStopPosVec;
+        }
+
+        if (transform.position.x >= stopXPos)
+        {
+            transform.position = rightStopPosVec;
+        }
+
 
         // todo: ÁÂ¿ì ÀÌÅ» Á¦ÇÑ
 
