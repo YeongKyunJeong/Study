@@ -69,6 +69,48 @@ public class StageManagerNeo : MonoBehaviour
     {
         gameManager.SetStageDataAndSetting(this);
     }
+
+
+    #region StageEditing
+    [SerializeField] private GameObject brickPrefab;
+    [SerializeField] private GameObject brickRowPrefab;
+    [SerializeField] private Transform[] brickRows;
+    [SerializeField] private Transform brickRowParents;
+
+    public float brickSpaceX = 0.25f;
+    public float brickSpaceY = 0.25f;
+
+    private float defaultBrickHeight = 5.5f;
+    private float brickSizeX = 4;
+    private float brickSizeY = 1;
+
+    public void GenerateBricks(int brickRowCount = 5, int brickPerRow = 7, float brickSpaceX = 0.25f, float brickSpaceY = 0.25f)
+    {
+        ClearBricks(brickRowCount, brickPerRow);
+        brickRows = new Transform[brickRowCount];
+        for (int i = 0; i < brickRowCount; i++)
+        {
+            brickRows[i] = Instantiate(brickRowPrefab, brickRowParents).transform;
+            brickRows[i].position = new Vector3(0, defaultBrickHeight + ((brickRowCount-1)/2 - i)* (brickSpaceY + brickSizeY), 0);
+            ///// ## To Do : Add brick Initailize
+        }
+    }
+
+    private void ClearBricks(int brickRowCount, int brickPerRow)
+    {
+        if (brickRows.Length != 0)
+        {
+            for (int q = brickRows.Length - 1; q > -1; q--)
+            {
+                DestroyImmediate(brickRows[q].gameObject);
+            }
+        }
+        brickRows = new Transform[brickRowCount];
+        bricks = new Brick[brickRowCount * brickPerRow];
+
+    }
+
+    #endregion
 }
 
 

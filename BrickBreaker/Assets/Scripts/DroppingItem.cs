@@ -10,7 +10,7 @@ public enum Item
     PowerUp,
     LifeUp
 }
-
+//////////// #### To Do : Add more Item Logics
 public class DroppingItem : MonoBehaviour
 {
     private static GameManager gameManager;
