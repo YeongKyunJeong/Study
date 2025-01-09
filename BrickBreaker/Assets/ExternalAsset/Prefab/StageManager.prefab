@@ -90,4 +90,13 @@ MonoBehaviour:
   - {fileID: 0}
   isRandomItemSet: 1
   itemSettingWeight: 
+  brickData: {fileID: 11400000, guid: 6dadf60984f76164f909e3d49c8c9360, type: 2}
   GameManagerPrefab: {fileID: 3380511778232568454, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+  brickPrefab: {fileID: 9187324563423895664, guid: 1ec005001117ede4ba8a0980624c184d, type: 3}
+  brickRowPrefab: {fileID: 1360891040557026286, guid: 382d8d55858e8094aae624b39d6b3d63, type: 3}
+  brickRows: []
+  brickRowParents: {fileID: 0}
+  brickRowCount: 5
+  brickPerRow: 7
+  brickSpaceX: 0.25
+  brickSpaceY: 0.25

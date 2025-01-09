@@ -4,6 +4,8 @@ public class Brick : MonoBehaviour
 {
     public int health { get; private set; }
     [SerializeField] int initialHealth = 3;
+    private const int MAX_HEALTH = 5;
+    private const int MIN_HEALTH = 1;
 
     public int points = 100;
 
@@ -21,8 +23,8 @@ public class Brick : MonoBehaviour
     [SerializeField] private Item resultDropItem;
 
     [SerializeField] private bool isBreakable = true;
-    private Transform selfTransform;
     private bool isBroken = false;
+    private Transform selfTransform;
 
     private SFXType brickHitType = SFXType.BrickHit;
     private SFXType brickBreakType = SFXType.BrickBreak;
@@ -47,6 +49,7 @@ public class Brick : MonoBehaviour
         }
 
         isBroken = false;
+
         selfTransform = transform;
         if (givenItem == Item.None)
             resultDropItem = fixedDropItem;
@@ -55,9 +58,14 @@ public class Brick : MonoBehaviour
 
         ResetBrick();
 
+
+
         health = initialHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
-        spriteRenderer.sprite = givenBrickData.brickSprites[health];
+        if (isBreakable)
+            spriteRenderer.sprite = givenBrickData.brickSprites[health];
+        else
+            spriteRenderer.sprite = givenBrickData.brickSprites[0];
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -100,5 +108,22 @@ public class Brick : MonoBehaviour
         this.health = initialHealth;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = brickData.brickSprites[health];
+    }
+
+    public void SetBrickParameter(int initHealth, bool isBreakable, BrickData givneBrickData)
+    {
+        if (spriteRenderer == null)
+        {
+            spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        if (!isBreakable)
+        {
+            spriteRenderer.sprite = givneBrickData.brickSprites[0];
+        }
+        else
+        {
+            spriteRenderer.sprite = givneBrickData.brickSprites[initHealth];
+        }
     }
 }

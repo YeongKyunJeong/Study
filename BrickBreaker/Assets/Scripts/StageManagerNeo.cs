@@ -23,6 +23,7 @@ public class StageManagerNeo : MonoBehaviour
     #endregion
 
     #region External Reference
+    [SerializeField] private BrickData brickData;
     private GameManager gameManager;
     public GameObject GameManagerPrefab;
     #endregion
@@ -77,22 +78,52 @@ public class StageManagerNeo : MonoBehaviour
     [SerializeField] private Transform[] brickRows;
     [SerializeField] private Transform brickRowParents;
 
-    public float brickSpaceX = 0.25f;
-    public float brickSpaceY = 0.25f;
-
     private float defaultBrickHeight = 5.5f;
     private float brickSizeX = 4;
     private float brickSizeY = 1;
+    private const int MAX_BRICK_ROW_COUNT = 6;
+    private const int MIN_BRICK_ROW_COUNT = 1;
+    private const int MAX_BRICK_PER_ROW_COUNT = 7;
+    private const int MIN_BRICK_PER_ROW_COUNT = 1;
+
 
     public void GenerateBricks(int brickRowCount = 5, int brickPerRow = 7, float brickSpaceX = 0.25f, float brickSpaceY = 0.25f)
     {
+        MakeBricks(brickRowCount, brickPerRow, brickSpaceX, brickSpaceY);
+    }
+
+    public void MakeBricks(int brickRowCount, int brickPerRow, float brickSpaceX, float brickSpaceY)
+    {
+        brickData.Initialize();
+        if (brickRowParents == null)
+        {
+            brickRowParents = GameObject.Find("Bricks").transform;
+        }
+
         ClearBricks(brickRowCount, brickPerRow);
-        brickRows = new Transform[brickRowCount];
+
+
         for (int i = 0; i < brickRowCount; i++)
         {
+
             brickRows[i] = Instantiate(brickRowPrefab, brickRowParents).transform;
-            brickRows[i].position = new Vector3(0, defaultBrickHeight + ((brickRowCount-1)/2 - i)* (brickSpaceY + brickSizeY), 0);
-            ///// ## To Do : Add brick Initailize
+            brickRows[i].localPosition = new Vector3(0, defaultBrickHeight + ((float)(brickRowCount - 1) / 2 - i) * (brickSpaceY + brickSizeY), 0);
+
+
+            Brick[] tempBrick = brickRows[i].GetComponentsInChildren<Brick>();
+            for (int j = 6; j > -1; j--)
+            {
+                if (j < brickPerRow)
+                {
+                    bricks[brickPerRow * i + j] = tempBrick[j];
+                    tempBrick[j].transform.localPosition = new Vector3(((float)(brickPerRow - 1) / 2 - j) * (brickSpaceX + brickSizeX), 0, 0);
+                    tempBrick[j].SetBrickParameter(3, true, brickData);
+                }
+                else
+                {
+                    DestroyImmediate(tempBrick[j].gameObject);
+                }
+            }
         }
     }
 
@@ -102,7 +133,8 @@ public class StageManagerNeo : MonoBehaviour
         {
             for (int q = brickRows.Length - 1; q > -1; q--)
             {
-                DestroyImmediate(brickRows[q].gameObject);
+                if (brickRows[q] != null)
+                    DestroyImmediate(brickRows[q].gameObject);
             }
         }
         brickRows = new Transform[brickRowCount];
