@@ -78,21 +78,31 @@ public class StageManagerNeo : MonoBehaviour
     [SerializeField] private Transform[] brickRows;
     [SerializeField] private Transform brickRowParents;
 
+    [HideInInspector]
+    [SerializeField] private string[] rowBrickHealths = new string[0];
+
+    private int[] convertedRowBrickHealths;
+
+    [HideInInspector]
+    [SerializeField] private int brickRowCount = 5;
+    [HideInInspector]
+    [SerializeField] private int brickPerRow = 7;
+    [HideInInspector]
+    [SerializeField] private float brickSpaceX = 0.25f;
+    [HideInInspector]
+    [SerializeField] private float brickSpaceY = 0.25f;
+
     private float defaultBrickHeight = 5.5f;
+    private int defaultBrickHealth = 1;
     private float brickSizeX = 4;
     private float brickSizeY = 1;
-    private const int MAX_BRICK_ROW_COUNT = 6;
-    private const int MIN_BRICK_ROW_COUNT = 1;
-    private const int MAX_BRICK_PER_ROW_COUNT = 7;
-    private const int MIN_BRICK_PER_ROW_COUNT = 1;
 
-
-    public void GenerateBricks(int brickRowCount = 5, int brickPerRow = 7, float brickSpaceX = 0.25f, float brickSpaceY = 0.25f)
+    public void GenerateBricks(bool isRandomHealth = true)
     {
-        MakeBricks(brickRowCount, brickPerRow, brickSpaceX, brickSpaceY);
+        MakeBricks(brickRowCount, brickPerRow, brickSpaceX, brickSpaceY, isRandomHealth, rowBrickHealths);
     }
 
-    public void MakeBricks(int brickRowCount, int brickPerRow, float brickSpaceX, float brickSpaceY)
+    public void MakeBricks(int brickRowCount, int brickPerRow, float brickSpaceX, float brickSpaceY, bool isRandomHealth, string[] rowHealths)
     {
         brickData.Initialize();
         if (brickRowParents == null)
@@ -113,11 +123,12 @@ public class StageManagerNeo : MonoBehaviour
             Brick[] tempBrick = brickRows[i].GetComponentsInChildren<Brick>();
             for (int j = 6; j > -1; j--)
             {
+                int health = int.Parse(rowBrickHealths[i][j].ToString());
                 if (j < brickPerRow)
                 {
                     bricks[brickPerRow * i + j] = tempBrick[j];
-                    tempBrick[j].transform.localPosition = new Vector3(((float)(brickPerRow - 1) / 2 - j) * (brickSpaceX + brickSizeX), 0, 0);
-                    tempBrick[j].SetBrickParameter(3, true, brickData);
+                    tempBrick[j].transform.localPosition = new Vector3((-(float)(brickPerRow - 1) / 2 + j) * (brickSpaceX + brickSizeX), 0, 0);
+                    tempBrick[j].SetBrickParameter(health, true, brickData);
                 }
                 else
                 {
@@ -139,7 +150,6 @@ public class StageManagerNeo : MonoBehaviour
         }
         brickRows = new Transform[brickRowCount];
         bricks = new Brick[brickRowCount * brickPerRow];
-
     }
 
     #endregion
