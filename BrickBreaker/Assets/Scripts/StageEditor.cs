@@ -11,6 +11,7 @@ public class StageEditor : Editor
 
     private bool randomBrickHealth = true;
     private string[] rowBrickHealths = new string[0];
+    private int loadLevel = 0;
 
     private int brickRowCount;
     private StringBuilder sb;
@@ -55,6 +56,7 @@ public class StageEditor : Editor
 
     public override void OnInspectorGUI()
     {
+        #region Custom Inspector
         serializedObject.Update();
 
         DrawDefaultInspector();
@@ -88,11 +90,56 @@ public class StageEditor : Editor
 
         serializedObject.ApplyModifiedProperties();
 
+        #endregion
+        #region ButtonAction
+
         if (GUILayout.Button("GenerateBricks"))
         {
             AdjustBrickHealths();
-            stageManagerNeo.GenerateBricks(randomBrickHealth);
+            serializedObject.ApplyModifiedProperties();
+            stageManagerNeo.GenerateBricks();
         }
+
+        GUILayout.Space(10);
+
+        if(GUILayout.Button("Power Clean"))
+        {
+            PowerClean(stageManagerNeo.GetBrickRowParent);
+        }
+
+        GUILayout.Space(10);
+
+        if (GUILayout.Button("Save Stage Parameter"))
+        {
+            string path = "";
+            if (stageManagerNeo.GetLevel < 10)
+                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level0{stageManagerNeo.GetLevel}.json", "json");
+            else
+                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level{stageManagerNeo.GetLevel}.json", "json");
+            if (!string.IsNullOrEmpty(path))
+            {
+                stageManagerNeo.SaveStageParameter(path);
+            }
+        }
+
+        GUILayout.Space(10);
+
+        loadLevel = EditorGUILayout.IntField("로드할 레벨", loadLevel);
+
+        if(GUILayout.Button("Load Stage Parameter"))
+        {
+            string path = loadLevel.ToString() ;
+            if (stageManagerNeo.GetLevel < 10)
+                path = EditorUtility.SaveFilePanel("Load stage parameter", "", $"Level0{path}.json", "json");
+            else
+                path = EditorUtility.SaveFilePanel("Load stage parameter", "", $"Level{path}.json", "json");
+            if (!string.IsNullOrEmpty(path))
+            {
+                stageManagerNeo.LoadStageParameter(path);
+            }
+        }
+
+        #endregion
     }
 
     private void AdjustBrickHealths()
@@ -139,9 +186,8 @@ public class StageEditor : Editor
                         sb.Append(DEFAULT_BRICK_HEALTH.ToString());
                     }
                 }
-
-                rowElement.stringValue = sb.ToString();
             }
+            rowElement.stringValue = sb.ToString();
         }
         serializedObject.ApplyModifiedProperties();
     }
@@ -172,5 +218,17 @@ public class StageEditor : Editor
         {
             brickSpaceYProp.floatValue = MIN_BRICK_SPACE_Y;
         }
+    }
+
+    private void PowerClean(Transform targetParentTransform)
+    {
+        int childCount = targetParentTransform.childCount;
+
+        for (int i = childCount-1; i > -1; i--)
+        {
+            DestroyImmediate(targetParentTransform.GetChild(i).gameObject);
+        }
+
+        Debug.Log($"Power Clean : {childCount} child objects deleted");
     }
 }

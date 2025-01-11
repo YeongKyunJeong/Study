@@ -1,0 +1,14 @@
+{
+    "level": 3,
+    "brickRowCount": 5,
+    "brickPerRow": 7,
+    "brickSpaceX": 0.25,
+    "brickSpaceY": 0.25,
+    "rowBrickHealths": [
+        "5432322",
+        "5512453",
+        "2122252",
+        "4454544",
+        "5152325"
+    ]
+}

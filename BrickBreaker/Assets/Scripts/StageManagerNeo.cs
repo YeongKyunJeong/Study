@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -77,11 +78,11 @@ public class StageManagerNeo : MonoBehaviour
     [SerializeField] private GameObject brickRowPrefab;
     [SerializeField] private Transform[] brickRows;
     [SerializeField] private Transform brickRowParents;
+    public Transform GetBrickRowParent { get { return brickRowParents;}  }
 
     [HideInInspector]
     [SerializeField] private string[] rowBrickHealths = new string[0];
 
-    private int[] convertedRowBrickHealths;
 
     [HideInInspector]
     [SerializeField] private int brickRowCount = 5;
@@ -93,16 +94,17 @@ public class StageManagerNeo : MonoBehaviour
     [SerializeField] private float brickSpaceY = 0.25f;
 
     private float defaultBrickHeight = 5.5f;
-    private int defaultBrickHealth = 1;
     private float brickSizeX = 4;
     private float brickSizeY = 1;
 
-    public void GenerateBricks(bool isRandomHealth = true)
+    public string savePath = "Assets/StageParameter";
+
+    public void GenerateBricks()
     {
-        MakeBricks(brickRowCount, brickPerRow, brickSpaceX, brickSpaceY, isRandomHealth, rowBrickHealths);
+        MakeBricks(brickRowCount, brickPerRow, brickSpaceX, brickSpaceY);
     }
 
-    public void MakeBricks(int brickRowCount, int brickPerRow, float brickSpaceX, float brickSpaceY, bool isRandomHealth, string[] rowHealths)
+    public void MakeBricks(int brickRowCount, int brickPerRow, float brickSpaceX, float brickSpaceY)
     {
         brickData.Initialize();
         if (brickRowParents == null)
@@ -148,10 +150,79 @@ public class StageManagerNeo : MonoBehaviour
                     DestroyImmediate(brickRows[q].gameObject);
             }
         }
+
         brickRows = new Transform[brickRowCount];
         bricks = new Brick[brickRowCount * brickPerRow];
     }
 
+    public void SaveStageParameter(string path)
+    {
+        if (string.IsNullOrEmpty(path))
+        {
+            string folderPath = Path.Combine(Application.dataPath, savePath.TrimStart("Assets/".ToCharArray()));
+            if (!Directory.Exists(folderPath))
+            {
+                Directory.CreateDirectory(folderPath);
+                Debug.Log($"Created folder : {folderPath}");
+            }
+
+            if (level < 10)
+            {
+                path = Path.Combine(folderPath, $"Level0{level}.json");
+            }
+            else
+            {
+                path = Path.Combine(folderPath, $"Level{level}.json");
+            }
+        }
+        SaveStageParameterToFile(path);
+    }
+
+    private void SaveStageParameterToFile(string path)
+    {
+        StageParameter stageParameterData = new StageParameter
+        {
+            level = this.level,
+            brickRowCount = this.brickRowCount,
+            brickPerRow = this.brickPerRow,
+            brickSpaceX = this.brickSpaceX,
+            brickSpaceY = this.brickSpaceY,
+            rowBrickHealths = this.rowBrickHealths
+        };
+        string json = JsonUtility.ToJson(stageParameterData, true);
+        File.WriteAllText(path, json);
+        Debug.Log($"Stage paramter are saved at {path}");
+    }
+
+
+    public void LoadStageParameter(string path)
+    {
+        if (File.Exists(path))
+        {
+            LoadStageParameterFromFile(path);
+        }
+        else
+        {
+            Debug.LogError($"File not found : {path}");
+        }
+    }
+
+    private void LoadStageParameterFromFile(string path)
+    {
+        string json = File.ReadAllText(path);
+        StageParameter loadedStageParameter = JsonUtility.FromJson<StageParameter>(json);
+
+        ClearBricks(loadedStageParameter.brickRowCount ,loadedStageParameter.brickPerRow);
+
+        level = loadedStageParameter.level;
+        brickRowCount = loadedStageParameter.brickRowCount;
+        brickPerRow = loadedStageParameter.brickPerRow;
+        brickSpaceX = loadedStageParameter.brickSpaceX;
+        brickSpaceY = loadedStageParameter.brickSpaceY;
+        rowBrickHealths = loadedStageParameter.rowBrickHealths;
+
+        GenerateBricks();
+    }
     #endregion
 }
 

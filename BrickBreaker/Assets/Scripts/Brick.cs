@@ -125,5 +125,6 @@ public class Brick : MonoBehaviour
         {
             spriteRenderer.sprite = givneBrickData.brickSprites[initHealth];
         }
+        this.initialHealth = initHealth;
     }
 }
