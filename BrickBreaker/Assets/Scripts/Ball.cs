@@ -8,6 +8,9 @@ public class Ball : MonoBehaviour
 
     private static GameManager gameManager;
     private static BrickData brickData;
+
+    public bool isActive;
+
     [SerializeField] private SpriteRenderer spriteRenderer;
     private float deflectionStartOffset = 0.75f;
     private Vector2 force = Vector2.zero;
@@ -33,7 +36,7 @@ public class Ball : MonoBehaviour
     private LayerMask bricksLayer;
     //private LayerMask bricksLayer;
 
-    public void Initialize(BrickData givenBrickData, int ballPower)
+    public void Initialize(BrickData givenBrickData, int ballPower, bool isActive = false)
     {
         if (rigidBody == null)
         {
@@ -43,6 +46,8 @@ public class Ball : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
+        this.isActive = isActive;
+        gameObject.SetActive(isActive);
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
         bricksLayer = LayerMask.NameToLayer("Bricks");
@@ -60,9 +65,10 @@ public class Ball : MonoBehaviour
         waitFor1s = new WaitForSeconds(1f);
         //waitForFixedFrame = new WaitForFixedUpdate();
         coroutine = null;
-        coroutine = StartCoroutine(CoroutineAtStart());
+        if (isActive)
+            coroutine = StartCoroutine(CoroutineAtStart());
 
-        spriteRenderer.color = brickData.ballColors[ballPower-1];
+        spriteRenderer.color = brickData.ballColors[ballPower - 1];
     }
 
     public void SetRandomDirection()
@@ -81,20 +87,28 @@ public class Ball : MonoBehaviour
 
     public void ShootBallAtStart()
     {
+
         if (coroutine != null)
         {
             coroutine = null;
         }
         coroutine = StartCoroutine(CoroutineAtStart());
+
     }
 
-    public void ResetBall(bool reshootBall)
+    public void ResetBall(bool reshootBall, bool isFirstBall)
     {
-        rigidBody.velocity = Vector2.zero;
-        transform.position = firstPosition;
-        if (reshootBall)
+        isActive = isFirstBall;
+        gameObject.SetActive(isFirstBall);
+        if (isActive)
         {
-            ShootBallAtStart();
+            rigidBody.velocity = Vector2.zero;
+            transform.position = firstPosition;
+            if (reshootBall)
+            {
+                ShootBallAtStart();
+            }
+
         }
     }
 

@@ -11,7 +11,7 @@ public class StageManagerNeo : MonoBehaviour
     private int level;
     public int GetLevel { get { return level; } private set { } }
     public Paddle paddle;
-    public Ball ball;
+    public Ball[] balls;
     public Brick[] bricks;
     public DeadZone[] walls;
     public bool isRandomItemSet = true;
@@ -42,11 +42,11 @@ public class StageManagerNeo : MonoBehaviour
         {
             paddle = FindFirstObjectByType<Paddle>();
         }
-        if (ball == null)
+        if (  (balls.Length == 0) || (balls[0] == null) )
         {
-            ball = FindFirstObjectByType<Ball>();
+            balls = FindObjectsByType<Ball>(FindObjectsSortMode.None);
         }
-        if (bricks.Length == 0)
+        if ((bricks.Length == 0) || (bricks[0]) == null)
         {
             bricks = FindObjectsByType<Brick>(FindObjectsSortMode.None);
         }
@@ -78,7 +78,7 @@ public class StageManagerNeo : MonoBehaviour
     [SerializeField] private GameObject brickRowPrefab;
     [SerializeField] private Transform[] brickRows;
     [SerializeField] private Transform brickRowParents;
-    public Transform GetBrickRowParent { get { return brickRowParents;}  }
+    public Transform GetBrickRowParent { get { return brickRowParents; } }
 
     [HideInInspector]
     [SerializeField] private string[] rowBrickHealths = new string[0];
@@ -97,6 +97,7 @@ public class StageManagerNeo : MonoBehaviour
     private float brickSizeX = 4;
     private float brickSizeY = 1;
 
+    [HideInInspector]
     public string savePath = "Assets/StageParameter";
 
     public void GenerateBricks()
@@ -212,7 +213,7 @@ public class StageManagerNeo : MonoBehaviour
         string json = File.ReadAllText(path);
         StageParameter loadedStageParameter = JsonUtility.FromJson<StageParameter>(json);
 
-        ClearBricks(loadedStageParameter.brickRowCount ,loadedStageParameter.brickPerRow);
+        ClearBricks(loadedStageParameter.brickRowCount, loadedStageParameter.brickPerRow);
 
         level = loadedStageParameter.level;
         brickRowCount = loadedStageParameter.brickRowCount;

@@ -23,11 +23,12 @@ MonoBehaviour:
   audioClip_BrickHit: {fileID: 8300000, guid: ef7506809e3539d44a20483e1af5ac99, type: 3}
   audioClip_BrickBreak: {fileID: 8300000, guid: b5687c5b6e0190d469131aa0044b252b, type: 3}
   audioClip_Fall: {fileID: 8300000, guid: c4b87da126aa7f543bd856333d3fc1c2, type: 3}
-  defaultItemProbabilityField: 41000000190000000a000000
+  defaultItemProbabilityField: 37000000190000000a0000000a000000
   itemColorsField:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.5459697, b: 0.4481132, a: 1}
   - {r: 0.7194796, g: 0.9528302, b: 0.56181026, a: 1}
+  - {r: 1, g: 0.7706173, b: 0.07075471, a: 1}
   ballColorsField:
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 0.9391496, b: 0.28773582, a: 1}

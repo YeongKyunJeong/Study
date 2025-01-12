@@ -8,7 +8,8 @@ public enum Item
 {
     None,
     PowerUp,
-    LifeUp
+    LifeUp,
+    MultiBall
 }
 //////////// #### To Do : Add more Item Logics
 public class DroppingItem : MonoBehaviour

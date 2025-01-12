@@ -79,13 +79,16 @@ public class Brick : MonoBehaviour
 
     private void Hit()
     {
-        health -= brickDamage;
+        if (health > 0)
+        {
+            health -= brickDamage;
+        }
+
         if (health > 0)
         {
             PlayBrickSFX(brickHitType);
             this.spriteRenderer.sprite = brickData.brickSprites[health];
-            gameManager.HitBrick(points, zeroVector);
-
+            gameManager.HitBrick(brickDamage * points, zeroVector);
         }
         else
         {
@@ -93,7 +96,7 @@ public class Brick : MonoBehaviour
             this.gameObject.SetActive(false);
             PlayBrickSFX(brickBreakType);
             isBroken = true;
-            gameManager.HitBrick(points, selfTransform.position, isBroken, resultDropItem);
+            gameManager.HitBrick(brickDamage * points, selfTransform.position, isBroken, resultDropItem);
         }
     }
 

@@ -42,6 +42,7 @@ public class GameManager : MonoBehaviour
     public int brickDamage = 1;
 
     [SerializeField] private int leftBrickCount = -1;
+    [SerializeField] private int leftBallCount = -1;
     private bool stageCleared = false;
     #endregion
 
@@ -58,7 +59,7 @@ public class GameManager : MonoBehaviour
     private int tempInt2 = 0;
     private int totalWeight = 0;
 
-    private Coroutine PowerUpCoroutine;
+    private Coroutine[] PowerUpCoroutines;
     private List<Coroutine> CoroutineLists = new List<Coroutine>();
     #endregion
 
@@ -76,7 +77,7 @@ public class GameManager : MonoBehaviour
 
     #region Stage Object
     [SerializeField] private Paddle paddle;
-    [SerializeField] private Ball ball;
+    [SerializeField] private Ball[] balls;
     [SerializeField] private Brick[] bricks;
     [SerializeField] private BrickData brickData;
     [SerializeField] private DeadZone[] walls;
@@ -115,6 +116,8 @@ public class GameManager : MonoBehaviour
         deadZoneLayer = LayerMask.NameToLayer("DeadZone");
         powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
         isMainMenuOn = false;
+        
+        PowerUpCoroutines = new Coroutine[5];
 
         Initialize();
     }
@@ -229,10 +232,14 @@ public class GameManager : MonoBehaviour
 
     public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
     {
-        if (PowerUpCoroutine != null)
+        for (int i = 0; i < PowerUpCoroutines.Length; i++)
         {
-            StopCoroutine(PowerUpCoroutine);
-            PowerUpCoroutine = null;
+            if (PowerUpCoroutines[i] != null)
+            {
+                StopCoroutine(PowerUpCoroutines[i]);
+                PowerUpCoroutines[i] = null;
+            }
+
         }
 
         this.stageManagerNeo = stageManagerNeo;
@@ -251,8 +258,18 @@ public class GameManager : MonoBehaviour
         {
             wall.Initialize(ballLayer);
         }
-        ball = stageManagerNeo.ball;
-        ball.Initialize(brickData, brickDamage);
+        balls = stageManagerNeo.balls;
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (i == 0)
+            {
+                balls[i].Initialize(brickData, brickDamage, true);
+            }
+            else
+            {
+                balls[i].Initialize(brickData, brickDamage);
+            }
+        }
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
@@ -446,20 +463,39 @@ public class GameManager : MonoBehaviour
             lives = livesAtStageStart;
             isMainMenuOn = false;
 
+
             TimeControler.TimeScaler(1);
             uiManager.ResetStage(myScore, lives);
             ResetPaddleCall();
             ResetBallCall();
-            foreach (Brick brick in bricks)
-            {
-                brick.ResetBrick();
-            }
+            ResetBricks();
+        }
+    }
+
+    private void ResetBricks()
+    {
+        leftBrickCount = bricks.Length;
+        foreach (Brick brick in bricks)
+        {
+            brick.ResetBrick();
         }
     }
 
     public void ResetBallCall(bool reshootBall = true)
     {
-        ball.ResetBall(reshootBall);
+        leftBallCount = 1;
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (i == 0)
+            {
+                balls[i].ResetBall(reshootBall, true);
+            }
+            else
+            {
+                balls[i].ResetBall(reshootBall, false);
+            }
+        }
+
     }
 
     public void ResetPaddleCall()
@@ -491,12 +527,22 @@ public class GameManager : MonoBehaviour
         {
             case Item.PowerUp:
                 {
-                    StartCoroutine(BrickDamagerUp());
+                    for (int i = 0; i < balls.Length; i++)
+                    {
+                        if (balls[i].isActive)
+                            PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
+                    }
                     break;
                 }
             case Item.LifeUp:
                 {
                     LifeUp();
+                    break;
+                }
+            case Item.MultiBall:
+                {
+                    /////////
+
                     break;
                 }
             default:
@@ -531,14 +577,26 @@ public class GameManager : MonoBehaviour
             brickDamage = upedPower;
         }
         bricks[0].BrickDamagerSetter = brickDamage;
-        ball.ChangeColor(brickDamage);
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (balls[i].isActive)
+            {
+                balls[i].ChangeColor(brickDamage);
+            }
+        }
 
 
         yield return powerUpWaitForSec;
 
         brickDamage = 1;
         bricks[0].BrickDamagerSetter = brickDamage;
-        ball.ChangeColor(brickDamage);
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (balls[i].isActive)
+            {
+                balls[i].ChangeColor(brickDamage);
+            }
+        }
 
         yield return null;
     }
@@ -547,15 +605,18 @@ public class GameManager : MonoBehaviour
     {
         if (CoroutineLists.Count == 0)
         {
-            CoroutineLists.Add(PowerUpCoroutine);
+            for (int i = 0; i < PowerUpCoroutines.Length; i++)
+            {
+                CoroutineLists.Add(PowerUpCoroutines[i]);
+            }
         }
 
         for (int i = 0; i < CoroutineLists.Count; i++)
         {
-            if(CoroutineLists[i] != null)
+            if (CoroutineLists[i] != null)
             {
                 StopCoroutine(CoroutineLists[i]);
-                CoroutineLists[i] = null;
+                //CoroutineLists[i] = null;
             }
         }
     }
