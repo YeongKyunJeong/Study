@@ -26,6 +26,16 @@ public class Ball : MonoBehaviour
     private Vector2 firstPosition;
     private SFXType paddleHitType = SFXType.PaddleHit;
 
+    #region MultiBall Parameter
+    private static Vector3 highestBallPos;
+    private static float highestBallAngle;
+    private static float highestBallspeed;
+    private static int leftBallIndex;
+    private static float degreeDelta = 5;
+    private static bool isUp;
+
+    #endregion
+
     public float speed;
     private float speedCorrector;
     private float bounceBallSpeed;
@@ -113,6 +123,64 @@ public class Ball : MonoBehaviour
         }
     }
 
+    public void MakeMultiBall()
+    {
+        isActive = true;
+        gameObject.SetActive(true);
+        if (isUp)
+        {
+            if (highestBallAngle > 55)
+            {
+                angle = highestBallAngle;
+            }
+            else if (highestBallAngle > 50)
+            {
+                angle = highestBallAngle = degreeDelta;
+            }
+            else if (highestBallAngle < -55)
+            {
+                angle = highestBallAngle + 4 * degreeDelta;
+            }
+            else if (highestBallAngle < -45)
+            {
+                angle = highestBallAngle + 3 * degreeDelta;
+            }
+            else
+            {
+                angle = highestBallAngle + 2 * degreeDelta;
+            }
+        }
+        else
+        {
+            if (highestBallAngle >= 120 || highestBallAngle < 125)
+            {
+                angle = highestBallAngle + 4 * degreeDelta;
+            }
+            else if (highestBallAngle >= 125 || highestBallAngle < 130)
+            {
+                angle = highestBallAngle + 3 * degreeDelta;
+            }
+            else if (highestBallAngle <= -120 || highestBallAngle > -125)
+            {
+                angle = highestBallAngle;
+            }
+            else if(highestBallAngle <= -125 || highestBallAngle > -130)
+            {
+                angle = highestBallAngle + degreeDelta;
+            }
+            else
+            {
+                angle = highestBallAngle + 2 * degreeDelta;
+            }
+
+        }
+
+        transform.position = highestBallPos;
+        angle -= leftBallIndex * degreeDelta;
+        rigidBody.velocity = highestBallspeed * (new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad)));
+        leftBallIndex++;
+    }
+
     public void ChangeColor(int ballPower)
     {
         spriteRenderer.color = brickData.ballColors[ballPower - 1];
@@ -144,7 +212,8 @@ public class Ball : MonoBehaviour
     }
     float save = 0;
     float save2 = 0;
-    float save3 = 0;
+    float save3;
+
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.layer == paddleLayer)
@@ -157,10 +226,6 @@ public class Ball : MonoBehaviour
         {
             Debug.Log("Ball");
         }
-        //else if (collision.gameObject.layer == bricksLayer)
-        //{
-        //    collision.
-        //}
         else if (collision.gameObject.layer == bricksLayer)
         {
             HitBrick(collision);
@@ -191,7 +256,7 @@ public class Ball : MonoBehaviour
             angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
             angle = Mathf.Clamp(angle - (offset / halfWidth) * maxBounceAngle, -maxBounceAngle, maxBounceAngle);
             //rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            
+
             //rigidBody.velocity = rotation * Vector2.up;
 
             rigidBody.velocity = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
@@ -214,15 +279,6 @@ public class Ball : MonoBehaviour
             speedCorrector = 1;
         }
 
-        if ((Mathf.Abs(speedCorrector) > 2) || (Mathf.Abs(speedCorrector) < 1))
-        {
-            //Debug.Log("speedCorrector : " + speedCorrector);
-            //Debug.Log("angle : " + angle);
-            //Debug.Log("x : " + Mathf.Abs(angle) / 90f);
-
-        }
-
-        //Debug.Log(speedCorrector);
         rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
 
     }
@@ -236,5 +292,14 @@ public class Ball : MonoBehaviour
     public void PlayPaddleHitSFX()
     {
         gameManager.PlaySFX(paddleHitType);
+    }
+
+    internal void ReadyMultiBall()
+    {
+        highestBallPos = transform.position;
+        highestBallAngle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);
+        highestBallspeed = rigidBody.velocity.magnitude;
+        isUp = rigidBody.velocity.y > 0 ? true : false;
+        leftBallIndex = 0;
     }
 }

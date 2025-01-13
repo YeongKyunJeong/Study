@@ -75,6 +75,15 @@ public class GameManager : MonoBehaviour
     private static int itemTypeNumber;
     private int[] defaultItemProbability;
 
+    #region MultiBall Logic Parameter
+    private float highestBallHeight;
+    private float highestHeight;
+    private int highestBallIndex;
+    private int tempInt3;
+    private float angle;
+    private float speed;
+    #endregion
+
     #region Stage Object
     [SerializeField] private Paddle paddle;
     [SerializeField] private Ball[] balls;
@@ -116,7 +125,7 @@ public class GameManager : MonoBehaviour
         deadZoneLayer = LayerMask.NameToLayer("DeadZone");
         powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
         isMainMenuOn = false;
-        
+
         PowerUpCoroutines = new Coroutine[5];
 
         Initialize();
@@ -269,7 +278,14 @@ public class GameManager : MonoBehaviour
             {
                 balls[i].Initialize(brickData, brickDamage);
             }
+
+            //for (int j = i; j < balls.Length; j++)
+            //{
+            //    Physics2D.IgnoreCollision(balls[i].GetComponent<CircleCollider2D>(), balls[j].GetComponent<CircleCollider2D>());
+            //}
         }
+        leftBallCount = 1;
+        highestBallHeight = -16f;
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
@@ -493,6 +509,7 @@ public class GameManager : MonoBehaviour
     public void ResetBallCall(bool reshootBall = true)
     {
         leftBallCount = 1;
+        highestBallHeight = -16;
         for (int i = 0; i < balls.Length; i++)
         {
             if (i == 0)
@@ -512,21 +529,31 @@ public class GameManager : MonoBehaviour
         paddle.ResetPaddle();
     }
 
-    public void DeadZoneOut()
+    public void DeadZoneOut(GameObject maybeBall)
     {
-        lives--;
-        PlaySFX(fallSFXTye);
-        uiManager.ChangeNumber(lives, UINumberCategory.Life);
-
-        if (lives > 0)
+        if (leftBallCount > 1)
         {
-            ResetBallCall();
+            leftBallCount--;
+            maybeBall.GetComponent<Ball>().isActive = false;
+            maybeBall.gameObject.SetActive(false);
         }
         else
         {
-            TimeControler.TimeScaler(0);
-            uiManager.GameOver();
-            Debug.Log("Game Over");
+            lives--;
+            leftBallCount = 1;
+            PlaySFX(fallSFXTye);
+            uiManager.ChangeNumber(lives, UINumberCategory.Life);
+
+            if (lives > 0)
+            {
+                ResetBallCall();
+            }
+            else
+            {
+                TimeControler.TimeScaler(0);
+                uiManager.GameOver();
+                Debug.Log("Game Over");
+            }
         }
     }
 
@@ -538,7 +565,7 @@ public class GameManager : MonoBehaviour
                 {
                     for (int i = 0; i < balls.Length; i++)
                     {
-                        if (balls[i].isActive)
+                        //if (balls[i].isActive)
                             PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
                     }
                     break;
@@ -550,8 +577,7 @@ public class GameManager : MonoBehaviour
                 }
             case Item.MultiBall:
                 {
-                    /////////
-
+                    MakeMultiBall();
                     break;
                 }
             default:
@@ -559,6 +585,38 @@ public class GameManager : MonoBehaviour
                     break;
                 }
         }
+    }
+
+    private void MakeMultiBall()
+    {
+        highestHeight = -16;
+        highestBallIndex = 0;
+        leftBallCount = balls.Length;
+        for (int i = 0; i < balls.Length; i++)
+        {
+            if (balls[i].isActive)
+                if (balls[i].transform.position.y > highestHeight)
+                {
+                    highestHeight = balls[i].transform.position.y;
+                    highestBallIndex = i;
+                }
+        }
+
+        balls[highestBallIndex].ReadyMultiBall();
+        for (int i = 0; i < balls.Length; i++)
+        {
+            balls[i].MakeMultiBall();
+        }
+
+
+
+
+
+        //for (int i = 0; i < balls.Length; i++)
+        //{
+        //    balls[i].MakeMultiBall(balls[highestBallIndex]);
+        //}
+
     }
 
     private void LifeUp(int deltaLife = 1)

@@ -18,7 +18,7 @@ public class DeadZone : MonoBehaviour
     {
         if (collision.gameObject.layer == ballLayer)
         {
-            gameManager.DeadZoneOut();
+            gameManager.DeadZoneOut(collision.gameObject);
         }
     }
 
