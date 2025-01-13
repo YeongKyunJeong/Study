@@ -453,6 +453,7 @@ public class GameManager : MonoBehaviour
     private void ResetGame(bool isFullRest)
     {
         ResetCoroutines();
+        ResetItemDropBoxes();
         if (isFullRest)
         {
             StartNewGame();
@@ -469,6 +470,14 @@ public class GameManager : MonoBehaviour
             ResetPaddleCall();
             ResetBallCall();
             ResetBricks();
+        }
+    }
+
+    private void ResetItemDropBoxes()
+    {
+        for (int i = 0; i < enabledDroppingItems.Count; i++)
+        {
+            enabledDroppingItems[i].DisableByReset();
         }
     }
 

@@ -22,6 +22,7 @@ public class Ball : MonoBehaviour
     private float corectedHalfWidth;
     private Coroutine coroutine;
     private Quaternion rotation;
+    private Vector2 tempVec;
     private Vector2 firstPosition;
     private SFXType paddleHitType = SFXType.PaddleHit;
 
@@ -189,8 +190,14 @@ public class Ball : MonoBehaviour
             }
             angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
             angle = Mathf.Clamp(angle - (offset / halfWidth) * maxBounceAngle, -maxBounceAngle, maxBounceAngle);
-            rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            rigidBody.velocity = rotation * Vector2.up;
+            //rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+            
+            //rigidBody.velocity = rotation * Vector2.up;
+
+            rigidBody.velocity = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+            //tempVec = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle*Mathf.Deg2Rad));
+            //Debug.Log("1: " +rigidBody.velocity.x + " , " + rigidBody.velocity.y);
+            //Debug.Log("2: "+ tempVec.x + " , " + tempVec.y);
             //Debug.Log("Angle :" + angle + "/ " + Mathf.Cos(angle));
             //Debug.Log(Mathf.Cos(angle));
         }

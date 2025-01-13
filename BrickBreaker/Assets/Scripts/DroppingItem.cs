@@ -102,4 +102,10 @@ public class DroppingItem : MonoBehaviour
             gameObject.SetActive(false);
         }
     }
+
+    public void DisableByReset()
+    {
+        isEnable = false;
+        gameObject.SetActive(false);
+    }
 }
