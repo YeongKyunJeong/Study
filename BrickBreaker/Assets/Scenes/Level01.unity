@@ -2221,6 +2221,18 @@ PrefabInstance:
       propertyPath: rowBrickHealths.Array.size
       value: 5
       objectReference: {fileID: 0}
+    - target: {fileID: 2252408459577748363, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
+      propertyPath: itemSettingWeight.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252408459577748363, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
+      propertyPath: itemSettingWeight.Array.data[0]
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2252408459577748363, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
+      propertyPath: itemSettingWeight.Array.data[3]
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 6920041131401623869, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
       propertyPath: m_Name
       value: StageManager

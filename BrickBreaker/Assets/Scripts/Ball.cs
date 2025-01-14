@@ -38,7 +38,7 @@ public class Ball : MonoBehaviour
 
     public float speed;
     private float speedCorrector;
-    private float bounceBallSpeed;
+    private static float bounceBallSpeed;
     public float maxBounceAngle = 60f;
     private WaitForSeconds waitFor1s;
     //private WaitForFixedUpdate waitForFixedFrame;
@@ -92,7 +92,8 @@ public class Ball : MonoBehaviour
         force.x = 0;
 
         rigidBody.AddForce(force.normalized * speed);
-        StartCoroutine(SaveStartSpeed());
+        if (isActive)
+            StartCoroutine(SaveStartSpeed());
 
     }
 
@@ -164,7 +165,7 @@ public class Ball : MonoBehaviour
             {
                 angle = highestBallAngle;
             }
-            else if(highestBallAngle <= -125 || highestBallAngle > -130)
+            else if (highestBallAngle <= -125 || highestBallAngle > -130)
             {
                 angle = highestBallAngle + degreeDelta;
             }
