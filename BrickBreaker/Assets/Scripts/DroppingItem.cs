@@ -20,7 +20,6 @@ public class DroppingItem : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;
     [SerializeField] private Item itemType;
     [SerializeField] private Rigidbody2D rigid;
-    public bool isEnable;
 
     private static int itemTypeNumber;
     private static bool isGlobalReady = false;
@@ -39,6 +38,7 @@ public class DroppingItem : MonoBehaviour
         else
         {
             gameManager = GameManager.Instance;
+            gameManager.ResetDroppingItemAction += DisableByReset;
             brickData = givenBrickData;
             paddleLayer = givenPaddleLayer;
             deadZoneLayer = givenDeadZoneLayer;
@@ -53,7 +53,6 @@ public class DroppingItem : MonoBehaviour
         if (isGlobalReady)
         {
             gameObject.SetActive(true);
-            isEnable = true;
             if (spriteRenderer == null)
             {
                 spriteRenderer = GetComponent<SpriteRenderer>();
@@ -92,20 +91,17 @@ public class DroppingItem : MonoBehaviour
         if (collidedObjectLayer == paddleLayer)
         {
             Debug.Log(itemType.ToString());
-            isEnable = false;
             gameObject.SetActive(false);
             gameManager.ItemGettodaze(itemType);
         }
         else if (collidedObjectLayer == deadZoneLayer)
         {
-            isEnable = false;
             gameObject.SetActive(false);
         }
     }
 
     public void DisableByReset()
     {
-        isEnable = false;
         gameObject.SetActive(false);
     }
 }

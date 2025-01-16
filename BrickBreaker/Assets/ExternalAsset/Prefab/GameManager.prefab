@@ -78,6 +78,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4502689494669076473}
   - component: {fileID: 6216851041500649185}
+  - component: {fileID: 6756471797443801962}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -123,6 +124,7 @@ MonoBehaviour:
   lives: 3
   brickDamage: 1
   leftBrickCount: -1
+  leftBallCount: -1
   isNewGame: 1
   isTemporaryGameManager: 1
   isMainMenuOn: 0
@@ -133,11 +135,30 @@ MonoBehaviour:
   droppingItemPrefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
   titleScene: {fileID: 0}
   paddle: {fileID: 0}
-  ball: {fileID: 0}
+  balls: []
   bricks: []
   brickData: {fileID: 11400000, guid: 6dadf60984f76164f909e3d49c8c9360, type: 2}
   walls: []
   stageManagerNeo: {fileID: 0}
+--- !u!114 &6756471797443801962
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3380511778232568454}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ee2d10fc6e7b642850dc6eee1a41cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - key: 0
+    prefab: {fileID: 324387375269118686, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
+    size: 0
+  - key: 1
+    prefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
+    size: 0
 --- !u!1001 &1503637490709065823
 PrefabInstance:
   m_ObjectHideFlags: 0

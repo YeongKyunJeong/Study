@@ -21,6 +21,8 @@ public class Pool
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] List<Pool> pools = new List<Pool>();
+    private List<GameObject> pooledGameObjects;
+    private GameObject newPooledGameObject;
     Dictionary<PoolObjectType, List<GameObject>> poolDictionary = new Dictionary<PoolObjectType, List<GameObject>>();
 
     public void Initialize()
@@ -43,46 +45,52 @@ public class ObjectPool : MonoBehaviour
                 }
                 Debug.Log($"Detected balls : {preGeneratedBalls.Length}");
             }
-
-        }
-
-    }
-
-
-
-    void Start()
-    {
-        foreach (var pool in pools)
-        {
-            poolDictionary[pool.key] = new List<GameObject>();
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject go = Instantiate(pool.prefab);
-                go.SetActive(false);
-                poolDictionary[pool.key].Add(go);
-            }
         }
     }
+
+
+
+    //void Start()
+    //{
+    //    foreach (var pool in pools)
+    //    {
+    //        poolDictionary[pool.key] = new List<GameObject>();
+    //        for (int i = 0; i < pool.size; i++)
+    //        {
+    //            GameObject go = Instantiate(pool.prefab);
+    //            go.SetActive(false);
+    //            poolDictionary[pool.key].Add(go);
+    //        }
+    //    }
+    //}
 
     public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour
     {
-        List<GameObject> pool;
-        if (poolDictionary.TryGetValue(key, out pool))
+        if (poolDictionary.TryGetValue(key, out pooledGameObjects))
         {
-            for (int i = 0; i < pool.Count; i++)
+            for (int i = 0; i < pooledGameObjects.Count; i++)
             {
-                if (pool[i].activeInHierarchy)
-                    return pool[i].GetComponent<T>();
+                if (!pooledGameObjects[i].activeInHierarchy)
+                {
+                    pooledGameObjects[i].SetActive(true);
+                    return pooledGameObjects[i].GetComponent<T>();
+                }
             }
 
-            // 추가 생성
-        }
+            foreach (Pool pool in pools)
+            {
+                if (pool.key == key)
+                {
+                    pool.size++;
 
+                    newPooledGameObject = Instantiate(pool.prefab);
+                    pooledGameObjects.Add(newPooledGameObject);
+                    return newPooledGameObject.GetComponent<T>();
+                }
+            }
+        }
         return null;
     }
-
-
-
 
     // public T Add<T>(T a, T b)
     // {

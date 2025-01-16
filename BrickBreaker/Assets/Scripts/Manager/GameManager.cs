@@ -61,6 +61,9 @@ public class GameManager : MonoBehaviour
 
     private Coroutine[] PowerUpCoroutines;
     private List<Coroutine> CoroutineLists = new List<Coroutine>();
+    public Action ResetBallAction;
+    public Action ResetDroppingItemAction;
+
     #endregion
 
     #region External Reference
@@ -74,6 +77,8 @@ public class GameManager : MonoBehaviour
     public TitleScene titleScene;
     private static int itemTypeNumber;
     private int[] defaultItemProbability;
+
+    [SerializeField] private ObjectPool objectPool;
 
     #region MultiBall Logic Parameter
     private float highestBallHeight;
@@ -248,12 +253,12 @@ public class GameManager : MonoBehaviour
                 StopCoroutine(PowerUpCoroutines[i]);
                 PowerUpCoroutines[i] = null;
             }
-
         }
 
         this.stageManagerNeo = stageManagerNeo;
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
+
         leftBrickCount = bricks.Length;
 
         MakeItemSetting(stageManagerNeo.isRandomItemSet, stageManagerNeo.itemSettingWeight);
@@ -468,8 +473,9 @@ public class GameManager : MonoBehaviour
 
     private void ResetGame(bool isFullRest)
     {
+        //ResetItemDropBoxes();
         ResetCoroutines();
-        ResetItemDropBoxes();
+
         if (isFullRest)
         {
             StartNewGame();
@@ -482,6 +488,7 @@ public class GameManager : MonoBehaviour
 
 
             TimeControler.TimeScaler(1);
+            ResetDroppingItemAction?.Invoke();
             uiManager.ResetStage(myScore, lives);
             ResetPaddleCall();
             ResetBallCall();
@@ -489,13 +496,13 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void ResetItemDropBoxes()
-    {
-        for (int i = 0; i < enabledDroppingItems.Count; i++)
-        {
-            enabledDroppingItems[i].DisableByReset();
-        }
-    }
+    //private void ResetItemDropBoxes()
+    //{
+    //    for (int i = 0; i < enabledDroppingItems.Count; i++)
+    //    {
+    //        enabledDroppingItems[i].DisableByReset();
+    //    }
+    //}
 
     private void ResetBricks()
     {
@@ -506,22 +513,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void ResetBallCall(bool reshootBall = true)
+    public void ResetBallCall()
     {
         leftBallCount = 1;
         highestBallHeight = -16;
-        for (int i = 0; i < balls.Length; i++)
-        {
-            if (i == 0)
-            {
-                balls[i].ResetBall(reshootBall, true);
-            }
-            else
-            {
-                balls[i].ResetBall(reshootBall, false);
-            }
-        }
-
+        ResetBallAction?.Invoke();
     }
 
     public void ResetPaddleCall()
@@ -534,7 +530,6 @@ public class GameManager : MonoBehaviour
         if (leftBallCount > 1)
         {
             leftBallCount--;
-            maybeBall.GetComponent<Ball>().isActive = false;
             maybeBall.gameObject.SetActive(false);
         }
         else
@@ -566,7 +561,7 @@ public class GameManager : MonoBehaviour
                     for (int i = 0; i < balls.Length; i++)
                     {
                         //if (balls[i].isActive)
-                            PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
+                        PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
                     }
                     break;
                 }
@@ -594,7 +589,7 @@ public class GameManager : MonoBehaviour
         leftBallCount = balls.Length;
         for (int i = 0; i < balls.Length; i++)
         {
-            if (balls[i].isActive)
+            if (balls[i].gameObject.activeInHierarchy)
                 if (balls[i].transform.position.y > highestHeight)
                 {
                     highestHeight = balls[i].transform.position.y;
@@ -646,7 +641,7 @@ public class GameManager : MonoBehaviour
         bricks[0].BrickDamagerSetter = brickDamage;
         for (int i = 0; i < balls.Length; i++)
         {
-            if (balls[i].isActive)
+            if (balls[i].gameObject.activeInHierarchy)
             {
                 balls[i].ChangeColor(brickDamage);
             }
@@ -659,7 +654,7 @@ public class GameManager : MonoBehaviour
         bricks[0].BrickDamagerSetter = brickDamage;
         for (int i = 0; i < balls.Length; i++)
         {
-            if (balls[i].isActive)
+            if (balls[i].gameObject.activeInHierarchy)
             {
                 balls[i].ChangeColor(brickDamage);
             }
@@ -690,18 +685,7 @@ public class GameManager : MonoBehaviour
 
     public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
     {
-        for (int i = 0; i < enabledDroppingItems.Count; i++)
-        {
-            if (!enabledDroppingItems[i].isEnable)
-            {
-                droppingItemInitializer = enabledDroppingItems[i];
-                droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
-                return;
-            }
-        }
-
-        droppingItemInitializer = Instantiate(droppingItemPrefab).GetComponent<DroppingItem>();
-        enabledDroppingItems.Add(droppingItemInitializer);
+        droppingItemInitializer = objectPool.GetObject<DroppingItem>(PoolObjectType.DroppingItemBox);
         droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
     }
 

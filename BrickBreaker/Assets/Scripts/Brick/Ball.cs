@@ -9,10 +9,8 @@ public class Ball : MonoBehaviour
     private static GameManager gameManager;
     private static BrickData brickData;
 
-    public bool isActive;
-
+    private bool isFirstBall;
     [SerializeField] private SpriteRenderer spriteRenderer;
-    private float deflectionStartOffset = 0.75f;
     private Vector2 force = Vector2.zero;
     private Vector3 paddPosition;
     private Vector2 contactPosition;
@@ -24,7 +22,6 @@ public class Ball : MonoBehaviour
     private Quaternion rotation;
     private Vector2 tempVec;
     private Vector2 firstPosition;
-    private SFXType paddleHitType = SFXType.PaddleHit;
 
     #region MultiBall Parameter
     private static Vector3 highestBallPos;
@@ -39,15 +36,17 @@ public class Ball : MonoBehaviour
     public float speed;
     private float speedCorrector;
     private static float bounceBallSpeed;
-    public float maxBounceAngle = 60f;
-    private WaitForSeconds waitFor1s;
     //private WaitForFixedUpdate waitForFixedFrame;
-    private LayerMask ballLayer;
-    private LayerMask paddleLayer;
-    private LayerMask bricksLayer;
+    public static float maxBounceAngle = 60f;
+    private static SFXType paddleHitType = SFXType.PaddleHit;
+    private static float deflectionStartOffset = 0.75f;
+    private static WaitForSeconds waitFor1s;
+    private static LayerMask ballLayer;
+    private static LayerMask paddleLayer;
+    private static LayerMask bricksLayer;
     //private LayerMask bricksLayer;
 
-    public void Initialize(BrickData givenBrickData, int ballPower, bool isActive = false)
+    public void Initialize(BrickData givenBrickData, int ballPower, bool isFirstBall = false)
     {
         if (rigidBody == null)
         {
@@ -57,16 +56,19 @@ public class Ball : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-        this.isActive = isActive;
-        gameObject.SetActive(isActive);
-        ballLayer = LayerMask.NameToLayer("Ball");
-        paddleLayer = LayerMask.NameToLayer("Paddle");
-        bricksLayer = LayerMask.NameToLayer("Bricks");
-        //bricksLayer = LayerMask.NameToLayer("Bricks");
+        this.isFirstBall = isFirstBall;
+        gameObject.SetActive(isFirstBall);
+        if (isFirstBall)
+        {
+            ballLayer = LayerMask.NameToLayer("Ball");
+            paddleLayer = LayerMask.NameToLayer("Paddle");
+            bricksLayer = LayerMask.NameToLayer("Bricks");
+        }
         speed = 500f;
         halfWidth = 2.5f;
         if (gameManager == null)
             gameManager = GameManager.Instance;
+        gameManager.ResetBallAction += ResetBall;
         if (brickData == null)
             brickData = givenBrickData;
 
@@ -74,9 +76,8 @@ public class Ball : MonoBehaviour
 
         corectedHalfWidth = halfWidth - deflectionStartOffset;
         waitFor1s = new WaitForSeconds(1f);
-        //waitForFixedFrame = new WaitForFixedUpdate();
         coroutine = null;
-        if (isActive)
+        if (isFirstBall)
             coroutine = StartCoroutine(CoroutineAtStart());
 
         spriteRenderer.color = brickData.ballColors[ballPower - 1];
@@ -88,11 +89,8 @@ public class Ball : MonoBehaviour
         force.x = Random.Range(-1f, 1f);
         force.y = -1;
 
-        // temp
-        force.x = 0;
-
         rigidBody.AddForce(force.normalized * speed);
-        if (isActive)
+        if (gameObject.activeInHierarchy)
             StartCoroutine(SaveStartSpeed());
 
     }
@@ -108,25 +106,21 @@ public class Ball : MonoBehaviour
 
     }
 
-    public void ResetBall(bool reshootBall, bool isFirstBall)
+    public void ResetBall(/*bool reshootBall, bool isFirstBall*/)
     {
-        isActive = isFirstBall;
         gameObject.SetActive(isFirstBall);
-        if (isActive)
+        ChangeColor(1);
+        if (isFirstBall)
         {
             rigidBody.velocity = Vector2.zero;
             transform.position = firstPosition;
-            if (reshootBall)
-            {
-                ShootBallAtStart();
-            }
 
+            ShootBallAtStart();
         }
     }
 
     public void MakeMultiBall()
     {
-        isActive = true;
         gameObject.SetActive(true);
         if (isUp)
         {

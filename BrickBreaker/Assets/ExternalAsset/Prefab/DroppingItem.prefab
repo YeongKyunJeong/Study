@@ -19,7 +19,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &3310140690795286459
 Transform:
   m_ObjectHideFlags: 0
@@ -51,7 +51,6 @@ MonoBehaviour:
   spriteRenderer: {fileID: 1093921675411317566}
   itemType: 0
   rigid: {fileID: 315736241903440932}
-  isEnable: 0
   fallingSpeedField: 5
 --- !u!212 &1093921675411317566
 SpriteRenderer:
