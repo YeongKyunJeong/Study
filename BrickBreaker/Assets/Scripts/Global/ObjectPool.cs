@@ -4,10 +4,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum PoolObjectType
+{
+    Ball,
+    DroppingItemBox
+}
+
 [System.Serializable]
 public class Pool
 {
-    public string key;
+    public PoolObjectType key;
     public GameObject prefab;
     public int size;
 }
@@ -15,7 +21,34 @@ public class Pool
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] List<Pool> pools = new List<Pool>();
-    Dictionary<string, List<GameObject>> poolDictionary = new Dictionary<string, List<GameObject>>();
+    Dictionary<PoolObjectType, List<GameObject>> poolDictionary = new Dictionary<PoolObjectType, List<GameObject>>();
+
+    public void Initialize()
+    {
+        Ball[] preGeneratedBalls = GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None);
+
+        for (int i = 0; i < pools.Count; i++)
+        {
+            poolDictionary[pools[i].key] = new List<GameObject>();
+
+            if (pools[i].key == PoolObjectType.Ball)
+            {
+                if (preGeneratedBalls.Length > 0)
+                {
+                    pools[i].size = preGeneratedBalls.Length;
+                    for (int j = 0; j < preGeneratedBalls.Length; j++)
+                    {
+                        poolDictionary[PoolObjectType.Ball].Add(preGeneratedBalls[j].gameObject);
+                    }
+                }
+                Debug.Log($"Detected balls : {preGeneratedBalls.Length}");
+            }
+
+        }
+
+    }
+
+
 
     void Start()
     {
@@ -31,17 +64,17 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
-    public T GetObject<T>(string key) where T : MonoBehaviour
+    public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour
     {
         List<GameObject> pool;
         if (poolDictionary.TryGetValue(key, out pool))
         {
             for (int i = 0; i < pool.Count; i++)
             {
-                if(pool[i].activeInHierarchy)
+                if (pool[i].activeInHierarchy)
                     return pool[i].GetComponent<T>();
             }
-            
+
             // 추가 생성
         }
 

@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8341613478112943932}
   - component: {fileID: 2252408459577748363}
+  - component: {fileID: 7412127701471025808}
   m_Layer: 0
   m_Name: StageManager
   m_TagString: Untagged
@@ -46,7 +47,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   level: 1
   paddle: {fileID: 0}
-  ball: {fileID: 0}
+  balls: []
   bricks:
   - {fileID: 0}
   - {fileID: 0}
@@ -96,7 +97,33 @@ MonoBehaviour:
   brickRowPrefab: {fileID: 1360891040557026286, guid: 382d8d55858e8094aae624b39d6b3d63, type: 3}
   brickRows: []
   brickRowParents: {fileID: 0}
+  rowBrickHealths:
+  - 
+  - 
+  - 
+  - 
+  - 
   brickRowCount: 5
   brickPerRow: 7
   brickSpaceX: 0.25
   brickSpaceY: 0.25
+  savePath: Assets/StageParameter
+--- !u!114 &7412127701471025808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6920041131401623869}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f4ee2d10fc6e7b642850dc6eee1a41cf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - key: DroppingItemBox
+    prefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
+    size: 0
+  - key: Ball
+    prefab: {fileID: 324387375269118686, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
+    size: 0

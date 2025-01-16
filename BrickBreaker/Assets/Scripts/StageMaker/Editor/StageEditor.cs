@@ -4,7 +4,7 @@ using System.Text;
 using UnityEditor;
 using UnityEngine;
 
-[CustomEditor(typeof(StageManagerNeo))]
+[CustomEditor(typeof(StageMaker))]
 public class StageEditor : Editor
 {
     private static int defaultLevel;
@@ -62,7 +62,7 @@ public class StageEditor : Editor
         DrawDefaultInspector();
         GUILayout.Space(20);
 
-        StageManagerNeo stageManagerNeo = (StageManagerNeo)target;
+        StageMaker stageMaker = (StageMaker)target;
 
         EditorGUILayout.PropertyField(brickRowCountProp, new GUIContent(brickRowCountName));
         EditorGUILayout.PropertyField(brickPerRowProp, new GUIContent(brickPerRowName));
@@ -93,18 +93,18 @@ public class StageEditor : Editor
         #endregion
         #region ButtonAction
 
-        if (GUILayout.Button("GenerateBricks"))
+        if (GUILayout.Button("Generate Bricks"))
         {
             AdjustBrickHealths();
             serializedObject.ApplyModifiedProperties();
-            stageManagerNeo.GenerateBricks();
+            stageMaker.GenerateBricks();
         }
 
         GUILayout.Space(10);
 
         if(GUILayout.Button("Power Clean"))
         {
-            PowerClean(stageManagerNeo.GetBrickRowParent);
+            PowerClean(stageMaker.GetBrickRowParent);
         }
 
         GUILayout.Space(10);
@@ -112,13 +112,13 @@ public class StageEditor : Editor
         if (GUILayout.Button("Save Stage Parameter"))
         {
             string path = "";
-            if (stageManagerNeo.GetLevel < 10)
-                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level0{stageManagerNeo.GetLevel}.json", "json");
+            if (stageMaker.level < 10)
+                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level0{stageMaker.level}.json", "json");
             else
-                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level{stageManagerNeo.GetLevel}.json", "json");
+                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level{stageMaker.level}.json", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                stageManagerNeo.SaveStageParameter(path);
+                stageMaker.SaveStageParameter(path);
             }
         }
 
@@ -129,13 +129,13 @@ public class StageEditor : Editor
         if(GUILayout.Button("Load Stage Parameter"))
         {
             string path = loadLevel.ToString() ;
-            if (stageManagerNeo.GetLevel < 10)
+            if (stageMaker.level < 10)
                 path = EditorUtility.SaveFilePanel("Load stage parameter", "", $"Level0{path}.json", "json");
             else
                 path = EditorUtility.SaveFilePanel("Load stage parameter", "", $"Level{path}.json", "json");
             if (!string.IsNullOrEmpty(path))
             {
-                stageManagerNeo.LoadStageParameter(path);
+                stageMaker.LoadStageParameter(path);
             }
         }
 
