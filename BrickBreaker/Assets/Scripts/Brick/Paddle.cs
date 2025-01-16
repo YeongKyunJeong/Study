@@ -11,6 +11,7 @@ public class Paddle : MonoBehaviour
 
     public float speed = 100f;
     private bool doDamping = false;
+    private const float MINIMUM_SPEED = 1 / 1024f;
     private static float paddleSizeHalf = 2.5f;
     private static float screenEdgeX = 18f;
     private static float stopXPos;
@@ -76,7 +77,14 @@ public class Paddle : MonoBehaviour
         if (doDamping)
         {
             if (velocity.x != 0)
-                velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref velocity, dampingTime);
+            {
+                if (Mathf.Abs(velocity.x) < MINIMUM_SPEED)
+                {
+                    velocity = Vector3.zero;
+                }
+                else
+                    velocity = Vector3.SmoothDamp(velocity, Vector2.zero, ref velocity, dampingTime);
+            }
         }
 
 

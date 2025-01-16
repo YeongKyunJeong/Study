@@ -132,7 +132,7 @@ public class GameManager : MonoBehaviour
         isMainMenuOn = false;
 
         PowerUpCoroutines = new Coroutine[5];
-
+        objectPool.Initialize();
         Initialize();
     }
 

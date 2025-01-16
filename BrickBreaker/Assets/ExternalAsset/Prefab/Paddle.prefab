@@ -102,7 +102,7 @@ MonoBehaviour:
   paddleHandler: {fileID: 7713504377626969814}
   speed: 25
   velocity: {x: 0, y: 0, z: 0}
-  dampingTime: 0.1
+  dampingTime: 0.02
   stackTime: 0
 --- !u!114 &7713504377626969814
 MonoBehaviour:

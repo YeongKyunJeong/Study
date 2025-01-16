@@ -134,6 +134,7 @@ MonoBehaviour:
   inputManager: {fileID: 9067023237325246055}
   droppingItemPrefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
   titleScene: {fileID: 0}
+  objectPool: {fileID: 6756471797443801962}
   paddle: {fileID: 0}
   balls: []
   bricks: []
