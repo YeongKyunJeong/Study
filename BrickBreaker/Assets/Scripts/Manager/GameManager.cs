@@ -63,6 +63,7 @@ public class GameManager : MonoBehaviour
     private List<Coroutine> CoroutineLists = new List<Coroutine>();
     public Action ResetBallAction;
     public Action ResetDroppingItemAction;
+    public Action<int> BallPowerChangeAction;
 
     #endregion
 
@@ -77,17 +78,9 @@ public class GameManager : MonoBehaviour
     public TitleScene titleScene;
     private static int itemTypeNumber;
     private int[] defaultItemProbability;
+    private int multiBallNumber = 5;
 
     [SerializeField] private ObjectPool objectPool;
-
-    #region MultiBall Logic Parameter
-    private float highestBallHeight;
-    private float highestHeight;
-    private int highestBallIndex;
-    private int tempInt3;
-    private float angle;
-    private float speed;
-    #endregion
 
     #region Stage Object
     [SerializeField] private Paddle paddle;
@@ -290,7 +283,6 @@ public class GameManager : MonoBehaviour
             //}
         }
         leftBallCount = 1;
-        highestBallHeight = -16f;
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
@@ -516,7 +508,6 @@ public class GameManager : MonoBehaviour
     public void ResetBallCall()
     {
         leftBallCount = 1;
-        highestBallHeight = -16;
         ResetBallAction?.Invoke();
     }
 
@@ -572,7 +563,7 @@ public class GameManager : MonoBehaviour
                 }
             case Item.MultiBall:
                 {
-                    MakeMultiBall();
+                    MultiBallStackUp();
                     break;
                 }
             default:
@@ -582,26 +573,27 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void MakeMultiBall()
+    private void MultiBallStackUp()
     {
-        highestHeight = -16;
-        highestBallIndex = 0;
-        leftBallCount = balls.Length;
-        for (int i = 0; i < balls.Length; i++)
-        {
-            if (balls[i].gameObject.activeInHierarchy)
-                if (balls[i].transform.position.y > highestHeight)
-                {
-                    highestHeight = balls[i].transform.position.y;
-                    highestBallIndex = i;
-                }
-        }
+        Ball.multiBallStack++;
+        //highestHeight = -16;
+        //highestBallIndex = 0;
+        //leftBallCount = balls.Length;
+        //for (int i = 0; i < balls.Length; i++)
+        //{
+        //    if (balls[i].gameObject.activeInHierarchy)
+        //        if (balls[i].transform.position.y > highestHeight)
+        //        {
+        //            highestHeight = balls[i].transform.position.y;
+        //            highestBallIndex = i;
+        //        }
+        //}
 
-        balls[highestBallIndex].ReadyMultiBall();
-        for (int i = 0; i < balls.Length; i++)
-        {
-            balls[i].MakeMultiBall();
-        }
+        //balls[highestBallIndex].ReadyMultiBall();
+        //for (int i = 0; i < balls.Length; i++)
+        //{
+        //    balls[i].MakeMultiBall();
+        //}
 
 
 
@@ -611,6 +603,16 @@ public class GameManager : MonoBehaviour
         //{
         //    balls[i].MakeMultiBall(balls[highestBallIndex]);
         //}
+    }
+
+    public void MakeMultiballCall()
+    {
+        leftBallCount++;
+        for (int i = 0; i < multiBallNumber - 1; i++)
+        {
+            objectPool.GetObject<Ball>(PoolObjectType.Ball).BeMultiBall();
+            leftBallCount++;
+        }
 
     }
 
@@ -639,26 +641,28 @@ public class GameManager : MonoBehaviour
             brickDamage = upedPower;
         }
         bricks[0].BrickDamagerSetter = brickDamage;
-        for (int i = 0; i < balls.Length; i++)
-        {
-            if (balls[i].gameObject.activeInHierarchy)
-            {
-                balls[i].ChangeColor(brickDamage);
-            }
-        }
+        BallPowerChangeAction?.Invoke(brickDamage);
+        //for (int i = 0; i < balls.Length; i++)
+        //{
+        //    if (balls[i].gameObject.activeInHierarchy)
+        //    {
+        //        balls[i].ChangeColor(brickDamage);
+        //    }
+        //}
 
 
         yield return powerUpWaitForSec;
 
         brickDamage = 1;
         bricks[0].BrickDamagerSetter = brickDamage;
-        for (int i = 0; i < balls.Length; i++)
-        {
-            if (balls[i].gameObject.activeInHierarchy)
-            {
-                balls[i].ChangeColor(brickDamage);
-            }
-        }
+        BallPowerChangeAction?.Invoke(brickDamage);
+        //for (int i = 0; i < balls.Length; i++)
+        //{
+        //    if (balls[i].gameObject.activeInHierarchy)
+        //    {
+        //        balls[i].ChangeColor(brickDamage);
+        //    }
+        //}
 
         yield return null;
     }

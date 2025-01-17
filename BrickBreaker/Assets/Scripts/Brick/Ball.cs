@@ -24,9 +24,10 @@ public class Ball : MonoBehaviour
     private Vector2 firstPosition;
 
     #region MultiBall Parameter
-    private static Vector3 highestBallPos;
-    private static float highestBallAngle;
-    private static float highestBallspeed;
+    public static int multiBallStack = 0;
+    private static Vector3 multiBallPos;
+    private static float multiBallAngle;
+    private static float multiBallspeed;
     private static int leftBallIndex;
     private static float degreeDelta = 5;
     private static bool isUp;
@@ -69,12 +70,14 @@ public class Ball : MonoBehaviour
         if (gameManager == null)
             gameManager = GameManager.Instance;
         gameManager.ResetBallAction += ResetBall;
+        gameManager.BallPowerChangeAction += ChangeColor;
         if (brickData == null)
             brickData = givenBrickData;
 
         firstPosition = transform.position;
 
         corectedHalfWidth = halfWidth - deflectionStartOffset;
+        multiBallStack = 0;
         waitFor1s = new WaitForSeconds(1f);
         coroutine = null;
         if (isFirstBall)
@@ -109,6 +112,7 @@ public class Ball : MonoBehaviour
     public void ResetBall(/*bool reshootBall, bool isFirstBall*/)
     {
         gameObject.SetActive(isFirstBall);
+        multiBallStack = 0;
         ChangeColor(1);
         if (isFirstBall)
         {
@@ -119,60 +123,60 @@ public class Ball : MonoBehaviour
         }
     }
 
-    public void MakeMultiBall()
+    public void BeMultiBall()
     {
         gameObject.SetActive(true);
         if (isUp)
         {
-            if (highestBallAngle > 55)
+            if (multiBallAngle > 55)
             {
-                angle = highestBallAngle;
+                angle = multiBallAngle;
             }
-            else if (highestBallAngle > 50)
+            else if (multiBallAngle > 50)
             {
-                angle = highestBallAngle = degreeDelta;
+                angle = multiBallAngle = degreeDelta;
             }
-            else if (highestBallAngle < -55)
+            else if (multiBallAngle < -55)
             {
-                angle = highestBallAngle + 4 * degreeDelta;
+                angle = multiBallAngle + 4 * degreeDelta;
             }
-            else if (highestBallAngle < -45)
+            else if (multiBallAngle < -45)
             {
-                angle = highestBallAngle + 3 * degreeDelta;
+                angle = multiBallAngle + 3 * degreeDelta;
             }
             else
             {
-                angle = highestBallAngle + 2 * degreeDelta;
+                angle = multiBallAngle + 2 * degreeDelta;
             }
         }
         else
         {
-            if (highestBallAngle >= 120 || highestBallAngle < 125)
+            if (multiBallAngle >= 120 || multiBallAngle < 125)
             {
-                angle = highestBallAngle + 4 * degreeDelta;
+                angle = multiBallAngle + 4 * degreeDelta;
             }
-            else if (highestBallAngle >= 125 || highestBallAngle < 130)
+            else if (multiBallAngle >= 125 || multiBallAngle < 130)
             {
-                angle = highestBallAngle + 3 * degreeDelta;
+                angle = multiBallAngle + 3 * degreeDelta;
             }
-            else if (highestBallAngle <= -120 || highestBallAngle > -125)
+            else if (multiBallAngle <= -120 || multiBallAngle > -125)
             {
-                angle = highestBallAngle;
+                angle = multiBallAngle;
             }
-            else if (highestBallAngle <= -125 || highestBallAngle > -130)
+            else if (multiBallAngle <= -125 || multiBallAngle > -130)
             {
-                angle = highestBallAngle + degreeDelta;
+                angle = multiBallAngle + degreeDelta;
             }
             else
             {
-                angle = highestBallAngle + 2 * degreeDelta;
+                angle = multiBallAngle + 2 * degreeDelta;
             }
 
         }
 
-        transform.position = highestBallPos;
+        transform.position = multiBallPos;
         angle -= leftBallIndex * degreeDelta;
-        rigidBody.velocity = highestBallspeed * (new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad)));
+        rigidBody.velocity = multiBallspeed * (new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad)));
         leftBallIndex++;
     }
 
@@ -275,6 +279,16 @@ public class Ball : MonoBehaviour
         }
 
         rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
+        
+        if (multiBallStack > 0)
+        {
+            multiBallStack--;
+            ReadyMultiBall();
+            BeMultiBall();
+            gameManager.MakeMultiballCall();
+        }
+
+
 
     }
 
@@ -291,9 +305,9 @@ public class Ball : MonoBehaviour
 
     internal void ReadyMultiBall()
     {
-        highestBallPos = transform.position;
-        highestBallAngle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);
-        highestBallspeed = rigidBody.velocity.magnitude;
+        multiBallPos = transform.position;
+        multiBallAngle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);
+        multiBallspeed = rigidBody.velocity.magnitude;
         isUp = rigidBody.velocity.y > 0 ? true : false;
         leftBallIndex = 0;
     }
