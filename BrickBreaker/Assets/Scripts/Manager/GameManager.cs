@@ -39,6 +39,7 @@ public class GameManager : MonoBehaviour
     public int myScore = 0;
     public int lives = 3;
 
+    private int brickDamageAtGameStart = 1;
     public int brickDamage = 1;
 
     [SerializeField] private int leftBrickCount = -1;
@@ -253,12 +254,13 @@ public class GameManager : MonoBehaviour
 
     public void BackToTitleSceneCall()
     {
-        uiManager.gameObject.SetActive(false);
         BackToTitleScene();
     }
 
     private void BackToTitleScene()
     {
+        uiManager.gameObject.SetActive(false);
+        objectPool.Initialize();
         LoadLevel(TITLE_SCENE_INT);
     }
 
@@ -276,6 +278,7 @@ public class GameManager : MonoBehaviour
         this.stageManagerNeo = stageManagerNeo;
         level = stageManagerNeo.GetLevel;
         bricks = stageManagerNeo.bricks;
+        brickDamage = brickDamageAtGameStart;
 
         leftBrickCount = bricks.Length;
 
@@ -391,8 +394,10 @@ public class GameManager : MonoBehaviour
 
             myScoreAtStageStart = myScore;
             livesAtStageStart = lives;
+            brickDamage = brickDamageAtGameStart;
         }
 
+        ////////// Load stage without Scene loading
         SceneManager.LoadScene(tempString);
 
         InternalEventResetAction?.Invoke();
