@@ -64,6 +64,7 @@ public class GameManager : MonoBehaviour
     public Action ResetBallAction;
     public Action ResetDroppingItemAction;
     public Action<int> BallPowerChangeAction;
+    private Ball ballInitializer;
 
     #endregion
 
@@ -104,6 +105,7 @@ public class GameManager : MonoBehaviour
         {
             instance.titleScene = this.titleScene;
             titleScene.Initialize();
+            Destroy(this.uiManager.gameObject);
             Destroy(this.gameObject);
             return;
         }
@@ -323,6 +325,7 @@ public class GameManager : MonoBehaviour
     private void DoUIManagerSetting(int level, int lives, int score)
     {
         uiManager.DoUIManagerSetting(level, lives, score);
+
     }
 
     private void StartNewGame()
@@ -607,13 +610,13 @@ public class GameManager : MonoBehaviour
 
     public void MakeMultiballCall()
     {
-        leftBallCount++;
         for (int i = 0; i < multiBallNumber - 1; i++)
         {
-            objectPool.GetObject<Ball>(PoolObjectType.Ball).BeMultiBall();
+            ballInitializer = objectPool.GetObject<Ball>(PoolObjectType.Ball);
+            ballInitializer.Initialize(brickData, brickDamage, false);
+            ballInitializer.BeMultiBall();
             leftBallCount++;
         }
-
     }
 
     private void LifeUp(int deltaLife = 1)
@@ -714,7 +717,6 @@ public static class TimeControler
     public static void TimeScaler(float timeScale)
     {
         Time.timeScale = timeScale;
-        Debug.Log(Time.timeScale.ToString());
     }
 }
 
