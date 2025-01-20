@@ -581,6 +581,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1120121870669988525, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+      propertyPath: m_Volume
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3380511778232568454, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -626,9 +630,17 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+      propertyPath: paddle
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 405323999}
+    - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+      propertyPath: ballPrefab
+      value: 
+      objectReference: {fileID: 6188949591687194572, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
     - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
       propertyPath: objectPool
       value: 
@@ -637,6 +649,14 @@ PrefabInstance:
       propertyPath: titleScene
       value: 
       objectReference: {fileID: 2121087657}
+    - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+      propertyPath: paddlePrefab
+      value: 
+      objectReference: {fileID: 8526980728647473953, guid: 8473a60955f50964c8ad5f62917beab1, type: 3}
+    - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
+      propertyPath: droppingItemPrefab
+      value: 
+      objectReference: {fileID: 6433758505144479622, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
     - target: {fileID: 6216851041500649185, guid: 8f5855c9e45d601499f2ed1f24f94593, type: 3}
       propertyPath: isTemporaryGameManager
       value: 0

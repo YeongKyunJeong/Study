@@ -64,8 +64,8 @@ public class GameManager : MonoBehaviour
     public Action ResetBallAction;
     public Action ResetDroppingItemAction;
     public Action<int> BallPowerChangeAction;
-    private Ball ballInitializer;
 
+    public Action InternalEventResetAction;
     #endregion
 
     #region External Reference
@@ -73,8 +73,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject uiManagerPrefab;
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private InputManager inputManager;
-    [SerializeField] private GameObject droppingItemPrefab;
+    [SerializeField] private DroppingItem droppingItemPrefab;
     private DroppingItem droppingItemInitializer;
+    [SerializeField] private Ball ballPrefab;
+    private Ball ballInitializer;
+    [SerializeField] private Paddle paddlePrefab;
+    private Paddle paddleInitializer;
+
     private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
     public TitleScene titleScene;
     private static int itemTypeNumber;
@@ -169,12 +174,30 @@ public class GameManager : MonoBehaviour
         {
             Debug.LogError("DropingItemPrefab not detected");
         }
-        droppingItemInitializer = droppingItemPrefab.GetComponent<DroppingItem>();
+        droppingItemInitializer = droppingItemPrefab;
         droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
         droppingItemInitializer = null;
 
+        if (ballPrefab == null)
+        {
+            Debug.LogError("BallPrefab not detected");
+        }
+        ballInitializer = ballPrefab;
+        ballInitializer.GlobalInitialize(brickData);
+        ballInitializer = null;
+
+        //if (paddlePrefab == null)
+        //{
+        //    Debug.LogError("PaddlePrefab not detected");
+        //}
+        //paddleInitializer = paddlePrefab;
+        //droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
+        //droppingItemInitializer = null;
+
         InputManager.OnESCInput += ESCCall;
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        InternalEventResetAction += ResetAction;
 
         if (isTemporaryGameManager)
         {
@@ -272,17 +295,12 @@ public class GameManager : MonoBehaviour
         {
             if (i == 0)
             {
-                balls[i].Initialize(brickData, brickDamage, true);
+                balls[i].Initialize(brickDamage, true);
             }
             else
             {
-                balls[i].Initialize(brickData, brickDamage);
+                balls[i].Initialize(brickDamage);
             }
-
-            //for (int j = i; j < balls.Length; j++)
-            //{
-            //    Physics2D.IgnoreCollision(balls[i].GetComponent<CircleCollider2D>(), balls[j].GetComponent<CircleCollider2D>());
-            //}
         }
         leftBallCount = 1;
         paddle = stageManagerNeo.paddle;
@@ -377,7 +395,7 @@ public class GameManager : MonoBehaviour
 
         SceneManager.LoadScene(tempString);
 
-
+        InternalEventResetAction?.Invoke();
         uiManager.ChangeNumber(this.level, UINumberCategory.Level);
         uiManager.ResetStage(myScore, lives);
     }
@@ -389,6 +407,24 @@ public class GameManager : MonoBehaviour
             //titleScene = FindFirstObjectByType<TitleScene>();
             //titleScene.Initialize();
         }
+    }
+
+    private void ResetAction()
+    {
+        if (BallPowerChangeAction != null)
+        {
+            BallPowerChangeAction = null;
+        }
+        if (ResetBallAction != null)
+        {
+            ResetBallAction = null;
+        }
+        if (ResetDroppingItemAction != null)
+        {
+            ResetDroppingItemAction = null;
+        }
+
+
     }
 
     public void HitBrick(int score, Vector3 brokenBrickPosition, bool isBroken = false, Item targetItem = Item.None)
@@ -555,6 +591,11 @@ public class GameManager : MonoBehaviour
                     for (int i = 0; i < balls.Length; i++)
                     {
                         //if (balls[i].isActive)
+                        if(PowerUpCoroutines[i] != null)
+                        {
+                            StopCoroutine(PowerUpCoroutines[i]);
+                            PowerUpCoroutines[i] = null;
+                        }
                         PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
                     }
                     break;
@@ -613,7 +654,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < multiBallNumber - 1; i++)
         {
             ballInitializer = objectPool.GetObject<Ball>(PoolObjectType.Ball);
-            ballInitializer.Initialize(brickData, brickDamage, false);
+            ballInitializer.Initialize(brickDamage, false);
             ballInitializer.BeMultiBall();
             leftBallCount++;
         }

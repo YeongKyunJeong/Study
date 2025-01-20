@@ -29,6 +29,8 @@ public class DroppingItem : MonoBehaviour
     [SerializeField] private float fallingSpeedField = 1;
     private static Vector3 fallingSpeedVector;
 
+    private bool isFirstTimeUsage = true;
+
     public void GlobalInitialize(BrickData givenBrickData, LayerMask givenPaddleLayer, LayerMask givenDeadZoneLayer)
     {
         if (GameManager.Instance == null)
@@ -38,7 +40,6 @@ public class DroppingItem : MonoBehaviour
         else
         {
             gameManager = GameManager.Instance;
-            gameManager.ResetDroppingItemAction += DisableByReset;
             brickData = givenBrickData;
             paddleLayer = givenPaddleLayer;
             deadZoneLayer = givenDeadZoneLayer;
@@ -65,6 +66,11 @@ public class DroppingItem : MonoBehaviour
             {
                 selfTransform = transform;
             }
+
+            if (isFirstTimeUsage)
+                gameManager.ResetDroppingItemAction += DisableByReset;
+            isFirstTimeUsage = false;
+
             selfTransform.position = startPosition;
             itemType = targetItem/*(Item)Random.Range(1, itemTypeNumber)*/;
             spriteRenderer.color = brickData.itemColors[(int)itemType];

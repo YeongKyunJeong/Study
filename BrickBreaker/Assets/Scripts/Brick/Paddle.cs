@@ -17,6 +17,7 @@ public class Paddle : MonoBehaviour
     private static float stopXPos;
     private Vector3 leftStopPosVec;
     private Vector3 rightStopPosVec;
+    private bool isFirstTimeUsage = true;
     // public Rigidbody2D rigidBody { get; private set; }
 
     public Vector2 firstPosition { get; private set; }
@@ -26,6 +27,10 @@ public class Paddle : MonoBehaviour
     public float dampingTime = 0.1f;
 
     public float stackTime = 0f;
+
+    //public void GlobalInitializer()
+    //{
+    //}
 
     public void Initialize()
     {
@@ -40,8 +45,15 @@ public class Paddle : MonoBehaviour
             paddleHandler = GetComponent<PaddleHandler>();
         }
         paddleHandler.Initialize();
-        paddleHandler.OnMovementInput += MovePaddle;
+
+        if (isFirstTimeUsage)
+        {
+            paddleHandler.OnMovementInput += MovePaddle;
+        }
+        isFirstTimeUsage = false;
+
         ResetPaddle();
+
         stopXPos = screenEdgeX - paddleSizeHalf;
         leftStopPosVec = new Vector3(-stopXPos, firstPosition.y, 0);
         rightStopPosVec = new Vector3(stopXPos, firstPosition.y, 0);

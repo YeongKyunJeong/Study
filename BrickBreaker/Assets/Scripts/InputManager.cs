@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class InputManager : MonoBehaviour
 {
+    private GameManager gameManager;
     public Rigidbody2D paddleRigidBody { get; private set; }
     public Transform paddleTransform { get; private set; }
     public Vector2 direction { get; private set; }
@@ -20,14 +21,24 @@ public class InputManager : MonoBehaviour
 
     public void Initialize()
     {
+        if (gameManager == null)
+            gameManager = GameManager.Instance;
 
+        gameManager.InternalEventResetAction += ResetEvent;
+
+    }
+
+    private void ResetEvent()
+    {
+        if (OnMovementInput != null)
+            OnMovementInput = null;
     }
 
     private void Update()
     {
         horizontalInput = Input.GetAxisRaw(horizontalBtn);
 
-        if(horizontalInput == 0 && isMoving)
+        if (horizontalInput == 0 && isMoving)
         {
             isMoving = false;
             OnMovementInput?.Invoke(0);
@@ -44,5 +55,7 @@ public class InputManager : MonoBehaviour
         }
 
     }
+
+
 
 }
