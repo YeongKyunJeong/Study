@@ -39,11 +39,11 @@ public class Ball : MonoBehaviour
     private static float halfWidth;
     private static float bounceBallSpeed;
     //private WaitForFixedUpdate waitForFixedFrame;
-    public static float maxBounceAngle = 60f;
+    public const float MAX_BOUNCE_ANGLE = 60f;
     private static SFXType paddleHitType = SFXType.PaddleHit;
     private static float deflectionStartOffset = 0.75f;
     private static WaitForSeconds waitFor1s;
-    private static LayerMask ballLayer;
+
     private static LayerMask paddleLayer;
     private static LayerMask bricksLayer;
     private bool isFirstTimeUsage = true;
@@ -57,7 +57,7 @@ public class Ball : MonoBehaviour
 
         if (brickData == null)
             brickData = givenBrickData;
-        ballLayer = LayerMask.NameToLayer("Ball");
+
         paddleLayer = LayerMask.NameToLayer("Paddle");
         bricksLayer = LayerMask.NameToLayer("Bricks");
         speed = 500f;
@@ -232,15 +232,10 @@ public class Ball : MonoBehaviour
                 HitPaddle(collision);
 
         }
-        if (collision.gameObject.layer == ballLayer)
+        else
         {
-            Debug.Log("Ball");
+            HitElse();
         }
-        else if (collision.gameObject.layer == bricksLayer)
-        {
-            HitBrick(collision);
-        }
-        //StartCoroutine(SaveStartSpeed());
     }
 
     private void HitPaddle(Collision2D collision)
@@ -252,6 +247,7 @@ public class Ball : MonoBehaviour
 
         if ((offset < deflectionStartOffset) && (offset > -deflectionStartOffset))
         {
+            tempVec = rigidBody.velocity.normalized;
         }
         else
         {
@@ -264,32 +260,20 @@ public class Ball : MonoBehaviour
                 offset = offset < -halfWidth ? -halfWidth + deflectionStartOffset : offset + deflectionStartOffset;
             }
             angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
-            angle = Mathf.Clamp(angle - (offset / halfWidth) * maxBounceAngle, -maxBounceAngle, maxBounceAngle);
-            //rotation = Quaternion.AngleAxis(angle, Vector3.forward);
 
-            //rigidBody.velocity = rotation * Vector2.up;
+            //save3 = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // for record
+            angle = Mathf.Clamp(angle - 0.5f * (offset / halfWidth) * MAX_BOUNCE_ANGLE, -MAX_BOUNCE_ANGLE, MAX_BOUNCE_ANGLE); /////
 
-            rigidBody.velocity = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
-            //tempVec = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle*Mathf.Deg2Rad));
-            //Debug.Log("1: " +rigidBody.velocity.x + " , " + rigidBody.velocity.y);
-            //Debug.Log("2: "+ tempVec.x + " , " + tempVec.y);
-            //Debug.Log("Angle :" + angle + "/ " + Mathf.Cos(angle));
-            //Debug.Log(Mathf.Cos(angle));
-        }
-        if (Mathf.Abs(angle) > 10)
-        {
-            speedCorrector = Mathf.Abs(angle) / 90f;
-            save = speedCorrector;
-            save2 = (1 - Mathf.Abs(save * save * save));
-            speedCorrector = 1 / (1 - Mathf.Abs(speedCorrector * speedCorrector * speedCorrector));
-            save3 = 1 / save2;
-        }
-        else
-        {
-            speedCorrector = 1;
+            tempVec = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
         }
 
-        rigidBody.velocity = rigidBody.velocity.normalized * (speedCorrector * bounceBallSpeed);
+        speedCorrector = CalculateSpeedCorrector(angle);
+
+        rigidBody.velocity = tempVec/*.normalized*/ * (speedCorrector * bounceBallSpeed);
+        //if(rigidBody.velocity.magnitude < 0.8f)
+        //{
+
+        //}
 
         if (multiBallStack > 0)
         {
@@ -298,14 +282,53 @@ public class Ball : MonoBehaviour
             BeMultiBall();
             gameManager.MakeMultiballCall();
         }
-
-
-
     }
 
-    private void HitBrick(Collision2D collision)
+    private float CalculateSpeedCorrector(float incidentAngle)
     {
+        if (Mathf.Abs(incidentAngle) > 10)
+        {
+            save = (Mathf.Abs(incidentAngle) - 10) / 90f;
+            save2 = (1 - Mathf.Abs(save * save * save * save));    // for record
+            save = 1 / (1 - Mathf.Abs(save * save * save * save));
+            //save3 = 1 / save2;
+        }
+        else
+        {
+            save = 1;
+        }
+        //Debug.Log("Speed Corrector : " + save);
+        if (save < 0.4f)
+        {
+            Debug.LogError("Speed Corrector Error : " + save);
+        }
+        if (save > 1.3f)
+        {
+            Debug.LogError("Speed Corrector Error : " + save);
+        }
+            return save;
+    }
 
+    private void HitElse()
+    {
+        if (rigidBody.velocity.y >= 0)
+        {
+            angle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);    // incident angle
+            angle = Mathf.Clamp(angle, -MAX_BOUNCE_ANGLE, MAX_BOUNCE_ANGLE);
+
+            tempVec = new Vector2(-Mathf.Sin(angle * Mathf.Deg2Rad), Mathf.Cos(angle * Mathf.Deg2Rad));
+        }
+        else if (rigidBody.velocity.y < 0)
+        {
+            angle = Vector2.SignedAngle(Vector2.down, rigidBody.velocity);
+            angle = Mathf.Clamp(angle, -MAX_BOUNCE_ANGLE, MAX_BOUNCE_ANGLE);
+
+            tempVec = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), -Mathf.Cos(angle * Mathf.Deg2Rad));
+        }
+
+        speedCorrector = CalculateSpeedCorrector(angle);
+
+        rigidBody.velocity = tempVec/*.normalized*/ * (speedCorrector * bounceBallSpeed);
     }
 
 
@@ -319,6 +342,7 @@ public class Ball : MonoBehaviour
         multiBallPos = transform.position;
         multiBallAngle = Vector2.SignedAngle(Vector2.up, rigidBody.velocity);
         multiBallspeed = rigidBody.velocity.magnitude;
+        Debug.Log("MultiBall Speed : " + multiBallspeed);
         isUp = rigidBody.velocity.y > 0 ? true : false;
         leftBallIndex = 0;
     }
