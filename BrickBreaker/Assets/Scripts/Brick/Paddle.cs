@@ -102,7 +102,7 @@ public class Paddle : MonoBehaviour
 
         transform.position += velocity * (speed * Time.deltaTime);
 
-
+        Debug.Log(velocity.x * (speed * Time.deltaTime));
         if (transform.position.x <= -stopXPos)
         {
             transform.position = leftStopPosVec;
@@ -112,9 +112,6 @@ public class Paddle : MonoBehaviour
         {
             transform.position = rightStopPosVec;
         }
-
-
-        // todo: ÁÂ¿ì ÀÌÅ» Á¦ÇÑ
 
         //if (doDamping)
         //{

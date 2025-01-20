@@ -100,7 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paddleHandler: {fileID: 7713504377626969814}
-  speed: 25
+  speed: 15
   velocity: {x: 0, y: 0, z: 0}
   dampingTime: 0.02
   stackTime: 0
