@@ -6,7 +6,11 @@
         xmlns:local="clr-namespace:WPFApp01_MatchGame"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        
-    </Grid>
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <TextBlock FontSize="18px" Text="TextBlock"/>
+        <Button Width="50" Margin="5,10" Content="Button"/>
+    </StackPanel>
+
 </Window>
