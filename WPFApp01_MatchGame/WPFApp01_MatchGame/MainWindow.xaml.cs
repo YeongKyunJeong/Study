@@ -20,9 +20,42 @@ namespace WPFApp01_MatchGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        private List<string> animalEmojiOrigin = new List<string>() {
+            "🐈", "🐈",
+            "🐫", "🐫",
+            "🐇", "🐇",
+            "🦔", "🦔",
+            "🦒", "🦒",
+            "🐘", "🐘",
+            "🐁", "🐁",
+            "🐕", "🐕"
+        };
+        private List<string> animalEmoji;
+        private string timeTextBlockName = "timeTextBlock";
+        private int index;
+        private Random random = new Random();
+
         public MainWindow()
         {
             InitializeComponent();
+            SetUpGame();
+        }
+
+        private void SetUpGame()
+        {
+            animalEmoji = animalEmojiOrigin.ToList();
+            foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            {
+                if (textBlock.Name != timeTextBlockName)
+                {
+                    textBlock.Visibility = Visibility.Visible;
+                    index = random.Next(animalEmoji.Count);
+                    textBlock.Text = animalEmoji[index];
+                    animalEmoji.RemoveAt(index);
+                    //
+                }
+
+            }
         }
     }
 }
