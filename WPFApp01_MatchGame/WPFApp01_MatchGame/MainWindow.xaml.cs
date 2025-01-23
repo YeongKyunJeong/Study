@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Windows.Threading;
 
 namespace WPFApp01_MatchGame
 {
@@ -20,42 +22,200 @@ namespace WPFApp01_MatchGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        private DispatcherTimer timer = new DispatcherTimer();
+        private float accumulatedTime = 0;
+        private float oneMatchTimeLimitSetter = 10;
+        private const float ONE_MATCH_TIME_LIMIT_DELTA = 0.1f;
+        private const float ONE_MATCH_TIME_LIMIT_MIN = 5;
+
+        private float totalMatchTimeLimitSetter = 30;
+        private const float TOTAL_MATCH_TIME_LIMIT_DELTA1 = 0.5f;
+        private const float TOTAL_MATCH_TIME_LIMIT_DELTA2 = 0.1f;
+        private const float TOTAL_MATCH_TIME_LIMIT_MIN1 = 20;
+        private const float TOTAL_MATCH_TIME_LIMIT_MIN2 = 10f;
+
+        private float totalMatchTimeLimit;
+        private float oneMatchTimeLimit;
+        private int level = 0;
+
+        private int matchesFound;
+        private string matchesCountString = "";
+
+
         private List<string> animalEmojiOrigin = new List<string>() {
             "🐈", "🐈",
             "🐫", "🐫",
             "🐇", "🐇",
             "🦔", "🦔",
-            "🦒", "🦒",
+            "🦘", "🦘",
             "🐘", "🐘",
             "🐁", "🐁",
             "🐕", "🐕"
         };
         private List<string> animalEmoji;
-        private string timeTextBlockName = "timeTextBlock";
         private int index;
         private Random random = new Random();
+        private TextBlock lastClickedTextBlock;
+        private TextBlock thisTimeClickedTextBlock;
+        private bool isFindingMatch = false;
+
+        private Brush redColorBrush = Brushes.Red;
+        private Brush blackColorBrush = Brushes.Black;
+
+        private TextBlock[] animalBlocks = new TextBlock[0];
+        private TextBlock oneMatchTimer;
+        private TextBlock totalMatchTimer;
 
         public MainWindow()
         {
             InitializeComponent();
-            SetUpGame();
+            SetParameter(true);
+            timer.Interval = TimeSpan.FromSeconds(.1);
+            timer.Tick += TimerTick;
+            SetUpGame(true);
+        }
+        private void SetParameter(bool isFirst = false)
+        {
+            if (!isFirst)
+            {
+                level++;
+                if (oneMatchTimeLimitSetter > ONE_MATCH_TIME_LIMIT_MIN)
+                {
+                    oneMatchTimeLimitSetter -= ONE_MATCH_TIME_LIMIT_DELTA;
+
+                }
+
+                if (totalMatchTimeLimitSetter > TOTAL_MATCH_TIME_LIMIT_MIN1)
+                {
+                    totalMatchTimeLimitSetter -= TOTAL_MATCH_TIME_LIMIT_DELTA1;
+                }
+                else if (totalMatchTimeLimitSetter > TOTAL_MATCH_TIME_LIMIT_MIN2)
+                {
+                    totalMatchTimeLimitSetter -= TOTAL_MATCH_TIME_LIMIT_DELTA2;
+                }
+            }
+            else
+            {
+                SetTextBlockReference();
+                level = 1; ;
+            }
+
+            totalMatchTimeLimit = totalMatchTimeLimitSetter;
+            totalMatchTimer.Text = totalMatchTimeLimit.ToString("0.0s");
+            oneMatchTimeLimit = oneMatchTimeLimitSetter;
+            oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
+            accumulatedTime = 0;
+
         }
 
-        private void SetUpGame()
+        private void SetTextBlockReference()
         {
-            animalEmoji = animalEmojiOrigin.ToList();
-            foreach (TextBlock textBlock in mainGrid.Children.OfType<TextBlock>())
+            IEnumerable<TextBlock> allTextBlocks = mainGrid.Children.OfType<TextBlock>();
+            animalBlocks = new TextBlock[16];
+
+            for (int i = 0; i < allTextBlocks.Count(); i++)
             {
-                if (textBlock.Name != timeTextBlockName)
+
+
+                if (allTextBlocks.ElementAt(i).Tag == null)
                 {
-                    textBlock.Visibility = Visibility.Visible;
-                    index = random.Next(animalEmoji.Count);
-                    textBlock.Text = animalEmoji[index];
-                    animalEmoji.RemoveAt(index);
-                    //
+
+                }
+                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("animal"))
+                {
+                    animalBlocks[i] = allTextBlocks.ElementAt(i);
+                }
+                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("leftTimer"))
+                {
+                    oneMatchTimer = allTextBlocks.ElementAt(i);
+                }
+                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("rightTimer"))
+                {
+                    totalMatchTimer = allTextBlocks.ElementAt(i);
                 }
 
             }
+
         }
+
+        private void TimerTick(object sender, EventArgs e)
+        {
+            accumulatedTime += 0.1f;
+            oneMatchTimeLimit -= 0.1f;
+
+            //oneMatchTimer.Text = (tenthOfSecondsElapsed / 10f).ToString("0.0s");
+            oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
+            // Add level indicator
+            if (matchesFound == 8)
+            {
+                matchesFound = 0;
+                SetParameter();
+                SetUpGame();
+            }
+
+            if (oneMatchTimeLimit < 0)
+            {
+                oneMatchTimer.Text = "0.0s";
+                timer.Stop();
+            }
+        }
+
+        private void SetUpGame(bool isFirst = false)
+        {
+            animalEmoji = animalEmojiOrigin.ToList();
+            foreach (TextBlock textBlock in animalBlocks)
+            {
+                textBlock.Visibility = Visibility.Visible;
+                index = random.Next(animalEmoji.Count);
+                textBlock.Text = animalEmoji[index];
+                animalEmoji.RemoveAt(index);
+
+            }
+            if (isFirst)
+            {
+                totalMatchTimer.Text = totalMatchTimeLimit.ToString("0.0s");
+                oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
+                timer.Start();
+            }
+        }
+
+        private void TextBlock_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            thisTimeClickedTextBlock = sender as TextBlock;
+            if (!isFindingMatch)
+            {
+                thisTimeClickedTextBlock.Foreground = redColorBrush;
+                lastClickedTextBlock = thisTimeClickedTextBlock;
+                isFindingMatch = true;
+            }
+            else if (thisTimeClickedTextBlock.Text.Equals(lastClickedTextBlock.Text))   // Correct match
+            {
+                thisTimeClickedTextBlock.Visibility = Visibility.Hidden;
+                lastClickedTextBlock.Visibility = Visibility.Hidden;
+                lastClickedTextBlock.Foreground = blackColorBrush;
+                isFindingMatch = false;
+
+                matchesFound++;
+                totalMatchTimeLimit -= accumulatedTime;
+                oneMatchTimeLimit = oneMatchTimeLimitSetter;
+                accumulatedTime = 0;
+                if (matchesFound < 8)
+                {
+                    totalMatchTimer.Text = totalMatchTimeLimit.ToString("0.0s");
+                    oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
+                }
+            }
+            else
+            {
+                lastClickedTextBlock.Visibility = Visibility.Visible;   // Wrong match
+                lastClickedTextBlock.Foreground = blackColorBrush;
+                lastClickedTextBlock = null;
+
+                isFindingMatch = false;
+            }
+        }
+
+
+
     }
 }
