@@ -65,6 +65,9 @@ namespace WPFApp01_MatchGame
         private TextBlock[] animalBlocks = new TextBlock[0];
         private TextBlock oneMatchTimer;
         private TextBlock totalMatchTimer;
+        private TextBlock countDownBlock;
+        private TextBlock levelBlock;
+        private bool isCountDowning = false;
 
         public MainWindow()
         {
@@ -72,11 +75,22 @@ namespace WPFApp01_MatchGame
             SetParameter(true);
             timer.Interval = TimeSpan.FromSeconds(.1);
             timer.Tick += TimerTick;
+            isCountDowning = true;
             SetUpGame(true);
+            StartCountDown(true);
         }
-        private void SetParameter(bool isFirst = false)
+
+        private void SetParameter(bool isFirst = false, bool isReset = false)
         {
-            if (!isFirst)
+            if (isFirst)
+            {
+                if (!isReset)   // First Time, not reset
+                {
+                    SetTextBlockReference();
+                }
+                level = 1;
+            }
+            else
             {
                 level++;
                 if (oneMatchTimeLimitSetter > ONE_MATCH_TIME_LIMIT_MIN)
@@ -94,12 +108,8 @@ namespace WPFApp01_MatchGame
                     totalMatchTimeLimitSetter -= TOTAL_MATCH_TIME_LIMIT_DELTA2;
                 }
             }
-            else
-            {
-                SetTextBlockReference();
-                level = 1; ;
-            }
 
+            levelBlock.Text = level.ToString();
             totalMatchTimeLimit = totalMatchTimeLimitSetter;
             totalMatchTimer.Text = totalMatchTimeLimit.ToString("0.0s");
             oneMatchTimeLimit = oneMatchTimeLimitSetter;
@@ -115,48 +125,113 @@ namespace WPFApp01_MatchGame
 
             for (int i = 0; i < allTextBlocks.Count(); i++)
             {
-
-
                 if (allTextBlocks.ElementAt(i).Tag == null)
                 {
 
                 }
-                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("animal"))
+                else
                 {
-                    animalBlocks[i] = allTextBlocks.ElementAt(i);
+                    switch (allTextBlocks.ElementAt(i).Tag.ToString())
+                    {
+                        case "animal":
+                            {
+                                animalBlocks[i] = allTextBlocks.ElementAt(i);
+                                break;
+                            }
+                        case "leftTimer":
+                            {
+                                oneMatchTimer = allTextBlocks.ElementAt(i);
+                                break;
+                            }
+                        case "rightTimer":
+                            {
+                                totalMatchTimer = allTextBlocks.ElementAt(i);
+                                break;
+                            }
+                        case "countDown":
+                            {
+                                countDownBlock = allTextBlocks.ElementAt(i);
+                                break;
+                            }
+                        case "level":
+                            {
+                                levelBlock = allTextBlocks.ElementAt(i);
+                                break;
+                            }
+                        default: break;
+                    }
                 }
-                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("leftTimer"))
-                {
-                    oneMatchTimer = allTextBlocks.ElementAt(i);
-                }
-                else if (allTextBlocks.ElementAt(i).Tag.ToString().Equals("rightTimer"))
-                {
-                    totalMatchTimer = allTextBlocks.ElementAt(i);
-                }
-
             }
-
         }
 
         private void TimerTick(object sender, EventArgs e)
         {
-            accumulatedTime += 0.1f;
-            oneMatchTimeLimit -= 0.1f;
 
-            //oneMatchTimer.Text = (tenthOfSecondsElapsed / 10f).ToString("0.0s");
-            oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
-            // Add level indicator
-            if (matchesFound == 8)
+            if (isCountDowning)
             {
-                matchesFound = 0;
-                SetParameter();
-                SetUpGame();
+                if (index == 20)
+                {
+                    countDownBlock.Text = "2";
+                }
+                else if (index == 10)
+                {
+                    countDownBlock.Text = "1";
+                }
+                else if (index == 0)
+                {
+                    StartCountDown(false);
+                    return;
+                }
+                index--;
             }
-
-            if (oneMatchTimeLimit < 0)
+            else
             {
-                oneMatchTimer.Text = "0.0s";
-                timer.Stop();
+                accumulatedTime += 0.1f;
+                oneMatchTimeLimit -= 0.1f;
+
+                oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
+                if (matchesFound == 8)
+                {
+                    matchesFound = 0;
+                    SetParameter();
+                    StartCountDown(true);
+                    SetUpGame();
+                    StartCountDown(true);
+                }
+
+                if (oneMatchTimeLimit < 0)
+                {
+                    oneMatchTimer.Text = "0.0s";
+                    foreach (TextBlock textBlock in animalBlocks)
+                    {
+                        textBlock.Visibility = Visibility.Hidden;
+                    }
+                    timer.Stop();
+                }
+            }
+        }
+
+        private void StartCountDown(bool isStart)
+        {
+            if (isStart)
+            {
+                countDownBlock.Text = "3";
+                countDownBlock.Visibility = Visibility.Visible;
+                foreach (TextBlock textBlock in animalBlocks)
+                {
+                    textBlock.Visibility = Visibility.Hidden;
+                }
+                index = 30;
+                isCountDowning = true;
+            }
+            else
+            {
+                countDownBlock.Visibility = Visibility.Hidden;
+                foreach (TextBlock textBlock in animalBlocks)
+                {
+                    textBlock.Visibility = Visibility.Visible;
+                }
+                isCountDowning = false;
             }
         }
 
@@ -173,8 +248,6 @@ namespace WPFApp01_MatchGame
             }
             if (isFirst)
             {
-                totalMatchTimer.Text = totalMatchTimeLimit.ToString("0.0s");
-                oneMatchTimer.Text = oneMatchTimeLimit.ToString("0.0s");
                 timer.Start();
             }
         }
@@ -215,7 +288,12 @@ namespace WPFApp01_MatchGame
             }
         }
 
-
-
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            SetParameter(true, true);
+            isCountDowning = true;
+            SetUpGame(true);
+            StartCountDown(true);
+        }
     }
 }
