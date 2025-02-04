@@ -132,10 +132,12 @@ MonoBehaviour:
   uiManagerPrefab: {fileID: 5467720938249228142, guid: 581ee7ce83ef4184eaaf29ec41c89440, type: 3}
   soundManager: {fileID: 8905162878937468755}
   inputManager: {fileID: 9067023237325246055}
-  droppingItemPrefab: {fileID: 4345768470242364630, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
+  droppingItemPrefab: {fileID: 6433758505144479622, guid: cec2e1ff0f4ef7e4cb9c2e75b184e424, type: 3}
+  ballPrefab: {fileID: 6188949591687194572, guid: 63236ca299c702045b26170ba3c8174a, type: 3}
+  paddlePrefab: {fileID: 8526980728647473953, guid: 8473a60955f50964c8ad5f62917beab1, type: 3}
   titleScene: {fileID: 0}
   objectPool: {fileID: 6756471797443801962}
-  paddle: {fileID: 0}
+  paddle: {fileID: 8526980728647473953, guid: 8473a60955f50964c8ad5f62917beab1, type: 3}
   balls: []
   bricks: []
   brickData: {fileID: 11400000, guid: 6dadf60984f76164f909e3d49c8c9360, type: 2}
