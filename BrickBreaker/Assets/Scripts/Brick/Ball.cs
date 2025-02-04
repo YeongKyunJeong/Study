@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : MonoBehaviour, IObjectPool
 {
     public Rigidbody2D rigidBody { get; private set; }
 
@@ -345,5 +345,15 @@ public class Ball : MonoBehaviour
         Debug.Log("MultiBall Speed : " + multiBallspeed);
         isUp = rigidBody.velocity.y > 0 ? true : false;
         leftBallIndex = 0;
+    }
+
+    public void GetInitialize()
+    {
+        
+    }
+
+    public void Release()
+    {
+        
     }
 }

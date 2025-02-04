@@ -101,8 +101,28 @@ public class GameManager : MonoBehaviour
     #endregion
 
     public static GameManager Instance { get { return instance; } private set { instance = value; } }
+    
+    public static string startSceneName = "";
+    
     private void Awake()
     {
+        if (startSceneName == "")
+        {
+            startSceneName = SceneManager.GetActiveScene().name;
+            // 최초 신 실행
+        }
+        else
+        {
+            
+        }
+
+        if (startSceneName == "Global")
+        {
+            
+        }
+        
+        
+        
         if (instance == null)
         {
             Instance = this;
@@ -195,7 +215,10 @@ public class GameManager : MonoBehaviour
         //droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
         //droppingItemInitializer = null;
 
+        InputManager.OnESCInput -= ESCCall;
         InputManager.OnESCInput += ESCCall;
+        
+        SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.sceneLoaded += OnSceneLoaded;
 
         InternalEventResetAction += ResetAction;

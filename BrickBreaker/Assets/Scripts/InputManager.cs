@@ -25,7 +25,6 @@ public class InputManager : MonoBehaviour
             gameManager = GameManager.Instance;
 
         gameManager.InternalEventResetAction += ResetEvent;
-
     }
 
     private void ResetEvent()

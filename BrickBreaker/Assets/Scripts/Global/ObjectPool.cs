@@ -18,34 +18,58 @@ public class Pool
     public int size;
 }
 
+public interface IObjectPool
+{
+    void GetInitialize();
+    void Release();
+}
+
 public class ObjectPool : MonoBehaviour
 {
     [SerializeField] List<Pool> pools = new List<Pool>();
+    Dictionary<PoolObjectType, Pool> poolDic = new Dictionary<PoolObjectType, Pool>();
+    
     private List<GameObject> pooledGameObjects;
     private GameObject newPooledGameObject;
     Dictionary<PoolObjectType, List<GameObject>> poolDictionary = new Dictionary<PoolObjectType, List<GameObject>>();
 
     public void Initialize()
     {
-        Ball[] preGeneratedBalls = GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None);
-
         for (int i = 0; i < pools.Count; i++)
         {
-            poolDictionary[pools[i].key] = new List<GameObject>();
+            List<GameObject> list = new List<GameObject>();
+            
+            poolDictionary[pools[i].key] = list;
 
-            if (pools[i].key == PoolObjectType.Ball)
+            for (int j = 0; j < pools[i].size; j++)
             {
-                if (preGeneratedBalls.Length > 0)
-                {
-                    pools[i].size = preGeneratedBalls.Length;
-                    for (int j = 0; j < preGeneratedBalls.Length; j++)
-                    {
-                        poolDictionary[PoolObjectType.Ball].Add(preGeneratedBalls[j].gameObject);
-                    }
-                }
-                Debug.Log($"Detected balls : {preGeneratedBalls.Length}");
+                GameObject go = Instantiate(pools[i].prefab);
+                go.SetActive(false);
+                list.Add(go);
             }
+
+            poolDic[pools[i].key] = pools[i];
         }
+        
+        // Ball[] preGeneratedBalls = GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None);
+        //
+        // for (int i = 0; i < pools.Count; i++)
+        // {
+        //     poolDictionary[pools[i].key] = new List<GameObject>();
+        //
+        //     if (pools[i].key == PoolObjectType.Ball)
+        //     {
+        //         if (preGeneratedBalls.Length > 0)
+        //         {
+        //             pools[i].size = preGeneratedBalls.Length;
+        //             for (int j = 0; j < preGeneratedBalls.Length; j++)
+        //             {
+        //                 poolDictionary[PoolObjectType.Ball].Add(preGeneratedBalls[j].gameObject);
+        //             }
+        //         }
+        //         Debug.Log($"Detected balls : {preGeneratedBalls.Length}");
+        //     }
+        // }
     }
 
 
@@ -64,7 +88,7 @@ public class ObjectPool : MonoBehaviour
     //    }
     //}
 
-    public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour
+    public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour, IObjectPool
     {
         if (poolDictionary.TryGetValue(key, out pooledGameObjects))
         {
@@ -73,23 +97,24 @@ public class ObjectPool : MonoBehaviour
                 if (!pooledGameObjects[i].activeInHierarchy)
                 {
                     pooledGameObjects[i].SetActive(true);
-                    return pooledGameObjects[i].GetComponent<T>();
+                    T component = pooledGameObjects[i].GetComponent<T>();
+                    component.GetInitialize();
+                    return component;
                 }
             }
 
-            foreach (Pool pool in pools)
-            {
-                if (pool.key == key)
-                {
-                    pool.size++;
-
-                    newPooledGameObject = Instantiate(pool.prefab);
-                    pooledGameObjects.Add(newPooledGameObject);
-                    return newPooledGameObject.GetComponent<T>();
-                }
-            }
+            var pool = poolDic[key];
+            newPooledGameObject = Instantiate(pool.prefab);
+            pooledGameObjects.Add(newPooledGameObject);
         }
-        return null;
+        
+        return newPooledGameObject.GetComponent<T>();
+    }
+
+    public void Release<T>(PoolObjectType key, T obj) where T : MonoBehaviour
+    {
+        obj.gameObject.SetActive(false);
+        // obj.Release();
     }
 
     // public T Add<T>(T a, T b)
