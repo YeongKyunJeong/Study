@@ -2,12 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ball : MonoBehaviour
+public class Ball : MonoBehaviour, IPoolMemberObject
 {
     public Rigidbody2D rigidBody { get; private set; }
 
     private static GameManager gameManager;
     private static BrickData brickData;
+    private static float bounceBallSpeed;
 
     private bool isFirstBall;
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -36,38 +37,63 @@ public class Ball : MonoBehaviour
     public float speed;
     private float speedCorrector;
 
-    private static float halfWidth;
-    private static float bounceBallSpeed;
-    //private WaitForFixedUpdate waitForFixedFrame;
+    private float halfWidth;
+    private float deflectionStartOffset;
+
+    private LayerMask paddleLayer;
+    private LayerMask bricksLayer;
+
     public const float MAX_BOUNCE_ANGLE = 60f;
-    private static SFXType paddleHitType = SFXType.PaddleHit;
-    private static float deflectionStartOffset = 0.75f;
     private static WaitForSeconds waitFor1s;
 
-    private static LayerMask paddleLayer;
-    private static LayerMask bricksLayer;
-    private bool isFirstTimeUsage = true;
-    //private LayerMask bricksLayer;
+    //public void GlobalInitialize(BrickData givenBrickData)
+    //{
+    //    if (gameManager == null)
+    //        gameManager = GameManager.Instance;
 
-    public void GlobalInitialize(BrickData givenBrickData)
+
+    //    if (brickData == null)
+    //        brickData = givenBrickData;
+
+    //    paddleLayer = LayerMask.NameToLayer("Paddle");
+    //    bricksLayer = LayerMask.NameToLayer("Bricks");
+    //    speed = 500f;
+    //    halfWidth = 2.5f;
+    //    corectedHalfWidth = halfWidth - deflectionStartOffset;
+    //    multiBallStack = 0;
+    //    waitFor1s = new WaitForSeconds(1f);
+    //}
+
+    public void Initialize()
     {
         if (gameManager == null)
+        {
             gameManager = GameManager.Instance;
-
-
+        }
         if (brickData == null)
-            brickData = givenBrickData;
-
-        paddleLayer = LayerMask.NameToLayer("Paddle");
-        bricksLayer = LayerMask.NameToLayer("Bricks");
+        {
+            brickData = gameManager.BrickDataGetter;
+        }
+        paddleLayer = gameManager.PaddleLayerGetter;
+        bricksLayer = gameManager.BricksLayerGetter;
         speed = 500f;
         halfWidth = 2.5f;
+        deflectionStartOffset = 0.75f;
         corectedHalfWidth = halfWidth - deflectionStartOffset;
-        multiBallStack = 0;
-        waitFor1s = new WaitForSeconds(1f);
+        firstPosition = transform.position;
+        if (waitFor1s == null)
+            waitFor1s = new WaitForSeconds(1f);
+
+        gameManager.ResetBallAction += ResetBall;
+        gameManager.BallPowerChangeAction += ChangeColor;
+
+        isFirstBall = false;
+        coroutine = null;
+
+        RelInitialize();
     }
 
-    public void Initialize(int ballPower, bool isFirstBall = false)
+    public void RelInitialize()
     {
         if (rigidBody == null)
         {
@@ -77,24 +103,20 @@ public class Ball : MonoBehaviour
         {
             spriteRenderer = GetComponent<SpriteRenderer>();
         }
-        this.isFirstBall = isFirstBall;
+        gameObject.SetActive(true);
+    }
+
+    public void SetBallPower(int ballPower, bool isFirstBall = false)
+    {
+        if (isFirstBall)
+        {
+            multiBallStack = 0;
+            ShootBallAtStart();
+            this.isFirstBall = true;
+        }
+        ChangeColor(ballPower);
         gameObject.SetActive(isFirstBall);
 
-        if (isFirstTimeUsage)
-        {
-            gameManager.ResetBallAction += ResetBall;
-            gameManager.BallPowerChangeAction += ChangeColor;
-        }
-        isFirstTimeUsage = false;
-
-        firstPosition = transform.position;
-
-        coroutine = null;
-
-        if (isFirstBall)
-            coroutine = StartCoroutine(CoroutineAtStart());
-
-        spriteRenderer.color = brickData.ballColors[ballPower - 1];
     }
 
     public void SetRandomDirection()
@@ -111,13 +133,11 @@ public class Ball : MonoBehaviour
 
     public void ShootBallAtStart()
     {
-
         if (coroutine != null)
         {
             coroutine = null;
         }
         coroutine = StartCoroutine(CoroutineAtStart());
-
     }
 
     public void ResetBall(/*bool reshootBall, bool isFirstBall*/)
@@ -230,7 +250,6 @@ public class Ball : MonoBehaviour
         {
             if (rigidBody.velocity.y > 0)
                 HitPaddle(collision);
-
         }
         else
         {
@@ -306,7 +325,7 @@ public class Ball : MonoBehaviour
         {
             Debug.LogError("Speed Corrector Error : " + save);
         }
-            return save;
+        return save;
     }
 
     private void HitElse()
@@ -326,6 +345,10 @@ public class Ball : MonoBehaviour
             tempVec = new Vector2(Mathf.Sin(angle * Mathf.Deg2Rad), -Mathf.Cos(angle * Mathf.Deg2Rad));
         }
 
+        if (!isFirstBall)
+        {
+            Debug.Log("Debug Flag");
+        }
         speedCorrector = CalculateSpeedCorrector(angle);
 
         rigidBody.velocity = tempVec/*.normalized*/ * (speedCorrector * bounceBallSpeed);
@@ -334,7 +357,7 @@ public class Ball : MonoBehaviour
 
     public void PlayPaddleHitSFX()
     {
-        gameManager.PlaySFX(paddleHitType);
+        gameManager.PlaySFX(SFXType.PaddleHit);
     }
 
     internal void ReadyMultiBall()

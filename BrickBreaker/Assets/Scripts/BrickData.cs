@@ -27,7 +27,7 @@ public class BrickData : ScriptableObject
     private Color[] ballColorsField; // Temporary instead of sprite
 
     [HideInInspector]
-    public int itemTypeNumber;
+    public int totalItemTypeCount;
     [HideInInspector]
     public int ballSpriteNumber;
     public Sprite[] brickSprites { get; private set; }
@@ -45,8 +45,8 @@ public class BrickData : ScriptableObject
         defaultItemProbability = new int[defaultItemProbabilityField.Length];
         defaultItemProbabilityField.CopyTo(defaultItemProbability, 0);
 
-        itemTypeNumber = itemColorsField.Length;
-        itemColors = new Color[itemTypeNumber];
+        totalItemTypeCount = itemColorsField.Length;
+        itemColors = new Color[totalItemTypeCount];
         itemColorsField.CopyTo(itemColors, 0);
 
         ballSpriteNumber = ballColorsField.Length;

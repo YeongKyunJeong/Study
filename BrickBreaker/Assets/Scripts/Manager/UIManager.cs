@@ -9,9 +9,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private PanelButtonManager panelButtonManager;
     [SerializeField] private AspectRatioEnforcer aspectRatioEnforcer;
 
-    public void Initialize(BrickData brickData, bool isTemporaryGameManager)
+    public void Initialize(SceneType initializedScene)
     {
-
         if (scoreTMPSetter != null)
         {
             scoreTMPSetter.Initialize();
@@ -23,7 +22,7 @@ public class UIManager : MonoBehaviour
 
         if (gsButtonManager != null)
         {
-                gsButtonManager.Initialize(isTemporaryGameManager); ;
+            gsButtonManager.Initialize(initializedScene); ;
         }
         else
         {
@@ -32,7 +31,7 @@ public class UIManager : MonoBehaviour
 
         if (panelButtonManager != null)
         {
-                panelButtonManager.Initialize(isTemporaryGameManager); ;
+            panelButtonManager.Initialize(initializedScene); ;
         }
         else
         {
@@ -44,7 +43,16 @@ public class UIManager : MonoBehaviour
             aspectRatioEnforcer.Initialize(GetComponent<RectTransform>());
         }
 
-        DontDestroyOnLoad(this.gameObject);
+        if (initializedScene == SceneType.Title)
+        {
+            DontDestroyOnLoad(gameObject);
+            gameObject.SetActive(false);
+        }
+        else
+        {
+            gameObject.SetActive(true);
+        }
+            
     }
 
     public void DoUIManagerSetting(int level, int lives, int score)

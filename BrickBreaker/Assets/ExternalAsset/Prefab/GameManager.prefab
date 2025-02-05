@@ -117,6 +117,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   powerUpContinuanceTime: 10
+  nowScene: 0
   myScoreAtStageStart: 0
   livesAtStageStart: 3
   level: 0
@@ -126,7 +127,6 @@ MonoBehaviour:
   leftBrickCount: -1
   leftBallCount: -1
   isNewGame: 1
-  isTemporaryGameManager: 1
   isMainMenuOn: 0
   uiManager: {fileID: 0}
   uiManagerPrefab: {fileID: 5467720938249228142, guid: 581ee7ce83ef4184eaaf29ec41c89440, type: 3}
@@ -326,6 +326,10 @@ PrefabInstance:
     - target: {fileID: 3150731240423577713, guid: 9ce6065bba5bb214e9737bb594de5015, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8634491863575378561, guid: 9ce6065bba5bb214e9737bb594de5015, type: 3}
+      propertyPath: Mute
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -69,7 +69,7 @@ public class StageManagerNeo : MonoBehaviour
 
     private void SendStageDataToGameManager()
     {
-        gameManager.SetStageDataAndSetting(this);
+        gameManager.SetStageDataAndInitialSetting(this);
     }
 
 

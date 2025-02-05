@@ -85,7 +85,7 @@ public class StageEditor : Editor
         for (int i = 0; i < brickRowCount; i++)
         {
             rowElement = rowBrickHealthsProp.GetArrayElementAtIndex(i);
-            rowElement.stringValue = EditorGUILayout.TextField($"{i} 번째 줄 블록 체력", rowElement.stringValue);
+            rowElement.stringValue = EditorGUILayout.TextField($"{i+1} 번째 줄 블록 체력", rowElement.stringValue);
         }
 
         serializedObject.ApplyModifiedProperties();

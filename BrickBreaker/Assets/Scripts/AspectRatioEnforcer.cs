@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -29,12 +30,14 @@ public class AspectRatioEnforcer : MonoBehaviour
         lastCanvasSize = canvasRect.sizeDelta;
         //mainCamera = Camera.main;
         //Screen.SetResolution(screenWidth, screenHeight, windowed);
+        ChangeSceneWithoutCamera();
     }
 
     public void ChangeSceneWithoutCamera()
     {
         mainCamera = Camera.main;
         Screen.SetResolution(screenWidth, screenHeight, windowed);
+        lastCanvasSize = Vector2.zero;
     }
 
     private void LateUpdate()
@@ -49,6 +52,11 @@ public class AspectRatioEnforcer : MonoBehaviour
 
     public void OnCanvasSizeChanged()
     {
+        if(mainCamera == null)
+        {
+            ChangeSceneWithoutCamera();
+        }
+
         changedWindiowAspect = (float)Screen.width / (float)Screen.height;
         if (changedWindiowAspect > fixedWindowAspect)
         {
@@ -60,7 +68,9 @@ public class AspectRatioEnforcer : MonoBehaviour
         {
             newValue = changedWindiowAspect / fixedWindowAspect;
             canvasScaler.matchWidthOrHeight = 0;
+
             mainCamera.rect = new Rect(0, (1 - newValue) / 2f, 1, newValue);
+
         }
     }
 

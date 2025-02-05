@@ -20,19 +20,25 @@ public class Pool
 
 public class ObjectPool : MonoBehaviour
 {
-    [SerializeField] List<Pool> pools = new List<Pool>();
+    [SerializeField]
+    private List<Pool> pools = new List<Pool>();
+    private Pool tempPool;
+    private Dictionary<PoolObjectType, Pool> typeToPoolDictionary;
     private List<GameObject> pooledGameObjects;
     private GameObject newPooledGameObject;
-    Dictionary<PoolObjectType, List<GameObject>> poolDictionary = new Dictionary<PoolObjectType, List<GameObject>>();
+    private Dictionary<PoolObjectType, List<GameObject>> typeToPooledGameObjectsDictionary;
 
     public void Initialize()
     {
         Ball[] preGeneratedBalls = GameObject.FindObjectsByType<Ball>(FindObjectsSortMode.None);
 
+        typeToPooledGameObjectsDictionary = new Dictionary<PoolObjectType, List<GameObject>>();
+        typeToPoolDictionary = new Dictionary<PoolObjectType, Pool>();
+
         for (int i = 0; i < pools.Count; i++)
         {
-            poolDictionary[pools[i].key] = new List<GameObject>();
-
+            typeToPooledGameObjectsDictionary[pools[i].key] = new List<GameObject>();
+            typeToPoolDictionary[pools[i].key] = pools[i];
             if (pools[i].key == PoolObjectType.Ball)
             {
                 if (preGeneratedBalls.Length > 0)
@@ -40,7 +46,7 @@ public class ObjectPool : MonoBehaviour
                     pools[i].size = preGeneratedBalls.Length;
                     for (int j = 0; j < preGeneratedBalls.Length; j++)
                     {
-                        poolDictionary[PoolObjectType.Ball].Add(preGeneratedBalls[j].gameObject);
+                        typeToPooledGameObjectsDictionary[PoolObjectType.Ball].Add(preGeneratedBalls[j].gameObject);
                     }
                 }
                 Debug.Log($"Detected balls : {preGeneratedBalls.Length}");
@@ -48,7 +54,10 @@ public class ObjectPool : MonoBehaviour
         }
     }
 
+    public void Check()
+    {
 
+    }
 
     //void Start()
     //{
@@ -64,30 +73,46 @@ public class ObjectPool : MonoBehaviour
     //    }
     //}
 
-    public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour
+    public T GetObject<T>(PoolObjectType key) where T : MonoBehaviour, IPoolMemberObject
     {
-        if (poolDictionary.TryGetValue(key, out pooledGameObjects))
+        if (typeToPooledGameObjectsDictionary.TryGetValue(key, out pooledGameObjects))
         {
             for (int i = 0; i < pooledGameObjects.Count; i++)
             {
                 if (!pooledGameObjects[i].activeInHierarchy)
                 {
-                    pooledGameObjects[i].SetActive(true);
-                    return pooledGameObjects[i].GetComponent<T>();
+                    T found_T = pooledGameObjects[i].GetComponent<T>();
+                    found_T.RelInitialize();
+                    return found_T;
                 }
             }
 
-            foreach (Pool pool in pools)
-            {
-                if (pool.key == key)
-                {
-                    pool.size++;
 
-                    newPooledGameObject = Instantiate(pool.prefab);
-                    pooledGameObjects.Add(newPooledGameObject);
-                    return newPooledGameObject.GetComponent<T>();
-                }
-            }
+            tempPool = typeToPoolDictionary[key];
+
+
+            tempPool.size++;
+            newPooledGameObject = Instantiate(tempPool.prefab);
+            pooledGameObjects.Add(newPooledGameObject);
+
+            T new_T = newPooledGameObject.GetComponent<T>();
+            new_T.Initialize();
+            return new_T;
+
+
+            //foreach (Pool pool in pools)
+            //{
+            //    if (pool.key == key)
+            //    {
+            //        pool.size++;
+            //        newPooledGameObject = Instantiate(pool.prefab);
+            //        pooledGameObjects.Add(newPooledGameObject);
+
+            //        T new_T = newPooledGameObject.GetComponent<T>();
+            //        new_T.Initialize();
+            //        return new_T;
+            //    }
+            //}
         }
         return null;
     }

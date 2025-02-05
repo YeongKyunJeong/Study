@@ -5,11 +5,15 @@ using UnityEngine;
 
 public class InGameButtonPopUp : PopUp
 {
-    public override void Initialize(bool isTemporaryGameManager)
+    public override void Initialize(SceneType initializedScene)
     {
         isInitializing = true;
         go = this.gameObject;
-        this.isTemporaryGameManager = isTemporaryGameManager;
+        if (initializedScene == SceneType.Title)
+            isTemporaryGameManager = false;
+        else
+            isTemporaryGameManager = true;
+           
         gameManager = GameManager.Instance;
         SetActive(false);
     }

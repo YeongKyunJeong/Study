@@ -7,7 +7,7 @@ public class PanelButtonManager : MonoBehaviour
     public GameOverPopUp gameOverPopUp;
     public PausePopUp pausePopUp;
 
-    public void Initialize(bool isTemporaryGameManager)
+    public void Initialize(SceneType initializedScene)
     {
         if (gameOverPopUp == null)
         {
@@ -19,8 +19,8 @@ public class PanelButtonManager : MonoBehaviour
         }
 
         
-            gameOverPopUp.Initialize(isTemporaryGameManager);
-            pausePopUp.Initialize(isTemporaryGameManager);
+            gameOverPopUp.Initialize(initializedScene);
+            pausePopUp.Initialize(initializedScene);
         
 
         ResetPanel();

@@ -11,6 +11,6 @@ public abstract class PopUp : MonoBehaviour
     protected bool isInitializing = true;
     public Button[] buttons;
 
-    public abstract void Initialize(bool isTemporaryGameManager);
+    public abstract void Initialize(SceneType initializedScene);
 
 }

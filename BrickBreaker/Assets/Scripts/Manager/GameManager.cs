@@ -7,29 +7,41 @@ using System.Collections.Generic;
 using Random = UnityEngine.Random;
 using System.Collections;
 
+public enum SceneType
+{
+    Title,
+    Stage
+}
+
 public class GameManager : MonoBehaviour
 {
     private static GameManager instance;
 
     #region Magic Number
-    private const string LEVEL_CALLING_STRING_W0 = "Level0";
-    private const string LEVEL_CALLING_STRING = "Level";
-    private const string TITLE_SCENE_STRING = "Global";
+    private const string STAGE_SCENE_STRING = "1StageScene";
+    private const string TITLE_SCENE_STRING = "0TitleScene";
     private const int TITLE_SCENE_INT = 0;
     private const int MAX_LIFE = 99;
     private const int MAX_SCORE = 99999999;
     private const int LIFE_TO_SCORE = 10000;
 
     private SFXType fallSFXTye = SFXType.Fall;
-    private int totalLevelCount = 0;
+    private int totalSceneCount = 0;
     private LayerMask ballLayer;
+    public LayerMask BallLayerGetter { get => ballLayer; }
     private LayerMask paddleLayer;
+    public LayerMask PaddleLayerGetter { get => paddleLayer; }
     private LayerMask deadZoneLayer;
+    public LayerMask DeadZoneLayerGetter { get => deadZoneLayer; }
+    private LayerMask bricksLayer;
+    public LayerMask BricksLayerGetter { get => bricksLayer; }
+
     [SerializeField] private float powerUpContinuanceTime = 10f;
     private WaitForSeconds powerUpWaitForSec;
     #endregion
 
     #region Player Status
+    public SceneType nowScene;
     public int myScoreAtStageStart = 0;
     private int myScoreAtGameStart = 0;
     public int livesAtStageStart = 3;
@@ -49,7 +61,6 @@ public class GameManager : MonoBehaviour
 
     #region Boolean
     [SerializeField] private bool isNewGame = true;
-    [SerializeField] private bool isTemporaryGameManager = true;
     [SerializeField] private bool isMainMenuOn = false;
     #endregion
 
@@ -94,6 +105,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Ball[] balls;
     [SerializeField] private Brick[] bricks;
     [SerializeField] private BrickData brickData;
+    public BrickData BrickDataGetter { get => brickData; }
     [SerializeField] private DeadZone[] walls;
     [SerializeField] private StageManagerNeo stageManagerNeo;
     #endregion
@@ -116,24 +128,30 @@ public class GameManager : MonoBehaviour
             return;
         }
 
-        if (isTemporaryGameManager)
-        {
+        nowScene = SceneManager.GetActiveScene().name == TITLE_SCENE_STRING ? SceneType.Title : SceneType.Stage;
 
-        }
-        else
+        switch (nowScene)
         {
-            DontDestroyOnLoad(this.gameObject);
-            totalLevelCount = SceneManager.sceneCountInBuildSettings;
-            Debug.Log(totalLevelCount);
+            case SceneType.Title:
+                {
+                    DontDestroyOnLoad(gameObject);
+                    totalSceneCount = SceneManager.sceneCountInBuildSettings;
+                    Debug.Log(totalSceneCount);
+                    break;
+                }
+            case SceneType.Stage: { break; }
+            default: break;
         }
+
         ballLayer = LayerMask.NameToLayer("Ball");
         paddleLayer = LayerMask.NameToLayer("Paddle");
         deadZoneLayer = LayerMask.NameToLayer("DeadZone");
+        bricksLayer = LayerMask.NameToLayer("Bricks");
         powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
         isMainMenuOn = false;
 
         PowerUpCoroutines = new Coroutine[5];
-        objectPool.Initialize();
+        //objectPool.Initialize();
         Initialize();
     }
 
@@ -145,8 +163,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("BrickData asset not detected");
         }
         brickData.Initialize();
-        itemTypeNumber = brickData.itemTypeNumber;
-        defaultItemProbability = brickData.defaultItemProbability;
+        itemTypeNumber = brickData.totalItemTypeCount;
+        //defaultItemProbability = brickData.defaultItemProbability; // Build version 
+        defaultItemProbability = new int[4] { 0, 1, 1, 3}; // For test
         totalWeight = 0;
         foreach (int weight in defaultItemProbability)
         {
@@ -157,7 +176,7 @@ public class GameManager : MonoBehaviour
         {
             uiManager = Instantiate(uiManagerPrefab).GetComponent<UIManager>();
         }
-        uiManager.Initialize(brickData, isTemporaryGameManager);
+        uiManager.Initialize(nowScene);
 
         if (soundManager == null)
         {
@@ -171,21 +190,21 @@ public class GameManager : MonoBehaviour
         }
         inputManager.Initialize();
 
-        if (droppingItemPrefab == null)
-        {
-            Debug.LogError("DropingItemPrefab not detected");
-        }
-        droppingItemInitializer = droppingItemPrefab;
-        droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
-        droppingItemInitializer = null;
+        //if (droppingItemPrefab == null)
+        //{
+        //    Debug.LogError("DropingItemPrefab not detected");
+        //}
+        //droppingItemInitializer = droppingItemPrefab;
+        //droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
+        //droppingItemInitializer = null;
 
-        if (ballPrefab == null)
-        {
-            Debug.LogError("BallPrefab not detected");
-        }
-        ballInitializer = ballPrefab;
-        ballInitializer.GlobalInitialize(brickData);
-        ballInitializer = null;
+        //if (ballPrefab == null)
+        //{
+        //    Debug.LogError("BallPrefab not detected");
+        //}
+        //ballInitializer = ballPrefab;
+        //ballInitializer.GlobalInitialize(brickData);
+        //ballInitializer = null;
 
         //if (paddlePrefab == null)
         //{
@@ -200,14 +219,8 @@ public class GameManager : MonoBehaviour
 
         InternalEventResetAction += ResetAction;
 
-        if (isTemporaryGameManager)
+        if (nowScene == SceneType.Title)
         {
-            uiManager.gameObject.SetActive(true);
-        }
-        else
-        {
-            uiManager.gameObject.SetActive(false);
-
             if (titleScene == null)
             {
                 titleScene = FindFirstObjectByType<TitleScene>();
@@ -260,11 +273,10 @@ public class GameManager : MonoBehaviour
     private void BackToTitleScene()
     {
         uiManager.gameObject.SetActive(false);
-        objectPool.Initialize();
         LoadLevel(TITLE_SCENE_INT);
     }
 
-    public void SetStageDataAndSetting(StageManagerNeo stageManagerNeo)
+    public void SetStageDataAndInitialSetting(StageManagerNeo stageManagerNeo)
     {
         for (int i = 0; i < PowerUpCoroutines.Length; i++)
         {
@@ -296,20 +308,16 @@ public class GameManager : MonoBehaviour
         balls = stageManagerNeo.balls;
         for (int i = 0; i < balls.Length; i++)
         {
-            if (i == 0)
-            {
-                balls[i].Initialize(brickDamage, true);
-            }
-            else
-            {
-                balls[i].Initialize(brickDamage);
-            }
+            ballInitializer = balls[i];
+            ballInitializer.Initialize();
+            ballInitializer.SetBallPower(brickDamage, i == 0);
         }
         leftBallCount = 1;
         paddle = stageManagerNeo.paddle;
         paddle.Initialize();
 
         DoUIManagerSetting(level, lives, myScore);
+        objectPool.Initialize();
     }
 
     private void MakeItemSetting(bool isRandomSetting, int[] givenItemProbability)
@@ -357,6 +365,43 @@ public class GameManager : MonoBehaviour
         LoadLevel(1);
     }
 
+    private void LoadScene(SceneType targetType)
+    {
+        // To do : Add game play data saving logic
+
+
+        switch (targetType)
+        {
+            case SceneType.Title:
+                {
+                    break;
+                }
+            case SceneType.Stage:
+                {
+                    if (isNewGame)
+                    {
+
+                    }
+                    else
+                    {
+
+                    }
+                    break;
+                }
+            default:
+                {
+                    try
+                    {
+                        throw new Exception("Not implemented scene loaded");
+                    }
+                    catch
+                    {
+                        break;
+                    }
+                }
+        }
+    }
+
     private void LoadLevel(int level)
     {
         stageCleared = false;
@@ -383,21 +428,25 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            if (level > 9)
+            if (level > 0)
             {
-                tempString = $"{LEVEL_CALLING_STRING}{level}";
+                tempString = STAGE_SCENE_STRING;
             }
-            else
-            {
-                tempString = $"{LEVEL_CALLING_STRING_W0}{level}";
-            }
+
+            //if (level > 9)
+            //{
+            //    tempString = $"{LEVEL_CALLING_STRING}{level}";
+            //}
+            //else
+            //{
+            //    tempString = $"{LEVEL_CALLING_STRING_W0}{level}";
+            //}
 
             myScoreAtStageStart = myScore;
             livesAtStageStart = lives;
             brickDamage = brickDamageAtGameStart;
         }
 
-        ////////// Load stage without Scene loading
         SceneManager.LoadScene(tempString);
 
         InternalEventResetAction?.Invoke();
@@ -451,7 +500,7 @@ public class GameManager : MonoBehaviour
         }
         if (stageCleared)
         {
-            if (level < totalLevelCount)
+            if (level < totalSceneCount)
             {
                 level++;
                 uiManager.ChangeNumber(level, UINumberCategory.Level);
@@ -596,7 +645,7 @@ public class GameManager : MonoBehaviour
                     for (int i = 0; i < balls.Length; i++)
                     {
                         //if (balls[i].isActive)
-                        if(PowerUpCoroutines[i] != null)
+                        if (PowerUpCoroutines[i] != null)
                         {
                             StopCoroutine(PowerUpCoroutines[i]);
                             PowerUpCoroutines[i] = null;
@@ -659,7 +708,7 @@ public class GameManager : MonoBehaviour
         for (int i = 0; i < multiBallNumber - 1; i++)
         {
             ballInitializer = objectPool.GetObject<Ball>(PoolObjectType.Ball);
-            ballInitializer.Initialize(brickDamage, false);
+            ballInitializer.SetBallPower(brickDamage);
             ballInitializer.BeMultiBall();
             leftBallCount++;
         }
@@ -739,7 +788,7 @@ public class GameManager : MonoBehaviour
     public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
     {
         droppingItemInitializer = objectPool.GetObject<DroppingItem>(PoolObjectType.DroppingItemBox);
-        droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
+        droppingItemInitializer.SetPositionAndItemType(creationPosition, targetItem);
     }
 
     public void TakeSettingValue(int value, TitleSceneSetterType setterType)
