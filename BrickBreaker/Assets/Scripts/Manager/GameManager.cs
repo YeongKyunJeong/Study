@@ -165,7 +165,7 @@ public class GameManager : MonoBehaviour
         brickData.Initialize();
         itemTypeNumber = brickData.totalItemTypeCount;
         //defaultItemProbability = brickData.defaultItemProbability; // Build version 
-        defaultItemProbability = new int[4] { 0, 1, 1, 3}; // For test
+        defaultItemProbability = new int[4] { 0, 1, 1, 3 }; // For test
         totalWeight = 0;
         foreach (int weight in defaultItemProbability)
         {
