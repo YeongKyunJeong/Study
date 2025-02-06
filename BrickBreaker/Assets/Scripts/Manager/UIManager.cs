@@ -52,18 +52,19 @@ public class UIManager : MonoBehaviour
         {
             gameObject.SetActive(true);
         }
-            
+
     }
 
-    public void DoUIManagerSetting(int level, int lives, int score)
+    public void DoUIManagerSetting(int targetLevel, int targetLives, int targetScore)
     {
-        ChangeNumber(level, UINumberCategory.Level);
-        ChangeNumber(lives, UINumberCategory.Life);
-        ChangeNumber(score, UINumberCategory.Score);
-        ChangeStage();
+        ChangeNumber(targetLevel, UINumberCategory.Level);
+        ChangeNumber(targetLives, UINumberCategory.Life);
+        ChangeNumber(targetScore, UINumberCategory.Score);
+        panelButtonManager.ResetPanel();
+        SetAspectRatioEnforcer();
     }
 
-    public void ChangeStage()
+    public void SetAspectRatioEnforcer()
     {
         aspectRatioEnforcer.ChangeSceneWithoutCamera();
     }
@@ -81,12 +82,6 @@ public class UIManager : MonoBehaviour
     public void PauseGame()
     {
         panelButtonManager.PauseGame();
-    }
-
-    public void ResetStage(int scoreAtStart, int livesAtStart)
-    {
-        scoreTMPSetter.ResetStage(scoreAtStart, livesAtStart);
-        panelButtonManager.ResetPanel();
     }
 
     public void GameOver()

@@ -27,6 +27,11 @@ public class ScoreManager : MonoBehaviour
         get { return scoreValue; }
         set
         {
+            if(scoreValue == value)
+            {
+                return;
+            }
+
             if (value > MAX_SCORE)
             {
                 scoreValue = MAX_SCORE;
@@ -49,6 +54,11 @@ public class ScoreManager : MonoBehaviour
         get { return lifeValue; }
         set
         {
+            if (lifeValue == value)
+            {
+                return;
+            }
+
             if (value > MAX_LIFE)
             {
                 lifeValue = MAX_LIFE;
@@ -68,6 +78,11 @@ public class ScoreManager : MonoBehaviour
         get { return levelValue; }
         set
         {
+            if (levelValue == value)
+            {
+                return;
+            }
+
             if (value > MAX_LEVEL)
             {
                 levelValue = MAX_LEVEL;
@@ -125,11 +140,5 @@ public class ScoreManager : MonoBehaviour
         stringBuilder.Append(inputScore);
 
         return stringBuilder.ToString();
-    }
-
-    public void ResetStage(int scoreAtStart, int livesAtStart)
-    {
-        ScoreSetter = scoreAtStart ;
-        LifeSetter = livesAtStart;
     }
 }

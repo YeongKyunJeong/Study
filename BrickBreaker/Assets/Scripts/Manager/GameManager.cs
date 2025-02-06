@@ -42,10 +42,10 @@ public class GameManager : MonoBehaviour
 
     #region Player Status
     public SceneType nowScene;
-    public int myScoreAtStageStart = 0;
-    private int myScoreAtGameStart = 0;
-    public int livesAtStageStart = 3;
-    private int livesAtGameStart = 3;
+    public int myScoreAt_StageStart = 0;
+    private int myScoreAt_GameStart = 0;
+    public int livesAt_StageStart = 3;
+    private int livesAt_GameStart = 3;
 
     public int level = 0;
     public int myScore = 0;
@@ -92,7 +92,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Paddle paddlePrefab;
     private Paddle paddleInitializer;
 
-    private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
     public TitleScene titleScene;
     private static int itemTypeNumber;
     private int[] defaultItemProbability;
@@ -365,26 +364,62 @@ public class GameManager : MonoBehaviour
         LoadLevel(1);
     }
 
-    private void LoadScene(SceneType targetType)
+    private void LoadScene(SceneType targetType, int targetLevel)
     {
-        // To do : Add game play data saving logic
+        bool isSceneChange = true;
+        bool isScoreUIOn = true;
 
+        bool playerStateTo_GameStart = false;
+        bool playerStateTo_StageStart = false;
+        bool playerStateSave = false;
 
         switch (targetType)
         {
             case SceneType.Title:
                 {
+                    tempString = TITLE_SCENE_STRING;
+                    isScoreUIOn = false;
+                    playerStateTo_GameStart = true;
+
+                    if (nowScene == SceneType.Title)    // Stage - to - Title
+                    {
+                        isSceneChange = false;
+                        // To do : Add game play data saving logic
+                    }
+                    if (nowScene == SceneType.Stage)
+                    {
+
+                    }
+
                     break;
                 }
             case SceneType.Stage:
                 {
-                    if (isNewGame)
+                    tempString = STAGE_SCENE_STRING;
+                    isScoreUIOn = true;
+                    if (nowScene == SceneType.Stage)    // Stage - to - Stage
                     {
+                        isSceneChange = false;
 
+                        if (this.level == targetLevel) // Only retry now stage
+                        {
+                            playerStateTo_StageStart = true;
+                        }
+                        else // Change stage
+                        {
+
+                        }
                     }
-                    else
+                    else if (nowScene == SceneType.Title)    // Title - to - Stage
                     {
-
+                        if (isNewGame)
+                        {
+                            playerStateTo_GameStart = true;
+                        }
+                        else
+                        {
+                            // To do : Add game play data loading logic
+                        }
                     }
                     break;
                 }
@@ -400,30 +435,51 @@ public class GameManager : MonoBehaviour
                     }
                 }
         }
+
+        if (isSceneChange)
+        {
+            SceneManager.LoadScene(tempString);
+        }
+
+        if (playerStateTo_GameStart)
+        {
+            myScore = myScoreAt_GameStart;
+            myScoreAt_StageStart = myScoreAt_GameStart;
+            lives = livesAt_GameStart;
+            livesAt_StageStart = livesAt_GameStart;
+
+            uiManager.DoUIManagerSetting(level, myScore, lives);
+        }
+        else if (playerStateTo_StageStart)
+        {
+            myScore = myScoreAt_StageStart;
+            lives = livesAt_StageStart;
+
+            uiManager.DoUIManagerSetting(level, myScore, lives);
+        }
+
+        AllStageChangeCommonInitialize();
     }
 
     private void LoadLevel(int level)
     {
-        stageCleared = false;
-        isMainMenuOn = false;
-        enabledDroppingItems = new List<DroppingItem>();
-        TimeControler.TimeScaler(1);
+        AllStageChangeCommonInitialize();
 
         if (this.level == 0)
         {
-            myScore = myScoreAtGameStart;
-            myScoreAtStageStart = myScoreAtGameStart;
-            lives = livesAtGameStart;
-            livesAtStageStart = livesAtGameStart;
+            myScore = myScoreAt_GameStart;
+            myScoreAt_StageStart = myScoreAt_GameStart;
+            lives = livesAt_GameStart;
+            livesAt_StageStart = livesAt_GameStart;
         }
 
         this.level = level;
         if (level == 0)
         {
-            myScore = myScoreAtGameStart;
-            myScoreAtStageStart = myScoreAtGameStart;
-            lives = livesAtGameStart;
-            livesAtStageStart = livesAtGameStart;
+            myScore = myScoreAt_GameStart;
+            myScoreAt_StageStart = myScoreAt_GameStart;
+            lives = livesAt_GameStart;
+            livesAt_StageStart = livesAt_GameStart;
             tempString = TITLE_SCENE_STRING;
         }
         else
@@ -442,16 +498,22 @@ public class GameManager : MonoBehaviour
             //    tempString = $"{LEVEL_CALLING_STRING_W0}{level}";
             //}
 
-            myScoreAtStageStart = myScore;
-            livesAtStageStart = lives;
+            myScoreAt_StageStart = myScore;
+            livesAt_StageStart = lives;
             brickDamage = brickDamageAtGameStart;
         }
 
         SceneManager.LoadScene(tempString);
 
+        uiManager.DoUIManagerSetting(this.level, myScore, lives);
+    }
+
+    private void AllStageChangeCommonInitialize()
+    {
+        stageCleared = false;
+        isMainMenuOn = false;
         InternalEventResetAction?.Invoke();
-        uiManager.ChangeNumber(this.level, UINumberCategory.Level);
-        uiManager.ResetStage(myScore, lives);
+        TimeControler.TimeScaler(1);
     }
 
     private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
@@ -567,14 +629,14 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            myScore = myScoreAtStageStart;
-            lives = livesAtStageStart;
+            myScore = myScoreAt_StageStart;
+            lives = livesAt_StageStart;
             isMainMenuOn = false;
 
 
             TimeControler.TimeScaler(1);
             ResetDroppingItemAction?.Invoke();
-            uiManager.ResetStage(myScore, lives);
+            uiManager.DoUIManagerSetting(level, myScore, lives);
             ResetPaddleCall();
             ResetBallCall();
             ResetBricks();
@@ -797,7 +859,7 @@ public class GameManager : MonoBehaviour
         {
             case TitleSceneSetterType.Life:
                 {
-                    livesAtGameStart = value;
+                    livesAt_GameStart = value;
                     break;
                 }
             default:
