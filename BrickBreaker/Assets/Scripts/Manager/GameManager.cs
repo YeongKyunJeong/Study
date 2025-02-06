@@ -214,7 +214,7 @@ public class GameManager : MonoBehaviour
         //droppingItemInitializer = null;
 
         InputManager.OnESCInput += ESCCall;
-        SceneManager.sceneLoaded += OnSceneLoaded;
+        //SceneManager.sceneLoaded += OnSceneLoaded;
 
         InternalEventResetAction += ResetAction;
 
@@ -236,13 +236,14 @@ public class GameManager : MonoBehaviour
 
     private void StartGame()
     {
+        //// To do : Title scene -> Stage scene
         uiManager.gameObject.SetActive(true);
         if (isNewGame)
         {
             StartNewGame();
         }
         else
-        { }// # To do: Add other game starting options;
+        { }// # To do : Add other game starting options;
     }
 
     public void OpenSetting()
@@ -368,28 +369,32 @@ public class GameManager : MonoBehaviour
     {
         bool isSceneChange = true;
         bool isScoreUIOn = true;
+        bool isStageDataLoad = true;
 
+
+        bool playerStateSave = false;
         bool playerStateTo_GameStart = false;
         bool playerStateTo_StageStart = false;
-        bool playerStateSave = false;
 
+        level = targetLevel;
         switch (targetType)
         {
-            case SceneType.Title:
+            case SceneType.Title:   // Only Stage - to - Title yet
                 {
                     tempString = TITLE_SCENE_STRING;
                     isScoreUIOn = false;
                     playerStateTo_GameStart = true;
+                    isStageDataLoad = false;
 
-                    if (nowScene == SceneType.Title)    // Stage - to - Title
-                    {
-                        isSceneChange = false;
-                        // To do : Add game play data saving logic
-                    }
-                    if (nowScene == SceneType.Stage)
-                    {
+                    //if (nowScene == SceneType.Stage)    // Stage - to - Title
+                    //{
 
-                    }
+                    //}
+                    //else if (nowScene == SceneType.Title)    // Title - to - Title
+                    //{
+                    //    isSceneChange = false;
+                    //    // To do : Add game play data saving logic
+                    //}
 
                     break;
                 }
@@ -397,6 +402,7 @@ public class GameManager : MonoBehaviour
                 {
                     tempString = STAGE_SCENE_STRING;
                     isScoreUIOn = true;
+
                     if (nowScene == SceneType.Stage)    // Stage - to - Stage
                     {
                         isSceneChange = false;
@@ -404,15 +410,16 @@ public class GameManager : MonoBehaviour
                         if (this.level == targetLevel) // Only retry now stage
                         {
                             playerStateTo_StageStart = true;
+                            isStageDataLoad = false;
                         }
                         else // Change stage
                         {
-
+                            playerStateSave = true;
                         }
                     }
                     else if (nowScene == SceneType.Title)    // Title - to - Stage
                     {
-                        if (isNewGame)
+                        if (isNewGame)  // New game only yet
                         {
                             playerStateTo_GameStart = true;
                         }
@@ -441,23 +448,31 @@ public class GameManager : MonoBehaviour
             SceneManager.LoadScene(tempString);
         }
 
-        if (playerStateTo_GameStart)
+        if (isStageDataLoad)
+        {
+            // To Do : Load stage data json file and set stage;
+        }
+
+        if (playerStateSave)
+        {
+            myScoreAt_StageStart = myScore;
+            livesAt_StageStart = lives;
+        }
+        else if (playerStateTo_GameStart)
         {
             myScore = myScoreAt_GameStart;
             myScoreAt_StageStart = myScoreAt_GameStart;
             lives = livesAt_GameStart;
             livesAt_StageStart = livesAt_GameStart;
 
-            uiManager.DoUIManagerSetting(level, myScore, lives);
         }
         else if (playerStateTo_StageStart)
         {
             myScore = myScoreAt_StageStart;
             lives = livesAt_StageStart;
-
-            uiManager.DoUIManagerSetting(level, myScore, lives);
         }
 
+        uiManager.gameObject.SetActive(isScoreUIOn);
         AllStageChangeCommonInitialize();
     }
 
@@ -510,20 +525,21 @@ public class GameManager : MonoBehaviour
 
     private void AllStageChangeCommonInitialize()
     {
+        uiManager.DoUIManagerSetting(level, myScore, lives);
         stageCleared = false;
         isMainMenuOn = false;
         InternalEventResetAction?.Invoke();
         TimeControler.TimeScaler(1);
     }
 
-    private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
-    {
-        if (loadedScene == SceneManager.GetSceneByBuildIndex(0))
-        {
-            //titleScene = FindFirstObjectByType<TitleScene>();
-            //titleScene.Initialize();
-        }
-    }
+    //private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
+    //{
+    //    if (loadedScene == SceneManager.GetSceneByBuildIndex(0))
+    //    {
+    //        //titleScene = FindFirstObjectByType<TitleScene>();
+    //        //titleScene.Initialize();
+    //    }
+    //}
 
     private void ResetAction()
     {
