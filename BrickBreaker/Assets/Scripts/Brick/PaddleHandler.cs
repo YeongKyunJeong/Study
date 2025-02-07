@@ -9,21 +9,15 @@ public class PaddleHandler : MonoBehaviour
     private static GameManager gameManager;
     public Action<Vector2> OnMovementInput;
     public Vector2 direction { get; private set; }
-    
+
 
     public void Initialize()
     {
-        if(gameManager == null)
+        if (gameManager == null)
         {
             gameManager = GameManager.Instance;
         }
-        gameManager.InternalEventResetAction += ResetEvent;
         InputManager.OnMovementInput += SendMovementInput;
-    }
-
-    private void ResetEvent() // If works well, this method is not called;
-    {
-        OnMovementInput = null;
     }
 
     private void SendMovementInput(float horizontalInput)
@@ -31,4 +25,8 @@ public class PaddleHandler : MonoBehaviour
         OnMovementInput?.Invoke(horizontalInput * Vector2.right);
     }
 
+    private void OnDestroy()
+    {
+        InputManager.OnMovementInput -= SendMovementInput;
+    }
 }

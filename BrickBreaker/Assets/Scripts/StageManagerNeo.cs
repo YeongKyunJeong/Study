@@ -5,11 +5,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class StageManagerNeo : MonoBehaviour
-{
+{ 
     #region Stage Information
     [SerializeField]
     private int level;
-    public int GetLevel { get { return level; } private set { } }
+    public int LevelSetter { set => value = level; }
     public Paddle paddle;
     public Ball[] balls;
     public Brick[] bricks;
@@ -25,6 +25,9 @@ public class StageManagerNeo : MonoBehaviour
 
     #region External Reference
     [SerializeField] private BrickData brickData;
+    [SerializeField] private StageMaker stageMaker;
+    public StageMaker StageMakerSetter { get => stageMaker; }
+
     private GameManager gameManager;
     public GameObject GameManagerPrefab;
     #endregion
@@ -33,7 +36,7 @@ public class StageManagerNeo : MonoBehaviour
     {
         CheckGameManager();
         CheckGameElemets();
-        SendStageDataToGameManager();
+        SendStageManagerToGameManager();
     }
 
     private void CheckGameElemets()
@@ -42,7 +45,7 @@ public class StageManagerNeo : MonoBehaviour
         {
             paddle = FindFirstObjectByType<Paddle>();
         }
-        if (  (balls.Length == 0) || (balls[0] == null) )
+        if ((balls.Length == 0) || (balls[0] == null))
         {
             balls = FindObjectsByType<Ball>(FindObjectsSortMode.None);
         }
@@ -65,11 +68,12 @@ public class StageManagerNeo : MonoBehaviour
         }
         gameManager = GameManager.Instance;
 
+        // To do : Awake with data whose level is not 1;
     }
 
-    private void SendStageDataToGameManager()
+    private void SendStageManagerToGameManager()
     {
-        gameManager.SetStageDataAndInitialSetting(this);
+        gameManager.SendStageManager(this);
     }
 
 

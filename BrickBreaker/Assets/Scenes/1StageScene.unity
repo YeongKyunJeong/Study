@@ -3063,7 +3063,7 @@ MonoBehaviour:
   - {fileID: 852243895}
   - {fileID: 669102040}
   - {fileID: 541717179}
-  level: 0
+  level: 1
   brickPrefab: {fileID: 9187324563423895664, guid: 1ec005001117ede4ba8a0980624c184d, type: 3}
   brickRowPrefab: {fileID: 1360891040557026286, guid: 382d8d55858e8094aae624b39d6b3d63, type: 3}
   brickRows:

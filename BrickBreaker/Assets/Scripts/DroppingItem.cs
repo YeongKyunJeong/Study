@@ -118,5 +118,8 @@ public class DroppingItem : MonoBehaviour, IPoolMemberObject
         }
     }
 
-
+    private void OnDestroy()
+    {
+        gameManager.ResetDroppingItemAction -= DisableByReset;
+    }
 }

@@ -369,4 +369,12 @@ public class Ball : MonoBehaviour, IPoolMemberObject
         isUp = rigidBody.velocity.y > 0 ? true : false;
         leftBallIndex = 0;
     }
+
+    private void OnDestroy()
+    {
+        gameManager.ResetBallAction -= ResetBall;
+        gameManager.BallPowerChangeAction -= ChangeColor;
+    }
+
+
 }

@@ -23,15 +23,6 @@ public class InputManager : MonoBehaviour
     {
         if (gameManager == null)
             gameManager = GameManager.Instance;
-
-        gameManager.InternalEventResetAction += ResetEvent;
-
-    }
-
-    private void ResetEvent()
-    {
-        if (OnMovementInput != null)
-            OnMovementInput = null;
     }
 
     private void Update()
