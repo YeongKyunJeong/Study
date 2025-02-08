@@ -53,6 +53,10 @@ public class StageManagerNeo : MonoBehaviour
         {
             bricks = FindObjectsByType<Brick>(FindObjectsSortMode.None);
         }
+        if(stageMaker == null)
+        {
+            stageMaker = FindFirstObjectByType<StageMaker>();
+        }
     }
 
     private void CheckGameManager()

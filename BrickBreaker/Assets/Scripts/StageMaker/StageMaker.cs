@@ -71,7 +71,15 @@ public class StageMaker : MonoBehaviour
                 }
                 else
                 {
-                    DestroyImmediate(tempBrick[j].gameObject);
+                    if (Application.isPlaying)
+                    {
+                        Destroy(tempBrick[j].gameObject);
+                    }
+                    else
+                    {
+                        DestroyImmediate(tempBrick[j].gameObject);
+                    }
+
                 }
             }
         }
@@ -86,7 +94,16 @@ public class StageMaker : MonoBehaviour
             for (int q = brickRows.Length - 1; q > -1; q--)
             {
                 if (brickRows[q] != null)
-                    DestroyImmediate(brickRows[q].gameObject);
+                {
+                    if (Application.isPlaying)
+                    {
+                        Destroy(brickRows[q].gameObject);
+                    }
+                    else
+                    {
+                        DestroyImmediate(brickRows[q].gameObject);
+                    }
+                }
             }
         }
 
@@ -98,7 +115,8 @@ public class StageMaker : MonoBehaviour
     {
         if (string.IsNullOrEmpty(path))
         {
-            string folderPath = Path.Combine(Application.dataPath, savePath.TrimStart("Assets/".ToCharArray()));
+            string folderPath = path;
+            //string folderPath = Path.Combine(Application.dataPath, savePath.TrimStart("Assets/".ToCharArray()));
             if (!Directory.Exists(folderPath))
             {
                 Directory.CreateDirectory(folderPath);

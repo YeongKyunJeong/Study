@@ -251,6 +251,13 @@ public class Ball : MonoBehaviour, IPoolMemberObject
             if (rigidBody.velocity.y > 0)
                 HitPaddle(collision);
         }
+        //else if (collision.gameObject.layer == bricksLayer)
+        //{
+        //    if (collision.gameObject.GetComponent<Brick>().isBrokenGetter)
+        //    {
+        //        // To do : Deal with simultaneous collision
+        //    }
+        //}
         else
         {
             HitElse();
@@ -368,12 +375,6 @@ public class Ball : MonoBehaviour, IPoolMemberObject
         Debug.Log("MultiBall Speed : " + multiBallspeed);
         isUp = rigidBody.velocity.y > 0 ? true : false;
         leftBallIndex = 0;
-    }
-
-    private void OnDestroy()
-    {
-        gameManager.ResetBallAction -= ResetBall;
-        gameManager.BallPowerChangeAction -= ChangeColor;
     }
 
 

@@ -283,7 +283,7 @@ public class GameManager : MonoBehaviour
     {
         uiManager.gameObject.SetActive(false);
         LoadSceneOrStage(SceneType.Title, -1);
-                //LoadLevel(TITLE_SCENE_INT);
+        //LoadLevel(TITLE_SCENE_INT);
     }
 
     public void SendStageManager(StageManagerNeo stageManagerNeo)
@@ -323,12 +323,13 @@ public class GameManager : MonoBehaviour
                 ballInitializer.Initialize();
                 ballInitializer.SetBallPower(brickDamage, i == 0);
             }
+
+            paddle = stageManagerNeo.paddle;
+            paddle.Initialize();
         }
 
-        paddle = stageManagerNeo.paddle;
-        paddle.Initialize();
 
-        DoUIManagerSetting(level, lives, myScore);
+        //DoUIManagerSetting(level, lives, myScore);
         objectPool.Initialize();
     }
 
@@ -363,16 +364,10 @@ public class GameManager : MonoBehaviour
         return -1; // errror
     }
 
-    private void DoUIManagerSetting(int level, int lives, int score)
-    {
-        uiManager.DoUIManagerSetting(level, lives, score);
-
-    }
-
     private void StartNewGame()
     {
-        myScore = 0;
-        lives = 3;
+        myScore = myScoreAt_GameStart;
+        lives = livesAt_GameStart;
 
         LoadSceneOrStage(SceneType.Stage, 1);
         //LoadLevel(1);
@@ -389,7 +384,6 @@ public class GameManager : MonoBehaviour
         bool playerStateTo_GameStart = false;
         bool playerStateTo_StageStart = false;
 
-        level = targetLevel;
         switch (targetSceneType)
         {
             case SceneType.Title:   // Only Stage - to - Title yet
@@ -456,6 +450,7 @@ public class GameManager : MonoBehaviour
                 }
         }
 
+        level = targetLevel;
         if (playerStateSave)
         {
             myScoreAt_StageStart = myScore;
@@ -501,68 +496,44 @@ public class GameManager : MonoBehaviour
         uiManager.gameObject.SetActive(isScoreUIOn);
         AllStageChangeCommonInitialize();
         nowScene = targetSceneType;
-    }
 
-    private void LoadLevel(int level)
-    {
-        AllStageChangeCommonInitialize();
-
-        if (this.level == 0)
+        if (nowScene == SceneType.Title)
         {
-            myScore = myScoreAt_GameStart;
-            myScoreAt_StageStart = myScoreAt_GameStart;
-            lives = livesAt_GameStart;
-            livesAt_StageStart = livesAt_GameStart;
-        }
-
-        this.level = level;
-        if (level == 0)
-        {
-            myScore = myScoreAt_GameStart;
-            myScoreAt_StageStart = myScoreAt_GameStart;
-            lives = livesAt_GameStart;
-            livesAt_StageStart = livesAt_GameStart;
-            tempString = TITLE_SCENE_STRING;
+            OnlyToTitle();
         }
         else
         {
-            if (level > 0)
-            {
-                tempString = STAGE_SCENE_STRING;
-            }
-
-            //if (level > 9)
-            //{
-            //    tempString = $"{LEVEL_CALLING_STRING}{level}";
-            //}
-            //else
-            //{
-            //    tempString = $"{LEVEL_CALLING_STRING_W0}{level}";
-            //}
-
-            myScoreAt_StageStart = myScore;
-            livesAt_StageStart = lives;
-            brickDamage = brickDamageAtGameStart;
+            OnlyToStage();
         }
 
-        SceneManager.LoadScene(tempString);
-
-        uiManager.DoUIManagerSetting(this.level, myScore, lives);
     }
 
     private void AllStageChangeCommonInitialize()
     {
         ResetPowerUpCoroutine();
-
-        ResetDroppingItemAction?.Invoke();
-        uiManager.DoUIManagerSetting(level, myScore, lives);
-        ResetPaddleCall();
-        ResetBallCall();
-        ResetBricks();
-
         stageCleared = false;
         isMainMenuOn = false;
         TimeControler.TimeScaler(1);
+    }
+
+    private void OnlyToTitle()
+    {
+        ResetBallAction = null;
+        BallPowerChangeAction = null;
+        ResetDroppingItemAction = null;
+        balls = null;
+        paddle = null;
+        bricks = null;
+        walls = null;
+    }
+
+    private void OnlyToStage()
+    {
+        uiManager.DoUIManagerSetting(level, lives, myScore);
+        ResetDroppingItemAction?.Invoke();
+        ResetPaddleCall();
+        ResetBallCall();
+        ResetBricks();
     }
 
     //private void OnSceneLoaded(Scene loadedScene, LoadSceneMode loadSceneMode)
@@ -593,12 +564,12 @@ public class GameManager : MonoBehaviour
         }
         if (stageCleared)
         {
-            if (level < totalSceneCount)
-            {
-                level++;
-                uiManager.ChangeNumber(level, UINumberCategory.Level);
-            }
-            LoadSceneOrStage(SceneType.Stage, level);
+            //if (level < totalSceneCount)
+            //{
+            //    level++;
+            //    uiManager.ChangeNumber(level, UINumberCategory.Level);
+            //}
+            LoadSceneOrStage(SceneType.Stage, level + 1);
             //LoadLevel(level);
         }
     }
@@ -685,10 +656,14 @@ public class GameManager : MonoBehaviour
 
     private void ResetBricks()
     {
-        leftBrickCount = bricks.Length;
-        foreach (Brick brick in bricks)
+        if (bricks != null)
         {
-            brick.ResetBrick();
+            leftBrickCount = bricks.Length;
+            foreach (Brick brick in bricks)
+            {
+                brick.ResetBrick();
+            }
+
         }
     }
 
@@ -700,7 +675,8 @@ public class GameManager : MonoBehaviour
 
     public void ResetPaddleCall()
     {
-        paddle.ResetPaddle();
+        if (paddle != null)
+            paddle.ResetPaddle();
     }
 
     public void DeadZoneOut(GameObject maybeBall)

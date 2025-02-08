@@ -85,7 +85,7 @@ public class StageEditor : Editor
         for (int i = 0; i < brickRowCount; i++)
         {
             rowElement = rowBrickHealthsProp.GetArrayElementAtIndex(i);
-            rowElement.stringValue = EditorGUILayout.TextField($"{i+1} 번째 줄 블록 체력", rowElement.stringValue);
+            rowElement.stringValue = EditorGUILayout.TextField($"{i + 1} 번째 줄 블록 체력", rowElement.stringValue);
         }
 
         serializedObject.ApplyModifiedProperties();
@@ -102,7 +102,7 @@ public class StageEditor : Editor
 
         GUILayout.Space(10);
 
-        if(GUILayout.Button("Power Clean"))
+        if (GUILayout.Button("Power Clean"))
         {
             PowerClean(stageMaker.GetBrickRowParent);
         }
@@ -113,9 +113,15 @@ public class StageEditor : Editor
         {
             string path = "";
             if (stageMaker.level < 10)
-                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level0{stageMaker.level}.json", "json");
+            {
+                path = EditorUtility.SaveFilePanel("Save stage parameter", $"{ Application.dataPath}/StageParameter/", $"Level0{stageMaker.level}.json", "json");
+                //path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level0{stageMaker.level}.json", "json");
+            }
             else
-                path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level{stageMaker.level}.json", "json");
+            {
+                path = EditorUtility.SaveFilePanel("Save stage parameter", $"{ Application.dataPath}/StageParameter/", $"Level{stageMaker.level}.json", "json");
+                //path = EditorUtility.SaveFilePanel("Save stage parameter", "", $"Level{stageMaker.level}.json", "json");
+            }
             if (!string.IsNullOrEmpty(path))
             {
                 stageMaker.SaveStageParameter(path);
@@ -126,9 +132,9 @@ public class StageEditor : Editor
 
         loadLevel = EditorGUILayout.IntField("로드할 레벨", loadLevel);
 
-        if(GUILayout.Button("Load Stage Parameter"))
+        if (GUILayout.Button("Load Stage Parameter"))
         {
-            string path = loadLevel.ToString() ;
+            string path = loadLevel.ToString();
             if (stageMaker.level < 10)
                 path = EditorUtility.SaveFilePanel("Load stage parameter", "", $"Level0{path}.json", "json");
             else
@@ -224,7 +230,7 @@ public class StageEditor : Editor
     {
         int childCount = targetParentTransform.childCount;
 
-        for (int i = childCount-1; i > -1; i--)
+        for (int i = childCount - 1; i > -1; i--)
         {
             DestroyImmediate(targetParentTransform.GetChild(i).gameObject);
         }

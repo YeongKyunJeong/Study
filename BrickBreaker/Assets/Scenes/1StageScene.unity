@@ -143,6 +143,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 317141642}
     - target: {fileID: 2252408459577748363, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
+      propertyPath: stageMaker
+      value: 
+      objectReference: {fileID: 804297041}
+    - target: {fileID: 2252408459577748363, guid: a6cb3e87991ffd245adfd04fbc3797c1, type: 3}
       propertyPath: brickPerRow
       value: 7
       objectReference: {fileID: 0}

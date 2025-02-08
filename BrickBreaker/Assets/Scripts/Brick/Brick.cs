@@ -24,6 +24,7 @@ public class Brick : MonoBehaviour
 
     [SerializeField] private bool isBreakable = true;
     private bool isBroken = false;
+    public bool isBrokenGetter { get => isBroken; }
     private Transform selfTransform;
 
     private SFXType brickHitType = SFXType.BrickHit;
@@ -48,7 +49,6 @@ public class Brick : MonoBehaviour
             brickDamage = givenBrickDamage;
         }
 
-        isBroken = false;
 
         selfTransform = transform;
         if (givenItem == Item.None)
@@ -70,7 +70,7 @@ public class Brick : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (isBreakable)
+        if (isBreakable && !isBroken)
             if (collision.gameObject.layer == BallLayer)
             {
                 Hit();
@@ -82,6 +82,11 @@ public class Brick : MonoBehaviour
         if (health > 0)
         {
             health -= brickDamage;
+        }
+
+        if (isBroken)
+        {
+            Debug.Log("Repeated broken error");
         }
 
         if (health > 0)
@@ -109,6 +114,8 @@ public class Brick : MonoBehaviour
     {
         this.gameObject.SetActive(true);
         this.health = initialHealth;
+
+        isBroken = false;
         spriteRenderer = GetComponent<SpriteRenderer>();
         spriteRenderer.sprite = brickData.brickSprites[health];
     }
