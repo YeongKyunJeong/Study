@@ -8,8 +8,6 @@
 /[Bb]uild/
 /[Bb]uilds/
 /[Ll]ogs/
-/[Uu]ser[Ss]ettings/
-!/[Pp]roject[Ss]ettings/TagManager.asset
 
 # MemoryCaptures can get excessive in size.
 # They also could contain extremely sensitive data
@@ -48,10 +46,6 @@ ExportedObj/
 *.opendb
 *.VC.db
 
-# Unity3D generated meta files
-*.pidb.meta
-*.pdb.meta
-*.mdb.meta
 
 # Unity3D generated file on crash reports
 sysinfo.txt
