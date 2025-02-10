@@ -6,6 +6,6 @@ namespace TDP
 {
     public class GameManager : MonoBehaviour
     {
-        [SerializeField] private EnemySpawner enemySpawner;
+
     }
 }
