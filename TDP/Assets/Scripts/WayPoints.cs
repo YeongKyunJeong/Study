@@ -7,8 +7,8 @@ namespace TDP
 
     public class WayPoints : MonoBehaviour
     {
-        private static Transform[] points;  // Add multiple way logic
-        public static Transform[] GetPoint { get { return points; } private set { points = value; } }
+        private static List<Transform[]> pointsList = new List<Transform[]>();  // Add multiple way 
+        //private static Transform[][] pointsArray = new Transform[0][];
 
         // temp
         private void Awake()
@@ -18,12 +18,20 @@ namespace TDP
 
         private void Initialize()
         {
-            points = new Transform[transform.childCount];
+            Transform[] points = new Transform[transform.childCount];
             for (int i = 0; i < points.Length; i++)
             {
                 points[i] = transform.GetChild(i);
             }
+            pointsList.Add(points);
+        }
 
+        public static Transform[] GetPoints(int wayPointsNumber)
+        {
+            if (pointsList.Count > wayPointsNumber)
+                return pointsList[wayPointsNumber];
+            else
+                return pointsList[pointsList.Count - 1];
         }
     }
 }
