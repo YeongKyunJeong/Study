@@ -7,6 +7,9 @@ namespace TDP
 
     public class EnemySpawner : MonoBehaviour
     {
+        private GameManager gameManager;
+        private StageManager stageManager;
+
         [SerializeField] private ObjectPool enemyPool;
 
         public Transform enemyPrefab;
@@ -26,6 +29,16 @@ namespace TDP
 
         public void Initialize()
         {
+            if (gameManager == null)
+            {
+                gameManager = GameManager.Instance;
+            }
+
+            if (stageManager == null)
+            {
+                stageManager = GameManager.StageManager;
+            }
+
             if (enemyPool == null)
             {
                 transform.GetComponent<ObjectPool>();
@@ -46,8 +59,8 @@ namespace TDP
                     SpawnWave();
                     countDown += timeBetweenWaves;
                 }
+                stageManager.ChangeValue(StageUITMPType.WaveCountDown, countDown);
                 countDown -= Time.deltaTime;
-
             }
 
 
@@ -67,9 +80,11 @@ namespace TDP
 
         IEnumerator SpawnWaveCoroutine()
         {
-            countDownGoing = false;
-            int thisWaveIndexMax = waveIndex++; // To do : Change enemy per wave number variation logic 
 
+            countDownGoing = false;
+            int thisWaveIndexMax = ++waveIndex; // To do : Change enemy per wave number variation logic 
+            stageManager.ChangeValue(StageUITMPType.WaveIndex, waveIndex);
+            
             for (int i = 0; i < thisWaveIndexMax; i++)
             {
                 SpawnEnemy();
