@@ -75,7 +75,7 @@ namespace TDP
         {
             enemyInitializer = enemyPool.GetObject<Enemy>(PoolObjectType.Enemy);
             //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            enemyInitializer.SetEnemy(0, 30f);
+            enemyInitializer.SetEnemy(0, 10f);
         }
 
         IEnumerator SpawnWaveCoroutine()
