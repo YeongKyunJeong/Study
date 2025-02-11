@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// TODO:: Manager 라는 명칭의 목적
 public class PanelButtonManager : MonoBehaviour
 {
     public GameOverPopUp gameOverPopUp;
@@ -11,6 +12,7 @@ public class PanelButtonManager : MonoBehaviour
     {
         if (gameOverPopUp == null)
         {
+            // TODO:: Child 검사 진행
             gameOverPopUp = FindFirstObjectByType<GameOverPopUp>();
         }
         if (pausePopUp == null)

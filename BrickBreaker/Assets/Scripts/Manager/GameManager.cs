@@ -22,11 +22,6 @@ public class GameManager : MonoBehaviour
 
     private SFXType fallSFXTye = SFXType.Fall;
     private int totalLevelCount = 0;
-    private LayerMask ballLayer;
-    private LayerMask paddleLayer;
-    private LayerMask deadZoneLayer;
-    [SerializeField] private float powerUpContinuanceTime = 10f;
-    private WaitForSeconds powerUpWaitForSec;
     #endregion
 
     #region Player Status
@@ -74,14 +69,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject uiManagerPrefab;
     [SerializeField] private SoundManager soundManager;
     [SerializeField] private InputManager inputManager;
-    [SerializeField] private DroppingItem droppingItemPrefab;
-    private DroppingItem droppingItemInitializer;
-    [SerializeField] private Ball ballPrefab;
-    private Ball ballInitializer;
-    [SerializeField] private Paddle paddlePrefab;
-    private Paddle paddleInitializer;
-
-    private List<DroppingItem> enabledDroppingItems = new List<DroppingItem>();
+    
     public TitleScene titleScene;
     private static int itemTypeNumber;
     private int[] defaultItemProbability;
@@ -113,12 +101,10 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            
         }
 
         if (startSceneName == "Global")
         {
-            
         }
         
         
@@ -146,10 +132,7 @@ public class GameManager : MonoBehaviour
             totalLevelCount = SceneManager.sceneCountInBuildSettings;
             Debug.Log(totalLevelCount);
         }
-        ballLayer = LayerMask.NameToLayer("Ball");
-        paddleLayer = LayerMask.NameToLayer("Paddle");
-        deadZoneLayer = LayerMask.NameToLayer("DeadZone");
-        powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
+
         isMainMenuOn = false;
 
         PowerUpCoroutines = new Coroutine[5];
@@ -190,22 +173,7 @@ public class GameManager : MonoBehaviour
             inputManager = FindFirstObjectByType<InputManager>();
         }
         inputManager.Initialize();
-
-        if (droppingItemPrefab == null)
-        {
-            Debug.LogError("DropingItemPrefab not detected");
-        }
-        droppingItemInitializer = droppingItemPrefab;
-        droppingItemInitializer.GlobalInitialize(brickData, paddleLayer, deadZoneLayer);
-        droppingItemInitializer = null;
-
-        if (ballPrefab == null)
-        {
-            Debug.LogError("BallPrefab not detected");
-        }
-        ballInitializer = ballPrefab;
-        ballInitializer.GlobalInitialize(brickData);
-        ballInitializer = null;
+        
 
         //if (paddlePrefab == null)
         //{
@@ -306,16 +274,7 @@ public class GameManager : MonoBehaviour
         leftBrickCount = bricks.Length;
 
         MakeItemSetting(stageManagerNeo.isRandomItemSet, stageManagerNeo.itemSettingWeight);
-        for (int i = 0; i < leftBrickCount; i++)
-        {
-            bricks[i].Initialize(ballLayer, brickDamage, brickData, itemSetting[i]);
-        }
 
-        walls = stageManagerNeo.walls;
-        foreach (DeadZone wall in walls)
-        {
-            wall.Initialize(ballLayer);
-        }
         balls = stageManagerNeo.balls;
         for (int i = 0; i < balls.Length; i++)
         {
@@ -384,7 +343,6 @@ public class GameManager : MonoBehaviour
     {
         stageCleared = false;
         isMainMenuOn = false;
-        enabledDroppingItems = new List<DroppingItem>();
         TimeControler.TimeScaler(1);
 
         if (this.level == 0)
@@ -469,7 +427,7 @@ public class GameManager : MonoBehaviour
             }
             else if (targetItem != Item.None)
             {
-                CreateDroppingItem(brokenBrickPosition, targetItem);
+                // CreateDroppingItem(brokenBrickPosition, targetItem);
             }
         }
         if (stageCleared)
@@ -624,7 +582,7 @@ public class GameManager : MonoBehaviour
                             StopCoroutine(PowerUpCoroutines[i]);
                             PowerUpCoroutines[i] = null;
                         }
-                        PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
+                        // PowerUpCoroutines[i] = StartCoroutine(BrickDamagerUp());
                     }
                     break;
                 }
@@ -681,9 +639,7 @@ public class GameManager : MonoBehaviour
     {
         for (int i = 0; i < multiBallNumber - 1; i++)
         {
-            ballInitializer = objectPool.GetObject<Ball>(PoolObjectType.Ball);
-            ballInitializer.Initialize(brickDamage, false);
-            ballInitializer.BeMultiBall();
+
             leftBallCount++;
         }
     }
@@ -706,38 +662,38 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    IEnumerator BrickDamagerUp(int upedPower = 2)
-    {
-        if (upedPower > brickDamage)
-        {
-            brickDamage = upedPower;
-        }
-        bricks[0].BrickDamagerSetter = brickDamage;
-        BallPowerChangeAction?.Invoke(brickDamage);
-        //for (int i = 0; i < balls.Length; i++)
-        //{
-        //    if (balls[i].gameObject.activeInHierarchy)
-        //    {
-        //        balls[i].ChangeColor(brickDamage);
-        //    }
-        //}
-
-
-        yield return powerUpWaitForSec;
-
-        brickDamage = 1;
-        bricks[0].BrickDamagerSetter = brickDamage;
-        BallPowerChangeAction?.Invoke(brickDamage);
-        //for (int i = 0; i < balls.Length; i++)
-        //{
-        //    if (balls[i].gameObject.activeInHierarchy)
-        //    {
-        //        balls[i].ChangeColor(brickDamage);
-        //    }
-        //}
-
-        yield return null;
-    }
+    // IEnumerator BrickDamagerUp(int upedPower = 2)
+    // {
+    //     if (upedPower > brickDamage)
+    //     {
+    //         brickDamage = upedPower;
+    //     }
+    //     bricks[0].BrickDamagerSetter = brickDamage;
+    //     BallPowerChangeAction?.Invoke(brickDamage);
+    //     //for (int i = 0; i < balls.Length; i++)
+    //     //{
+    //     //    if (balls[i].gameObject.activeInHierarchy)
+    //     //    {
+    //     //        balls[i].ChangeColor(brickDamage);
+    //     //    }
+    //     //}
+    //
+    //
+    //     yield return powerUpWaitForSec;
+    //
+    //     brickDamage = 1;
+    //     bricks[0].BrickDamagerSetter = brickDamage;
+    //     BallPowerChangeAction?.Invoke(brickDamage);
+    //     //for (int i = 0; i < balls.Length; i++)
+    //     //{
+    //     //    if (balls[i].gameObject.activeInHierarchy)
+    //     //    {
+    //     //        balls[i].ChangeColor(brickDamage);
+    //     //    }
+    //     //}
+    //
+    //     yield return null;
+    // }
 
     private void ResetCoroutines()
     {
@@ -759,11 +715,11 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
-    {
-        droppingItemInitializer = objectPool.GetObject<DroppingItem>(PoolObjectType.DroppingItemBox);
-        droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
-    }
+    // public void CreateDroppingItem(Vector3 creationPosition, Item targetItem)
+    // {
+    //     droppingItemInitializer = objectPool.GetObject<DroppingItem>(PoolObjectType.DroppingItemBox);
+    //     droppingItemInitializer.SelfInitialize(creationPosition, targetItem);
+    // }
 
     public void TakeSettingValue(int value, TitleSceneSetterType setterType)
     {
@@ -779,6 +735,42 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void InitAndStartGame()
+    {
+        if (instance == null)
+        {
+            Instance = this;
+        }
+        else
+        {
+            instance.titleScene = this.titleScene;
+            titleScene.Initialize();
+            Destroy(this.uiManager.gameObject);
+            Destroy(this.gameObject);
+            return;
+        }
+
+        if (isTemporaryGameManager)
+        {
+
+        }
+        else
+        {
+            DontDestroyOnLoad(this.gameObject);
+            totalLevelCount = SceneManager.sceneCountInBuildSettings;
+            Debug.Log(totalLevelCount);
+        }
+        //
+        // ballLayer = LayerMask.NameToLayer("Ball");
+        // paddleLayer = LayerMask.NameToLayer("Paddle");
+        // deadZoneLayer = LayerMask.NameToLayer("DeadZone");
+        // powerUpWaitForSec = new WaitForSeconds(powerUpContinuanceTime);
+        isMainMenuOn = false;
+
+        PowerUpCoroutines = new Coroutine[5];
+        objectPool.Initialize();
+        Initialize();
+    }
 }
 
 public static class TimeControler

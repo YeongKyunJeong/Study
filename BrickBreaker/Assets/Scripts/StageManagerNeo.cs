@@ -26,10 +26,9 @@ public class StageManagerNeo : MonoBehaviour
     #region External Reference
     [SerializeField] private BrickData brickData;
     private GameManager gameManager;
-    public GameObject GameManagerPrefab;
     #endregion
 
-    private void Awake()
+    private void Start()
     {
         CheckGameManager();
         CheckGameElemets();
@@ -57,7 +56,7 @@ public class StageManagerNeo : MonoBehaviour
         if (GameManager.Instance == null)
         {
             Debug.Log("No GameManager Detected");
-            Instantiate(GameManagerPrefab);
+
         }
         else
         {

@@ -12,7 +12,7 @@ public enum Item
     MultiBall
 }
 //////////// #### To Do : Add more Item Logics
-public class DroppingItem : MonoBehaviour
+public class DroppingItem : MonoBehaviour, IObjectPool
 {
     private static GameManager gameManager;
     [SerializeField] private Transform selfTransform;
@@ -109,5 +109,15 @@ public class DroppingItem : MonoBehaviour
     public void DisableByReset()
     {
         gameObject.SetActive(false);
+    }
+
+    public void GetInitialize()
+    {
+        
+    }
+
+    public void Release()
+    {
+        
     }
 }
