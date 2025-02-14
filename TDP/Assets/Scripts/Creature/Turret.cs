@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -36,7 +37,8 @@ namespace TDP
         private float detectionInterval;
         private LayerMask enemyLayerMask; // bitMask
         private WaitForSeconds detectionWaitForSec;
-        private WaitForSeconds attackWaitForSec;
+        private float fireRate;
+        private float fireCountDown;
 
         // temp
         private void Start()
@@ -51,14 +53,33 @@ namespace TDP
             {
                 return;
             }
-            else
+            RotateHead();
+
+            if (fireCountDown <= 0f)
             {
-                dir = target.position - transform.position;
-                //rotation = Quaternion.LookRotation(dir).eulerAngles;
-                targetQuaternion = Quaternion.LookRotation(dir);
-                rotation = Quaternion.Lerp(rotatingPart.rotation, targetQuaternion, Time.deltaTime * turnSpeed).eulerAngles;
-                rotatingPart.rotation = Quaternion.Euler(0f, rotation.y, 0f);
+                Shoot();
+
+                fireCountDown = 1f / fireRate;  // Countdown Initialize
+
+
             }
+
+            fireCountDown -= Time.deltaTime;
+        }
+
+
+        private void Shoot()
+        {
+            Debug.Log("Shoot");
+        }
+
+        private void RotateHead()
+        {
+            dir = target.position - transform.position;
+            //rotation = Quaternion.LookRotation(dir).eulerAngles;
+            targetQuaternion = Quaternion.LookRotation(dir);
+            rotation = Quaternion.Lerp(rotatingPart.rotation, targetQuaternion, Time.deltaTime * turnSpeed).eulerAngles;
+            rotatingPart.rotation = Quaternion.Euler(0f, rotation.y, 0f);
         }
 
         public void FirstPoolingInitialize()
@@ -73,7 +94,7 @@ namespace TDP
         public void EachPoolingInitialize()
         {
             gameObject.SetActive(true);
-
+            fireCountDown = 0;
         }
 
         public void SetTurretData()
@@ -84,8 +105,7 @@ namespace TDP
             range = 15f;
             damage = 3;
             #endregion
-
-            attackWaitForSec = new WaitForSeconds(attackInterval);
+            fireRate = 2;
             detectingCoroutine = null;
             detectingCoroutine = StartCoroutine(DetectEnemyCoroutine());
         }
@@ -119,16 +139,16 @@ namespace TDP
         {
             while (true)
             {
-                UpdateTarget();
 
                 if (target == null)
                 {
-                    yield return detectionWaitForSec;
+                    UpdateTarget();
                 }
                 else
                 {
-                    yield return attackWaitForSec;
+
                 }
+                yield return detectionWaitForSec;
             }
         }
 
