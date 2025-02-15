@@ -3,61 +3,71 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Node : MonoBehaviour
+namespace TDP
 {
-    public Color hoverColor;
-    public Color initColor;
-    private static Vector3 positinoOffset;
 
-    private GameObject turretOnMe;
-    private Renderer rend;
-
-    private BuildManager buildManager;
-
-    public void Initialize()
+    public class Node : MonoBehaviour
     {
-        buildManager = BuildManager.Instance;
+        public Color hoverColor;
+        public Color initColor;
+        private static Vector3 positionOffset;
 
-        rend = GetComponent<Renderer>();
-        rend.material.color = initColor;
-        positinoOffset = 0.5f * Vector3.up;
-    }
+        [Header("Optional")]
+        [SerializeField ] private GameObject turretGOOnMe;
+        public GameObject SetTurretOnNode { set => turretGOOnMe = value; }
+        private Renderer rend;
 
-    private void OnMouseEnter()
-    {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
+        private BuildManager buildManager;
 
-        if (buildManager.GetTurretToBuild() == null)
+        public void Initialize()
         {
-            return;
-        }
-        rend.material.color = hoverColor;
-    }
+            buildManager = BuildManager.Instance;
 
-    private void OnMouseDown()
-    {
-        if (EventSystem.current.IsPointerOverGameObject())
-            return;
-
-        if (buildManager.GetTurretToBuild() == null)
-        {
-            return;
+            rend = GetComponent<Renderer>();
+            rend.material.color = initColor;
+            positionOffset = 0.5f * Vector3.up;
         }
 
-        if (turretOnMe != null)
+        public Vector3 GetBuildPosition()
         {
-            Debug.Log("Can't build there"); // To do : Display on screen
-            return;
+            return transform.position + positionOffset;
         }
 
-        GameObject turretToBuild = BuildManager.Instance.GetTurretToBuild();
-        turretOnMe = Instantiate(turretToBuild, transform.position + positinoOffset, transform.rotation);
+        private void OnMouseEnter()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
 
-    }
+            if (!buildManager.CanBuild)
+            {
+                return;
+            }
+            rend.material.color = hoverColor;
+        }
 
-    private void OnMouseExit()
-    {
-        rend.material.color = initColor;
+        private void OnMouseDown()
+        {
+            if (EventSystem.current.IsPointerOverGameObject())
+                return;
+
+            if (!buildManager.CanBuild)
+            {
+                return;
+            }
+
+            if (turretGOOnMe != null)
+            {
+                Debug.Log("Can't build there"); // To do : Display on screen
+                return;
+            }
+
+            buildManager.BuildTurretOn(this);
+
+        }
+
+        private void OnMouseExit()
+        {
+            rend.material.color = initColor;
+        }
     }
 }

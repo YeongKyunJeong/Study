@@ -8,6 +8,9 @@ namespace TDP
 
     public class Shop : MonoBehaviour
     {
+        [SerializeField] private TurretBluePrint standardTurretBP;
+        [SerializeField] private TurretBluePrint missileTurretBP;
+
         private GameManager gameManager;
         private BuildManager buildManager;
 
@@ -19,11 +22,11 @@ namespace TDP
 
         public void SelectStandardTurret()
         {
-            buildManager.SetTurretToBuild(buildManager.standardTurretPrefeb);
+            buildManager.SelectTurretToBuild(standardTurretBP);
         }
-        public void SelectSecondTurret()
+        public void SelectMissileTurret()
         {
-            buildManager.SetTurretToBuild(buildManager.secondTurretPrefab);
+            buildManager.SelectTurretToBuild(missileTurretBP);
         }
     }
 

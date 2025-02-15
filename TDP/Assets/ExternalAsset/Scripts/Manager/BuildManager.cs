@@ -2,32 +2,56 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BuildManager : MonoBehaviour
+namespace TDP
 {
-    private static BuildManager instance;
-    public static BuildManager Instance { get { return instance; } private set { instance = value; } }
 
-    public GameObject standardTurretPrefeb;
-    public GameObject secondTurretPrefab;
-    private GameObject turretToBuild;
-
-    public void Initialize()
+    public class BuildManager : MonoBehaviour
     {
-        if (instance == null)
+        private static BuildManager instance;
+        public static BuildManager Instance { get { return instance; } private set { instance = value; } }
+
+        private GameManager gameManager;
+        //private PlayerStats playerStats;
+
+        public GameObject standardTurretPrefeb;
+        public GameObject missileTurretPrefab;
+        [SerializeField] private TurretBluePrint turretToBuild;
+        public bool CanBuild { get { return turretToBuild != null; } }
+
+        public void Initialize()
         {
-            Instance = this;
+            if(gameManager == null)
+            {
+                gameManager = GameManager.Instance;
+            }
+            //playerStats = gameManager.GetPlayerStats;
+
+            if (instance == null)
+            {
+                Instance = this;
+            }
         }
-        turretToBuild = standardTurretPrefeb;
-    }
 
-    public void SetTurretToBuild(GameObject turret)
-    {
-        turretToBuild = turret;
-    }
+        public void BuildTurretOn(Node node)
+        {
+            if(PlayerStats.Money < turretToBuild.cost)
+            {
+                Debug.Log("Not Enough Money");
+                return;
+            }
 
-    public GameObject GetTurretToBuild()
-    {
-        return turretToBuild;
-    }
+            //playerStat.Money = 
+            PlayerStats.Money -= turretToBuild.cost;
+            Debug.Log($"{PlayerStats.Money} left");
 
+            node.SetTurretOnNode = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
+
+        }
+
+        public void SelectTurretToBuild(TurretBluePrint turretBP)
+        {
+            turretToBuild = turretBP;
+        }
+
+    }
 }

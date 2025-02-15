@@ -7,6 +7,7 @@ namespace TDP
     public class StageManager : MonoBehaviour
     {
         private GameManager gameManager;
+        //private PlayerStats playerStat;
         [SerializeField] private StageUIManager stageUIManager;
         [SerializeField] private BuildManager buildManager;
         [SerializeField] private EnemySpawner enemySpawner;
@@ -19,6 +20,7 @@ namespace TDP
             {
                 gameManager = GameManager.Instance;
             }
+            //playerStat = gameManager.GetPlayerStats;
 
             if (stageUIManager == null)
             {

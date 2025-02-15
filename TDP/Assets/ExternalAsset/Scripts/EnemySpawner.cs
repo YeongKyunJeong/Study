@@ -57,7 +57,7 @@ namespace TDP
                 if (countDown <= 0f)
                 {
                     SpawnWave();
-                    countDown += timeBetweenWaves;
+                    countDown = timeBetweenWaves;
                 }
                 stageManager.ChangeValue(StageUITMPType.WaveCountDown, countDown);
                 countDown -= Time.deltaTime;

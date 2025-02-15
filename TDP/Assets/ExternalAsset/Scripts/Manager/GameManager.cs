@@ -9,6 +9,9 @@ namespace TDP
         private static GameManager instance;
         public static GameManager Instance { get { return instance; } private set { instance = value; } }
 
+        [SerializeField] private PlayerStats playerStats;
+        //public PlayerStats GetPlayerStats { get => playerStats; }
+
         private static StageManager stageManager;
         public static StageManager StageManager { get { return stageManager; } private set { stageManager = value; } }
 
@@ -23,6 +26,9 @@ namespace TDP
                 Destroy(this.gameObject);
                 return;
             }
+
+            playerStats = GetComponent<PlayerStats>();
+            playerStats.Initialize();
 
             if(StageManager == null)
             {

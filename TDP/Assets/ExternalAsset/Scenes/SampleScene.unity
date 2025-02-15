@@ -5676,7 +5676,7 @@ MonoBehaviour:
     m_Top: 0
     m_Bottom: 40
   m_ChildAlignment: 4
-  m_Spacing: 100
+  m_Spacing: 60
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 0
   m_ChildControlWidth: 0
@@ -5696,6 +5696,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2b8546ec9f67d8c4395cc87dcbcdea09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  standardTurretBP:
+    prefab: {fileID: 3345022456004854976, guid: 02effe17b99b2b64c90e8371c943f0f0, type: 3}
+    cost: 100
+  missileTurretBP:
+    prefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
+    cost: 250
 --- !u!1 &558887854
 GameObject:
   m_ObjectHideFlags: 0
@@ -8816,7 +8822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   standardTurretPrefeb: {fileID: 3345022456004854976, guid: 02effe17b99b2b64c90e8371c943f0f0, type: 3}
-  secondTurretPrefab: {fileID: 3345022456004854976, guid: 19ad0770092c6794fbc8ee0c6563371e, type: 3}
+  missileTurretPrefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
 --- !u!4 &856259928
 Transform:
   m_ObjectHideFlags: 0
@@ -19814,9 +19820,13 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 556177980}
     m_Modifications:
+    - target: {fileID: 2395251815547111824, guid: a4ada7e1964030748af375f634521517, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5e0ca284c5aca0049a11920e3fdc4844, type: 3}
     - target: {fileID: 3513795825018450426, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_Name
-      value: SecondTurretItem
+      value: MissileLauncherItem
       objectReference: {fileID: 0}
     - target: {fileID: 4081641893667081057, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_Pivot.x
@@ -19916,7 +19926,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6637353049820836328, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PurchaseSecondTurret
+      value: SelectMissileTurret
       objectReference: {fileID: 0}
     - target: {fileID: 6637353049820836328, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -24551,7 +24561,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6637353049820836328, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PurchaseStandardTurret
+      value: SelectStandardTurret
       objectReference: {fileID: 0}
     - target: {fileID: 6637353049820836328, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
@@ -24581,7 +24591,7 @@ SceneRoots:
   - {fileID: 1985413346}
   - {fileID: 8836720}
   - {fileID: 1297620536}
-  - {fileID: 886988438}
   - {fileID: 1767225503}
   - {fileID: 1730612708}
   - {fileID: 856259928}
+  - {fileID: 886988438}

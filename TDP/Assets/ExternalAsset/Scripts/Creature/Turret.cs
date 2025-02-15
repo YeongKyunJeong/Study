@@ -13,6 +13,7 @@ namespace TDP
         private Collider[] detectedColldiers;
         private Coroutine detectingCoroutine;
         private Bullet bulletInitializer;
+        private float fireCountDown;
 
         #region Fixed Parameter
         private float detectionInterval;
@@ -42,10 +43,7 @@ namespace TDP
         [Header("Attributes")]
         [SerializeField] public float range;
         [SerializeField] private int damage;
-
         [SerializeField] private float fireRate;
-        [SerializeField] private float fireCountDown;
-
         #endregion
 
 
@@ -130,16 +128,27 @@ namespace TDP
 
             if (detectedColldiers.Length > 0)
             {
+                closestDistIndex = -2;
                 for (int i = 0; i < detectedColldiers.Length; i++)
                 {
-                    distanceToEnemy = Vector3.Distance(detectedColldiers[i].transform.position, transform.position); // To do : Change distance from turret to distance to goal
-                    if (distanceToEnemy < closestDistance)
+                    if (detectedColldiers[i] != null)
                     {
-                        closestDistance = distanceToEnemy;
-                        closestDistIndex = i;
+                        distanceToEnemy = Vector3.Distance(detectedColldiers[i].transform.position, transform.position); // To do : Change distance from turret to distance to goal
+                        if (distanceToEnemy < closestDistance)
+                        {
+                            closestDistance = distanceToEnemy;
+                            closestDistIndex = i;
+                        }
+                    }
+                    else
+                    {
+                        Debug.Log("Error Check");
                     }
                 }
-                target = detectedColldiers[closestDistIndex].transform;
+                if (closestDistIndex > -1)
+                {
+                    target = detectedColldiers[closestDistIndex].transform;
+                }
             }
             else
             {

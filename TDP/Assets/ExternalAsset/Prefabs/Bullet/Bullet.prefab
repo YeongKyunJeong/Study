@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8749291256680847014}
+  - component: {fileID: 7618702549751688914}
   - component: {fileID: 3100102496300567283}
   - component: {fileID: 4599099334731540608}
-  - component: {fileID: 7618702549751688914}
   m_Layer: 0
   m_Name: Bullet
   m_TagString: Untagged
@@ -34,6 +34,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7618702549751688914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2084935166374863096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccd71b43345019a4f945e88e1b29333f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 70
+  impactEffect: {fileID: 1048091347815699582, guid: e4537741d86ce244bb4893afed2644bf, type: 3}
 --- !u!33 &3100102496300567283
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -84,16 +98,3 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &7618702549751688914
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2084935166374863096}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccd71b43345019a4f945e88e1b29333f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  impactEffect: {fileID: 1048091347815699582, guid: e4537741d86ce244bb4893afed2644bf, type: 3}
