@@ -8823,6 +8823,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   standardTurretPrefeb: {fileID: 3345022456004854976, guid: 02effe17b99b2b64c90e8371c943f0f0, type: 3}
   missileTurretPrefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
+  turretToBuild:
+    prefab: {fileID: 0}
+    cost: 0
 --- !u!4 &856259928
 Transform:
   m_ObjectHideFlags: 0
@@ -18003,6 +18006,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1661196699}
   - component: {fileID: 1661196700}
+  - component: {fileID: 1661196701}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -18037,6 +18041,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e068ed2b01507847a52b1320b32cd81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerStats: {fileID: 1661196701}
+--- !u!114 &1661196701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1661196698}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a0136d4d4ddab44a8bf59709844051, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startMoney: 400
 --- !u!114 &1668134973 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5047518265220638684, guid: 50b04801c05c65c489d16d9b2ef768b2, type: 3}
