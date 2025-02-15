@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3159356322592599862}
   - component: {fileID: 4168743167364449041}
   m_Layer: 0
-  m_Name: Turret
+  m_Name: StandardTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -132,8 +132,44 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
+  bulletPrefab: {fileID: 2084935166374863096, guid: 4347ee9caae9d1346a2fb45eea86a4f4, type: 3}
+  firePoint: {fileID: 8253917530753452957}
   rotatingPart: {fileID: 1031383208066012915}
-  range: 0
+  range: 15
+  damage: 3
+  fireRate: 2
+  fireCountDown: 0
+--- !u!1 &6425351586560665134
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8253917530753452957}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8253917530753452957
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6425351586560665134}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.63, z: 2.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1031383208066012915}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7989234648040298058
 GameObject:
   m_ObjectHideFlags: 0
@@ -144,7 +180,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1031383208066012915}
   m_Layer: 0
-  m_Name: RotateAxis
+  m_Name: RotatePart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,6 +200,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3971669590334031917}
+  - {fileID: 8253917530753452957}
   m_Father: {fileID: 3159356322592599862}
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &8902224575249532551

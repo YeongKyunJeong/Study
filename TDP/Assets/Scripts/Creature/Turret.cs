@@ -12,39 +12,76 @@ namespace TDP
         public Transform target;
         private Collider[] detectedColldiers;
         private Coroutine detectingCoroutine;
+        private Bullet bulletInitializer;
+
+        #region Fixed Parameter
+        private float detectionInterval;
+        private LayerMask enemyLayerMask; // bitMask
+        private WaitForSeconds detectionWaitForSec;
+        private float turnSpeed;
+        #endregion
+
+        #region External Refference
+        [SerializeField] private GameObject bulletPrefab; // To Do : Use objectpool
+        [SerializeField] Transform firePoint;
+        #endregion
+
+        #region Turret Object Motion Control
+
         private float distanceToEnemy;
         private float closestDistance;
         private int closestDistIndex;
+        [SerializeField] private Transform rotatingPart;
         private Vector3 dir;
         private Vector3 rotation;
         private Quaternion targetQuaternion;
 
-        #region Turret Object Motion Control
-
-        [SerializeField] private Transform rotatingPart;
-
         #endregion
-
 
         #region Turret Data
-        public float range;
-        private float attackInterval;
-        private int damage;
+        [Header("Attributes")]
+        [SerializeField] public float range;
+        [SerializeField] private int damage;
+
+        [SerializeField] private float fireRate;
+        [SerializeField] private float fireCountDown;
 
         #endregion
 
-        public float turnSpeed;
-        private float detectionInterval;
-        private LayerMask enemyLayerMask; // bitMask
-        private WaitForSeconds detectionWaitForSec;
-        private float fireRate;
-        private float fireCountDown;
 
         // temp
         private void Start()
         {
             FirstPoolingInitialize();
             SetTurretData();
+        }
+        public void FirstPoolingInitialize()
+        {
+            detectionInterval = 0.125f;
+            enemyLayerMask = LayerMask.GetMask("Enemy");
+            detectionWaitForSec = new WaitForSeconds(detectionInterval);
+            turnSpeed = 10f;
+
+            EachPoolingInitialize();
+        }
+
+        public void EachPoolingInitialize()
+        {
+            gameObject.SetActive(true);
+            fireCountDown = 0;
+        }
+
+        public void SetTurretData()
+        {
+            #region Assigning loaded data
+            // range, attackInterval, etc
+            //range = 15f;
+            //damage = 3;
+            //fireRate = 2;
+            #endregion
+
+            detectingCoroutine = null;
+            detectingCoroutine = StartCoroutine(DetectEnemyCoroutine());
         }
 
         private void Update()
@@ -60,8 +97,6 @@ namespace TDP
                 Shoot();
 
                 fireCountDown = 1f / fireRate;  // Countdown Initialize
-
-
             }
 
             fireCountDown -= Time.deltaTime;
@@ -70,7 +105,12 @@ namespace TDP
 
         private void Shoot()
         {
-            Debug.Log("Shoot");
+            bulletInitializer = Instantiate(bulletPrefab, firePoint.position, firePoint.rotation).GetComponent<Bullet>();
+
+            if (bulletInitializer != null)
+            {
+                bulletInitializer.Seek(target);
+            }
         }
 
         private void RotateHead()
@@ -82,33 +122,6 @@ namespace TDP
             rotatingPart.rotation = Quaternion.Euler(0f, rotation.y, 0f);
         }
 
-        public void FirstPoolingInitialize()
-        {
-            turnSpeed = 10f;
-            detectionInterval = 0.125f;
-            enemyLayerMask = LayerMask.GetMask("Enemy");
-            detectionWaitForSec = new WaitForSeconds(detectionInterval);
-            EachPoolingInitialize();
-        }
-
-        public void EachPoolingInitialize()
-        {
-            gameObject.SetActive(true);
-            fireCountDown = 0;
-        }
-
-        public void SetTurretData()
-        {
-            #region Assigning loaded data
-            // range, attackInterval, etc
-            attackInterval = 0.125f;
-            range = 15f;
-            damage = 3;
-            #endregion
-            fireRate = 2;
-            detectingCoroutine = null;
-            detectingCoroutine = StartCoroutine(DetectEnemyCoroutine());
-        }
 
         private void UpdateTarget()
         {
@@ -139,15 +152,8 @@ namespace TDP
         {
             while (true)
             {
+                UpdateTarget();
 
-                if (target == null)
-                {
-                    UpdateTarget();
-                }
-                else
-                {
-
-                }
                 yield return detectionWaitForSec;
             }
         }
