@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 3159356322592599862}
   - component: {fileID: 4168743167364449041}
   m_Layer: 0
-  m_Name: StandardTurret
+  m_Name: SecondTurret
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -135,9 +135,9 @@ MonoBehaviour:
   bulletPrefab: {fileID: 2084935166374863096, guid: 4347ee9caae9d1346a2fb45eea86a4f4, type: 3}
   firePoint: {fileID: 8253917530753452957}
   rotatingPart: {fileID: 1031383208066012915}
-  range: 15
-  damage: 3
-  fireRate: 2
+  range: 20
+  damage: 5
+  fireRate: 0.5
   fireCountDown: 0
 --- !u!1 &6425351586560665134
 GameObject:
