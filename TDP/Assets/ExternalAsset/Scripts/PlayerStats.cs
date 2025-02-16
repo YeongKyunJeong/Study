@@ -9,9 +9,13 @@ namespace TDP
         public static int Money;
         [SerializeField] private int startMoney = 400;
 
+        public static int Life;
+        [SerializeField] int startLives = 20;
+
         public void Initialize()
         {
             Money = startMoney;
+            Life = startLives;
         }
     }
 }

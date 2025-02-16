@@ -48,6 +48,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
+  health: 10
+  dropMoney: 50
+  deathEffect: {fileID: 5488227887571685970, guid: 6160a54d209d04943bcaf3110d5ed6e7, type: 3}
   wayPointsNumber: 0
   myWaypoints: []
   isAlive: 0

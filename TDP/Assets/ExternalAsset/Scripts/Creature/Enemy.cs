@@ -8,6 +8,12 @@ namespace TDP
     {
         public float speed = 10f;
 
+        public int health = 10;
+
+        public int dropMoney = 50;
+
+        [SerializeField] GameObject deathEffect;
+
         private Transform target;
         private Vector3 beforeTargetPos;
 
@@ -36,11 +42,13 @@ namespace TDP
             wayPointIndex = 0;  // Departure waypoint
         }
 
-        public void SetEnemy(int newWaypointsNumber, float newSpeed)  // Run by game logic class with enemy data reading
+        public void SetEnemy(int newWaypointsNumber, float newSpeed, int newHealth, int newDropMoney)  // Run by game logic class with enemy data reading
         {
             speed = newSpeed;
             wayPointsNumber = newWaypointsNumber;
             myWaypoints = WayPoints.GetPoints(wayPointsNumber);
+            health = newHealth;
+            dropMoney = newDropMoney;
 
             isAlive = true;
             beforeTargetPos = myWaypoints[wayPointIndex].position;
@@ -72,6 +80,25 @@ namespace TDP
             }
         }
 
+        public void TakeDamager(int damage)
+        {
+            if (health > 0)
+            {
+                health -= damage;
+
+                if (health <= 0)
+                {
+                    Die();
+                }
+            }
+        }
+        private void Die()
+        {
+            Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2.5f);
+            PlayerStats.Money += dropMoney;
+            gameObject.SetActive(false);
+        }
+
         void GetNextWayPoiot()
         {
             wayPointIndex++;
@@ -88,6 +115,10 @@ namespace TDP
 
         void PassGoal()
         {
+            if (PlayerStats.Life > 0)
+            {
+                PlayerStats.Life--;
+            }
             gameObject.SetActive(false);
         }
 

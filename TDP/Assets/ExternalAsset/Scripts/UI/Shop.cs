@@ -10,6 +10,7 @@ namespace TDP
     {
         [SerializeField] private TurretBluePrint standardTurretBP;
         [SerializeField] private TurretBluePrint missileTurretBP;
+        [SerializeField] private TurretBluePrint laserTurretBP;
 
         private GameManager gameManager;
         private BuildManager buildManager;
@@ -27,6 +28,10 @@ namespace TDP
         public void SelectMissileTurret()
         {
             buildManager.SelectTurretToBuild(missileTurretBP);
+        }
+        public void SelectLaserTurret()
+        {
+            buildManager.SelectTurretToBuild(laserTurretBP);
         }
     }
 

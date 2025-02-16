@@ -92,6 +92,10 @@ namespace TDP
 
             if (fireCountDown <= 0f)
             {
+                if (target == null) // To do : Check error when enemy passes goal
+                {
+                    UpdateTarget();
+                }
                 Shoot();
 
                 fireCountDown = 1f / fireRate;  // Countdown Initialize
@@ -107,7 +111,7 @@ namespace TDP
 
             if (bulletInitializer != null)
             {
-                bulletInitializer.Seek(target);
+                bulletInitializer.Seek(target, damage);
             }
         }
 
@@ -142,7 +146,7 @@ namespace TDP
                     }
                     else
                     {
-                        Debug.Log("Error Check");
+                        Debug.Log("Error Check");    // To do : Check error when enemy passes goal
                     }
                 }
                 if (closestDistIndex > -1)

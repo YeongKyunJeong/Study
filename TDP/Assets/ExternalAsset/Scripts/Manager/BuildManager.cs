@@ -15,8 +15,6 @@ namespace TDP
 
         public GameObject buildEffect;
 
-        public GameObject standardTurretPrefeb;
-        public GameObject missileTurretPrefab;
         [SerializeField] private TurretBluePrint turretToBuild;
         public bool CanBuild { get { return turretToBuild != null; } }
         public bool HasEnoughMoney { get { return PlayerStats.Money >= turretToBuild.cost; } }

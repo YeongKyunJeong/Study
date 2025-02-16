@@ -131,4 +131,4 @@ MonoBehaviour:
   speed: 30
   impactEffect: {fileID: 6846960656437940219, guid: 179314add8086ce459964a43ac70f162, type: 3}
   isExplosive: 1
-  explosionRadius: 2
+  explosionRadius: 4

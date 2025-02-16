@@ -9,7 +9,8 @@ namespace TDP
     {
         WaveIndex,
         WaveCountDown,
-        Money
+        Money,
+        Life
     }
 
     public class StageUITMPSetter : MonoBehaviour
@@ -53,7 +54,23 @@ namespace TDP
             private set
             {
                 money = value;
-                moneyTMP.text = $"$ {money}";
+                moneyTMP.text = $"$ {value}";
+            }
+        }
+
+        private int life;
+        [SerializeField] TextMeshProUGUI lifeTMP;
+        public int Life
+        {
+            get { return life; }
+            private set
+            {
+                if (value < 0)
+                {
+                    value = 0;
+                }
+                life = value;
+                lifeTMP.text = $"{value:00} Lives";
             }
         }
 
@@ -61,6 +78,7 @@ namespace TDP
         private void Update()
         {
             moneyTMP.text = $"$ {PlayerStats.Money}";
+            lifeTMP.text = $"{PlayerStats.Life:00} Lives";
         }
 
         public void ChangeValue(StageUITMPType targetTMP, int changedValue)
