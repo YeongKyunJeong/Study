@@ -9,15 +9,23 @@ namespace TDP
     {
         [SerializeField] StageUITMPSetter stageUITMPSetter;
         [SerializeField] AspectRatioEnforcer aspectRatioEnforcer;
+        [SerializeField] bool isPhysicalCanvas = false;
 
         public void Initialize()
         {
-            if (aspectRatioEnforcer == null)
+            if (isPhysicalCanvas)
             {
-                aspectRatioEnforcer = GetComponent<AspectRatioEnforcer>();
+                return;
             }
+            else
+            {
+                if (aspectRatioEnforcer == null)
+                {
+                    aspectRatioEnforcer = GetComponent<AspectRatioEnforcer>();
+                }
 
-            aspectRatioEnforcer.Initialize();
+                aspectRatioEnforcer.Initialize();
+            }
         }
 
         public void ChangeValue(StageUITMPType tagetTMP, float targetValue)

@@ -49,6 +49,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hoverColor: {r: 0.67058825, g: 0.67058825, b: 0.67058825, a: 1}
   initColor: {r: 1, g: 1, b: 1, a: 1}
+  notEnoughMoneyColor: {r: 1, g: 0.20392157, b: 0.20392157, a: 1}
+  turretGOOnMe: {fileID: 0}
 --- !u!33 &2971044058360365977
 MeshFilter:
   m_ObjectHideFlags: 0

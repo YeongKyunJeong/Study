@@ -74,7 +74,7 @@ namespace TDP
         void SpawnEnemy()
         {
             enemyInitializer = enemyPool.GetObject<Enemy>(PoolObjectType.Enemy);
-            //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             enemyInitializer.SetEnemy(0, 10f);
         }
 
@@ -84,7 +84,7 @@ namespace TDP
             countDownGoing = false;
             int thisWaveIndexMax = ++waveIndex; // To do : Change enemy per wave number variation logic 
             stageManager.ChangeValue(StageUITMPType.WaveIndex, waveIndex);
-            
+
             for (int i = 0; i < thisWaveIndexMax; i++)
             {
                 SpawnEnemy();

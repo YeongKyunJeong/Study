@@ -17,6 +17,7 @@ namespace TDP
         public GameObject missileTurretPrefab;
         [SerializeField] private TurretBluePrint turretToBuild;
         public bool CanBuild { get { return turretToBuild != null; } }
+        public bool HasEnoughMoney { get { return PlayerStats.Money >= turretToBuild.cost; } }
 
         public void Initialize()
         {

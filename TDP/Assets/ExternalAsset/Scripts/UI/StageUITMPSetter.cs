@@ -8,7 +8,8 @@ namespace TDP
     public enum StageUITMPType
     {
         WaveIndex,
-        WaveCountDown
+        WaveCountDown,
+        Money
     }
 
     public class StageUITMPSetter : MonoBehaviour
@@ -41,7 +42,25 @@ namespace TDP
                     value = 0;
                 }
                 WaveCountDownTMP.text = $"{value:F2}";
+                //WaveCountDownTMP.text = $"{value:00.00}";
             }
+        }
+        private int money;
+        [SerializeField] TextMeshProUGUI moneyTMP;
+        public int Money
+        {
+            get { return money;}
+            private set
+            {
+                money = value;
+                moneyTMP.text = $"$ {money}";
+            }
+        }
+
+
+        private void Update()
+        {
+            moneyTMP.text = $"$ {PlayerStats.Money}";
         }
 
         public void ChangeValue(StageUITMPType targetTMP, int changedValue)
@@ -56,6 +75,11 @@ namespace TDP
                 case StageUITMPType.WaveCountDown:
                     {
                         WaveCountDown = changedValue;
+                        break;
+                    }
+                case StageUITMPType.Money:
+                    {
+                        Money = changedValue;
                         break;
                     }
             }

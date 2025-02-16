@@ -42,8 +42,8 @@ namespace TDP
                 enemySpawner = FindObjectOfType<EnemySpawner>();
             }
             enemySpawner.Initialize();
-            ChangeValue(StageUITMPType.WaveIndex, 0);
-            ChangeValue(StageUITMPType.WaveCountDown, 0.0f);
+            //ChangeValue(StageUITMPType.WaveIndex, 0);
+            //ChangeValue(StageUITMPType.WaveCountDown, 0.0f);
 
             if(shop == null)
             {

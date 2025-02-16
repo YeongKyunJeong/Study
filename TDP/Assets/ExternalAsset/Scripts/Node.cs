@@ -10,6 +10,7 @@ namespace TDP
     {
         public Color hoverColor;
         public Color initColor;
+        public Color notEnoughMoneyColor;
         private static Vector3 positionOffset;
 
         [Header("Optional")]
@@ -42,7 +43,16 @@ namespace TDP
             {
                 return;
             }
-            rend.material.color = hoverColor;
+
+            if (buildManager.HasEnoughMoney)
+            {
+                rend.material.color = hoverColor;
+            }
+            else
+            {
+                rend.material.color = notEnoughMoneyColor;
+            }
+
         }
 
         private void OnMouseDown()
