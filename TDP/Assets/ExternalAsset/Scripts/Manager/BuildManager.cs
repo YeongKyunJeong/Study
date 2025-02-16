@@ -13,6 +13,8 @@ namespace TDP
         private GameManager gameManager;
         //private PlayerStats playerStats;
 
+        public GameObject buildEffect;
+
         public GameObject standardTurretPrefeb;
         public GameObject missileTurretPrefab;
         [SerializeField] private TurretBluePrint turretToBuild;
@@ -46,7 +48,7 @@ namespace TDP
             Debug.Log($"{PlayerStats.Money} left");
 
             node.SetTurretOnNode = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-
+            Destroy( Instantiate(buildEffect,node.GetBuildPosition(), Quaternion.identity), 2f);
         }
 
         public void SelectTurretToBuild(TurretBluePrint turretBP)

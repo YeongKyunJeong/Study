@@ -8877,6 +8877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40845d81282d4794ead33ac1f291d991, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  buildEffect: {fileID: 9120395852326378219, guid: c0d4b85616fa1c94f93c687426ea5d37, type: 3}
   standardTurretPrefeb: {fileID: 3345022456004854976, guid: 02effe17b99b2b64c90e8371c943f0f0, type: 3}
   missileTurretPrefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
   turretToBuild:
@@ -12254,7 +12255,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageUITMPSetter: {fileID: 1115881940}
   aspectRatioEnforcer: {fileID: 0}
-  isPhysicalCanvas: 1
+  isWorldSpaceCanvas: 1
 --- !u!114 &1115881940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14181,7 +14182,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageUITMPSetter: {fileID: 0}
   aspectRatioEnforcer: {fileID: 1297620534}
-  isPhysicalCanvas: 1
+  isWorldSpaceCanvas: 0
 --- !u!224 &1297620536
 RectTransform:
   m_ObjectHideFlags: 0
@@ -20030,6 +20031,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 556177980}
     m_Modifications:
+    - target: {fileID: 2211821124012440902, guid: a4ada7e1964030748af375f634521517, type: 3}
+      propertyPath: m_Text
+      value: $ 250
+      objectReference: {fileID: 0}
     - target: {fileID: 2395251815547111824, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -24492,6 +24497,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 556177980}
     m_Modifications:
+    - target: {fileID: 2211821124012440902, guid: a4ada7e1964030748af375f634521517, type: 3}
+      propertyPath: m_Text
+      value: $ 100
+      objectReference: {fileID: 0}
     - target: {fileID: 3513795825018450426, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_Name
       value: StandardTurretItem
@@ -24603,6 +24612,10 @@ PrefabInstance:
     - target: {fileID: 6637353049820836328, guid: a4ada7e1964030748af375f634521517, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 8303003685089976610, guid: a4ada7e1964030748af375f634521517, type: 3}
+      propertyPath: m_PreferredHeight
+      value: 180
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

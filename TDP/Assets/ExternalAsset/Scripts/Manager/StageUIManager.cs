@@ -9,11 +9,11 @@ namespace TDP
     {
         [SerializeField] StageUITMPSetter stageUITMPSetter;
         [SerializeField] AspectRatioEnforcer aspectRatioEnforcer;
-        [SerializeField] bool isPhysicalCanvas = false;
+        [SerializeField] bool isWorldSpaceCanvas = false;
 
         public void Initialize()
         {
-            if (isPhysicalCanvas)
+            if (isWorldSpaceCanvas)
             {
                 return;
             }
