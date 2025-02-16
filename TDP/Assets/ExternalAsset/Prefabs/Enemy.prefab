@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 314134370350415285}
   - component: {fileID: 9152676691799597962}
+  - component: {fileID: 6881894733422003389}
   - component: {fileID: 8613609076866917876}
   - component: {fileID: 7547905121231672448}
   - component: {fileID: 2850875174957732574}
@@ -54,6 +55,18 @@ MonoBehaviour:
   wayPointsNumber: 0
   myWaypoints: []
   isAlive: 0
+--- !u!114 &6881894733422003389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4995281770906715417}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958246badf7413e4b820a2566ad6890f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!33 &8613609076866917876
 MeshFilter:
   m_ObjectHideFlags: 0

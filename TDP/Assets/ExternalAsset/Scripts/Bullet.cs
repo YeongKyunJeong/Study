@@ -81,7 +81,7 @@ namespace TDP
 
         void Damage(GameObject hitEnemyGO)
         {
-            hitEnemyGO.GetComponent<Enemy>()?.TakeDamager(damage);
+            hitEnemyGO.GetComponent<Enemy>()?.TakeDamage(damage);
         }
 
         private void OnDrawGizmosSelected()

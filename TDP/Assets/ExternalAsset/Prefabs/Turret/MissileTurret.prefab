@@ -163,13 +163,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4a173df9918a1a44d9e65e328fe12ecc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  bulletPrefab: {fileID: 6483654505772218855, guid: f5f63794244ca71439ae1c276bec85f0, type: 3}
   firePoint: {fileID: 8796820761677865322}
   rotatingPart: {fileID: 3648279819193981523}
   range: 20
-  damage: 15
+  damage: 20
+  bulletPrefab: {fileID: 6483654505772218855, guid: f5f63794244ca71439ae1c276bec85f0, type: 3}
   fireRate: 0.5
+  slowAmount: 0.3
+  isLaserTurret: 0
+  lineRenderer: {fileID: 0}
+  impactEffect: {fileID: 0}
+  impactLight: {fileID: 0}
 --- !u!1 &6304617170864965298
 GameObject:
   m_ObjectHideFlags: 0

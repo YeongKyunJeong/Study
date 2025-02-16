@@ -1,68 +1,60 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace TDP
 {
-    public class Enemy : MonoBehaviour, IPoolableObject
+    // [RequireComponent(typeof(Enemy))]
+    public class EnemyMovement : MonoBehaviour
     {
-        public float speed = 10f;
-
-        public int health = 10;
-
-        public int dropMoney = 50;
-
-        [SerializeField] GameObject deathEffect;
-
         private Transform target;
         private Vector3 beforeTargetPos;
+        private Vector3 dir;
+        private float overDistance;
+
+        [SerializeField] private Enemy enemy;
+        public bool isAlive;
 
         [SerializeField] private int wayPointsNumber = 0; // which waypoints
         [SerializeField] private Transform[] myWaypoints;
+        [SerializeField] private float initialSpeed = 10f;
+        [SerializeField] private float speed = 10f;
 
         private int wayPointIndex = 0;
-        private Vector3 dir;
-        private float overDistance;
-        public bool isAlive;
 
-        //temp
-        //private void Start()
-        //{
-        //    Initialize();
-        //}
-
-        public void FirstPoolingInitialize()
+        public void Initialize(Enemy _enemy)
         {
-            EachPoolingInitialize();
+            enemy = _enemy;
         }
 
-        public void EachPoolingInitialize()
+        public void SetWaypointData(int newWayPointsNumber)
         {
-            gameObject.SetActive(true);
-            wayPointIndex = 0;  // Departure waypoint
-        }
-
-        public void SetEnemy(int newWaypointsNumber, float newSpeed, int newHealth, int newDropMoney)  // Run by game logic class with enemy data reading
-        {
-            speed = newSpeed;
-            wayPointsNumber = newWaypointsNumber;
+            wayPointIndex = 0;
+            wayPointIndex = newWayPointsNumber;
             myWaypoints = WayPoints.GetPoints(wayPointsNumber);
-            health = newHealth;
-            dropMoney = newDropMoney;
 
             isAlive = true;
+
             beforeTargetPos = myWaypoints[wayPointIndex].position;
             target = myWaypoints[++wayPointIndex];  // First waypoint after departure
             transform.position = beforeTargetPos;
         }
+
+        public void SetInitialSpeed(float newInitialSpeed)
+        {
+            initialSpeed = newInitialSpeed;
+        }
+
+        //public void SetSpeed(float newSpeed)
+        //{
+        //    speed = newSpeed;
+        //}
 
         private void Update()
         {
             if (isAlive)
             {
                 dir = target.position - transform.position;
-
                 dir = dir - new Vector3(0, dir.y, 0);
+                speed = enemy.GetSpeed;
                 overDistance = dir.magnitude - speed * Time.deltaTime;
                 if (overDistance < 0) // Should go over target position in this frame
                 {
@@ -76,28 +68,11 @@ namespace TDP
                 {
                     transform.Translate(dir.normalized * speed * Time.deltaTime, Space.World);
                 }
-
+                enemy.RollBackSpeedCall();
             }
         }
 
-        public void TakeDamager(int damage)
-        {
-            if (health > 0)
-            {
-                health -= damage;
 
-                if (health <= 0)
-                {
-                    Die();
-                }
-            }
-        }
-        private void Die()
-        {
-            Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2.5f);
-            PlayerStats.Money += dropMoney;
-            gameObject.SetActive(false);
-        }
 
         void GetNextWayPoiot()
         {
@@ -123,4 +98,7 @@ namespace TDP
         }
 
     }
+
+
+
 }

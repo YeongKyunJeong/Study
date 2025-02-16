@@ -9,7 +9,8 @@ namespace TDP
     public class Turret : MonoBehaviour, IPoolableObject
     {
         // To do : Load ans set turret data from data file 
-        public Transform target;
+        private Transform target;
+        private Enemy targetEnemy;
         private Collider[] detectedColldiers;
         private Coroutine detectingCoroutine;
         private Bullet bulletInitializer;
@@ -22,10 +23,7 @@ namespace TDP
         private float turnSpeed;
         #endregion
 
-        #region External Refference
-        [SerializeField] private GameObject bulletPrefab; // To Do : Use objectpool
         [SerializeField] Transform firePoint;
-        #endregion
 
         #region Turret Object Motion Control
 
@@ -40,10 +38,21 @@ namespace TDP
         #endregion
 
         #region Turret Data
-        [Header("Attributes")]
+        [Header("General")]
         [SerializeField] public float range;
         [SerializeField] private int damage;
+
+        [Header("Projectile Turret (Defaults)")]
+        [SerializeField] private GameObject bulletPrefab; // To do : Use objectpool
         [SerializeField] private float fireRate;
+
+        [Header("Laser Turret")]
+        [SerializeField] private float slowAmount = 0.3f;
+        [SerializeField] private bool isLaserTurret = false;    // To do : Apply custom editor to show or hide the fields at inspector;
+        [SerializeField] private LineRenderer lineRenderer;
+        [SerializeField] private ParticleSystem impactEffect;
+        [SerializeField] private Light impactLight;
+        private Vector3 laserImpactDir;
         #endregion
 
 
@@ -76,6 +85,17 @@ namespace TDP
             //range = 15f;
             //damage = 3;
             //fireRate = 2;
+            //isLaserTurret = true;
+            //
+            if (isLaserTurret)
+            {
+                if (lineRenderer == null)
+                {
+                    impactEffect = transform.GetChild(0).GetComponent<ParticleSystem>();
+                    lineRenderer = GetComponent<LineRenderer>();
+                    impactLight = impactEffect.transform.GetChild(0).GetComponent<Light>();
+                }
+            }
             #endregion
 
             detectingCoroutine = null;
@@ -86,24 +106,59 @@ namespace TDP
         {
             if (target == null)
             {
+                if (isLaserTurret)
+                {
+                    if (lineRenderer.enabled)
+                    {
+                        lineRenderer.enabled = false;
+                        impactEffect.Stop();
+                        impactLight.enabled = false;
+                    }
+                }
+
                 return;
             }
+
             RotateHead();
 
-            if (fireCountDown <= 0f)
+            if (isLaserTurret)
             {
-                if (target == null) // To do : Check error when enemy passes goal
+                Laser();
+            }
+            else
+            {
+                if (fireCountDown <= 0f)
                 {
-                    UpdateTarget();
-                }
-                Shoot();
 
-                fireCountDown = 1f / fireRate;  // Countdown Initialize
+                    Shoot();
+
+                    fireCountDown = 1f / fireRate;  // Countdown Initialize
+                }
             }
 
             fireCountDown -= Time.deltaTime;
         }
 
+        private void Laser()
+        {
+            targetEnemy.TakeDamage(damage * Time.deltaTime);
+            targetEnemy.Slow(slowAmount);
+
+            if (!lineRenderer.enabled)
+            {
+                lineRenderer.enabled = true;
+                impactEffect.Play();
+                impactLight.enabled = true;
+            }
+
+            lineRenderer.SetPosition(0, firePoint.position);
+            lineRenderer.SetPosition(1, target.position);
+
+            laserImpactDir = firePoint.position - target.position;
+            impactEffect.transform.position = target.position + laserImpactDir.normalized * 1f; // To do : change point
+            impactEffect.transform.rotation = Quaternion.LookRotation(laserImpactDir);
+
+        }
 
         private void Shoot()
         {
@@ -152,6 +207,7 @@ namespace TDP
                 if (closestDistIndex > -1)
                 {
                     target = detectedColldiers[closestDistIndex].transform;
+                    targetEnemy = target.GetComponent<Enemy>();
                 }
             }
             else
