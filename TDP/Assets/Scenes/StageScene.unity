@@ -1666,44 +1666,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2554805410223271456, guid: 50b04801c05c65c489d16d9b2ef768b2, type: 3}
   m_PrefabInstance: {fileID: 178930740}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &188292786 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 9101599814289303173, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
-  m_PrefabInstance: {fileID: 1314686175}
-  m_PrefabAsset: {fileID: 0}
---- !u!225 &188292791
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188292786}
-  m_Enabled: 1
-  m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
---- !u!95 &188292792
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 188292786}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 67e85738e3ca6724087779e90e370e14, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &194449360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5875,12 +5837,18 @@ MonoBehaviour:
   standardTurretBP:
     prefab: {fileID: 3345022456004854976, guid: 02effe17b99b2b64c90e8371c943f0f0, type: 3}
     cost: 100
+    upgradedPrefab: {fileID: 3345022456004854976, guid: 30ce7cc7034ea994080f8f0109152ee7, type: 3}
+    upgradeCost: 80
   missileTurretBP:
     prefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
     cost: 250
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 200
   laserTurretBP:
     prefab: {fileID: 7690067949728185236, guid: 7f9d05efcc616f64c9f8bd2c84e61f6e, type: 3}
     cost: 350
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 300
 --- !u!1 &558887854
 GameObject:
   m_ObjectHideFlags: 0
@@ -9083,6 +9051,8 @@ MonoBehaviour:
   turretToBuild:
     prefab: {fileID: 0}
     cost: 0
+    upgradedPrefab: {fileID: 0}
+    upgradeCost: 0
   nodeUI: {fileID: 1619115895}
 --- !u!4 &856259928
 Transform:
@@ -12587,7 +12557,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1115881934}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
@@ -14817,6 +14787,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2554805410223271456, guid: 50b04801c05c65c489d16d9b2ef768b2, type: 3}
   m_PrefabInstance: {fileID: 1307482103}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1308477496 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7440803193033760812, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+  m_PrefabInstance: {fileID: 1314686175}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1314686175
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14918,19 +14899,13 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7611095618626377442, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
-      propertyPath: uIGO
+      propertyPath: upgradeButton
       value: 
-      objectReference: {fileID: 188292786}
+      objectReference: {fileID: 1308477496}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 9101599814289303173, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 188292792}
-    - targetCorrespondingSourceObject: {fileID: 9101599814289303173, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 188292791}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
 --- !u!1 &1318092046
 GameObject:

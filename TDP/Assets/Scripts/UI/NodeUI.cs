@@ -1,16 +1,25 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TDP
 {
     public class NodeUI : MonoBehaviour
     {
+        private BuildManager buildManager;
         private Node target;
         [SerializeField] private GameObject uIGO;
+        [SerializeField] private Button upgradeButton;
+        [SerializeField] private Text upgradeCostText;
 
         public void Initialize()
         {
+            if (buildManager == null)
+            {
+                buildManager = BuildManager.Instance;
+            }
+            upgradeCostText.text = string.Empty;
             HideUI();
         }
 
@@ -18,12 +27,29 @@ namespace TDP
         {
             target = _target;
             transform.position = target.GetBuildPosition();
+            if (target.isUpgraded)
+            {
+                upgradeCostText.text = $"Done";
+                upgradeButton.interactable = false;
+            }
+            else
+            {
+                upgradeCostText.text = $"$ {target.GetTurretBP.upgradeCost}";
+                upgradeButton.interactable = true;
+            }
+
             uIGO.SetActive(true);
         }
 
         public void HideUI()
         {
             uIGO.SetActive(false);
+        }
+
+        public void UpgradeCall()
+        {
+            target.UpgradeTurret();
+            buildManager.DeselectNode();
         }
     }
 }

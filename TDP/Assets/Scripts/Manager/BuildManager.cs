@@ -46,26 +46,6 @@ namespace TDP
             turretToBuild = null;
         }
 
-        public void BuildTurretOn(Node node)
-        {
-            if (turretToBuild == null)
-            {
-                return;
-            }
-
-            if (PlayerStats.Money < turretToBuild.cost)
-            {
-                Debug.Log("Not Enough Money");
-                return;
-            }
-
-            //playerStat.Money = 
-            PlayerStats.Money -= turretToBuild.cost;
-            Debug.Log($"{PlayerStats.Money} left");
-
-            node.SetTurretOnNode = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-            Destroy(Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity), 2f);
-        }
 
         public void SelectNode(Node node)
         {
@@ -87,12 +67,15 @@ namespace TDP
             nodeUI.HideUI();
         }
 
-
         public void SelectTurretToBuild(TurretBluePrint turretBP)
         {
             turretToBuild = turretBP;
             DeselectNode();
         }
 
+        //public TurretBluePrint GetTurretToBuild()
+        //{
+        //    return turretToBuild;
+        //}
     }
 }

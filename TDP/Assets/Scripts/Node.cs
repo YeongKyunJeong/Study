@@ -8,24 +8,33 @@ namespace TDP
 
     public class Node : MonoBehaviour
     {
+        private BuildManager buildManager;
+
         public Color hoverColor;
         public Color initColor;
         public Color notEnoughMoneyColor;
         private static Vector3 positionOffset;
 
-        [Header("Optional")]
-        [SerializeField] private GameObject turretGOOnMe;
-        public GameObject SetTurretOnNode { set => turretGOOnMe = value; }
-        private Renderer rend;
 
-        private BuildManager buildManager;
+        private GameObject turretGOOnMe;
+        private TurretBluePrint turretOnMeBP;
+        public TurretBluePrint GetTurretBP { get => turretOnMeBP; }
+        public bool isUpgraded = false;
+
+        private Renderer rend;
 
         public void Initialize()
         {
-            buildManager = BuildManager.Instance;
+            if (buildManager == null)
+                buildManager = BuildManager.Instance;
 
-            rend = GetComponent<Renderer>();
+            if (rend == null)
+            {
+                rend = GetComponent<Renderer>();
+            }
             rend.material.color = initColor;
+
+            isUpgraded = false;
             positionOffset = 0.5f * Vector3.up;
         }
 
@@ -58,6 +67,43 @@ namespace TDP
 
         }
 
+        public void BuildTurretOnMe(TurretBluePrint turretBP)
+        {
+            if (PlayerStats.Money < turretBP.cost)
+            {
+                Debug.Log("Not Enough Money");
+                return;
+            }
+
+            //playerStat.Money = 
+            PlayerStats.Money -= turretBP.cost;
+            Debug.Log("Turret Built!");
+
+            turretGOOnMe = Instantiate(turretBP.prefab, GetBuildPosition(), Quaternion.identity);
+            turretOnMeBP = turretBP;
+            Destroy(Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity), 2f);
+        }
+
+        public void UpgradeTurret()
+        {
+            if (PlayerStats.Money < turretOnMeBP.upgradeCost)
+            {
+                Debug.Log("Not Enough Money to Upgrade");
+                return;
+            }
+
+            //playerStat.Money = 
+            PlayerStats.Money -= turretOnMeBP.upgradeCost;
+
+            Destroy(turretGOOnMe);  // Get rid of old turret
+
+            Debug.Log("Turret Upgraded!");
+            isUpgraded = true;
+            // Build new turret
+            turretGOOnMe = Instantiate(turretOnMeBP.upgradedPrefab, GetBuildPosition(), Quaternion.identity);
+            Destroy(Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity), 2f);
+        }
+
         private void OnMouseDown()
         {
             if (EventSystem.current.IsPointerOverGameObject())
@@ -74,8 +120,7 @@ namespace TDP
                 return;
             }
 
-            buildManager.BuildTurretOn(this);
-
+            BuildTurretOnMe(buildManager.GetTurretToBuild);
         }
 
         private void OnMouseExit()
