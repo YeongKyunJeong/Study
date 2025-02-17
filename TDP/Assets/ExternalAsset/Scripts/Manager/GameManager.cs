@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace TDP
 {
@@ -16,7 +17,10 @@ namespace TDP
         public static StageManager StageManager { get { return stageManager; } private set { stageManager = value; } }
 
 
-        private bool gameEnded = false;
+        public static bool isGameOver = false;
+
+
+
         private void Awake()
         {
             if (Instance == null)
@@ -37,13 +41,20 @@ namespace TDP
                 StageManager = FindObjectOfType<StageManager>();
             }
             StageManager.Initialize();
+
+            isGameOver = false;
         }
 
         private void Update()
         {
-            if (gameEnded)
+            if (isGameOver)
             {
                 return;
+            }
+
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                EndGame();
             }
 
             if (PlayerStats.Life <= 0)
@@ -54,9 +65,32 @@ namespace TDP
 
         private void EndGame()
         {
-            Debug.Log("Game Over!");
+            isGameOver = true;
 
-            Time.timeScale = 0;
+            stageManager.EndGame();
+            //Debug.Log("Game Over!");
+
+            //Time.timeScale = 0;
         }
+
+        public void RetryCall()
+        {
+            Retry();
+        }
+        private void Retry()
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            Debug.Log("Game Restarted");
+        }
+
+        public void MenuCall()
+        {
+            Menu();
+        }
+        private void Menu()
+        {
+            Debug.Log("Go to Menu"); // To do : Add main menu secen;
+        }
+
     }
 }

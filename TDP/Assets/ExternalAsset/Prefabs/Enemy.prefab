@@ -48,12 +48,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c09eee4712c24d64e9d9f69bc3a72a29, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 10
+  initialSpeed: 30
   health: 10
   dropMoney: 50
   deathEffect: {fileID: 5488227887571685970, guid: 6160a54d209d04943bcaf3110d5ed6e7, type: 3}
-  wayPointsNumber: 0
-  myWaypoints: []
+  enemyMovement: {fileID: 0}
   isAlive: 0
 --- !u!114 &6881894733422003389
 MonoBehaviour:
@@ -67,6 +66,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958246badf7413e4b820a2566ad6890f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemy: {fileID: 0}
+  isAlive: 0
+  wayPointsNumber: 0
+  myWaypoints: []
+  initialSpeed: 10
+  speed: 10
 --- !u!33 &8613609076866917876
 MeshFilter:
   m_ObjectHideFlags: 0

@@ -77,7 +77,7 @@ namespace TDP
             //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             enemyInitializer.transform.position = spawnPoint.position;
             enemyInitializer.transform.rotation = spawnPoint.rotation;
-            enemyInitializer.SetEnemy(0, 10f, 10, 50);
+            enemyInitializer.SetEnemy(0, 30f, 10, 50);
         }
 
         IEnumerator SpawnWaveCoroutine()
@@ -85,6 +85,8 @@ namespace TDP
 
             countDownGoing = false;
             int thisWaveIndexMax = ++waveIndex; // To do : Change enemy per wave number variation logic 
+            PlayerStats.Rounds++;
+
             stageManager.ChangeValue(StageUITMPType.WaveIndex, waveIndex);
 
             for (int i = 0; i < thisWaveIndexMax; i++)

@@ -7,16 +7,15 @@ namespace TDP
 
     public class WayPoints : MonoBehaviour
     {
-        private static List<Transform[]> pointsList = new List<Transform[]>();  // Add multiple way 
+        private static List<Transform[]> pointsList;  // Add multiple way 
         //private static Transform[][] pointsArray = new Transform[0][];
 
-        // temp
-        private void Awake()
+        public static void ClearWayPointsList()    // ## I don't know why pointsList not be cleared
         {
-            Initialize();
+            pointsList = new List<Transform[]>();
         }
 
-        private void Initialize()
+        public void Initialize()
         {
             Transform[] points = new Transform[transform.childCount];
             for (int i = 0; i < points.Length; i++)

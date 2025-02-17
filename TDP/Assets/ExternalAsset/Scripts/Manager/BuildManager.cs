@@ -35,6 +35,11 @@ namespace TDP
 
         public void BuildTurretOn(Node node)
         {
+            if (turretToBuild == null)
+            {
+                return;
+            }
+
             if(PlayerStats.Money < turretToBuild.cost)
             {
                 Debug.Log("Not Enough Money");

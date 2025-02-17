@@ -10,12 +10,16 @@ namespace TDP
         [SerializeField] private int startMoney = 400;
 
         public static int Life;
-        [SerializeField] int startLives = 20;
+        [SerializeField] private int startLives = 20;
+
+        public static int Rounds;
+        [SerializeField] private int startRounds = 0;
 
         public void Initialize()
         {
             Money = startMoney;
             Life = startLives;
+            Rounds = startRounds;
         }
     }
 }

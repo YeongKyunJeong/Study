@@ -23,7 +23,13 @@ namespace TDP
 
         private void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (GameManager.isGameOver)
+            {
+                this.enabled = false;
+                return;
+            }
+
+            if (Input.GetKeyDown("m"))
             {
                 doMoveCamera = !doMoveCamera;
             }
