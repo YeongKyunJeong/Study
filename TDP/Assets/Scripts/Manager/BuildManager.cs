@@ -16,12 +16,17 @@ namespace TDP
         public GameObject buildEffect;
 
         [SerializeField] private TurretBluePrint turretToBuild;
+        public TurretBluePrint GetTurretToBuild { get => turretToBuild; }
+        private Node selectedNode;
+
+        [SerializeField] private NodeUI nodeUI;
+
         public bool CanBuild { get { return turretToBuild != null; } }
         public bool HasEnoughMoney { get { return PlayerStats.Money >= turretToBuild.cost; } }
 
         public void Initialize()
         {
-            if(gameManager == null)
+            if (gameManager == null)
             {
                 gameManager = GameManager.Instance;
             }
@@ -31,6 +36,14 @@ namespace TDP
             {
                 Instance = this;
             }
+
+            if(nodeUI == null)
+            {
+                Debug.Log("Node UI not assigned");
+            }
+
+            nodeUI.Initialize();
+            turretToBuild = null;
         }
 
         public void BuildTurretOn(Node node)
@@ -40,7 +53,7 @@ namespace TDP
                 return;
             }
 
-            if(PlayerStats.Money < turretToBuild.cost)
+            if (PlayerStats.Money < turretToBuild.cost)
             {
                 Debug.Log("Not Enough Money");
                 return;
@@ -51,12 +64,34 @@ namespace TDP
             Debug.Log($"{PlayerStats.Money} left");
 
             node.SetTurretOnNode = Instantiate(turretToBuild.prefab, node.GetBuildPosition(), Quaternion.identity);
-            Destroy( Instantiate(buildEffect,node.GetBuildPosition(), Quaternion.identity), 2f);
+            Destroy(Instantiate(buildEffect, node.GetBuildPosition(), Quaternion.identity), 2f);
         }
+
+        public void SelectNode(Node node)
+        {
+            if(selectedNode == node)
+            {
+                DeselectNode();
+                return;
+            }
+
+            selectedNode = node;
+            turretToBuild = null;
+
+            nodeUI.SetTarget(node);
+        }
+
+        public void DeselectNode()
+        {
+            selectedNode = null;
+            nodeUI.HideUI();
+        }
+
 
         public void SelectTurretToBuild(TurretBluePrint turretBP)
         {
             turretToBuild = turretBP;
+            DeselectNode();
         }
 
     }

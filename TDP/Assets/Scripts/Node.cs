@@ -14,7 +14,7 @@ namespace TDP
         private static Vector3 positionOffset;
 
         [Header("Optional")]
-        [SerializeField ] private GameObject turretGOOnMe;
+        [SerializeField] private GameObject turretGOOnMe;
         public GameObject SetTurretOnNode { set => turretGOOnMe = value; }
         private Renderer rend;
 
@@ -44,13 +44,16 @@ namespace TDP
                 return;
             }
 
-            if (buildManager.HasEnoughMoney)
+            if (buildManager.GetTurretToBuild != null)
             {
-                rend.material.color = hoverColor;
-            }
-            else
-            {
-                rend.material.color = notEnoughMoneyColor;
+                if (buildManager.HasEnoughMoney)
+                {
+                    rend.material.color = hoverColor;
+                }
+                else
+                {
+                    rend.material.color = notEnoughMoneyColor;
+                }
             }
 
         }
@@ -60,14 +63,14 @@ namespace TDP
             if (EventSystem.current.IsPointerOverGameObject())
                 return;
 
-            if (!buildManager.CanBuild)
+            if (turretGOOnMe != null)
             {
+                buildManager.SelectNode(this);
                 return;
             }
 
-            if (turretGOOnMe != null)
+            if (!buildManager.CanBuild)
             {
-                Debug.Log("Can't build there"); // To do : Display on screen
                 return;
             }
 
