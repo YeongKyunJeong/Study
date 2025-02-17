@@ -2235,13 +2235,15 @@ GameObject:
   m_Component:
   - component: {fileID: 287087616}
   - component: {fileID: 287087617}
+  - component: {fileID: 287087619}
+  - component: {fileID: 287087618}
   m_Layer: 5
   m_Name: GameOver
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &287087616
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2279,6 +2281,39 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roundsText: {fileID: 1861043903}
+--- !u!225 &287087618
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287087615}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!95 &287087619
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 287087615}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: e7c6c264443f58748bd38ec308bc35d1, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &305899913 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7274120568959665720, guid: 561f1ac03f2745942bf8827a6335c88b, type: 3}
@@ -5013,6 +5048,7 @@ GameObject:
   - component: {fileID: 505754713}
   - component: {fileID: 505754712}
   - component: {fileID: 505754711}
+  - component: {fileID: 505754714}
   m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
@@ -5037,8 +5073,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -240, y: -320}
-  m_SizeDelta: {x: 360, y: 160}
+  m_AnchoredPosition: {x: -220, y: -320}
+  m_SizeDelta: {x: 300, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &505754711
 MonoBehaviour:
@@ -5083,7 +5119,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 505754712}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 287087617}
+        m_TargetAssemblyTypeName: TDP.GameOverPanel, Assembly-CSharp
+        m_MethodName: RetryCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &505754712
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5122,6 +5170,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 505754709}
   m_CullTransparentMesh: 1
+--- !u!225 &505754714
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 505754709}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &508401175
 GameObject:
   m_ObjectHideFlags: 0
@@ -7172,7 +7232,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65d2d2e7e5cb7ca4ba20e64fb689d5df, type: 3}
-    m_FontSize: 96
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -10436,6 +10496,7 @@ GameObject:
   - component: {fileID: 967013819}
   - component: {fileID: 967013818}
   - component: {fileID: 967013817}
+  - component: {fileID: 967013820}
   m_Layer: 5
   m_Name: GameOverText
   m_TagString: Untagged
@@ -10519,6 +10580,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 967013815}
   m_CullTransparentMesh: 1
+--- !u!225 &967013820
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 967013815}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &971154854
 GameObject:
   m_ObjectHideFlags: 0
@@ -18427,7 +18500,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 65d2d2e7e5cb7ca4ba20e64fb689d5df, type: 3}
-    m_FontSize: 96
+    m_FontSize: 80
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -19947,6 +20020,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stageWorldSpaceUIManager: {fileID: 1115881939}
   buildManager: {fileID: 856259927}
+  wayPointsInStage:
+  - {fileID: 1985413345}
   enemySpawner: {fileID: 8836719}
   shop: {fileID: 556177984}
   nodes:
@@ -20756,6 +20831,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1835298161}
+  - component: {fileID: 1835298162}
   m_Layer: 5
   m_Name: RoundSurvived
   m_TagString: Untagged
@@ -20784,6 +20860,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 660, y: 380}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!225 &1835298162
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1835298160}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &1835763533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24686,6 +24774,7 @@ GameObject:
   - component: {fileID: 2092034199}
   - component: {fileID: 2092034198}
   - component: {fileID: 2092034197}
+  - component: {fileID: 2092034200}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -24710,8 +24799,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 240, y: -320}
-  m_SizeDelta: {x: 360, y: 160}
+  m_AnchoredPosition: {x: 220, y: -320}
+  m_SizeDelta: {x: 300, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2092034197
 MonoBehaviour:
@@ -24756,7 +24845,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2092034198}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 287087617}
+        m_TargetAssemblyTypeName: TDP.GameOverPanel, Assembly-CSharp
+        m_MethodName: MenuCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2092034198
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -24795,6 +24896,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2092034195}
   m_CullTransparentMesh: 1
+--- !u!225 &2092034200
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2092034195}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2111688078
 PrefabInstance:
   m_ObjectHideFlags: 0
