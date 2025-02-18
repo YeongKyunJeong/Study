@@ -52,10 +52,10 @@ namespace TDP
                 return;
             }
 
-            if (Input.GetKeyDown(KeyCode.Escape))
-            {
-                EndGame();
-            }
+            //if (Input.GetKeyDown(KeyCode.Escape))
+            //{
+            //    EndGame();
+            //}
 
             if (PlayerStats.Life <= 0)
             {

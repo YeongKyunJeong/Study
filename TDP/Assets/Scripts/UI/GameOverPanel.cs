@@ -34,16 +34,25 @@ namespace TDP
             if (isOn)
             {
                 roundsText.text = PlayerStats.Rounds.ToString();
+                Time.timeScale = 0;
+                Debug.Log("Game Stopped");
+            }
+            else
+            {
+                Time.timeScale = 1;
+                Debug.Log("Game Continued");
             }
         }
 
         public void RetryCall()
         {
+            OnEnableByManual(false);
             gameManager.RetryCall();
         }
 
         public void MenuCall()
         {
+            OnEnableByManual(false);
             gameManager.MenuCall();
         }
     }

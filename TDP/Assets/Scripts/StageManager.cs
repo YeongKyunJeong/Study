@@ -18,6 +18,7 @@ namespace TDP
 
 
         [SerializeField] private GameOverPanel gameOverPanel;
+        [SerializeField] private PausedMenu pausedMenu;
 
         public void Initialize()
         {
@@ -40,6 +41,13 @@ namespace TDP
                 gameOverPanel = FindAnyObjectByType<GameOverPanel>();
             }
             gameOverPanel.Initialize();
+
+            if(pausedMenu == null)
+            {
+                Debug.Log("Paused Menu not assigned");
+                pausedMenu = FindAnyObjectByType<PausedMenu>();
+            }
+            pausedMenu.Initialize();
 
             if (buildManager == null)
             {
