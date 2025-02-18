@@ -5842,12 +5842,12 @@ MonoBehaviour:
   missileTurretBP:
     prefab: {fileID: 3100853504355152846, guid: e2f3c3b412fb1bc4c94bbaafa89db4d9, type: 3}
     cost: 250
-    upgradedPrefab: {fileID: 0}
+    upgradedPrefab: {fileID: 3100853504355152846, guid: ae257197e08a68742ab207b754029654, type: 3}
     upgradeCost: 200
   laserTurretBP:
     prefab: {fileID: 7690067949728185236, guid: 7f9d05efcc616f64c9f8bd2c84e61f6e, type: 3}
     cost: 350
-    upgradedPrefab: {fileID: 0}
+    upgradedPrefab: {fileID: 7690067949728185236, guid: f83d61c6fde44c740bf7ef925cf6077e, type: 3}
     upgradeCost: 300
 --- !u!1 &558887854
 GameObject:
@@ -9048,6 +9048,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buildEffect: {fileID: 9120395852326378219, guid: c0d4b85616fa1c94f93c687426ea5d37, type: 3}
+  sellEffect: {fileID: 9120395852326378219, guid: 05d18fdbeda553c4ea3fe0fa26e63b2d, type: 3}
   turretToBuild:
     prefab: {fileID: 0}
     cost: 0
@@ -14902,6 +14903,42 @@ PrefabInstance:
       propertyPath: upgradeButton
       value: 
       objectReference: {fileID: 1308477496}
+    - target: {fileID: 7611095618626377442, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: sellAmountText
+      value: 
+      objectReference: {fileID: 1974518223}
+    - target: {fileID: 7842930077643586999, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_Name
+      value: AmountText
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1619115895}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SellCall
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: TDP.NodeUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 8020077441415222973, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19102,7 +19139,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a0136d4d4ddab44a8bf59709844051, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startMoney: 400
+  startMoney: 2000
   startLives: 20
   startRounds: 0
 --- !u!114 &1668134973 stripped
@@ -22875,6 +22912,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c53ca248750daa145b9938e085d8485c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1974518223 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8470511671285598040, guid: 1898cd28d8515d64783fde0fe510e3b7, type: 3}
+  m_PrefabInstance: {fileID: 1314686175}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1979314194

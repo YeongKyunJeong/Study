@@ -104,6 +104,14 @@ namespace TDP
             Destroy(Instantiate(buildManager.buildEffect, GetBuildPosition(), Quaternion.identity), 2f);
         }
 
+        public void SellTurret()
+        {
+            PlayerStats.Money += turretOnMeBP.GetSellAmount();
+            Destroy(turretGOOnMe);
+            Destroy(Instantiate(buildManager.sellEffect, GetBuildPosition(), Quaternion.identity), 2f);
+            turretOnMeBP = null;
+        }
+
         private void OnMouseDown()
         {
             if (EventSystem.current.IsPointerOverGameObject())

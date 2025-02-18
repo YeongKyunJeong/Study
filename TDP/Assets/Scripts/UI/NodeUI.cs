@@ -12,6 +12,7 @@ namespace TDP
         [SerializeField] private GameObject uIGO;
         [SerializeField] private Button upgradeButton;
         [SerializeField] private Text upgradeCostText;
+        [SerializeField] private Text sellAmountText;
 
         public void Initialize()
         {
@@ -20,6 +21,7 @@ namespace TDP
                 buildManager = BuildManager.Instance;
             }
             upgradeCostText.text = string.Empty;
+            sellAmountText.text = string.Empty;
             HideUI();
         }
 
@@ -37,7 +39,7 @@ namespace TDP
                 upgradeCostText.text = $"$ {target.GetTurretBP.upgradeCost}";
                 upgradeButton.interactable = true;
             }
-
+            sellAmountText.text = $"$ {target.GetTurretBP.GetSellAmount()}";
             uIGO.SetActive(true);
         }
 
@@ -49,6 +51,12 @@ namespace TDP
         public void UpgradeCall()
         {
             target.UpgradeTurret();
+            buildManager.DeselectNode();
+        }
+
+        public void SellCall()
+        {
+            target.SellTurret();
             buildManager.DeselectNode();
         }
     }

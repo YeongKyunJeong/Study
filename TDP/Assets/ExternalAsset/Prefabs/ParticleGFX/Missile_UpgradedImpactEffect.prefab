@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2005990672035217845}
   - component: {fileID: 2278049540739895172}
   m_Layer: 0
-  m_Name: MissileImpactEffect
+  m_Name: Missile_UpgradedImpactEffect
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -50,7 +50,7 @@ ParticleSystem:
   ringBufferMode: 0
   ringBufferLoopRange: {x: 0, y: 1}
   emitterVelocityMode: 1
-  looping: 0
+  looping: 1
   prewarm: 0
   playOnAwake: 1
   useUnscaledTime: 0
@@ -171,7 +171,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
+      scalar: 4
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -289,8 +289,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 1
-      minScalar: 0.5
+      scalar: 1.5
+      minScalar: 1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -983,7 +983,7 @@ ParticleSystem:
         serializedVersion: 2
         minMaxState: 3
         scalar: 12
-        minScalar: 8
+        minScalar: 10
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -4931,7 +4931,7 @@ ParticleSystem:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8564932642001916444}
   serializedVersion: 8
-  lengthInSec: 0.75
+  lengthInSec: 0.5
   simulationSpeed: 1
   stopAction: 0
   cullingMode: 0
@@ -5006,7 +5006,7 @@ ParticleSystem:
     startLifetime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 1.25
+      scalar: 1
       minScalar: 5
       maxCurve:
         serializedVersion: 2
@@ -5059,7 +5059,7 @@ ParticleSystem:
     startSpeed:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 3
+      scalar: 4
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -5177,8 +5177,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.7
-      minScalar: 0.4
+      scalar: 1.2
+      minScalar: 0.7
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -5870,8 +5870,8 @@ ParticleSystem:
       countCurve:
         serializedVersion: 2
         minMaxState: 3
-        scalar: 35
-        minScalar: 30
+        scalar: 45
+        minScalar: 40
         maxCurve:
           serializedVersion: 2
           m_Curve:
@@ -9822,9 +9822,9 @@ Light:
   serializedVersion: 10
   m_Type: 2
   m_Shape: 0
-  m_Color: {r: 1, g: 0.5786136, b: 0.2783019, a: 1}
-  m_Intensity: 3
-  m_Range: 20
+  m_Color: {r: 1, g: 0.7291024, b: 0.5235849, a: 1}
+  m_Intensity: 4
+  m_Range: 25
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10

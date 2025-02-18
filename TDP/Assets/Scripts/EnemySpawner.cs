@@ -77,7 +77,7 @@ namespace TDP
             //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
             enemyInitializer.transform.position = spawnPoint.position;
             enemyInitializer.transform.rotation = spawnPoint.rotation;
-            enemyInitializer.SetEnemy(0, 30f, 10, 50);
+            enemyInitializer.SetEnemy(0, 10f, 10, 50);
         }
 
         IEnumerator SpawnWaveCoroutine()

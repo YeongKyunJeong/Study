@@ -14,6 +14,7 @@ namespace TDP
         //private PlayerStats playerStats;
 
         public GameObject buildEffect;
+        public GameObject sellEffect;
 
         [SerializeField] private TurretBluePrint turretToBuild;
         public TurretBluePrint GetTurretToBuild { get => turretToBuild; }
