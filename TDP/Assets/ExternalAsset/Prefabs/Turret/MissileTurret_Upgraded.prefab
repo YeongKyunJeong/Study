@@ -168,7 +168,7 @@ MonoBehaviour:
   range: 30
   damage: 25
   bulletPrefab: {fileID: 6483654505772218855, guid: 36c247ea7fd1fd5459931e7ed48f12e6, type: 3}
-  fireRate: 0.8
+  fireRate: 0.5
   slowAmount: 0.3
   isLaserTurret: 0
   lineRenderer: {fileID: 0}

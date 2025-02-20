@@ -10,7 +10,7 @@ namespace TDP
         [SerializeField] private bool doMoveCamera = true;
 
         [SerializeField] private float panSpeed = 30f;
-        [SerializeField] private float panBorderTickness = 40f;
+        //[SerializeField] private float panBorderTickness = 40f;
 
         [SerializeField] private float scrollSpeed = 5f;
 

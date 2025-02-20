@@ -4632,7 +4632,6 @@ GameObject:
   - component: {fileID: 461575936}
   - component: {fileID: 461575935}
   - component: {fileID: 461575934}
-  - component: {fileID: 461575937}
   m_Layer: 5
   m_Name: Menu
   m_TagString: Untagged
@@ -4754,27 +4753,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 461575932}
   m_CullTransparentMesh: 1
---- !u!95 &461575937
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 461575932}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 44f34c26a2389904eb640e9c53a2d49b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &462886523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21558,7 +21536,7 @@ Animator:
   m_Avatar: {fileID: 0}
   m_Controller: {fileID: 9100000, guid: 44f34c26a2389904eb640e9c53a2d49b, type: 2}
   m_CullingMode: 0
-  m_UpdateMode: 2
+  m_UpdateMode: 0
   m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
@@ -25960,7 +25938,6 @@ GameObject:
   - component: {fileID: 2102498608}
   - component: {fileID: 2102498607}
   - component: {fileID: 2102498606}
-  - component: {fileID: 2102498609}
   m_Layer: 5
   m_Name: Retry
   m_TagString: Untagged
@@ -26082,27 +26059,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2102498604}
   m_CullTransparentMesh: 1
---- !u!95 &2102498609
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2102498604}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 44f34c26a2389904eb640e9c53a2d49b, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 2
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &2111688078
 PrefabInstance:
   m_ObjectHideFlags: 0

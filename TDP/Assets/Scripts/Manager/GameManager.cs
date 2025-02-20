@@ -16,7 +16,11 @@ namespace TDP
         private static StageManager stageManager;
         public static StageManager StageManager { get { return stageManager; } private set { stageManager = value; } }
 
+        private static MainMenu mainMenu;
 
+        public const string MAIN_MENU_SCENE_NAME_STR = "MainMenuScene";
+
+        public const string STAGE_SCENE_NAME_STR = "StageScene";
         public static bool isGameOver = false;
 
 
@@ -36,11 +40,23 @@ namespace TDP
             playerStats = GetComponent<PlayerStats>();
             playerStats.Initialize();
 
-            if (StageManager == null)
+            if (SceneManager.GetActiveScene().name == MAIN_MENU_SCENE_NAME_STR)
             {
-                StageManager = FindObjectOfType<StageManager>();
+                if (mainMenu == null)
+                {
+                    mainMenu = FindFirstObjectByType<MainMenu>();
+                    mainMenu.Initialize();
+                }
             }
-            StageManager.Initialize();
+            else
+            {
+
+                if (StageManager == null)
+                {
+                    StageManager = FindObjectOfType<StageManager>();
+                }
+                StageManager.Initialize();
+            }
 
             isGameOver = false;
         }
@@ -92,5 +108,28 @@ namespace TDP
             Debug.Log("Go to Menu"); // To do : Add main menu secen;
         }
 
+        public void MainMenuPlayCall()
+        {
+            PlayGame();
+        }
+
+        private void PlayGame()
+        {
+            SceneManager.LoadScene(STAGE_SCENE_NAME_STR);
+        }
+
+        public void MainMenuQuitCall()
+        {
+            QuitGame();
+        }
+
+        private void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
     }
 }
