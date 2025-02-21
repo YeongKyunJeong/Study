@@ -5,22 +5,22 @@ using UnityEngine.SceneManagement;
 
 namespace TDP
 {
+
     public class GameManager : MonoBehaviour
     {
         private static GameManager instance;
         public static GameManager Instance { get { return instance; } private set { instance = value; } }
-
-        [SerializeField] private PlayerStats playerStats;
-        //public PlayerStats GetPlayerStats { get => playerStats; }
 
         private static StageManager stageManager;
         public static StageManager StageManager { get { return stageManager; } private set { stageManager = value; } }
 
         private static MainMenu mainMenu;
 
+        [SerializeField] private SceneFader sceneFader;
         public const string MAIN_MENU_SCENE_NAME_STR = "MainMenuScene";
 
-        public const string STAGE_SCENE_NAME_STR = "StageScene";
+        [SerializeField] private PlayerStats playerStats;
+        //public PlayerStats GetPlayerStats { get => playerStats; }
         public static bool isGameOver = false;
 
 
@@ -91,22 +91,14 @@ namespace TDP
 
         public void RetryCall()
         {
-            Retry();
-        }
-        private void Retry()
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-            Debug.Log("Game Restarted");
+            CallSceneFader(SceneType.Retry);
         }
 
         public void MenuCall()
         {
-            Menu();
+            CallSceneFader(SceneType.MainMenu);
         }
-        private void Menu()
-        {
-            Debug.Log("Go to Menu"); // To do : Add main menu secen;
-        }
+
 
         public void MainMenuPlayCall()
         {
@@ -115,7 +107,17 @@ namespace TDP
 
         private void PlayGame()
         {
-            SceneManager.LoadScene(STAGE_SCENE_NAME_STR);
+            CallSceneFader(SceneType.Stage);
+            //SceneManager.LoadScene(STAGE_SCENE_NAME_STR);
+        }
+
+        private void CallSceneFader(SceneType targetSceneType)
+        {
+            if (sceneFader == null)
+            {
+                sceneFader = FindObjectOfType<SceneFader>();
+            }
+            sceneFader.FadeTo(targetSceneType);
         }
 
         public void MainMenuQuitCall()

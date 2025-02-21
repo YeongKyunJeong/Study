@@ -8,11 +8,14 @@ namespace TDP
     {
         private GameManager gameManager;
         //private PlayerStats playerStat;
+
         [SerializeField] private StageWorldSpaceUI stageWorldSpaceUIManager;
         [SerializeField] private BuildManager buildManager;
         [SerializeField] private WayPoints[] wayPointsInStage;
         [SerializeField] private EnemySpawner enemySpawner;
 
+
+        [SerializeField] private GameObject stageOverlayUICanvas;
         [SerializeField] private Shop shop;
         [SerializeField] private Node[] nodes;
 
@@ -35,6 +38,12 @@ namespace TDP
             }
             stageWorldSpaceUIManager.Initialize();
 
+            if (stageOverlayUICanvas == null)
+            {
+                Debug.Log("Game Over Panel not assigned");
+            }
+            stageOverlayUICanvas.SetActive(true);
+
             if (gameOverPanel == null)
             {
                 Debug.Log("Game Over Panel not assigned");
@@ -42,7 +51,7 @@ namespace TDP
             }
             gameOverPanel.Initialize();
 
-            if(pausedMenu == null)
+            if (pausedMenu == null)
             {
                 Debug.Log("Paused Menu not assigned");
                 pausedMenu = FindAnyObjectByType<PausedMenu>();
@@ -56,7 +65,7 @@ namespace TDP
             }
             buildManager.Initialize();
 
-            if(wayPointsInStage== null || wayPointsInStage.Length == 0)
+            if (wayPointsInStage == null || wayPointsInStage.Length == 0)
             {
                 Debug.Log("Way Points not assigned");   // throw error;
             }

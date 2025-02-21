@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace TDP
 {
@@ -12,13 +13,16 @@ namespace TDP
         public float GetSpeed { get => speed; }
         //public bool isSlowed = false;
 
-
+        public float totalHealth = 10;
         public float health = 10;
 
         public int dropMoney = 50;
 
         [SerializeField] private GameObject deathEffect;
         [SerializeField] private EnemyMovement enemyMovement;
+
+        [Header("Unity Stuff")]
+        [SerializeField] private Image healthBar;
 
         //[SerializeField] private int wayPointsNumber = 0; // which waypoints
         //[SerializeField] private Transform[] myWaypoints;
@@ -38,9 +42,14 @@ namespace TDP
         {
             if (enemyMovement == null)
             {
+                Debug.Log("Enemy Movement not assigned");
                 enemyMovement = GetComponent<EnemyMovement>();
             }
             enemyMovement.Initialize(this);
+            if (healthBar == null)
+            {
+                Debug.Log("Health Bar not assigned");
+            }
             EachPoolingInitialize();
         }
 
@@ -60,7 +69,9 @@ namespace TDP
 
             //wayPointsNumber = newWaypointsNumber;
             //myWaypoints = WayPoints.GetPoints(wayPointsNumber);
+            totalHealth = newHealth;
             health = newHealth;
+            healthBar.fillAmount = health / totalHealth;
             dropMoney = newDropMoney;
 
             //beforeTargetPos = myWaypoints[wayPointIndex].position;
@@ -97,7 +108,7 @@ namespace TDP
             if (health > 0)
             {
                 health -= damage;
-
+                healthBar.fillAmount = health / totalHealth;
                 if (health <= 0)
                 {
                     Die();

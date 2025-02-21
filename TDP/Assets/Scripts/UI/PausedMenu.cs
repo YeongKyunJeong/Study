@@ -52,8 +52,8 @@ namespace TDP
         }
         public void Menu()
         {
-            //            Toggle();
-            Debug.Log("Go to Main Menu");
+            Toggle();
+            gameManager.MenuCall();
         }
     }
 }
