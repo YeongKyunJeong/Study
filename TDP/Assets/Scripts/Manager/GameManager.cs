@@ -14,6 +14,9 @@ namespace TDP
         private static StageManager stageManager;
         public static StageManager StageManager { get { return stageManager; } private set { stageManager = value; } }
 
+        private static LevelSelecter levelSelecter;
+        public static LevelSelecter LevelSelecter { get { return levelSelecter; } private set { levelSelecter = value; } }
+
         private static MainMenu mainMenu;
 
         [SerializeField] private SceneFader sceneFader;
@@ -56,6 +59,11 @@ namespace TDP
                     }
                 case LEVEL_SELECTER_SCENE_STR:
                     {
+                        if (levelSelecter == null)
+                        {
+                            levelSelecter = FindObjectOfType<LevelSelecter>();
+                        }
+                        levelSelecter.Initialize();
                         break;
                     }
                 case STAGE_SCENE_NAME_STR:
@@ -135,13 +143,13 @@ namespace TDP
             //SceneManager.LoadScene(STAGE_SCENE_NAME_STR);
         }
 
-        private void CallSceneFader(SceneType targetSceneType)
+        private void CallSceneFader(SceneType targetSceneType, int targetLevel = 0)
         {
             if (sceneFader == null)
             {
                 sceneFader = FindObjectOfType<SceneFader>();
             }
-            sceneFader.FadeTo(targetSceneType);
+            sceneFader.FadeTo(targetSceneType, targetLevel);
         }
 
         public void MainMenuQuitCall()
@@ -157,5 +165,10 @@ namespace TDP
             Application.Quit();
 #endif
         }
+
+        //public void GoAnotherLevelCall(int targetLevel = 1)
+        //{
+        //    CallSceneFader(SceneType.Stage, targetLevel);
+        //}
     }
 }

@@ -176,22 +176,22 @@ MonoBehaviour:
   timeBetweenWaves: 5
   waves:
   - enemy: {fileID: 9152676691799597962, guid: d009d7e584caf7541a567abeb20a8480, type: 3}
-    count: 10
-    rate: 2
-  - enemy: {fileID: 9152676691799597962, guid: d009d7e584caf7541a567abeb20a8480, type: 3}
     count: 8
     rate: 2
-  - enemy: {fileID: 9152676691799597962, guid: e9d6ad5a4123b30478fa0f703c238bbd, type: 3}
-    count: 4
+  - enemy: {fileID: 9152676691799597962, guid: d009d7e584caf7541a567abeb20a8480, type: 3}
+    count: 10
     rate: 2
   - enemy: {fileID: 9152676691799597962, guid: e9d6ad5a4123b30478fa0f703c238bbd, type: 3}
-    count: 6
+    count: 10
+    rate: 2
+  - enemy: {fileID: 9152676691799597962, guid: e9d6ad5a4123b30478fa0f703c238bbd, type: 3}
+    count: 14
     rate: 2
   - enemy: {fileID: 9152676691799597962, guid: 1f1dd186e62815c499b158da4b5caf84, type: 3}
-    count: 6
+    count: 14
     rate: 2
   - enemy: {fileID: 9152676691799597962, guid: 1f1dd186e62815c499b158da4b5caf84, type: 3}
-    count: 6
+    count: 20
     rate: 2
 --- !u!4 &8836720
 Transform:
@@ -20880,6 +20880,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f1c6aa6e83cba6e438241bb49e01f0dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  level: 1
   stageWorldSpaceUIManager: {fileID: 1115881939}
   buildManager: {fileID: 856259927}
   wayPointsInStage:

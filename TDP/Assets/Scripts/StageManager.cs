@@ -7,6 +7,7 @@ namespace TDP
     public class StageManager : MonoBehaviour
     {
         private GameManager gameManager;
+        [SerializeField] private int level;
         //private PlayerStats playerStat;
 
         [SerializeField] private StageWorldSpaceUI stageWorldSpaceUIManager;
@@ -110,6 +111,18 @@ namespace TDP
         public void EndGame()
         {
             gameOverPanel.OnEnableByManual(true);
+        }
+
+        public void WinLevel()
+        {
+            gameOverPanel.OnEnableByManual(true);
+            int nextLevel = level + 1;
+            if (nextLevel > PlayerPrefs.GetInt("levelProgressed", 1))
+            {
+                PlayerPrefs.SetInt("levelProgressed", level + 1);
+            }
+            //gameManager.GoAnotherLevelCall(nextLevel);
+
         }
     }
 }

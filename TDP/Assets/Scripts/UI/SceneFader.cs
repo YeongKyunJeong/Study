@@ -57,7 +57,7 @@ namespace TDP
 
         IEnumerator FadeOut(SceneType targetSceneType, int targetLevel)
         {
-            yield return new WaitForSeconds(fadingStartTime);
+            yield return new WaitForSecondsRealtime(fadingStartTime);
             t = 0;
             while (t > 0f)
             {

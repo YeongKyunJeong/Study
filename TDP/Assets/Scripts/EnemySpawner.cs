@@ -56,8 +56,8 @@ namespace TDP
             waveIndex = 0;
             EnemyAliveCount = 0;
             countDownGoing = true;
-            endLevel = 2;
-            //endLevel = waves.Length;
+            //endLevel = 2;
+            endLevel = waves.Length;
         }
 
 
@@ -69,9 +69,9 @@ namespace TDP
                 {
                     if (EnemyAliveCount <= 0)
                     {
-                        Debug.Log("You Won");
+                        //Debug.Log("You Won");
                         this.enabled = false;
-                        stageManager.EndGame();
+                        stageManager.WinLevel();
                         return;
                     }
                 }
