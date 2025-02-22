@@ -199,7 +199,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 7150526003200434915}
   rotatingPart: {fileID: 4235741527259161835}
-  range: 20
+  range: 22
   damage: 18
   bulletPrefab: {fileID: 0}
   fireRate: 1

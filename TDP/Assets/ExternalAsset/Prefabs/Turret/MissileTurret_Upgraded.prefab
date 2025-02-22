@@ -165,7 +165,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   firePoint: {fileID: 8796820761677865322}
   rotatingPart: {fileID: 3648279819193981523}
-  range: 30
+  range: 24
   damage: 25
   bulletPrefab: {fileID: 6483654505772218855, guid: 36c247ea7fd1fd5459931e7ed48f12e6, type: 3}
   fireRate: 0.5

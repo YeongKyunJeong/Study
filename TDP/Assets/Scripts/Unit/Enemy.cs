@@ -19,6 +19,11 @@ namespace TDP
         public int dropMoney = 50;
 
         [SerializeField] private GameObject deathEffect;
+        public GameObject GetDeathEffect { get => deathEffect; }
+        [SerializeField] private MeshRenderer meshRenderer;
+        public MeshRenderer GetMeshRenderer { get => meshRenderer; }
+
+
         [SerializeField] private EnemyMovement enemyMovement;
 
         [Header("Unity Stuff")]
@@ -58,21 +63,27 @@ namespace TDP
             gameObject.SetActive(true);
         }
 
-        public void SetEnemy(int newWaypointsNumber, float newSpeed, int newHealth, int newDropMoney)  // Run by game logic class with enemy data reading
+        //public void SetEnemy(int newWaypointsNumber, float newSpeed, int newHealth, int newDropMoney) 
+        public void SetEnemy(Enemy enemyToSpawn)  // Run by game logic class with enemy data reading
         {
-            initialSpeed = newSpeed;
+            initialSpeed = enemyToSpawn.initialSpeed;
             speed = initialSpeed;
             //isSlowed = false;
             isAlive = true;
             enemyMovement.SetWaypointData(0);
-            enemyMovement.SetInitialSpeed(initialSpeed);
+            //enemyMovement.SetInitialSpeed(initialSpeed);
+
+            meshRenderer.sharedMaterials = enemyToSpawn.meshRenderer.sharedMaterials;
+            deathEffect = enemyToSpawn.deathEffect;
+            
+            
 
             //wayPointsNumber = newWaypointsNumber;
             //myWaypoints = WayPoints.GetPoints(wayPointsNumber);
-            totalHealth = newHealth;
-            health = newHealth;
+            totalHealth = enemyToSpawn.totalHealth;
+            health = enemyToSpawn.health;
             healthBar.fillAmount = health / totalHealth;
-            dropMoney = newDropMoney;
+            dropMoney = enemyToSpawn.dropMoney;
 
             //beforeTargetPos = myWaypoints[wayPointIndex].position;
             //target = myWaypoints[++wayPointIndex];  // First waypoint after departure
@@ -135,6 +146,7 @@ namespace TDP
         {
             Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2.5f);
             PlayerStats.Money += dropMoney;
+            EnemySpawner.EnemyAliveCount--;
             isAlive = false;
             enemyMovement.isAlive = false;
             gameObject.SetActive(false);

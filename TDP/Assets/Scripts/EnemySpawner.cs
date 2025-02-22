@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace TDP
         private GameManager gameManager;
         private StageManager stageManager;
 
+        public static int EnemyAliveCount = 0;
+
         [SerializeField] private ObjectPool enemyPool;
 
         public Transform enemyPrefab;
@@ -17,14 +20,19 @@ namespace TDP
         public Transform spawnPoint;
 
         public Enemy enemyInitializer;
+        public Enemy enemyData;
+
         public float timeBetweenWaves = 2f;
         private float countDown = 2f;
         private bool countDownGoing = true;
 
+        public Wave[] waves;
+        private Wave thisRoundWave;
         private int waveIndex = 0;
+        private int endLevel;
 
         private Coroutine coroutineField;
-        private float spawnBySpawnTimeFloat = 0.5f;
+        private float spawnBySpawnTimeFloat = 1f;
         private WaitForSeconds spawnBySpawnTime;
 
         public void Initialize()
@@ -44,9 +52,12 @@ namespace TDP
                 transform.GetComponent<ObjectPool>();
             }
             enemyPool.Initialize();
-            spawnBySpawnTime = new WaitForSeconds(spawnBySpawnTimeFloat);
 
+            waveIndex = 0;
+            EnemyAliveCount = 0;
             countDownGoing = true;
+            endLevel = 2;
+            //endLevel = waves.Length;
         }
 
 
@@ -54,6 +65,23 @@ namespace TDP
         {
             if (countDownGoing)
             {
+                if (waveIndex == endLevel)
+                {
+                    if (EnemyAliveCount <= 0)
+                    {
+                        Debug.Log("You Won");
+                        this.enabled = false;
+                        stageManager.EndGame();
+                        return;
+                    }
+                }
+
+                if (EnemyAliveCount > 0)
+                {
+                    return;
+                }
+
+
                 if (countDown <= 0f)
                 {
                     SpawnWave();
@@ -71,27 +99,19 @@ namespace TDP
             coroutineField = StartCoroutine(SpawnWaveCoroutine());
         }
 
-        void SpawnEnemy()
-        {
-            enemyInitializer = enemyPool.GetObject<Enemy>(PoolObjectType.Enemy);
-            //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
-            enemyInitializer.transform.position = spawnPoint.position;
-            enemyInitializer.transform.rotation = spawnPoint.rotation;
-            enemyInitializer.SetEnemy(0, 10f, 10, 50);
-        }
-
         IEnumerator SpawnWaveCoroutine()
         {
 
             countDownGoing = false;
             int thisWaveIndexMax = ++waveIndex; // To do : Change enemy per wave number variation logic 
             PlayerStats.Rounds++;
-
+            thisRoundWave = waves[waveIndex - 1];
+            spawnBySpawnTime = new WaitForSeconds(spawnBySpawnTimeFloat / thisRoundWave.rate);
             stageManager.ChangeValue(StageUITMPType.WaveIndex, waveIndex);
 
-            for (int i = 0; i < thisWaveIndexMax; i++)
+            for (int i = 0; i < thisRoundWave.count; i++)
             {
-                SpawnEnemy();
+                SpawnEnemy(thisRoundWave.enemy);
                 yield return spawnBySpawnTime;
             }
 
@@ -99,5 +119,14 @@ namespace TDP
             yield return null;
         }
 
+        void SpawnEnemy(Enemy enemyToSpawn)
+        {
+            enemyInitializer = enemyPool.GetObject<Enemy>(PoolObjectType.Enemy);  // To do : make enemy avatar and use it
+            //Instantiate(enemyPrefab, spawnPoint.position, spawnPoint.rotation);
+            enemyInitializer.transform.position = spawnPoint.position;
+            enemyInitializer.transform.rotation = spawnPoint.rotation;
+            enemyInitializer.SetEnemy(enemyToSpawn);
+            EnemyAliveCount++;
+        }
     }
 }

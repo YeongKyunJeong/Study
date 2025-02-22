@@ -15,7 +15,7 @@ namespace TDP
 
         [SerializeField] private int wayPointsNumber = 0; // which waypoints
         [SerializeField] private Transform[] myWaypoints;
-        [SerializeField] private float initialSpeed = 10f;
+        [Header("For Check In Inspector")]
         [SerializeField] private float speed = 10f;
 
         private int wayPointIndex = 0;
@@ -38,10 +38,6 @@ namespace TDP
             transform.position = beforeTargetPos;
         }
 
-        public void SetInitialSpeed(float newInitialSpeed)
-        {
-            initialSpeed = newInitialSpeed;
-        }
 
         //public void SetSpeed(float newSpeed)
         //{
@@ -94,6 +90,7 @@ namespace TDP
             {
                 PlayerStats.Life--;
             }
+            EnemySpawner.EnemyAliveCount--;
             gameObject.SetActive(false);
         }
 
