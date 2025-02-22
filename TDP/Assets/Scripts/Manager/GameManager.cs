@@ -18,6 +18,8 @@ namespace TDP
 
         [SerializeField] private SceneFader sceneFader;
         public const string MAIN_MENU_SCENE_NAME_STR = "MainMenuScene";
+        public const string LEVEL_SELECTER_SCENE_STR = "LevelSelecter";
+        public const string STAGE_SCENE_NAME_STR = "StageScene";
 
         [SerializeField] private PlayerStats playerStats;
         //public PlayerStats GetPlayerStats { get => playerStats; }
@@ -40,22 +42,44 @@ namespace TDP
             playerStats = GetComponent<PlayerStats>();
             playerStats.Initialize();
 
-            if (SceneManager.GetActiveScene().name == MAIN_MENU_SCENE_NAME_STR)
+            string sceneName = SceneManager.GetActiveScene().name;
+            switch (sceneName)
             {
-                if (mainMenu == null)
-                {
-                    mainMenu = FindFirstObjectByType<MainMenu>();
-                    mainMenu.Initialize();
-                }
-            }
-            else
-            {
+                case MAIN_MENU_SCENE_NAME_STR:
+                    {
+                        if (mainMenu == null)
+                        {
+                            mainMenu = FindFirstObjectByType<MainMenu>();
+                            mainMenu.Initialize();
+                        }
+                        break;
+                    }
+                case LEVEL_SELECTER_SCENE_STR:
+                    {
+                        break;
+                    }
+                case STAGE_SCENE_NAME_STR:
+                    {
+                        if (StageManager == null)
+                        {
+                            StageManager = FindObjectOfType<StageManager>();
+                        }
+                        StageManager.Initialize();
+                        break;
+                    }
+                default:
+                    {
+                        if (sceneName.Contains(STAGE_SCENE_NAME_STR))
+                        {
+                            if (StageManager == null)
+                            {
+                                StageManager = FindObjectOfType<StageManager>();
+                            }
+                            StageManager.Initialize();
+                        }
 
-                if (StageManager == null)
-                {
-                    StageManager = FindObjectOfType<StageManager>();
-                }
-                StageManager.Initialize();
+                        break;
+                    }
             }
 
             isGameOver = false;
@@ -107,7 +131,7 @@ namespace TDP
 
         private void PlayGame()
         {
-            CallSceneFader(SceneType.Stage);
+            CallSceneFader(SceneType.LevelSelecter);
             //SceneManager.LoadScene(STAGE_SCENE_NAME_STR);
         }
 

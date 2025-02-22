@@ -10,6 +10,7 @@ namespace TDP
     {
         MainMenu,
         Stage,
+        LevelSelecter,
         Retry
     }
 
@@ -23,9 +24,6 @@ namespace TDP
         public AnimationCurve animationCurve;
         private GameManager gameManager;
 
-        public const string MAIN_MENU_SCENE_NAME_STR = "MainMenuScene";
-
-        public const string STAGE_SCENE_NAME_STR = "StageScene";
         private string targetSceneName;
 
         private void Start()
@@ -37,9 +35,9 @@ namespace TDP
             StartCoroutine(FadeIn());
         }
 
-        public void FadeTo(SceneType targetSceneType)
+        public void FadeTo(SceneType targetSceneType, int targetLevel = 0)
         {
-            StartCoroutine(FadeOut(targetSceneType));
+            StartCoroutine(FadeOut(targetSceneType, targetLevel));
         }
 
         IEnumerator FadeIn()
@@ -57,7 +55,7 @@ namespace TDP
             }
         }
 
-        IEnumerator FadeOut(SceneType targetSceneType)
+        IEnumerator FadeOut(SceneType targetSceneType, int targetLevel)
         {
             yield return new WaitForSeconds(fadingStartTime);
             t = 0;
@@ -74,21 +72,34 @@ namespace TDP
             {
                 case SceneType.MainMenu:
                     {
-                        targetSceneName = MAIN_MENU_SCENE_NAME_STR;
+                        targetSceneName = GameManager.MAIN_MENU_SCENE_NAME_STR;
                         break;
                     }
                 case SceneType.Stage:
                     {
-                        targetSceneName = STAGE_SCENE_NAME_STR;
+                        targetSceneName = $"{GameManager.STAGE_SCENE_NAME_STR}_Level{targetLevel:00}";
                         break;
                     }
-                default:
+                case SceneType.LevelSelecter:
+                    {
+                        targetSceneName = GameManager.LEVEL_SELECTER_SCENE_STR;
+                        break;
+                    }
+                case SceneType.Retry:
                     {
                         targetSceneName = SceneManager.GetActiveScene().name;
                         break;
+
+                    }
+                default:
+                    {
+
+                        throw new System.Exception("Loaded Not Existent Scene");
+
                     }
             }
             SceneManager.LoadScene(targetSceneName);
         }
+
     }
 }
