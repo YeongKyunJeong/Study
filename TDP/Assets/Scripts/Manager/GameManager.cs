@@ -131,6 +131,17 @@ namespace TDP
             CallSceneFader(SceneType.MainMenu);
         }
 
+        public void GoOtherLevelCall()
+        {
+            CallSceneFader(SceneType.Stage, stageManager.GetStageLevel + 1);
+        }
+
+
+        public void GoOtherLevelCall(int targetLevel)
+        {
+            CallSceneFader(SceneType.Stage, targetLevel);
+
+        }
 
         public void MainMenuPlayCall()
         {

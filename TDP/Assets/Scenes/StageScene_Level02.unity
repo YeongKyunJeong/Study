@@ -2445,7 +2445,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83d95531d2f71854c856e8b673511dea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roundsText: {fileID: 1861043903}
 --- !u!225 &287087618
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -21146,6 +21145,7 @@ MonoBehaviour:
   - {fileID: 1574067666}
   - {fileID: 1508453368}
   gameOverPanel: {fileID: 287087617}
+  completeLevelPanel: {fileID: 0}
   pausedMenu: {fileID: 1767225505}
 --- !u!114 &1767225505
 MonoBehaviour:

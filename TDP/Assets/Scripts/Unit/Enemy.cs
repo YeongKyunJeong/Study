@@ -120,7 +120,7 @@ namespace TDP
             {
                 health -= damage;
                 healthBar.fillAmount = health / totalHealth;
-                if (health <= 0)
+                if (health <= 0 && isAlive)
                 {
                     Die();
                 }
@@ -144,10 +144,10 @@ namespace TDP
 
         private void Die()
         {
+            isAlive = false;
             Destroy(Instantiate(deathEffect, transform.position, Quaternion.identity), 2.5f);
             PlayerStats.Money += dropMoney;
             EnemySpawner.EnemyAliveCount--;
-            isAlive = false;
             enemyMovement.isAlive = false;
             gameObject.SetActive(false);
         }

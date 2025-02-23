@@ -8,6 +8,7 @@ namespace TDP
     {
         private GameManager gameManager;
         [SerializeField] private int level;
+        public int GetStageLevel { get => level; }
         //private PlayerStats playerStat;
 
         [SerializeField] private StageWorldSpaceUI stageWorldSpaceUIManager;
@@ -22,6 +23,7 @@ namespace TDP
 
 
         [SerializeField] private GameOverPanel gameOverPanel;
+        [SerializeField] private CompleteLevelPanel completeLevelPanel;
         [SerializeField] private PausedMenu pausedMenu;
 
         public void Initialize()
@@ -51,6 +53,13 @@ namespace TDP
                 gameOverPanel = FindAnyObjectByType<GameOverPanel>();
             }
             gameOverPanel.Initialize();
+
+            if (completeLevelPanel == null)
+            {
+                Debug.Log("Complete Level Panel not assigned");
+                completeLevelPanel = FindAnyObjectByType<CompleteLevelPanel>();
+            }
+            completeLevelPanel.Initialize();
 
             if (pausedMenu == null)
             {
@@ -115,7 +124,7 @@ namespace TDP
 
         public void WinLevel()
         {
-            gameOverPanel.OnEnableByManual(true);
+            completeLevelPanel.OnEnableByManual(true);
             int nextLevel = level + 1;
             if (nextLevel > PlayerPrefs.GetInt("levelProgressed", 1))
             {

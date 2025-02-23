@@ -1,13 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace TDP
 {
-    public class GameOverPanel : MonoBehaviour
+
+    public class CompleteLevelPanel : MonoBehaviour
     {
-        private GameManager gameManager;
+        public GameManager gameManager;
 
         public void Initialize()
         {
@@ -21,10 +21,6 @@ namespace TDP
                 OnEnableByManual(false);
             }
         }
-        //private void OnEnable()
-        //{
-        //    roundsText.text = PlayerStats.Rounds.ToString();
-        //}
 
         public void OnEnableByManual(bool isOn)
         {
@@ -42,10 +38,10 @@ namespace TDP
             }
         }
 
-        public void RetryCall()
+        public void Continue()
         {
             OnEnableByManual(false);
-            gameManager.RetryCall();
+            gameManager.GoOtherLevelCall();
         }
 
         public void MenuCall()
@@ -53,5 +49,6 @@ namespace TDP
             OnEnableByManual(false);
             gameManager.MenuCall();
         }
+
     }
 }
