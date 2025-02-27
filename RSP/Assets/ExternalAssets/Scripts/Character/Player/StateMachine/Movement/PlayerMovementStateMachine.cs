@@ -6,18 +6,20 @@ namespace RSP
 {
     public class PlayerMovementStateMachine : StateMachine
     {
+        public Player Player { get; }
         public PlayerIdlingState IdlingStates { get; }
         public PlayerWalkingState WalkingStates { get; }
         public PlayerRunningState RunningStates { get; }
         public PlayerSprintingState SprintingStates { get; }
 
-        public PlayerMovementStateMachine()
+        public PlayerMovementStateMachine(Player player)
         {
-            IdlingStates = new PlayerIdlingState();
+            Player = player;
+            IdlingStates = new PlayerIdlingState(this);
 
-            WalkingStates = new PlayerWalkingState();
-            RunningStates = new PlayerRunningState();
-            SprintingStates = new PlayerSprintingState();
+            WalkingStates = new PlayerWalkingState(this);
+            RunningStates = new PlayerRunningState(this);
+            SprintingStates = new PlayerSprintingState(this);
         }
     }
 }

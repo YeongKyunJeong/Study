@@ -4,13 +4,20 @@ using UnityEngine;
 
 namespace RSP
 {
+    [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour
     {
+        public Rigidbody Rigidbody { get; private set; }
+
+        public PlayerInput Input { get; private set; }
+
         private PlayerMovementStateMachine movementStateMachine;
 
         private void Awake()
         {
-            movementStateMachine = new PlayerMovementStateMachine();
+            Rigidbody = GetComponent<Rigidbody>(); 
+            Input = GetComponent<PlayerInput>();
+            movementStateMachine = new PlayerMovementStateMachine(this);
         }
 
         private void Start()
