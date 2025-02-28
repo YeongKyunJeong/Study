@@ -14,7 +14,7 @@ namespace RSP
         protected float baseSpeed = 5f;
         protected float speedModifier = 1f;
 
-        #region Field for Caching
+        #region Fields for Caching
         private Vector3 movementDirection;
         private float movementSpeed;
         private Vector3 currentPlayerHorizontalVelocity;
