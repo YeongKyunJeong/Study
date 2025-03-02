@@ -7,7 +7,11 @@ namespace RSP
     [RequireComponent(typeof(PlayerInput))]
     public class Player : MonoBehaviour
     {
+        [field: Header("References")]
+        [field: SerializeField] public PlayerSO Data { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
+
+        public Transform MainCameraTransform { get; private set; }
 
         public PlayerInput Input { get; private set; }
 
@@ -15,7 +19,8 @@ namespace RSP
 
         private void Awake()
         {
-            Rigidbody = GetComponent<Rigidbody>(); 
+            Rigidbody = GetComponent<Rigidbody>();
+            MainCameraTransform = Camera.main.transform;
             Input = GetComponent<PlayerInput>();
             movementStateMachine = new PlayerMovementStateMachine(this);
         }

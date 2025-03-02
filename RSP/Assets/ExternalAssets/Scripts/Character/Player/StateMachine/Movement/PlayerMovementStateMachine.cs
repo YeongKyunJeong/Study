@@ -7,6 +7,7 @@ namespace RSP
     public class PlayerMovementStateMachine : StateMachine
     {
         public Player Player { get; }
+        public PlayerStateReusableData ReusableData { get; }
         public PlayerIdlingState IdlingStates { get; }
         public PlayerWalkingState WalkingStates { get; }
         public PlayerRunningState RunningStates { get; }
@@ -15,6 +16,8 @@ namespace RSP
         public PlayerMovementStateMachine(Player player)
         {
             Player = player;
+            ReusableData = new PlayerStateReusableData();
+            
             IdlingStates = new PlayerIdlingState(this);
 
             WalkingStates = new PlayerWalkingState(this);

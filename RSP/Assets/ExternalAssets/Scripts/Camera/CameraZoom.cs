@@ -43,7 +43,6 @@ namespace RSP
 
             currentTargetDistance = Mathf.Clamp(currentTargetDistance + zoomValue, minimumDistance, maximumDistance);
             currentDistance = framingTransposer.m_CameraDistance;
-            Debug.Log(currentTargetDistance);
             if (currentDistance == currentTargetDistance)
             {
                 return;
