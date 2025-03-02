@@ -11,6 +11,7 @@ namespace RSP
     {
         public Vector2 MovementInput { get; set; }
         public float MovementSpeedModifier { get; set; } = 1;
+        public float MovementOnSlopesSpeedModifier { get; set; } = 1;
         public bool ShouldWalk { get; set; }
 
         private Vector3 currentTargetRotation;

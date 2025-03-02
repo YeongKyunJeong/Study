@@ -20,18 +20,18 @@ namespace RSP
 
             ResetVelocity();
         }
-        #endregion
 
         public override void Update()
         {
             base.Update();
 
-            if(stateMachine.ReusableData.MovementInput == Vector2.zero)
+            if (stateMachine.ReusableData.MovementInput == Vector2.zero)
             {
                 return;
             }
 
             OnMove();
         }
+        #endregion
     }
 }
