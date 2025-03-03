@@ -24,6 +24,12 @@ namespace RSP
         #endregion
 
         #region Input Methods
+        protected override void OnMovementCanceled(InputAction.CallbackContext context)
+        {
+            //base.OnMovementCanceled(context); // Chage state to Idling state instantly
+            stateMachine.ChangeState(stateMachine.LightStoppingStates);
+        }
+
         protected override void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
             base.OnWalkToggleStarted(context);

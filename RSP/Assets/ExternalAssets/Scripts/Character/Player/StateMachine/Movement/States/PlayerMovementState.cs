@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -96,7 +93,7 @@ namespace RSP
             Vector3 targetRotationDirection = GetTargetRotationDirection(targetRotationYAngle);
             movementSpeed = GetMovementSpeed();
 
-            currentPlayerHorizontalVelocity = GetPlayHorizontalVelocity();
+            currentPlayerHorizontalVelocity = GetPlayerHorizontalVelocity();
 
             stateMachine.Player.Rigidbody.AddForce(
                 movementSpeed * targetRotationDirection - currentPlayerHorizontalVelocity,
@@ -154,7 +151,7 @@ namespace RSP
                 * stateMachine.ReusableData.MovementOnSlopesSpeedModifier;
         }
 
-        protected Vector3 GetPlayHorizontalVelocity()
+        protected Vector3 GetPlayerHorizontalVelocity()
         {
             playerHorizontalVelocity = stateMachine.Player.Rigidbody.velocity;
             playerHorizontalVelocity.y = 0;
@@ -221,7 +218,24 @@ namespace RSP
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
         }
+
+        protected void DecelerateHorizontally()
+        {
+            // Speed Modifier is 0, so AddForec of Move is not called 
+            // Time dependent & mass independent
+            Vector3 plyaerHorizontalVelocity = GetPlayerHorizontalVelocity();
+            stateMachine.Player.Rigidbody.AddForce(-plyaerHorizontalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
+        }
         #endregion
+
+        protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
+        {
+            Vector3 playerHorizontalVelocity = GetPlayerHorizontalVelocity();
+            // playerHorizontalVelocity without y value
+            Vector2 playerHorizontalMovement = new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
+
+            return playerHorizontalMovement.magnitude > minimumMagnitude;
+        }
 
         #region Input Methods
         protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)

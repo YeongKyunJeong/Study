@@ -33,12 +33,9 @@ namespace RSP
 
         public override void OnAnimationTransitionEvent()
         {
-            base.OnAnimationTransitionEvent();
-
             if(stateMachine.ReusableData.MovementInput == Vector2.zero)
             {
-                // To do: Hard Stopping State
-                stateMachine.ChangeState(stateMachine.IdlingStates);
+                stateMachine.ChangeState(stateMachine.HardStoppingStates);
                 return;
             }
             stateMachine.ChangeState(stateMachine.SprintingStates);

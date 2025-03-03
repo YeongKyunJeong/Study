@@ -50,7 +50,7 @@ namespace RSP
         {
             if (stateMachine.ReusableData.MovementInput == Vector2.zero)
             {
-                // To do : Middle Stopping State
+                // To do : Midium Stopping State
                 stateMachine.ChangeState(stateMachine.IdlingStates);
 
                 return;
@@ -59,7 +59,14 @@ namespace RSP
         }
         #endregion
 
+
         #region Input Methods
+        protected override void OnMovementCanceled(InputAction.CallbackContext context)
+        {
+            //base.OnMovementCanceled(context); // Chage state to Idling state instantly
+            stateMachine.ChangeState(stateMachine.MediumStoppingStates);
+        }
+
         protected override void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
             base.OnWalkToggleStarted(context);

@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -84,7 +81,14 @@ namespace RSP
         }
         #endregion
 
+
         #region Input Methods
+        protected override void OnMovementCanceled(InputAction.CallbackContext context)
+        {
+            //base.OnMovementCanceled(context); // Chage state to Idling state instantly
+            stateMachine.ChangeState(stateMachine.HardStoppingStates);
+        }
+
         private void OnSprintPerform(InputAction.CallbackContext context)
         {
             keepSprinting = true;
