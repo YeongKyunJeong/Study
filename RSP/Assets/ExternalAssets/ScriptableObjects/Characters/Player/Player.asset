@@ -71,3 +71,10 @@ MonoBehaviour:
       <SpeedModifier>k__BackingField: 0.225
     <RunData>k__BackingField:
       <SpeedModifier>k__BackingField: 1
+    <SprintData>k__BackingField:
+      <SpeedModifier>k__BackingField: 1.75
+    <DashData>k__BackingField:
+      <SpeedModifier>k__BackingField: 2
+      <TimeToBeConsiderConsecutive>k__BackingField: 1
+      <ConsecutiveDashLimitAmount>k__BackingField: 2
+      <DashLimitReachCooldown>k__BackingField: 1.75

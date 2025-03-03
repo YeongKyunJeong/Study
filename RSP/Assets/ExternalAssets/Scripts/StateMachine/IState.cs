@@ -7,5 +7,9 @@ namespace RSP
         public void HandleInput();
         public void Update();
         public void PhysicsUpdate();
+
+        public void OnAnimationEnterEvent();
+        public void OnAnimationExitEvent();
+        public void OnAnimationTransitionEvent();
     }
 }

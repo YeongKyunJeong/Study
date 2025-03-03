@@ -9,6 +9,7 @@ namespace RSP
         public Player Player { get; }
         public PlayerStateReusableData ReusableData { get; }
         public PlayerIdlingState IdlingStates { get; }
+        public PlayerDashingState DashingStates { get; }
         public PlayerWalkingState WalkingStates { get; }
         public PlayerRunningState RunningStates { get; }
         public PlayerSprintingState SprintingStates { get; }
@@ -19,7 +20,7 @@ namespace RSP
             ReusableData = new PlayerStateReusableData();
             
             IdlingStates = new PlayerIdlingState(this);
-
+            DashingStates = new PlayerDashingState(this);
             WalkingStates = new PlayerWalkingState(this);
             RunningStates = new PlayerRunningState(this);
             SprintingStates = new PlayerSprintingState(this);

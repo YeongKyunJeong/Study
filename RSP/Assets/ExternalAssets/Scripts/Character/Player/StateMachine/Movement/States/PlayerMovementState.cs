@@ -63,6 +63,19 @@ namespace RSP
         {
             Move();
         }
+
+        public virtual void OnAnimationEnterEvent()
+        {
+        }
+
+        public virtual void OnAnimationExitEvent()
+        {
+        }
+
+        public virtual void OnAnimationTransitionEvent()
+        {
+        }
+
         #endregion
 
         #region Main Methods
@@ -215,6 +228,8 @@ namespace RSP
         {
             stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
         }
+
+
         #endregion
     }
 }

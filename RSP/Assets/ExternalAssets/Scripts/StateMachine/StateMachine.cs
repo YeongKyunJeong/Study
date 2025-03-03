@@ -31,5 +31,19 @@ namespace RSP
             currentState?.PhysicsUpdate();
         }
 
+        public void OnAnimationEnterEvent()
+        {
+            currentState?.OnAnimationEnterEvent();
+        }
+
+        public void OnAnimationExiteEvent()
+        {
+            currentState?.OnAnimationExitEvent();
+        }
+
+        public void OnAnimationTransitionEvent()
+        {
+            currentState?.OnAnimationTransitionEvent();
+        }
     }
 }
