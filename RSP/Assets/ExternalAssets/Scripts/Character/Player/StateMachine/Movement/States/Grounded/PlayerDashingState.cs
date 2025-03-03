@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,11 +10,14 @@ namespace RSP
         
         private float startTime;
         private int consecutiveDashesUsed;
+
+        private bool shouldKeepRotating;
         
         public PlayerDashingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
             dashData = movementData.DashData;
         }
+
 
         #region IState Methods
         public override void Enter()
@@ -24,11 +25,26 @@ namespace RSP
             base.Enter();
 
             stateMachine.ReusableData.MovementSpeedModifier = dashData.SpeedModifier;
+
+            // Set Rotation Data to dash rotation data
+            stateMachine.ReusableData.RotationData = dashData.RotationData;
+
             AddForceOnTransitionFromStationaryState();
+
+            // Whether rotating should be kept after enter Dashing State
+            shouldKeepRotating = stateMachine.ReusableData.MovementInput != Vector2.zero;
 
             UpdateConsecutiveDashes();
 
             startTime = Time.time;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            // Set Rotation Data back to basic rotation data
+            SetBaseRotationData();
         }
 
         public override void OnAnimationTransitionEvent()
@@ -41,7 +57,20 @@ namespace RSP
             stateMachine.ChangeState(stateMachine.SprintingStates);
 
         }
+
+        public override void PhysicsUpdate()
+        {
+            base.PhysicsUpdate();
+
+            if (!shouldKeepRotating)
+            {
+                return;
+            }
+
+            RotateTowardsTargetRotation();
+        }
         #endregion
+
 
         #region Main Methods
         private void AddForceOnTransitionFromStationaryState()
@@ -54,6 +83,8 @@ namespace RSP
             Vector3 characterRotationDirection = stateMachine.Player.transform.forward;
 
             characterRotationDirection.y = 0f;
+
+            UpdateTargetRotation(characterRotationDirection, false); // In this case, only the forward direction
 
             stateMachine.Player.Rigidbody.velocity = characterRotationDirection * GetMovementSpeed();
         }
@@ -82,6 +113,25 @@ namespace RSP
         }
         #endregion
 
+
+        #region Reusable Methods
+        protected override void AddInputActionsCallbacks()
+        {
+            base.AddInputActionsCallbacks();
+
+            stateMachine.Player.Input.PlayerActions.Movement.performed += OnMovementPerformed;
+        }
+
+        protected override void RemoveInputActionsCallbacks()
+        {
+            base.RemoveInputActionsCallbacks();
+
+            stateMachine.Player.Input.PlayerActions.Movement.performed -= OnMovementPerformed;
+        }
+
+        #endregion
+
+
         #region Input Methods
         protected override void OnMovementCanceled(InputAction.CallbackContext context)
         {
@@ -91,7 +141,12 @@ namespace RSP
         protected override void OnDashStarted(InputAction.CallbackContext context)
         {
         }
+
+        private void OnMovementPerformed(InputAction.CallbackContext context)
+        {
+            shouldKeepRotating = true; 
+        }
         #endregion
-         
+
     }
 }

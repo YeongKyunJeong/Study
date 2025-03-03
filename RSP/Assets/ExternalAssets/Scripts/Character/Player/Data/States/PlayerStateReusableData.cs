@@ -48,5 +48,7 @@ namespace RSP
                 return ref dampedTargetRotationPassedTime;
             }
         }
+
+        public PlayerRotationData RotationData { get; set; }
     }
 }

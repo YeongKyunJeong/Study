@@ -20,6 +20,9 @@ namespace RSP
         {
             base.PhysicsUpdate();
 
+            // Whene ever we enter Stopping States, it will finish rotating even though we're not pressing on a Movement key 
+            RotateTowardsTargetRotation();
+
             if (!IsMovingHorizontally())
             {
                 return;
@@ -34,7 +37,7 @@ namespace RSP
         #endregion
 
         #region Reusable Methods
-        // It is never able to enter a Sopping state with our "Movement" Input keys already pressed
+        // It is never able to enter a Sopping State with our "Movement" Input keys already pressed
         // So we can add a callback to our Movement started action instead of using Update method 
         protected override void AddInputActionsCallbacks()
         {

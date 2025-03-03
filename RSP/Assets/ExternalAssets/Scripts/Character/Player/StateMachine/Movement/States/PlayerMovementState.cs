@@ -28,8 +28,9 @@ namespace RSP
 
         private void InitializeData()
         {
-            stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotatiopnData.TargetRotaionReachTime;
+            SetBaseRotationData();
         }
+
 
         #region IState Methods
         public virtual void Enter()
@@ -138,7 +139,16 @@ namespace RSP
 
         #endregion
 
+
         #region Reusable Methods
+
+        protected void SetBaseRotationData()
+        {
+            // Why is this caching needed? Why does make reference longer?
+            // stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotationData.TargetRotaionReachTime;
+            stateMachine.ReusableData.RotationData = movementData.BaseRotationData;
+            stateMachine.ReusableData.TimeToReachTargetRotation = stateMachine.ReusableData.RotationData.TargetRotaionReachTime;
+        }
 
         protected Vector3 GetMovementInputDirection()
         {
@@ -226,7 +236,6 @@ namespace RSP
             Vector3 plyaerHorizontalVelocity = GetPlayerHorizontalVelocity();
             stateMachine.Player.Rigidbody.AddForce(-plyaerHorizontalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
         }
-        #endregion
 
         protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
         {
@@ -236,6 +245,8 @@ namespace RSP
 
             return playerHorizontalMovement.magnitude > minimumMagnitude;
         }
+
+        #endregion
 
         #region Input Methods
         protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)
