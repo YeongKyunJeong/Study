@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -8,6 +9,7 @@ namespace RSP
         protected PlayerMovementStateMachine stateMachine;
 
         protected PlayerGroundedData movementData;
+        protected PlayerAirborneData airborneData;
 
         #region Fields for Caching
         private Vector3 movementDirection;
@@ -22,6 +24,7 @@ namespace RSP
             stateMachine = playerMovementStateMachine;
 
             movementData = stateMachine.Player.Data.GroundedData;
+            airborneData = stateMachine.Player.Data.AirborneData;
 
             InitializeData();
         }
@@ -74,6 +77,14 @@ namespace RSP
         {
         }
 
+        public virtual void OnTriggerEnter(Collider collider)
+        {
+            if (stateMachine.Player.LayerData.IsGroundLayer(collider.gameObject.layer))
+            {
+                OnContactWithGround(collider);
+                return;
+            }
+        }
         #endregion
 
         #region Main Methods
@@ -144,7 +155,6 @@ namespace RSP
 
         protected void SetBaseRotationData()
         {
-            // Why is this caching needed? Why does make reference longer?
             // stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotationData.TargetRotaionReachTime;
             stateMachine.ReusableData.RotationData = movementData.BaseRotationData;
             stateMachine.ReusableData.TimeToReachTargetRotation = stateMachine.ReusableData.RotationData.TargetRotaionReachTime;
@@ -246,14 +256,18 @@ namespace RSP
             return playerHorizontalMovement.magnitude > minimumMagnitude;
         }
 
+        protected virtual void OnContactWithGround(Collider collider)
+        {
+        }
+
         #endregion
 
         #region Input Methods
+
         protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
             stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
         }
-
 
         #endregion
     }

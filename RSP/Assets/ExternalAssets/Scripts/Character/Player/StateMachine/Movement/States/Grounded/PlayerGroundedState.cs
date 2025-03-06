@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -36,7 +37,7 @@ namespace RSP
 
                 float slopeSpeedModifier = SetSlopeSpeedModifierOnAngle(groundAngle);
 
-                if(slopeSpeedModifier == 0)
+                if (slopeSpeedModifier == 0)
                 {
                     return;
                 }
@@ -77,6 +78,8 @@ namespace RSP
             stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCanceled;
 
             stateMachine.Player.Input.PlayerActions.Dash.started += OnDashStarted;
+
+            stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStated;
         }
 
 
@@ -87,6 +90,8 @@ namespace RSP
             stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCanceled;
 
             stateMachine.Player.Input.PlayerActions.Dash.started -= OnDashStarted;
+
+            stateMachine.Player.Input.PlayerActions.Jump.started -= OnJumpStated;
         }
 
         protected virtual void OnMove()
@@ -113,6 +118,11 @@ namespace RSP
         protected virtual void OnDashStarted(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.DashingStates);
+        }
+
+        protected virtual void OnJumpStated(InputAction.CallbackContext context)
+        {
+            stateMachine.ChangeState(stateMachine.JumpingState);
         }
         #endregion
     }

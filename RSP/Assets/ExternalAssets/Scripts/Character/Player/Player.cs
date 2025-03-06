@@ -44,6 +44,11 @@ namespace RSP
             movementStateMachine.ChangeState(movementStateMachine.IdlingStates);
         }
 
+        private void OnTriggerEnter(Collider collider)
+        {
+            movementStateMachine.OnTriggerEnter(collider); 
+        }
+
         private void Update()
         {
             movementStateMachine.HandleInput();

@@ -26,6 +26,8 @@ namespace RSP
 
             stateMachine.ReusableData.MovementSpeedModifier = dashData.SpeedModifier;
 
+            stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
+
             // Set Rotation Data to dash rotation data
             stateMachine.ReusableData.RotationData = dashData.RotationData;
 

@@ -17,6 +17,7 @@ namespace RSP
         public PlayerMediumStoppingState MediumStoppingStates { get; }
         public PlayerHardStoppingState HardStoppingStates { get; }
 
+        public PlayerJumpingState JumpingState { get; }
 
         public PlayerMovementStateMachine(Player player)
         {
@@ -32,6 +33,8 @@ namespace RSP
             LightStoppingStates = new PlayerLightStoppingState(this);
             MediumStoppingStates = new PlayerMediumStoppingState(this);
             HardStoppingStates = new PlayerHardStoppingState(this);
+
+            JumpingState = new PlayerJumpingState(this);
         }
     }
 }
