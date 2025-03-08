@@ -247,6 +247,14 @@ namespace RSP
             stateMachine.Player.Rigidbody.AddForce(-plyaerHorizontalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
         }
 
+        protected void DecelerateVertically()
+        {
+            // Speed Modifier is 0, so AddForec of Move is not called 
+            // Time dependent & mass independent
+            Vector3 plyaerVerticalVelocity = GetPlayerVerticalVelocity();
+            stateMachine.Player.Rigidbody.AddForce(-plyaerVerticalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
+        }
+        
         protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
         {
             Vector3 playerHorizontalVelocity = GetPlayerHorizontalVelocity();
@@ -254,6 +262,16 @@ namespace RSP
             Vector2 playerHorizontalMovement = new Vector2(playerHorizontalVelocity.x, playerHorizontalVelocity.z);
 
             return playerHorizontalMovement.magnitude > minimumMagnitude;
+        }
+
+        protected bool IsMovingUp(float minimumVelocity = 0.1f)
+        {
+            return GetPlayerVerticalVelocity().y > minimumVelocity;
+        }
+
+        protected bool IsMovingDown(float minimumVelocity = 0.1f)
+        {
+            return GetPlayerVerticalVelocity().y < -minimumVelocity;
         }
 
         protected virtual void OnContactWithGround(Collider collider)

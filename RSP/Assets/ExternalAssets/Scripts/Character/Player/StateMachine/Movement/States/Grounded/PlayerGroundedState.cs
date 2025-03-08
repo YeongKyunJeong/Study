@@ -12,7 +12,16 @@ namespace RSP
             slopeData = stateMachine.Player.ColliderUtility.SlopeData;
         }
 
-        #region IStateMethods
+        #region IState Methods
+
+        public override void Enter()
+        {
+            base.Enter();
+
+            UpdateShouldSprintingState();
+        }
+
+
         public override void PhysicsUpdate()
         {
             base.PhysicsUpdate();
@@ -23,6 +32,23 @@ namespace RSP
 
 
         #region Main Methods
+
+        private void UpdateShouldSprintingState()
+        {
+            if (!stateMachine.ReusableData.ShouldSprint)
+            {
+                return;
+            }
+
+            if (stateMachine.ReusableData.MovementInput != Vector2.zero)
+            {
+                return;
+            }
+
+            // only when no horizontal movement input
+            stateMachine.ReusableData.ShouldSprint = false;
+        }
+
         private void FloatCapsule()
         {
             Vector3 capsuleColliderCenterInWorldSpace = stateMachine.Player.ColliderUtility.CapsuleColliderData.Collider.bounds.center;
@@ -96,6 +122,13 @@ namespace RSP
 
         protected virtual void OnMove()
         {
+            if (stateMachine.ReusableData.ShouldSprint)
+            {
+                stateMachine.ChangeState(stateMachine.SprintingStates);
+
+                return;
+            }
+
             if (stateMachine.ReusableData.ShouldWalk)
             {
                 stateMachine.ChangeState(stateMachine.WalkingStates);

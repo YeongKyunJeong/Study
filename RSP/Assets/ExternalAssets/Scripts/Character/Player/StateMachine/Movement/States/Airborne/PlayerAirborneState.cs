@@ -10,12 +10,27 @@ namespace RSP
         {
         }
 
+        #region IState Methods
+        public override void Enter()
+        {
+            base.Enter();
+
+            ResetSprintingState();
+        }
+        #endregion
+
+
         #region Reusable Method
         protected override void OnContactWithGround(Collider collider)
         {
             base.OnContactWithGround(collider);
 
             stateMachine.ChangeState(stateMachine.IdlingStates);
+        }
+
+        protected virtual void ResetSprintingState()
+        {
+            stateMachine.ReusableData.ShouldSprint = false;
         }
         #endregion
     }

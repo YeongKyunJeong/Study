@@ -16,17 +16,19 @@ namespace RSP
         }
 
         #region IState Methods
-        
+
         public override void Enter()
         {
             base.Enter();
 
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
-             
+
+            stateMachine.ReusableData.MovementDecelerationForce = jumpData.DecelerationForce;
+
             stateMachine.ReusableData.RotationData = jumpData.RotationData;
 
             shouldKeepRotating = stateMachine.ReusableData.MovementInput != Vector2.zero;
-            
+
             Jump();
         }
 
@@ -45,6 +47,22 @@ namespace RSP
             {
                 RotateTowardsTargetRotation();
             }
+
+            if (IsMovingUp())
+            {
+                DecelerateVertically();
+                Debug.Log("Hit");
+            }
+        }
+
+        #endregion
+
+
+        #region Reusable Methods
+
+        protected override void ResetSprintingState()
+        {
+            // Not to reset shouldSprintingState only when enter Jumping state 
         }
 
         #endregion
@@ -67,6 +85,31 @@ namespace RSP
 
             jumpForce.x *= jumpDirection.x;
             jumpForce.z *= jumpDirection.z;
+
+            Vector3 capsuleColliderCenterWorldSpace = stateMachine.Player.ColliderUtility.CapsuleColliderData.Collider.bounds.center;
+
+            Ray downwardsRayFromCapsuleCenter = new Ray(capsuleColliderCenterWorldSpace, Vector3.down);
+
+            if (Physics.Raycast(downwardsRayFromCapsuleCenter, out RaycastHit hit, jumpData.JumpToGroundRayDistance,
+                stateMachine.Player.LayerData.GroundLayer, QueryTriggerInteraction.Ignore /* To ignore Trigger Colliders(Collider Checker) */))
+            {
+                float groundAngle = Vector3.Angle(hit.normal, -downwardsRayFromCapsuleCenter.direction);
+
+                if (IsMovingUp()) // Modify horizontal speed
+                {
+                    float forceModifier = jumpData.JumpForceModifierOnSlopeUpwards.Evaluate(groundAngle);
+
+                    jumpForce.x *= forceModifier;
+                    jumpForce.z *= forceModifier;
+                }
+
+                if (IsMovingDown()) // Modify vertical speed
+                {
+                    float forceModifier = jumpData.JumpForceModifierOnSlopeDownwards.Evaluate(groundAngle);
+
+                    jumpForce.y *= forceModifier;
+                }
+            }
 
             ResetVelocity();
 

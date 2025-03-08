@@ -10,6 +10,8 @@ namespace RSP
         private float startTime;
 
         private bool keepSprinting;
+        private bool shouldResetSprintingState;
+
         public PlayerSprintingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
             sprintData = movementData.SprintData;
@@ -23,6 +25,8 @@ namespace RSP
             stateMachine.ReusableData.MovementSpeedModifier = sprintData.SpeedModifier;
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
+
+            shouldResetSprintingState = true;
 
             startTime = Time.time;
         }
@@ -47,6 +51,12 @@ namespace RSP
         public override void Exit()
         {
             base.Exit();
+
+            if (shouldResetSprintingState)
+            {
+                keepSprinting = false;
+                stateMachine.ReusableData.ShouldSprint = false;
+            }
 
             keepSprinting = false;
         }
@@ -91,9 +101,19 @@ namespace RSP
             stateMachine.ChangeState(stateMachine.HardStoppingStates);
         }
 
+        protected override void OnJumpStated(InputAction.CallbackContext context)
+        {
+            shouldResetSprintingState = false;
+
+            base.OnJumpStated(context);
+        }
+
         private void OnSprintPerform(InputAction.CallbackContext context)
         {
             keepSprinting = true;
+            
+            // Only when key was held enough time
+            stateMachine.ReusableData.ShouldSprint = true;
         }
         #endregion
     }
