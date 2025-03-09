@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -164,7 +165,6 @@ namespace RSP
 
 
         #region Reusable Methods
-
         protected void SetBaseRotationData()
         {
             // stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotationData.TargetRotaionReachTime;
@@ -175,13 +175,27 @@ namespace RSP
         protected virtual void AddInputActionsCallbacks()
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started += OnWalkToggleStarted;
+
+            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStated;
+
+            stateMachine.Player.Input.PlayerActions.Movement.performed += OnMouseMovementPerformed;
+
+            stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCancled;
         }
 
 
         protected virtual void RemoveInputActionsCallbacks()
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
+
+            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStated;
+
+            stateMachine.Player.Input.PlayerActions.Movement.performed += OnMouseMovementPerformed;
+
+            stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCancled;
         }
+
+
 
         protected Vector3 GetMovementInputDirection()
         {
@@ -301,13 +315,95 @@ namespace RSP
         {
         }
 
+        protected void UpdateCameraRecenteringState(Vector2 movementInput)
+        {
+            if(movementInput == Vector2.zero)
+            {
+                return;
+            }
+
+            if(movementInput == Vector2.up)
+            {
+                DisableCameraRecentering();
+
+                return;
+            }
+
+            float cameraVerticalAngle = stateMachine.Player.MainCameraTransform.eulerAngles.x;
+
+            if(cameraVerticalAngle >= 270)
+            {
+                cameraVerticalAngle -= 360f;
+            }
+
+            cameraVerticalAngle = Mathf.Abs(cameraVerticalAngle);
+
+            if(movementInput == Vector2.down)
+            {
+                SetCameraRecenteringState(cameraVerticalAngle, movementData.BackwardsCameraRecenteringData);
+                return;
+            }
+
+            SetCameraRecenteringState(cameraVerticalAngle, movementData.SidewayCameraRecenteringData);
+        }
+
+        protected void EnableCameraRecentering(float waitTime = -1f, float recenteringTime = -1f)
+        {
+            stateMachine.Player.CameraUtility.EnableRecentering(waitTime, recenteringTime);
+        }
+        protected void DisableCameraRecentering()
+        {
+            stateMachine.Player.CameraUtility.DisableRecentering();
+        }
+
+        protected void SetCameraRecenteringState(float cameraVerticalAngle, 
+            List<PlayerCameraRecenteringData> cameraRecenteringData)
+        {
+            foreach (PlayerCameraRecenteringData recenteringData in cameraRecenteringData)
+            {
+                if (!recenteringData.IsWithinRange(cameraVerticalAngle))
+                {
+                    continue;
+                }
+
+                EnableCameraRecentering(recenteringData.WaitTime, recenteringData.RecenteringTime);
+
+                return;
+            }
+
+            // If we didn't found any setting with the angle
+            DisableCameraRecentering();
+
+            return;
+        }
+
         #endregion
+
 
         #region Input Methods
 
         protected virtual void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
             stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
+        }
+        private void OnMouseMovementPerformed(InputAction.CallbackContext context)
+        {
+            UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
+        }
+
+        private void OnMouseMovementStated(InputAction.CallbackContext context)
+        {
+            // We are currently on the callback of the "Movement" action
+            // So 'Movement input' we are reading in "Update" method isn't yet updated to the value that we have in this callback
+            // as this callback is called before setting the value
+            // We can use it by using context variable
+            UpdateCameraRecenteringState(context.ReadValue<Vector2>());
+        }
+
+        // This is for Camera Recentering and private so that doesn't conflic with that of "Grounded State"
+        private void OnMovementCancled(InputAction.CallbackContext context)
+        {
+            DisableCameraRecentering();
         }
 
         #endregion
