@@ -8,11 +8,14 @@ namespace RSP
     public class PlayerJumpingState : PlayerAirborneState
     {
         private PlayerJumpData jumpData;
+
         private bool shouldKeepRotating;
+        private bool canStartFAlling;
 
         public PlayerJumpingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
             jumpData = airborneData.JumpData;
+            canStartFAlling = false;
         }
 
         #region IState Methods
@@ -37,6 +40,25 @@ namespace RSP
             base.Exit();
 
             SetBaseRotationData();
+
+            canStartFAlling = false;
+        }
+
+        public override void Update()
+        {
+            base.Update();
+
+            if (!canStartFAlling && IsMovingUp() /* To ignore effect by Floating */)
+            {
+                canStartFAlling = true;
+            }
+
+            if (!canStartFAlling || GetPlayerVerticalVelocity().y > 0)
+            {
+                return;
+            }
+
+            stateMachine.ChangeState(stateMachine.FallingState);
         }
 
         public override void PhysicsUpdate()
@@ -62,7 +84,7 @@ namespace RSP
 
         protected override void ResetSprintingState()
         {
-            // Not to reset shouldSprintingState only when enter Jumping state 
+            // Not to reset shouldSprintingState only when enter Jumping state & Falling state 
         }
 
         #endregion

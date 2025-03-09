@@ -8,13 +8,20 @@ namespace RSP
     {
         public Player Player { get; }
         public PlayerStateReusableData ReusableData { get; }
-        public PlayerIdlingState IdlingStates { get; }
-        public PlayerDashingState DashingStates { get; }
-        public PlayerWalkingState WalkingStates { get; }
-        public PlayerRunningState RunningStates { get; }
-        public PlayerSprintingState SprintingStates { get; }
-        public PlayerLightStoppingState LightStoppingStates { get; }
-        public PlayerMediumStoppingState MediumStoppingStates { get; }
+        public PlayerIdlingState IdlingState { get; }
+        public PlayerDashingState DashingState { get; }
+        public PlayerWalkingState WalkingState { get; }
+        public PlayerRunningState RunningState { get; }
+        public PlayerSprintingState SprintingState { get; }
+        public PlayerLightStoppingState LightStoppingState { get; }
+        public PlayerMediumStoppingState MediumStoppingState { get; }
+
+        public PlayerFallingState FallingState { get; }
+
+        public PlayerLightLandingState LightLandingState { get; }
+        public PlayerHardLandingState HardLandingState { get; }
+        public PlayerRollingState RollingState { get; }
+      
         public PlayerHardStoppingState HardStoppingStates { get; }
 
         public PlayerJumpingState JumpingState { get; }
@@ -24,17 +31,22 @@ namespace RSP
             Player = player;
             ReusableData = new PlayerStateReusableData();
 
-            IdlingStates = new PlayerIdlingState(this);
-            DashingStates = new PlayerDashingState(this);
-            WalkingStates = new PlayerWalkingState(this);
-            RunningStates = new PlayerRunningState(this);
-            SprintingStates = new PlayerSprintingState(this);
+            IdlingState = new PlayerIdlingState(this);
+            DashingState = new PlayerDashingState(this);
+            WalkingState = new PlayerWalkingState(this);
+            RunningState = new PlayerRunningState(this);
+            SprintingState = new PlayerSprintingState(this);
 
-            LightStoppingStates = new PlayerLightStoppingState(this);
-            MediumStoppingStates = new PlayerMediumStoppingState(this);
+            LightStoppingState = new PlayerLightStoppingState(this);
+            MediumStoppingState = new PlayerMediumStoppingState(this);
             HardStoppingStates = new PlayerHardStoppingState(this);
 
+            LightLandingState = new PlayerLightLandingState(this);
+            HardLandingState = new PlayerHardLandingState(this);
+            RollingState = new PlayerRollingState(this);
+
             JumpingState = new PlayerJumpingState(this);
+            FallingState = new PlayerFallingState(this);
         }
     }
 }

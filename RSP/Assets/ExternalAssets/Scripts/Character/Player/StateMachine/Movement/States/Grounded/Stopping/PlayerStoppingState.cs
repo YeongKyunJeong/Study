@@ -32,7 +32,7 @@ namespace RSP
 
         public override void OnAnimationTransitionEvent()
         {
-            stateMachine.ChangeState(stateMachine.IdlingStates);
+            stateMachine.ChangeState(stateMachine.IdlingState);
         }
         #endregion
 

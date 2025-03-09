@@ -85,9 +85,21 @@ namespace RSP
                 return;
             }
         }
+
+        public void OnTriggerExit(Collider collider)
+        {
+            if (stateMachine.Player.LayerData.IsGroundLayer(collider.gameObject.layer))
+            {
+                OnContactWithGroundExited(collider);
+                return;
+            }
+        }
+
         #endregion
 
+
         #region Main Methods
+
         private void ReadMovementInput()
         {
             stateMachine.ReusableData.MovementInput = stateMachine.Player.Input.PlayerActions.Movement.ReadValue<Vector2>();
@@ -160,6 +172,17 @@ namespace RSP
             stateMachine.ReusableData.TimeToReachTargetRotation = stateMachine.ReusableData.RotationData.TargetRotaionReachTime;
         }
 
+        protected virtual void AddInputActionsCallbacks()
+        {
+            stateMachine.Player.Input.PlayerActions.WalkToggle.started += OnWalkToggleStarted;
+        }
+
+
+        protected virtual void RemoveInputActionsCallbacks()
+        {
+            stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
+        }
+
         protected Vector3 GetMovementInputDirection()
         {
             return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
@@ -228,15 +251,11 @@ namespace RSP
             stateMachine.Player.Rigidbody.velocity = Vector3.zero;
         }
 
-        protected virtual void AddInputActionsCallbacks()
+        protected void ResetVerticalVelocity()
         {
-            stateMachine.Player.Input.PlayerActions.WalkToggle.started += OnWalkToggleStarted;
-        }
+            Vector3 playerHorizontalVelocity = GetPlayerHorizontalVelocity();
 
-
-        protected virtual void RemoveInputActionsCallbacks()
-        {
-            stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
+            stateMachine.Player.Rigidbody.velocity = playerHorizontalVelocity;
         }
 
         protected void DecelerateHorizontally()
@@ -254,7 +273,7 @@ namespace RSP
             Vector3 plyaerVerticalVelocity = GetPlayerVerticalVelocity();
             stateMachine.Player.Rigidbody.AddForce(-plyaerVerticalVelocity * stateMachine.ReusableData.MovementDecelerationForce, ForceMode.Acceleration);
         }
-        
+
         protected bool IsMovingHorizontally(float minimumMagnitude = 0.1f)
         {
             Vector3 playerHorizontalVelocity = GetPlayerHorizontalVelocity();
@@ -275,6 +294,10 @@ namespace RSP
         }
 
         protected virtual void OnContactWithGround(Collider collider)
+        {
+        }
+
+        protected virtual void OnContactWithGroundExited(Collider collider)
         {
         }
 

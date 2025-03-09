@@ -56,7 +56,7 @@ namespace RSP
                 stateMachine.ChangeState(stateMachine.HardStoppingStates);
                 return;
             }
-            stateMachine.ChangeState(stateMachine.SprintingStates);
+            stateMachine.ChangeState(stateMachine.SprintingState);
 
         }
 

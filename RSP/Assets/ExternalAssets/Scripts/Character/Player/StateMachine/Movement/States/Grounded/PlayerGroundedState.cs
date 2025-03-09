@@ -93,10 +93,26 @@ namespace RSP
             stateMachine.ReusableData.MovementOnSlopesSpeedModifier = slopeSpeedModifier;
             return slopeSpeedModifier;
         }
+
+        private bool IsThereGroundUnderneath()
+        {
+            BoxCollider groundCheckCollider = stateMachine.Player.ColliderUtility.TriggerColliderData.GroundCheckCollider;
+
+            Vector3 groundColliderCenterInWorldSpace = groundCheckCollider.bounds.center;
+
+            Collider[] overlappedGroundColliders = Physics.OverlapBox(groundColliderCenterInWorldSpace
+                , stateMachine.Player.ColliderUtility.TriggerColliderData.GroundCheckCollider.bounds.extents
+                , groundCheckCollider.transform.rotation, stateMachine.Player.LayerData.GroundLayer,
+                QueryTriggerInteraction.Ignore);
+
+            return overlappedGroundColliders.Length > 0;
+        }
+
         #endregion
 
 
         #region Reusable Methods
+
         protected override void AddInputActionsCallbacks()
         {
             base.AddInputActionsCallbacks();
@@ -124,20 +140,48 @@ namespace RSP
         {
             if (stateMachine.ReusableData.ShouldSprint)
             {
-                stateMachine.ChangeState(stateMachine.SprintingStates);
+                stateMachine.ChangeState(stateMachine.SprintingState);
 
                 return;
             }
 
             if (stateMachine.ReusableData.ShouldWalk)
             {
-                stateMachine.ChangeState(stateMachine.WalkingStates);
+                stateMachine.ChangeState(stateMachine.WalkingState);
+
                 return;
             }
 
-            stateMachine.ChangeState(stateMachine.RunningStates);
+            stateMachine.ChangeState(stateMachine.RunningState);
 
         }
+
+        protected override void OnContactWithGroundExited(Collider collider)
+        {
+            base.OnContactWithGroundExited(collider);
+
+            if (IsThereGroundUnderneath())
+            {
+                return;
+            }
+
+            Vector3 capsuleColliderCenterWorldSpace = stateMachine.Player.ColliderUtility.CapsuleColliderData.Collider.bounds.center;
+
+            Ray downwardsRayFromCapsuleBottom = new Ray(capsuleColliderCenterWorldSpace
+                - stateMachine.Player.ColliderUtility.CapsuleColliderData.ColliderVerticalExtends, Vector3.down);
+
+            if (!Physics.Raycast(downwardsRayFromCapsuleBottom, out _, movementData.GroundToFallRaySpeed,
+                stateMachine.Player.LayerData.GroundLayer, QueryTriggerInteraction.Ignore))
+            {
+                OnFall();
+            }
+        }
+
+        protected virtual void OnFall()
+        {
+            stateMachine.ChangeState(stateMachine.FallingState);
+        }
+
         #endregion
 
 
@@ -145,12 +189,12 @@ namespace RSP
 
         protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
         {
-            stateMachine.ChangeState(stateMachine.IdlingStates);
+            stateMachine.ChangeState(stateMachine.IdlingState);
         }
 
         protected virtual void OnDashStarted(InputAction.CallbackContext context)
         {
-            stateMachine.ChangeState(stateMachine.DashingStates);
+            stateMachine.ChangeState(stateMachine.DashingState);
         }
 
         protected virtual void OnJumpStated(InputAction.CallbackContext context)

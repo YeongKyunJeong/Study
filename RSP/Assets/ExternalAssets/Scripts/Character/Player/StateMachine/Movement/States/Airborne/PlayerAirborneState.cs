@@ -25,7 +25,7 @@ namespace RSP
         {
             base.OnContactWithGround(collider);
 
-            stateMachine.ChangeState(stateMachine.IdlingStates);
+            stateMachine.ChangeState(stateMachine.LightLandingState);
         }
 
         protected virtual void ResetSprintingState()

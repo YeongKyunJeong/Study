@@ -68,11 +68,11 @@ namespace RSP
             if(stateMachine.ReusableData.MovementInput == Vector2.zero)
             {
                 // To do : Hard Stopping State
-                stateMachine.ChangeState(stateMachine.IdlingStates);
+                stateMachine.ChangeState(stateMachine.IdlingState);
 
                 return;
             }
-            stateMachine.ChangeState(stateMachine.RunningStates);
+            stateMachine.ChangeState(stateMachine.RunningState);
         }
         #endregion
 
@@ -91,6 +91,14 @@ namespace RSP
 
             stateMachine.Player.Input.PlayerActions.Sprint.performed -= OnSprintPerform;
         }
+
+        protected override void OnFall()
+        {
+            shouldResetSprintingState = false;
+
+            base.OnFall();
+        }
+
         #endregion
 
 

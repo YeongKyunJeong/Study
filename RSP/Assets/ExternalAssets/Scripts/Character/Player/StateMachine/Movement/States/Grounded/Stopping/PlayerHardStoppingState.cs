@@ -26,7 +26,7 @@ namespace RSP
                 return;
             }
 
-            stateMachine.ChangeState(stateMachine.RunningStates); 
+            stateMachine.ChangeState(stateMachine.RunningState); 
         }
         #endregion
     }

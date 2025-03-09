@@ -25,14 +25,14 @@ namespace RSP
         protected override void OnMovementCanceled(InputAction.CallbackContext context)
         {
             //base.OnMovementCanceled(context); // Chage state to Idling state instantly
-            stateMachine.ChangeState(stateMachine.LightStoppingStates);
+            stateMachine.ChangeState(stateMachine.LightStoppingState);
         }
 
         protected override void OnWalkToggleStarted(InputAction.CallbackContext context)
         {
             base.OnWalkToggleStarted(context);
 
-            stateMachine.ChangeState(stateMachine.RunningStates);
+            stateMachine.ChangeState(stateMachine.RunningState);
         }
         #endregion
     }
