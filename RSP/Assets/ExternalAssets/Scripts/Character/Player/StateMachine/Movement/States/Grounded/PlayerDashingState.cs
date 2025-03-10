@@ -15,23 +15,23 @@ namespace RSP
         
         public PlayerDashingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
-            dashData = movementData.DashData;
+            dashData = groundedMovementData.DashData;
         }
 
 
         #region IState Methods
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = dashData.SpeedModifier;
+
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
 
             // Set Rotation Data to dash rotation data
             stateMachine.ReusableData.RotationData = dashData.RotationData;
 
-            AddForceOnTransitionFromStationaryState();
+            Dash();
 
             // Whether rotating should be kept after enter Dashing State
             shouldKeepRotating = stateMachine.ReusableData.MovementInput != Vector2.zero;
@@ -75,20 +75,23 @@ namespace RSP
 
 
         #region Main Methods
-        private void AddForceOnTransitionFromStationaryState()
+        private void Dash()
         {
+            // Because we will be adding a force in case we have a movement input as well
+            Vector3 dashDirection = stateMachine.Player.transform.forward;
+
+            dashDirection.y = 0f;
+
+            UpdateTargetRotation(dashDirection, false); // In this case, only the forward direction
+
             if (stateMachine.ReusableData.MovementInput != Vector2.zero)
             {
-                return; 
+                UpdateTargetRotation(GetMovementInputDirection());
+
+                dashDirection = GetTargetRotationDirection(stateMachine.ReusableData.CurrentTargetRotation.y);
             }
 
-            Vector3 characterRotationDirection = stateMachine.Player.transform.forward;
-
-            characterRotationDirection.y = 0f;
-
-            UpdateTargetRotation(characterRotationDirection, false); // In this case, only the forward direction
-
-            stateMachine.Player.Rigidbody.velocity = characterRotationDirection * GetMovementSpeed();
+            stateMachine.Player.Rigidbody.velocity = dashDirection * GetMovementSpeed(false);
         }
 
         private void UpdateConsecutiveDashes()
@@ -135,11 +138,6 @@ namespace RSP
 
 
         #region Input Methods
-        protected override void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-            // Not to go to Idling State if ew press and release a Movement Input Key
-        }
-
         protected override void OnDashStarted(InputAction.CallbackContext context)
         {
         }

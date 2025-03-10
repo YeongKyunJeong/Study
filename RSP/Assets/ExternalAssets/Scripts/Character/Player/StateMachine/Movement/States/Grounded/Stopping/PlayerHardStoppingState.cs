@@ -12,7 +12,7 @@ namespace RSP
         {
             base.Enter();
 
-            stateMachine.ReusableData.MovementDecelerationForce = movementData.StopData.HardDecelerationForce;
+            stateMachine.ReusableData.MovementDecelerationForce = groundedMovementData.StopData.HardDecelerationForce;
         }
         #endregion
 

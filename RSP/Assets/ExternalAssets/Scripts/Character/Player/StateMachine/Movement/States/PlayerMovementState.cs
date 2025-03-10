@@ -9,7 +9,7 @@ namespace RSP
     {
         protected PlayerMovementStateMachine stateMachine;
 
-        protected PlayerGroundedData movementData;
+        protected PlayerGroundedData groundedMovementData;
         protected PlayerAirborneData airborneData;
 
         #region Fields for Caching
@@ -24,8 +24,10 @@ namespace RSP
         {
             stateMachine = playerMovementStateMachine;
 
-            movementData = stateMachine.Player.Data.GroundedData;
+            groundedMovementData = stateMachine.Player.Data.GroundedData;
             airborneData = stateMachine.Player.Data.AirborneData;
+
+            SetBaseCameraRecenteringData();
 
             InitializeData();
         }
@@ -165,10 +167,17 @@ namespace RSP
 
 
         #region Reusable Methods
+
+        protected void SetBaseCameraRecenteringData()
+        {
+            stateMachine.ReusableData.BackwardsCameraRecenteringData = groundedMovementData.BackwardsCameraRecenteringData;
+            stateMachine.ReusableData.SidewaysCameraRecenteringData = groundedMovementData.SidewaysCameraRecenteringData;
+        }
+
         protected void SetBaseRotationData()
         {
             // stateMachine.ReusableData.TimeToReachTargetRotation = movementData.BaseRotationData.TargetRotaionReachTime;
-            stateMachine.ReusableData.RotationData = movementData.BaseRotationData;
+            stateMachine.ReusableData.RotationData = groundedMovementData.BaseRotationData;
             stateMachine.ReusableData.TimeToReachTargetRotation = stateMachine.ReusableData.RotationData.TargetRotaionReachTime;
         }
 
@@ -176,11 +185,11 @@ namespace RSP
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started += OnWalkToggleStarted;
 
-            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStated;
+            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStarted;
 
             stateMachine.Player.Input.PlayerActions.Movement.performed += OnMouseMovementPerformed;
 
-            stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCancled;
+            stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCanceled;
         }
 
 
@@ -188,11 +197,11 @@ namespace RSP
         {
             stateMachine.Player.Input.PlayerActions.WalkToggle.started -= OnWalkToggleStarted;
 
-            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStated;
+            stateMachine.Player.Input.PlayerActions.Look.started += OnMouseMovementStarted;
 
             stateMachine.Player.Input.PlayerActions.Movement.performed += OnMouseMovementPerformed;
 
-            stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCancled;
+            stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCanceled;
         }
 
 
@@ -202,10 +211,15 @@ namespace RSP
             return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
         }
 
-        protected float GetMovementSpeed()
+        protected float GetMovementSpeed(bool shouldConsiderSlopes = true)
         {
-            return movementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier
-                * stateMachine.ReusableData.MovementOnSlopesSpeedModifier;
+            float movementSpeed = groundedMovementData.BaseSpeed * stateMachine.ReusableData.MovementSpeedModifier;
+
+            if (shouldConsiderSlopes)
+            {
+                movementSpeed *= stateMachine.ReusableData.MovementOnSlopesSpeedModifier;
+            }
+            return movementSpeed;
         }
 
         protected Vector3 GetPlayerHorizontalVelocity()
@@ -317,12 +331,12 @@ namespace RSP
 
         protected void UpdateCameraRecenteringState(Vector2 movementInput)
         {
-            if(movementInput == Vector2.zero)
+            if (movementInput == Vector2.zero)
             {
                 return;
             }
 
-            if(movementInput == Vector2.up)
+            if (movementInput == Vector2.up)
             {
                 DisableCameraRecentering();
 
@@ -331,32 +345,39 @@ namespace RSP
 
             float cameraVerticalAngle = stateMachine.Player.MainCameraTransform.eulerAngles.x;
 
-            if(cameraVerticalAngle >= 270)
+            if (cameraVerticalAngle >= 270)
             {
                 cameraVerticalAngle -= 360f;
             }
 
             cameraVerticalAngle = Mathf.Abs(cameraVerticalAngle);
 
-            if(movementInput == Vector2.down)
+            if (movementInput == Vector2.down)
             {
-                SetCameraRecenteringState(cameraVerticalAngle, movementData.BackwardsCameraRecenteringData);
+                SetCameraRecenteringState(cameraVerticalAngle, stateMachine.ReusableData.BackwardsCameraRecenteringData);
                 return;
             }
 
-            SetCameraRecenteringState(cameraVerticalAngle, movementData.SidewayCameraRecenteringData);
+            SetCameraRecenteringState(cameraVerticalAngle, stateMachine.ReusableData.SidewaysCameraRecenteringData);
         }
 
         protected void EnableCameraRecentering(float waitTime = -1f, float recenteringTime = -1f)
         {
-            stateMachine.Player.CameraUtility.EnableRecentering(waitTime, recenteringTime);
+            float movementSpeed = GetMovementSpeed();
+
+            if (movementSpeed == 0f)
+            {
+                movementSpeed = groundedMovementData.BaseSpeed; // To avoid dividing 0;
+            }
+
+            stateMachine.Player.CameraUtility.EnableRecentering(waitTime, recenteringTime, groundedMovementData.BaseSpeed, movementSpeed);
         }
         protected void DisableCameraRecentering()
         {
             stateMachine.Player.CameraUtility.DisableRecentering();
         }
 
-        protected void SetCameraRecenteringState(float cameraVerticalAngle, 
+        protected void SetCameraRecenteringState(float cameraVerticalAngle,
             List<PlayerCameraRecenteringData> cameraRecenteringData)
         {
             foreach (PlayerCameraRecenteringData recenteringData in cameraRecenteringData)
@@ -386,12 +407,20 @@ namespace RSP
         {
             stateMachine.ReusableData.ShouldWalk = !stateMachine.ReusableData.ShouldWalk;
         }
-        private void OnMouseMovementPerformed(InputAction.CallbackContext context)
+
+        protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
         {
-            UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
+            DisableCameraRecentering();
         }
 
-        private void OnMouseMovementStated(InputAction.CallbackContext context)
+        private void OnMouseMovementStarted(InputAction.CallbackContext context)
+        {
+            UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
+
+        }
+
+        // This is for Camera Recentering and private so that doesn't conflic with that of "Grounded State"
+        private void OnMouseMovementPerformed(InputAction.CallbackContext context)
         {
             // We are currently on the callback of the "Movement" action
             // So 'Movement input' we are reading in "Update" method isn't yet updated to the value that we have in this callback
@@ -400,11 +429,6 @@ namespace RSP
             UpdateCameraRecenteringState(context.ReadValue<Vector2>());
         }
 
-        // This is for Camera Recentering and private so that doesn't conflic with that of "Grounded State"
-        private void OnMovementCancled(InputAction.CallbackContext context)
-        {
-            DisableCameraRecentering();
-        }
 
         #endregion
     }

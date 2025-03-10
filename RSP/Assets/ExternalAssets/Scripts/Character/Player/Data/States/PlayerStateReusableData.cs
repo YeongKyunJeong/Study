@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -13,6 +12,10 @@ namespace RSP
         public float MovementSpeedModifier { get; set; } = 1;
         public float MovementOnSlopesSpeedModifier { get; set; } = 1;
         public float MovementDecelerationForce { get; set; } = 1;   // How fast we want to decelerate our player
+
+        public List<PlayerCameraRecenteringData> SidewaysCameraRecenteringData { get; set; }
+        public List<PlayerCameraRecenteringData> BackwardsCameraRecenteringData { get; set; }
+
         public bool ShouldWalk { get; set; }
         public bool ShouldSprint { get; set; }
 

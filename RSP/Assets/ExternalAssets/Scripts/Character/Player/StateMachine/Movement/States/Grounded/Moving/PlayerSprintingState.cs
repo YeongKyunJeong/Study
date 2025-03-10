@@ -14,15 +14,16 @@ namespace RSP
 
         public PlayerSprintingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
-            sprintData = movementData.SprintData;
+            sprintData = groundedMovementData.SprintData;
         }
+
 
         #region IState
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = sprintData.SpeedModifier;
+
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
 
@@ -61,6 +62,7 @@ namespace RSP
             keepSprinting = false;
         }
         #endregion
+
 
         #region Main Methods
         private void StopSprinting()
@@ -105,8 +107,9 @@ namespace RSP
         #region Input Methods
         protected override void OnMovementCanceled(InputAction.CallbackContext context)
         {
-            //base.OnMovementCanceled(context); // Chage state to Idling state instantly
             stateMachine.ChangeState(stateMachine.HardStoppingStates);
+
+            base.OnMovementCanceled(context);
         }
 
         protected override void OnJumpStated(InputAction.CallbackContext context)

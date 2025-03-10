@@ -7,16 +7,22 @@ namespace RSP
 {
     public class PlayerIdlingState : PlayerGroundedState
     {
+        private PlayerIdleData idleData;    
         public PlayerIdlingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
+            idleData = groundedMovementData.IdleData;
         }
 
         #region IState Methods
+
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
+
+            // should called before 'UpdateCameraRecenteringState' of base method
+            stateMachine.ReusableData.BackwardsCameraRecenteringData = idleData.BackwardsCameraRecenteringData;
+
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StationaryForce;
 
@@ -34,6 +40,18 @@ namespace RSP
 
             OnMove();
         }
+
+        public override void PhysicsUpdate()
+        {
+            base.PhysicsUpdate();
+            if (!IsMovingHorizontally())
+            {
+                return;
+            }
+
+            ResetVelocity();
+        }
+
         #endregion
     }
 }

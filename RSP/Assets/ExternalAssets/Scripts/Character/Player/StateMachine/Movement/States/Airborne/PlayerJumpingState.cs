@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RSP
 {
@@ -101,6 +102,8 @@ namespace RSP
             // Not toward player now but player input direction
             if (shouldKeepRotating)
             {
+                UpdateTargetRotation(GetMovementInputDirection());
+
                 // stateMachine.ReusableData.CurrentTargetRotation.y = y of updated target rotate
                 jumpDirection = GetTargetRotationDirection(stateMachine.ReusableData.CurrentTargetRotation.y);
             }
@@ -136,6 +139,15 @@ namespace RSP
             ResetVelocity();
 
             stateMachine.Player.Rigidbody.AddForce(jumpForce, ForceMode.VelocityChange);
+        }
+
+        #endregion
+
+
+        #region Input Methods
+
+        protected override void OnMovementCanceled(InputAction.CallbackContext context)
+        {
         }
 
         #endregion

@@ -17,9 +17,9 @@ namespace RSP
 
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.Player.Input.PlayerActions.Movement.Disable();
+
+            base.Enter();
 
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
 
@@ -33,6 +33,17 @@ namespace RSP
             stateMachine.Player.Input.PlayerActions.Movement.Enable();
         }
 
+        public override void PhysicsUpdate()
+        {
+            base.PhysicsUpdate();
+            if (!IsMovingHorizontally())
+            {
+                return;
+            }
+
+            ResetVelocity();
+        }
+         
         public override void OnAnimationExitEvent()
         {
             stateMachine.Player.Input.PlayerActions.Movement.Enable();

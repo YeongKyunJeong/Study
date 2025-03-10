@@ -11,14 +11,5 @@ namespace RSP
         {
         }
 
-
-        #region Input Methods
-
-        protected override void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-            // Not to transit to Idling State
-        }
-
-        #endregion
     }
 }

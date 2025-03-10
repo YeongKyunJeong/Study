@@ -9,7 +9,7 @@ namespace RSP
 
         public PlayerRollingState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
-            rollData = movementData.RollData;
+            rollData = groundedMovementData.RollData;
         }
 
 
@@ -17,9 +17,9 @@ namespace RSP
 
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = rollData.SpeedModifier;
+
+            base.Enter();
 
             // We able to move in the Rolling State, and only enter this state when if we were pressing a Movement Input key
             // So 'stateMachine.ReusableData.ShouldSprint' of Grounded State will never called

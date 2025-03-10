@@ -11,15 +11,15 @@ namespace RSP
 
         public PlayerRunningState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
         {
-            sprintData = movementData.SprintData;
+            sprintData = groundedMovementData.SprintData;
         }
 
         #region IState Methods
         public override void Enter()
         {
-            base.Enter();
+            stateMachine.ReusableData.MovementSpeedModifier = groundedMovementData.RunData.SpeedModifier;
 
-            stateMachine.ReusableData.MovementSpeedModifier = movementData.RunData.SpeedModifier;
+            base.Enter();
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.MediumForce;
 
@@ -44,6 +44,7 @@ namespace RSP
         }
         #endregion
 
+
         #region Main Method
         private void StopRunning()
         {
@@ -62,8 +63,9 @@ namespace RSP
         #region Input Methods
         protected override void OnMovementCanceled(InputAction.CallbackContext context)
         {
-            //base.OnMovementCanceled(context); // Chage state to Idling state instantly
             stateMachine.ChangeState(stateMachine.MediumStoppingState);
+
+            base.OnMovementCanceled(context);
         }
 
         protected override void OnWalkToggleStarted(InputAction.CallbackContext context)

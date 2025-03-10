@@ -12,7 +12,7 @@ namespace RSP
         {
             base.Enter();
 
-            stateMachine.ReusableData.MovementDecelerationForce = movementData.StopData.MediumDecelerationForce;
+            stateMachine.ReusableData.MovementDecelerationForce = groundedMovementData.StopData.MediumDecelerationForce;
 
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.MediumForce;
         }

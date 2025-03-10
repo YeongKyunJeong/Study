@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 
 namespace RSP
 {
-    public class PlayerGroundedState : PlayerMovementState
+    public class  PlayerGroundedState : PlayerMovementState
     {
         private SlopeData slopeData;
         public PlayerGroundedState(PlayerMovementStateMachine playerMovementStateMachine) : base(playerMovementStateMachine)
@@ -19,6 +19,8 @@ namespace RSP
             base.Enter();
 
             UpdateShouldSprintingState();
+
+            UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
         }
 
 
@@ -88,9 +90,15 @@ namespace RSP
 
         private float SetSlopeSpeedModifierOnAngle(float angle)
         {
-            float slopeSpeedModifier = movementData.SlopeSpeedAngles.Evaluate(angle);
+            float slopeSpeedModifier = groundedMovementData.SlopeSpeedAngles.Evaluate(angle);
 
-            stateMachine.ReusableData.MovementOnSlopesSpeedModifier = slopeSpeedModifier;
+            if(stateMachine.ReusableData.MovementOnSlopesSpeedModifier != slopeSpeedModifier)
+            {
+                stateMachine.ReusableData.MovementOnSlopesSpeedModifier = slopeSpeedModifier;
+
+                UpdateCameraRecenteringState(stateMachine.ReusableData.MovementInput);
+            }
+
             return slopeSpeedModifier;
         }
 
@@ -100,9 +108,9 @@ namespace RSP
 
             Vector3 groundColliderCenterInWorldSpace = groundCheckCollider.bounds.center;
 
-            Collider[] overlappedGroundColliders = Physics.OverlapBox(groundColliderCenterInWorldSpace
-                , stateMachine.Player.ColliderUtility.TriggerColliderData.GroundCheckCollider.bounds.extents
-                , groundCheckCollider.transform.rotation, stateMachine.Player.LayerData.GroundLayer,
+            Collider[] overlappedGroundColliders = Physics.OverlapBox(groundColliderCenterInWorldSpace,
+                stateMachine.Player.ColliderUtility.TriggerColliderData.GroundCheckColliderExtents,
+                groundCheckCollider.transform.rotation, stateMachine.Player.LayerData.GroundLayer,
                 QueryTriggerInteraction.Ignore);
 
             return overlappedGroundColliders.Length > 0;
@@ -117,8 +125,6 @@ namespace RSP
         {
             base.AddInputActionsCallbacks();
 
-            stateMachine.Player.Input.PlayerActions.Movement.canceled += OnMovementCanceled;
-
             stateMachine.Player.Input.PlayerActions.Dash.started += OnDashStarted;
 
             stateMachine.Player.Input.PlayerActions.Jump.started += OnJumpStated;
@@ -128,8 +134,6 @@ namespace RSP
         protected override void RemoveInputActionsCallbacks()
         {
             base.RemoveInputActionsCallbacks();
-
-            stateMachine.Player.Input.PlayerActions.Movement.canceled -= OnMovementCanceled;
 
             stateMachine.Player.Input.PlayerActions.Dash.started -= OnDashStarted;
 
@@ -170,7 +174,7 @@ namespace RSP
             Ray downwardsRayFromCapsuleBottom = new Ray(capsuleColliderCenterWorldSpace
                 - stateMachine.Player.ColliderUtility.CapsuleColliderData.ColliderVerticalExtends, Vector3.down);
 
-            if (!Physics.Raycast(downwardsRayFromCapsuleBottom, out _, movementData.GroundToFallRaySpeed,
+            if (!Physics.Raycast(downwardsRayFromCapsuleBottom, out _, groundedMovementData.GroundToFallRaySpeed,
                 stateMachine.Player.LayerData.GroundLayer, QueryTriggerInteraction.Ignore))
             {
                 OnFall();
@@ -187,11 +191,6 @@ namespace RSP
 
         #region Input Methods
 
-        protected virtual void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-            stateMachine.ChangeState(stateMachine.IdlingState);
-        }
-
         protected virtual void OnDashStarted(InputAction.CallbackContext context)
         {
             stateMachine.ChangeState(stateMachine.DashingState);
@@ -201,6 +200,7 @@ namespace RSP
         {
             stateMachine.ChangeState(stateMachine.JumpingState);
         }
+
         #endregion
     }
 }

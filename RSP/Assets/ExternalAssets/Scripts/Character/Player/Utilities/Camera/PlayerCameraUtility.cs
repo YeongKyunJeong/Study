@@ -19,7 +19,8 @@ namespace RSP
             cinemachinePOV = VirtualCamera.GetCinemachineComponent<CinemachinePOV>();
         }
 
-        public void EnableRecentering(float waitTime =-1f, float recenteringTime = -1f)
+        public void EnableRecentering(float waitTime = -1f, float recenteringTime = -1f
+            , float baseMovementSpeed = 1f, float movementSpeed = 1f)
         {
             cinemachinePOV.m_HorizontalRecentering.m_enabled = true;
 
@@ -34,6 +35,8 @@ namespace RSP
             {
                 recenteringTime = DefaultHorizontalRecenteringTime;
             }
+
+            recenteringTime = recenteringTime * baseMovementSpeed / movementSpeed;
 
             cinemachinePOV.m_HorizontalRecentering.m_WaitTime = waitTime;
             cinemachinePOV.m_HorizontalRecentering.m_RecenteringTime = recenteringTime;

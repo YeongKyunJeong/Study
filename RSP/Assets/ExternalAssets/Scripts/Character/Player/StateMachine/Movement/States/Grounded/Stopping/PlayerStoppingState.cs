@@ -8,12 +8,15 @@ namespace RSP
         {
         }
 
+
         #region IState Methods
         public override void Enter()
         {
-            base.Enter();
-
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
+
+            SetBaseCameraRecenteringData();
+
+            base.Enter();
         }
 
         public override void PhysicsUpdate()
@@ -36,6 +39,7 @@ namespace RSP
         }
         #endregion
 
+
         #region Reusable Methods
         // It is never able to enter a Sopping State with our "Movement" Input keys already pressed
         // So we can add a callback to our Movement started action instead of using Update method 
@@ -56,16 +60,14 @@ namespace RSP
 
         #endregion
 
+
         #region Input Methods
-        // This is not called beacuse OnAnimationTransition and we already only enter Stoppint State when we have already stopped input
-        protected override void OnMovementCanceled(InputAction.CallbackContext context)
-        {
-        }
 
         private void OnMovementStarted(InputAction.CallbackContext context)
         {
             OnMove();
         }
+
         #endregion
     }
 }
