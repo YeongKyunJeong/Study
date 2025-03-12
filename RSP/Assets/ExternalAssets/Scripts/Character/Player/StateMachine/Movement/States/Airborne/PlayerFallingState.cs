@@ -22,6 +22,8 @@ namespace RSP
         {
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.FallParameterHash);
+
             playerPositionOnEnter = stateMachine.Player.transform.position;
 
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
@@ -29,6 +31,12 @@ namespace RSP
             ResetVerticalVelocity();
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.HardLandParameterHash);
+        }
 
         public override void PhysicsUpdate()
         {

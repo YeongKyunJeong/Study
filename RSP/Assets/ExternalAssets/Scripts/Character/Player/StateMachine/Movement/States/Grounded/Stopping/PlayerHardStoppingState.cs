@@ -8,16 +8,28 @@ namespace RSP
 
 
         #region IState Method
+
         public override void Enter()
         {
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.HardStopParameterHash);
+
             stateMachine.ReusableData.MovementDecelerationForce = groundedMovementData.StopData.HardDecelerationForce;
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.HardStopParameterHash);
+        }
+
         #endregion
 
 
         #region Reusable Methods
+
         protected override void OnMove()
         {
             // As we can't transition to Hard Stopping State to Walking State
@@ -27,6 +39,7 @@ namespace RSP
             }
 
             stateMachine.ChangeState(stateMachine.RunningState); 
+
         }
         #endregion
     }

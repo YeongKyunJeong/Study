@@ -36,7 +36,7 @@ namespace RSP
             currentState?.OnAnimationEnterEvent();
         }
 
-        public void OnAnimationExiteEvent()
+        public void OnAnimationExitEvent()
         {
             currentState?.OnAnimationExitEvent();
         }

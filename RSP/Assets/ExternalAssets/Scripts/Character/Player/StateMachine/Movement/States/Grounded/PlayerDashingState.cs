@@ -26,6 +26,8 @@ namespace RSP
 
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.DashParameterHash);
+
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
 
             // Set Rotation Data to dash rotation data
@@ -44,6 +46,8 @@ namespace RSP
         public override void Exit()
         {
             base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.DashParameterHash);
 
             // Set Rotation Data back to basic rotation data
             SetBaseRotationData();

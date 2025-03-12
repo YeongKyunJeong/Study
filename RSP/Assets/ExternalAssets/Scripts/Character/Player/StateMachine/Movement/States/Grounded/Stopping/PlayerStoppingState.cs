@@ -17,6 +17,15 @@ namespace RSP
             SetBaseCameraRecenteringData();
 
             base.Enter();
+
+            StartAnimation(stateMachine.Player.AnimationData.StoppingParameterHash);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.StoppingParameterHash);
         }
 
         public override void PhysicsUpdate()

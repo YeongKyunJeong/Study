@@ -12,10 +12,16 @@ namespace RSP
 
         [field: Header("Collisions")]
         [field: SerializeField] public PlayerCapsuleColliderUtility ColliderUtility { get; private set; }
-        [field:SerializeField] public PlayerLayerData LayerData { get; private set; }
-        
-        [field:Header("Camera")]
-        [field:SerializeField] public PlayerCameraUtility CameraUtility { get; private set; } 
+        [field: SerializeField] public PlayerLayerData LayerData { get; private set; }
+
+        [field: Header("Camera")]
+        [field: SerializeField] public PlayerCameraUtility CameraUtility { get; private set; }
+
+        [field:Header("Animations)")]
+        [field: SerializeField] public PlayerAnimationData AnimationData { get; private set; }
+
+
+        public Animator Animator { get; private set; }
         public Rigidbody Rigidbody { get; private set; }
 
         public Transform MainCameraTransform { get; private set; }
@@ -26,6 +32,7 @@ namespace RSP
 
         private void Awake()
         {
+            Animator = GetComponentInChildren<Animator>();
             Rigidbody = GetComponent<Rigidbody>();
             MainCameraTransform = Camera.main.transform;
             Input = GetComponent<PlayerInput>();
@@ -33,6 +40,7 @@ namespace RSP
             ColliderUtility.Initialize(gameObject);
             ColliderUtility.CalculateCapsulColliderDemensions();
             CameraUtility.Initialize();
+            AnimationData.Initialize();
 
             movementStateMachine = new PlayerMovementStateMachine(this);
         }
@@ -50,7 +58,7 @@ namespace RSP
 
         private void OnTriggerEnter(Collider collider)
         {
-            movementStateMachine.OnTriggerEnter(collider); 
+            movementStateMachine.OnTriggerEnter(collider);
         }
 
         private void OnTriggerExit(Collider collider)
@@ -68,6 +76,19 @@ namespace RSP
         private void FixedUpdate()
         {
             movementStateMachine.PhysicsUpdate();
+        }
+
+        public void OnMovementStateAnimationEnterEvent()
+        {
+            movementStateMachine.OnAnimationEnterEvent();
+        }
+        public void OnMovementStateAnimationExitEvent()
+        {
+            movementStateMachine.OnAnimationExitEvent();
+        }
+        public void OnMovementStateAnimationTransitionEvent()
+        {
+            movementStateMachine.OnAnimationTransitionEvent();
         }
     }
 }

@@ -21,11 +21,20 @@ namespace RSP
 
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.RollParameterHash) ;
+
             // We able to move in the Rolling State, and only enter this state when if we were pressing a Movement Input key
             // So 'stateMachine.ReusableData.ShouldSprint' of Grounded State will never called
             // We will do not keep sprinting after rolling
             stateMachine.ReusableData.ShouldSprint = false;
             
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.RollParameterHash);
         }
 
         public override void PhysicsUpdate()

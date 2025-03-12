@@ -11,16 +11,28 @@ namespace RSP
         }
 
         #region IState Methods
+
         public override void Enter()
         {
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.AirborneParameterHash);
+
             ResetSprintingState();
         }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.AirborneParameterHash);
+        }
+
         #endregion
 
 
         #region Reusable Method
+
         protected override void OnContactWithGround(Collider collider)
         {
             base.OnContactWithGround(collider);
@@ -32,6 +44,7 @@ namespace RSP
         {
             stateMachine.ReusableData.ShouldSprint = false;
         }
+
         #endregion
     }
 }

@@ -25,11 +25,18 @@ namespace RSP
 
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.SprintParameterHash);
+
             stateMachine.ReusableData.CurrentJumpForce = airborneData.JumpData.StrongForce;
 
             shouldResetSprintingState = true;
 
             startTime = Time.time;
+
+            if (!stateMachine.ReusableData.ShouldSprint)
+            {
+                keepSprinting = false;
+            }
         }
 
         public override void Update()
@@ -53,18 +60,21 @@ namespace RSP
         {
             base.Exit();
 
+            StopAnimation(stateMachine.Player.AnimationData.SprintParameterHash);
+
             if (shouldResetSprintingState)
             {
                 keepSprinting = false;
                 stateMachine.ReusableData.ShouldSprint = false;
             }
 
-            keepSprinting = false;
         }
+
         #endregion
 
 
         #region Main Methods
+
         private void StopSprinting()
         {
             if(stateMachine.ReusableData.MovementInput == Vector2.zero)
@@ -76,10 +86,12 @@ namespace RSP
             }
             stateMachine.ChangeState(stateMachine.RunningState);
         }
+
         #endregion
 
 
         #region Reusable Methods
+
         protected override void AddInputActionsCallbacks()
         {
             base.AddInputActionsCallbacks();

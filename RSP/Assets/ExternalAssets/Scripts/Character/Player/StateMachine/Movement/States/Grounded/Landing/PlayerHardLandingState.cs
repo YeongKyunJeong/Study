@@ -21,6 +21,8 @@ namespace RSP
 
             base.Enter();
 
+            StartAnimation(stateMachine.Player.AnimationData.HardLandParameterHash);
+
             stateMachine.ReusableData.MovementSpeedModifier = 0f;
 
             ResetVelocity();
@@ -29,6 +31,8 @@ namespace RSP
         public override void Exit()
         {
             base.Exit();
+
+            StopAnimation(stateMachine.Player.AnimationData.HardLandParameterHash);
 
             stateMachine.Player.Input.PlayerActions.Movement.Enable();
         }
