@@ -41,6 +41,7 @@ namespace RSP
         {
             zoomValue = inputProvider.GetAxisValue(2) * zoomSensitivity;
 
+            Debug.Log(zoomValue);
             currentTargetDistance = Mathf.Clamp(currentTargetDistance + zoomValue, minimumDistance, maximumDistance);
             currentDistance = framingTransposer.m_CameraDistance;
             if (currentDistance == currentTargetDistance)
