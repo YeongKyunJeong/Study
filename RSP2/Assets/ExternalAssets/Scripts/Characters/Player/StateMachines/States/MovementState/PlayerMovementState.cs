@@ -13,6 +13,7 @@ namespace RSP2
         // To Do : Move Data to SO
         protected float defaultSpeedModifier = 1;
         protected float speedModifier;
+        protected float rotationTime = 1;
 
         public PlayerMovementState(Player _player, PlayerMovementStateMachine _stateMachine)
         {

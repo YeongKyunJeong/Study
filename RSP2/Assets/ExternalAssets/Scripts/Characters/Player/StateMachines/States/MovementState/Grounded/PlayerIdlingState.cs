@@ -10,6 +10,7 @@ namespace RSP2
         {
             //defaultSpeedModifier = 0;
             defaultSpeedModifier = 0.1f;
+            rotationTime = 0.14f;
         }
 
         public override void Enter()
@@ -17,6 +18,8 @@ namespace RSP2
             base.Enter();
 
             player.RuntimeData.MovementSpeedModifier = defaultSpeedModifier;
+            player.RuntimeData.TimeToReachTargetYRotation.y = rotationTime;
+            player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
         }
     }
 }
