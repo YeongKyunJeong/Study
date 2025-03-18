@@ -159,8 +159,12 @@ namespace RSP2
             }
 
             rotationLerpT += RuntimeData.RotationLerpUpdate;
-            if (rotationLerpT > 1) { rotationLerpT = 1; }
+            // if (rotationLerpT > 1) { rotationLerpT = 1; }
             transform.rotation = Quaternion.Lerp(transform.rotation, Quaternion.LookRotation(RuntimeData.TargetRotationDir), rotationLerpT);
+
+            // Vector3 eulerAngles = transform.rotation.eulerAngles;
+            // eulerAngles.y += 3 * Time.fixedDeltaTime;
+            // transform.rotation.eulerAngles = eulerAngles;
 
             //targetRotationAngle = Mathf.Atan2(targetDir.x, targetDir.z) * Mathf.Rad2Deg;
             //transform.rotation = Quaternion.LookRotation(CalculateMovementVector());
