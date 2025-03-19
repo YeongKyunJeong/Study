@@ -22,12 +22,12 @@ namespace RSP2
             currentState?.HandleInput();
         }
 
-        public void DeliverUpdate()
+        public void CallUpdate()
         {
             currentState?.Update();
         }
 
-        public void DeliverPhysicsUpdate()
+        public void CallPhysicsUpdate()
         {
             currentState?.PhysicsUpdate();
         }

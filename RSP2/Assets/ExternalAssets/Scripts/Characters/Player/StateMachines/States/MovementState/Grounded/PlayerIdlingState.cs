@@ -6,11 +6,12 @@ namespace RSP2
 {
     public class PlayerIdlingState : PlayerGroundedState
     {
-        public PlayerIdlingState(Player _player, PlayerMovementStateMachine _stateMachine) : base(_player, _stateMachine)
+        public PlayerIdlingState(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //defaultSpeedModifier = 0;
-            defaultSpeedModifier = 0.1f;
-            rotationTime = 0.14f;
+            defaultSpeedModifier = 5f;
+            //rotationTime = 0.14f;
+            rotationSpeedModifier = 8;
         }
 
         public override void Enter()
@@ -18,8 +19,9 @@ namespace RSP2
             base.Enter();
 
             player.RuntimeData.MovementSpeedModifier = defaultSpeedModifier;
-            player.RuntimeData.TimeToReachTargetYRotation.y = rotationTime;
-            player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
+            player.RuntimeData.RotationSpeedModifier = rotationSpeedModifier;
+            //player.RuntimeData.TimeToReachTargetYRotation.y = rotationTime;
+            //player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
         }
     }
 }

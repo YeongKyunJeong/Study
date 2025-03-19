@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class PlayerMovementStateMachine : StateMachine
+    public class MovementStateMachineForPlayer : StateMachine
     {
         private Player player;
 
@@ -23,7 +23,7 @@ namespace RSP2
         #endregion
 
 
-        public PlayerMovementStateMachine(Player _player)
+        public MovementStateMachineForPlayer(Player _player)
         {
             player = _player;
 

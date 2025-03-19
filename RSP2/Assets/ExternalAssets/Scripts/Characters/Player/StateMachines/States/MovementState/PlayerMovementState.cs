@@ -7,18 +7,21 @@ namespace RSP2
 {
     public class PlayerMovementState : IState
     {
-        protected PlayerMovementStateMachine stateMachine;
         protected Player player;
+        protected MovementStateMachineForPlayer stateMachine;
+        protected PlayerRuntimeData runtimeData;
 
         // To Do : Move Data to SO
-        protected float defaultSpeedModifier = 1;
+        protected float defaultSpeedModifier = 10f;
         protected float speedModifier;
-        protected float rotationTime = 1;
+        protected float rotationSpeedModifier;
+        //protected float rotationTime = 1;
 
-        public PlayerMovementState(Player _player, PlayerMovementStateMachine _stateMachine)
+        public PlayerMovementState(Player _player, MovementStateMachineForPlayer _stateMachine)
         {
-            stateMachine = _stateMachine;
             player = _player;
+            runtimeData = player.RuntimeData;
+            stateMachine = _stateMachine;
         }
 
         #region IState Methods
@@ -31,7 +34,7 @@ namespace RSP2
         }
         public virtual void PhysicsUpdate()
         {
-            Move();
+            //Move();
         }
 
 
@@ -60,13 +63,11 @@ namespace RSP2
 
         private void Move()
         {
-            if (player.RuntimeData.MovementInput == Vector2.zero)
-            {
-                Debug.Log("No Movement Input");
-                return;
-            }
+            //if (player.RuntimeData.MovementInput == Vector2.zero)
+            //{
+            //    return;
+            //}
 
-            player.MoveCall();
         }
 
     }
