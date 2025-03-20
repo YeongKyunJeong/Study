@@ -7,19 +7,26 @@ namespace RSP2
 {
     public class Player : MonoBehaviour
     {
-        private MovementStateMachineForPlayer movementStateMachine;
 
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public PlayerMover Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
-        [field: SerializeField] public Transform mainCameraTransform { get; private set; }
+        [field: SerializeField] public Transform MainCameraTransform { get; private set; }
+        [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
 
+        public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
         public PlayerRuntimeData RuntimeData { get; private set; }
 
         private void Awake()
         {
             RuntimeData = new PlayerRuntimeData();
-            movementStateMachine = new MovementStateMachineForPlayer(this);
+            MovementStateMachine = new MovementStateMachineForPlayer(this);
+
+
+            if (SOData == null)
+            {
+                throw new NotImplementedException("Player Scriptable Object Not Assigned");
+            }
 
             if (InputReader == null)
             {
@@ -38,7 +45,7 @@ namespace RSP2
                 throw new NotImplementedException("Character Controller Not Assigned");
             }
 
-            if (mainCameraTransform == null)
+            if (MainCameraTransform == null)
             {
                 throw new NotImplementedException("Main Camera Transform Not Assigned");
             }
@@ -55,12 +62,12 @@ namespace RSP2
 
         private void Update()
         {
-            movementStateMachine.CallUpdate();
+            MovementStateMachine.CallUpdate();
         }
 
         private void FixedUpdate()
         {
-            movementStateMachine.CallPhysicsUpdate();
+            MovementStateMachine.CallPhysicsUpdate();
             Mover.CallFixedUpdate();
         }
 

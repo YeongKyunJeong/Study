@@ -1,6 +1,3 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace RSP2
@@ -8,6 +5,8 @@ namespace RSP2
     public class PlayerMover : MonoBehaviour
     {
         private Player player;
+        private PlayerScriptableObject sOData;
+        private MovementStateDataForPlayer movementStateData;
         private PlayerRuntimeData runtimeData;
         private PlayerInputReader inputReader;
         private CharacterController controller;
@@ -19,6 +18,8 @@ namespace RSP2
         public void Initialize()
         {
             player = GetComponent<Player>();
+            sOData = player.SOData;
+            movementStateData = sOData.MovementStateData;
             runtimeData = player.RuntimeData;
             inputReader = GetComponent<PlayerInputReader>();
             inputReader.MoveEvent += OnMoveInput;
@@ -40,16 +41,16 @@ namespace RSP2
 
         private void DoHorizontalMovement()
         {
-            if(movementInputVector == Vector2.zero)
+            if (movementInputVector == Vector2.zero)
             {
-                Debug.Log("Movement Input Not Detected");
+                //Debug.Log("Movement Input Not Detected");
                 return;
             }
-            Debug.Log($"{movementInputVector.x }, {movementInputVector.y}");
+            //Debug.Log($"{movementInputVector.x }, {movementInputVector.y}");
             horizontalMovementVector = CalculateMovementVector();
             runtimeData.HorizontalMovementVector = horizontalMovementVector;
 
-            controller.Move(horizontalMovementVector* Time.fixedDeltaTime);
+            controller.Move(horizontalMovementVector * Time.fixedDeltaTime);
 
             Rotate(horizontalMovementVector);
 
@@ -59,7 +60,7 @@ namespace RSP2
         private void Rotate(Vector3 targetDir)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir),
-                Time.fixedDeltaTime * runtimeData.RotationSpeedModifier);
+                Time.fixedDeltaTime * movementStateData.RotationSpeedModifier);
         }
 
         private Vector3 forward;
@@ -76,7 +77,7 @@ namespace RSP2
             right.Normalize();
 
             return (forward * movementInputVector.y + right * movementInputVector.x)
-                * runtimeData.MovementSpeedModifier;
+                * movementStateData.MovementSpeedModifier;
         }
 
     }
