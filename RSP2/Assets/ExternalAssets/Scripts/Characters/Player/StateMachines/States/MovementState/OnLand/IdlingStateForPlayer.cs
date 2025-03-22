@@ -4,9 +4,9 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class PlayerIdlingState : PlayerGroundedState
+    public class IdlingStateForPlayer : OnLandStateForPlayer
     {
-        public PlayerIdlingState(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public IdlingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //defaultSpeedModifier = 0;
             //rotationTime = 0.14f;
@@ -24,6 +24,19 @@ namespace RSP2
 
             //player.RuntimeData.TimeToReachTargetYRotation.y = rotationTime;
             //player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
+        }
+
+        protected override void OnMoveInput(Vector2 moveInput)
+        {
+            base.OnMoveInput(moveInput);
+            runtimeData.MoveInput = moveInput;
+
+            if (runtimeData.IsWalking)
+            {
+                stateMachine.ChangeState(stateMachine.WalkingState);
+            }
+
+            stateMachine.ChangeState(stateMachine.RunnigState);
         }
     }
 }

@@ -12,8 +12,14 @@ namespace RSP2
         private CharacterController controller;
 
         private Vector2 movementInputVector;
-        private Vector3 horizontalMovementVector;
+        private Vector3 nextHorizontalMovementVector;
         private Transform mainCameraTransform;
+        private Vector3 verticalVelocityVector;
+
+        private bool isInAir;
+        private bool isFirstJumpForceUpdate;
+
+        private Vector3 gravity;
 
         public void Initialize()
         {
@@ -22,39 +28,80 @@ namespace RSP2
             movementStateData = sOData.MovementStateData;
             runtimeData = player.RuntimeData;
             inputReader = GetComponent<PlayerInputReader>();
-            inputReader.MoveEvent += OnMoveInput;
             controller = player.Controller;
             mainCameraTransform = Camera.main.transform;
 
-        }
+            //inputReader.MoveEvent += OnMoveInput;
+            inputReader.JumpEvent += OnJumpInput;
 
+            gravity = Physics.gravity;
+
+            isFirstJumpForceUpdate = false;
+            isInAir = false;
+            verticalVelocityVector = Vector3.zero;
+        }
 
         public void CallFixedUpdate()
         {
-            DoHorizontalMovement();
+            UpdateNextVerticalMovement();
+
+            //UpdateHorizontalMovementInputResult();
+
+            ApplyUpdatedMovement();
+
+            return;
         }
 
-        private void OnMoveInput(Vector2 movementInput)
+        private void OnJumpInput()
         {
-            movementInputVector = movementInput;
-        }
-
-        private void DoHorizontalMovement()
-        {
-            if (movementInputVector == Vector2.zero)
+            if (isInAir)
             {
-                //Debug.Log("Movement Input Not Detected");
                 return;
             }
-            //Debug.Log($"{movementInputVector.x }, {movementInputVector.y}");
-            horizontalMovementVector = CalculateMovementVector();
-            runtimeData.HorizontalMovementVector = horizontalMovementVector;
 
-            controller.Move(horizontalMovementVector * Time.fixedDeltaTime);
+            isInAir = true;
+            isFirstJumpForceUpdate = true;
+        }
 
-            Rotate(horizontalMovementVector);
+        //private void DoJump()
+        //{
 
+        //}
 
+        private void ApplyUpdatedMovement()
+        {
+            controller.Move((nextHorizontalMovementVector + verticalVelocityVector) * Time.fixedDeltaTime);
+            if(nextHorizontalMovementVector == Vector3.zero)
+            {
+                //Debug.Log("No Input : Mover");
+                return;
+            }
+            Rotate(nextHorizontalMovementVector);
+        }
+
+        private void UpdateNextVerticalMovement()
+        {
+            if (isInAir)
+            {
+                if (isFirstJumpForceUpdate)
+                {
+                    verticalVelocityVector.y = movementStateData.JumpForceModifier;
+                    isFirstJumpForceUpdate = false;
+                    return;
+                }
+
+                if (controller.isGrounded)
+                {
+
+                }
+
+                verticalVelocityVector += gravity;
+            }
+        }
+
+        public void UpdateHorizontalMovementInputResult(Vector3 movementVector)
+        {
+            nextHorizontalMovementVector = movementVector;
         }
 
         private void Rotate(Vector3 targetDir)
@@ -63,22 +110,6 @@ namespace RSP2
                 Time.fixedDeltaTime * movementStateData.RotationSpeedModifier);
         }
 
-        private Vector3 forward;
-        private Vector3 right;
-        private Vector3 CalculateMovementVector()
-        {
-            forward = mainCameraTransform.forward;
-            right = mainCameraTransform.right;
-
-            forward.y = 0f;
-            right.y = 0f;
-
-            forward.Normalize();
-            right.Normalize();
-
-            return (forward * movementInputVector.y + right * movementInputVector.x)
-                * movementStateData.MovementSpeedModifier;
-        }
 
     }
 }

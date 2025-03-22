@@ -17,19 +17,19 @@ namespace RSP2
             currentState.Enter();
         }
 
-        public void DeliverInput()
-        {
-            currentState?.HandleInput();
-        }
+        //public void DeliverInput()
+        //{
+        //    currentState?.HandleInput();
+        //}
 
         public void CallUpdate()
         {
-            currentState?.Update();
+            currentState?.CallUpdate();
         }
 
         public void CallPhysicsUpdate()
         {
-            currentState?.PhysicsUpdate();
+            currentState?.CallPhysicsUpdate();
         }
 
         public void CallOnAnimationEnterEvent()
@@ -46,6 +46,9 @@ namespace RSP2
         {
             currentState?.OnAnimationTransitEvent();
         }
+
+
+
 
     }
 }

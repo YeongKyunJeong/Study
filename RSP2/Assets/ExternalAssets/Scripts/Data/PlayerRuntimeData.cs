@@ -6,16 +6,23 @@ namespace RSP2
 {
     public class PlayerRuntimeData
     {
-        public Vector2 MovementInput { get; set; }
+        public bool IsWalking;
 
-        public float MovementSpeedModifier { get; set; } = 1;
+        public PlayerRuntimeData()
+        {
+            IsWalking = false;
+        }
 
+        public Vector2 MoveInput { get; set; }
         public Vector3 HorizontalMovementVector { get; set; }
 
-        public Vector3 TargetRotationDir { get; set; }
-        public float RotationLerpUpdate { get; set; }
+        //public float MovementSpeedModifier { get; set; } = 1;
 
-        public float RotationSpeedModifier { get; set; }
+
+        //public Vector3 TargetRotationDir { get; set; }
+        //public float RotationLerpUpdate { get; set; }
+
+        //public float RotationSpeedModifier { get; set; }
 
         //public float CurrentTargetYAngle { get; set; }
         //private Vector3 dampedTargetRotationCurrentVelocity;
