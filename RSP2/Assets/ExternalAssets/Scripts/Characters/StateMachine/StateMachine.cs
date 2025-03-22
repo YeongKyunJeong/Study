@@ -13,6 +13,7 @@ namespace RSP2
             currentState?.Exit();
 
             currentState = nextState;
+            Debug.Log(currentState.ToString());
 
             currentState.Enter();
         }

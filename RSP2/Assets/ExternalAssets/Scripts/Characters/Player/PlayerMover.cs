@@ -14,12 +14,11 @@ namespace RSP2
         private Vector2 movementInputVector;
         private Vector3 nextHorizontalMovementVector;
         private Transform mainCameraTransform;
-        private Vector3 verticalVelocityVector;
+        private Vector3 nextVerticalVelocityVector;
 
-        private bool isInAir;
-        private bool isFirstJumpForceUpdate;
+        //private bool isFirstJumpForceUpdate;
 
-        private Vector3 gravity;
+        //private Vector3 gravity;
 
         public void Initialize()
         {
@@ -32,18 +31,18 @@ namespace RSP2
             mainCameraTransform = Camera.main.transform;
 
             //inputReader.MoveEvent += OnMoveInput;
-            inputReader.JumpEvent += OnJumpInput;
+            //inputReader.JumpEvent += OnJumpInput;
 
-            gravity = Physics.gravity;
+            //gravity = Physics.gravity;
 
-            isFirstJumpForceUpdate = false;
-            isInAir = false;
-            verticalVelocityVector = Vector3.zero;
+            //isFirstJumpForceUpdate = false;
+            //isInAir = false;
+            nextVerticalVelocityVector = Vector3.zero;
         }
 
         public void CallFixedUpdate()
         {
-            UpdateNextVerticalMovement();
+            //UpdateNextVerticalMovement();
 
             //UpdateHorizontalMovementInputResult();
 
@@ -52,16 +51,16 @@ namespace RSP2
             return;
         }
 
-        private void OnJumpInput()
-        {
-            if (isInAir)
-            {
-                return;
-            }
+        //private void OnJumpInput()
+        //{
+        //    if (isInAir)
+        //    {
+        //        return;
+        //    }
 
-            isInAir = true;
-            isFirstJumpForceUpdate = true;
-        }
+        //    isInAir = true;
+        //    isFirstJumpForceUpdate = true;
+        //}
 
         //private void DoJump()
         //{
@@ -70,8 +69,8 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-            controller.Move((nextHorizontalMovementVector + verticalVelocityVector) * Time.fixedDeltaTime);
-            if(nextHorizontalMovementVector == Vector3.zero)
+            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * Time.fixedDeltaTime);
+            if (nextHorizontalMovementVector == Vector3.zero)
             {
                 //Debug.Log("No Input : Mover");
                 return;
@@ -79,27 +78,29 @@ namespace RSP2
             Rotate(nextHorizontalMovementVector);
         }
 
-        private void UpdateNextVerticalMovement()
+        public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
         {
-            if (isInAir)
-            {
-                if (isFirstJumpForceUpdate)
-                {
-                    verticalVelocityVector.y = movementStateData.JumpForceModifier;
-                    isFirstJumpForceUpdate = false;
-                    return;
-                }
+            //if (isInAir)
+            //{
+            //    if (isFirstJumpForceUpdate)
+            //    {
+            //        verticalVelocityVector.y = movementStateData.JumpForceModifier;
+            //        isFirstJumpForceUpdate = false;
+            //        return;
+            //    }
 
-                if (controller.isGrounded)
-                {
+            //    if (controller.isGrounded)
+            //    {
+            //        isInAir = false;
+            //        Debug.Log("isGrounded");
+            //    }
 
-                }
-
-                verticalVelocityVector += gravity;
-            }
+            //    verticalVelocityVector += gravity * Time.fixedDeltaTime;
+            //}
+            nextVerticalVelocityVector = velocityVector;
         }
 
-        public void UpdateHorizontalMovementInputResult(Vector3 movementVector)
+        public void UpdateNextHorizontalMovementVector(Vector3 movementVector)
         {
             nextHorizontalMovementVector = movementVector;
         }

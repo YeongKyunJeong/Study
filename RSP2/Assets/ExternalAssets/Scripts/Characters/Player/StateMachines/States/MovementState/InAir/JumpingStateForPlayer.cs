@@ -13,6 +13,32 @@ namespace RSP2
         public override void Enter()
         {
             base.Enter();
+
+            verticalVelocityVector += new Vector3(0, movementStateData.JumpForceModifier, 0);
+        }
+
+        public override void CallPhysicsUpdate()
+        {
+            base.CallPhysicsUpdate();
+
+            if (isFirstFixedUpdate)
+            {
+                isFirstFixedUpdate = false;
+            }
+            else
+            {
+                 ApplyFallingToVector(ref verticalVelocityVector, Time.fixedDeltaTime);
+            }
+
+            runtimeData.VerticalVelocityVector = verticalVelocityVector;
+
+            mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
+            mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
+
+            if (verticalVelocityVector.y <= 0)
+            {
+                stateMachine.ChangeState(stateMachine.FallingState);
+            }
         }
     }
 }

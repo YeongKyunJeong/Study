@@ -12,4 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 069b23f26b8144347a6745677ce69a4f, type: 3}
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
-  <MovementStateData>k__BackingField: {fileID: 0}
+  <MovementStateData>k__BackingField:
+    <MovementSpeedModifier>k__BackingField: 5
+    <RotationSpeedModifier>k__BackingField: 8
+    <JumpForceModifier>k__BackingField: 8

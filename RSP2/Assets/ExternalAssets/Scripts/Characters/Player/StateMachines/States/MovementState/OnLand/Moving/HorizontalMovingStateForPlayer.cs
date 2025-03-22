@@ -30,10 +30,10 @@ namespace RSP2
                 Debug.Log("No Input : State");
             }
 
-            horizontalMovementVector = movementStateData.MovementSpeedModifier * ConvertInputToMovementDirectionVector(moveInput);
+            horizontalMovementVector = movementStateData.MovementSpeedModifier * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
             runtimeData.HorizontalMovementVector = horizontalMovementVector;
 
-            mover.UpdateHorizontalMovementInputResult(horizontalMovementVector);
+            mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
 
         protected override void OnMoveInput(Vector2 _moveInput)
@@ -44,25 +44,30 @@ namespace RSP2
             runtimeData.MoveInput = moveInput;
         }
 
-        //static Vector3 horizontalMovementVector;
-        private Transform mainCameraTransform = Camera.main.transform;
 
-        private Vector3 forward;
-        private Vector3 right;
-
-        private Vector3 ConvertInputToMovementDirectionVector(Vector3 input)
+        protected override void OnJumpInput()
         {
-            forward = mainCameraTransform.forward;
-            right = mainCameraTransform.right;
+            base.OnJumpInput();
 
-            forward.y = 0f;
-            right.y = 0f;
-
-            forward.Normalize();
-            right.Normalize();
-
-            return (forward * input.y + right * input.x);
+            stateMachine.ChangeState(stateMachine.JumpingState);
         }
+        //static Vector3 horizontalMovementVector;
+        //private Vector3 forward;
+        //private Vector3 right;
+
+        //private Vector3 ConvertInputToMovementDirectionVector(Vector3 input)
+        //{
+        //    forward = mainCameraTransform.forward;
+        //    right = mainCameraTransform.right;
+
+        //    forward.y = 0f;
+        //    right.y = 0f;
+
+        //    forward.Normalize();
+        //    right.Normalize();
+
+        //    return (forward * input.y + right * input.x);
+        //}
     }
 
 }

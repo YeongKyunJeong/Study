@@ -11,10 +11,13 @@ namespace RSP2
 
         protected PlayerRuntimeData runtimeData;
         protected MovementStateDataForPlayer movementStateData;
-        
+
+        protected Transform mainCameraTransform;
+
         protected MovementStateMachineForPlayer stateMachine;
         protected PlayerInputReader inputReader;
         protected PlayerMover mover;
+        protected CharacterController controller;
 
 
         // To Do : Move Data to SO
@@ -30,9 +33,12 @@ namespace RSP2
             runtimeData = player.RuntimeData;
             movementStateData = player.SOData.MovementStateData;
 
+            //mainCameraTransform = Camera.main.transform;
+
             stateMachine = _stateMachine;
             inputReader = player.InputReader;
             mover = player.Mover;
+            controller = player.Controller;
 
         }
 
@@ -86,4 +92,30 @@ namespace RSP2
 
 
     }
+
+    public static class InputToDirectionVectorConverter
+    {
+        static Transform mainCameraTransform = Camera.main.transform;
+        //static Vector3 horizontalMovementVector;
+        static Vector3 forward;
+        static Vector3 right;
+
+        public static Vector3 ConvertInputToMovementDirectionVector(Vector3 input)
+        {
+            forward = mainCameraTransform.forward;
+            right = mainCameraTransform.right;
+
+            forward.y = 0f;
+            right.y = 0f;
+
+            forward.Normalize();
+            right.Normalize();
+
+            return (forward * input.y + right * input.x);
+        }
+
+    }
+
+
+
 }
