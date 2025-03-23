@@ -19,6 +19,8 @@ namespace RSP2
         {
             base.Enter();
 
+            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+
             //player.RuntimeData.MovementSpeedModifier = defaultSpeedModifier;
             //player.RuntimeData.RotationSpeedModifier = rotationSpeedModifier;
 
@@ -37,6 +39,11 @@ namespace RSP2
             }
 
             stateMachine.ChangeState(stateMachine.RunnigState);
+        }
+
+        protected override void OnJumpInput()
+        {
+            base.OnJumpInput();
         }
     }
 }

@@ -10,24 +10,26 @@ namespace RSP2
         {
         }
 
-        public override void CallUpdate()
-        {
-            base.CallUpdate();
-        }
+        //public override void CallUpdate()
+        //{
+        //    base.CallUpdate();
+        //}
 
-        public override void CallPhysicsUpdate()
-        {
-            base.CallPhysicsUpdate();
-        }
+        //public override void CallPhysicsUpdate()
+        //{
+        //    base.CallPhysicsUpdate();
+        //}
 
-        protected override void OnMoveInput(Vector2 moveInput)
-        {
-            base.OnMoveInput(moveInput);
-        }
+        //protected override void OnMoveInput(Vector2 moveInput)
+        //{
+        //    base.OnMoveInput(moveInput);
+        //}
 
         protected override void OnJumpInput()
         {
             base.OnJumpInput();
+
+            stateMachine.ChangeState(stateMachine.JumpingState);
         }
 
     }

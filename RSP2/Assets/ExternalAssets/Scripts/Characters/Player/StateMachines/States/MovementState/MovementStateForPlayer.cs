@@ -20,11 +20,8 @@ namespace RSP2
         protected CharacterController controller;
 
 
-        // To Do : Move Data to SO
-        //protected float defaultSpeedModifier = 10f;
-        //protected float speedModifier;
-        //protected float rotationSpeedModifier;
-        //protected float rotationTime = 1;
+        protected Vector2 moveInput;
+
 
         public MovementStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine)
         {
@@ -47,6 +44,8 @@ namespace RSP2
         {
             inputReader.MoveEvent += OnMoveInput;
             inputReader.JumpEvent += OnJumpInput;
+
+            moveInput = runtimeData.MoveInput;
         }
 
         public virtual void Exit()
@@ -82,11 +81,16 @@ namespace RSP2
         }
         #endregion
 
-        #region Movement State Method
-        protected virtual void OnMoveInput(Vector2 moveInput) { }
+
+        #region Movement Input Method
+
+        protected virtual void OnMoveInput(Vector2 _moveInput)
+        {
+            moveInput = _moveInput;
+            runtimeData.MoveInput = moveInput;
+        }
 
         protected virtual void OnJumpInput() { }
-
 
         #endregion
 

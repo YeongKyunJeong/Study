@@ -12,12 +12,16 @@ namespace RSP2
         public IState CurrentState { get; private set; }
         
         #region OnLand States
+
         public IdlingStateForPlayer IdlingState { get; private set; }
         public WalkingStateForPlayer WalkingState { get; private set; }
         public RunnigStateForPlayer RunnigState { get; private set; }
+        
         #endregion
 
+
         #region InAir States
+        
         public JumpingStateForPlayer JumpingState { get; private set; }
 
         public FallingStateForPlayer FallingState { get; private set; }

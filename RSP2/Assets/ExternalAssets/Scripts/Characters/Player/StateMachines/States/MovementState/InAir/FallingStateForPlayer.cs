@@ -8,7 +8,7 @@ namespace RSP2
     {
         public FallingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-            verticalVelocityVector =  Vector3.zero;
+            verticalVelocityVector = Vector3.zero;
 
         }
 
@@ -16,6 +16,15 @@ namespace RSP2
         {
             base.CallPhysicsUpdate();
 
+            CheckIsFirstUpdate();
+
+            SendHorizontalMovementData();
+
+            CheckIsGrounded();
+        }
+
+        private void CheckIsFirstUpdate()
+        {
             if (isFirstFixedUpdate)
             {
                 isFirstFixedUpdate = false;
@@ -24,16 +33,46 @@ namespace RSP2
             {
                 ApplyFallingToVector(ref verticalVelocityVector, Time.fixedDeltaTime);
             }
+        }
 
+        private void CheckIsGrounded()
+        {
+            if (controller.isGrounded)
+            {
+                if (moveInput == Vector2.zero)
+                {
+                    Debug.Log("No Input : Falling State");
+                    stateMachine.ChangeState(stateMachine.IdlingState);
+                    return;
+                }
+
+                if (runtimeData.IsWalking)
+                {
+                    stateMachine.ChangeState(stateMachine.WalkingState);
+                    return;
+                }
+                stateMachine.ChangeState(stateMachine.RunnigState);
+
+
+            }
+        }
+
+        private void SendHorizontalMovementData()
+        {
             runtimeData.VerticalVelocityVector = verticalVelocityVector;
 
             mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
-
-            if (controller.isGrounded)
-            {
-                stateMachine.ChangeState(stateMachine.IdlingState);
-            }
         }
+
+
+        #region Movement Input Method
+
+        protected override void OnMoveInput(Vector2 _moveInput)
+        {
+            base.OnMoveInput(_moveInput);
+        }
+
+        #endregion
     }
 }

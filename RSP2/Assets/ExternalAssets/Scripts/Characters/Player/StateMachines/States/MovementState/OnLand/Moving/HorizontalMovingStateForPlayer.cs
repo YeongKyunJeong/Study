@@ -6,8 +6,8 @@ namespace RSP2
 {
     public class HorizontalMovingStateForPlayer : OnLandStateForPlayer
     {
-        private Vector3 horizontalMovementVector;
-        private Vector2 moveInput;
+        protected Vector3 horizontalMovementVector;
+        //protected Vector2 moveInput;
 
         public HorizontalMovingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -27,7 +27,7 @@ namespace RSP2
             if (moveInput == Vector2.zero)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
-                Debug.Log("No Input : State");
+                Debug.Log("No Input : Horizontal Moving State");
             }
 
             horizontalMovementVector = movementStateData.MovementSpeedModifier * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
@@ -36,21 +36,16 @@ namespace RSP2
             mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
 
-        protected override void OnMoveInput(Vector2 _moveInput)
-        {
-            base.OnMoveInput(_moveInput);
+        //protected override void OnMoveInput(Vector2 _moveInput)
+        //{
+        //    base.OnMoveInput(_moveInput);
 
-            moveInput = _moveInput;
-            runtimeData.MoveInput = moveInput;
-        }
+        //    moveInput = _moveInput;
+        //    runtimeData.MoveInput = moveInput;
+        //}
 
 
-        protected override void OnJumpInput()
-        {
-            base.OnJumpInput();
 
-            stateMachine.ChangeState(stateMachine.JumpingState);
-        }
         //static Vector3 horizontalMovementVector;
         //private Vector3 forward;
         //private Vector3 right;
