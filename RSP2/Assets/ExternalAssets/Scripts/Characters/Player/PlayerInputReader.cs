@@ -11,6 +11,7 @@ namespace RSP2
         private Player player;
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
+        public event Action WalkToggleEvent;
 
         //public PlayerInputReader(Player _player)
         //{
@@ -61,6 +62,11 @@ namespace RSP2
         public Vector2 GetMovementInput()
         {
             return MovementInput;
+        }
+
+        public void OnWalkToggle()
+        {
+            WalkToggleEvent?.Invoke();
         }
     }
 }

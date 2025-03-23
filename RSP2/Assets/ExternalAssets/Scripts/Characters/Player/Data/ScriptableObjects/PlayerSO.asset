@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   <MovementStateData>k__BackingField:
-    <MovementSpeedModifier>k__BackingField: 5
+    <WalkingSpeedModifier>k__BackingField: 2
+    <RunningSpeedModifier>k__BackingField: 5
     <RotationSpeedModifier>k__BackingField: 8
     <JumpForceModifier>k__BackingField: 5

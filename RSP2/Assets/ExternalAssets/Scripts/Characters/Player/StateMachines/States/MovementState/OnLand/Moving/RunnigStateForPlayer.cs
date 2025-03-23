@@ -10,6 +10,19 @@ namespace RSP2
         {
         }
 
-        
+
+        protected override void OnWalkToggleInput()
+        {
+            base.OnWalkToggleInput();
+
+            stateMachine.ChangeState(stateMachine.WalkingState);
+        }
+
+
+        protected override float ApplySpeedModifierToMovementVector()
+        {
+            return movementStateData.RunningSpeedModifier;
+        }
+
     }
 }

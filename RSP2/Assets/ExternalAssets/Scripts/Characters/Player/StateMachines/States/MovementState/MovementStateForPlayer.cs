@@ -44,6 +44,7 @@ namespace RSP2
         {
             inputReader.MoveEvent += OnMoveInput;
             inputReader.JumpEvent += OnJumpInput;
+            inputReader.WalkToggleEvent += OnWalkToggleInput;
 
             moveInput = runtimeData.MoveInput;
         }
@@ -52,6 +53,7 @@ namespace RSP2
         {
             inputReader.MoveEvent -= OnMoveInput;
             inputReader.JumpEvent -= OnJumpInput;
+            inputReader.WalkToggleEvent -= OnWalkToggleInput;
         }
 
         public virtual void CallPhysicsUpdate()
@@ -91,6 +93,11 @@ namespace RSP2
         }
 
         protected virtual void OnJumpInput() { }
+
+        protected virtual void OnWalkToggleInput()
+        {
+            runtimeData.IsWalking = !runtimeData.IsWalking;
+        }
 
         #endregion
 

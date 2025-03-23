@@ -27,42 +27,20 @@ namespace RSP2
             if (moveInput == Vector2.zero)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
-                Debug.Log("No Input : Horizontal Moving State");
+                //Debug.Log("No Input : Horizontal Moving State");
             }
 
-            horizontalMovementVector = movementStateData.MovementSpeedModifier * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
+            horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
             runtimeData.HorizontalMovementVector = horizontalMovementVector;
 
             mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
 
-        //protected override void OnMoveInput(Vector2 _moveInput)
-        //{
-        //    base.OnMoveInput(_moveInput);
+        protected virtual float ApplySpeedModifierToMovementVector()
+        {
+            return 1;
+        }
 
-        //    moveInput = _moveInput;
-        //    runtimeData.MoveInput = moveInput;
-        //}
-
-
-
-        //static Vector3 horizontalMovementVector;
-        //private Vector3 forward;
-        //private Vector3 right;
-
-        //private Vector3 ConvertInputToMovementDirectionVector(Vector3 input)
-        //{
-        //    forward = mainCameraTransform.forward;
-        //    right = mainCameraTransform.right;
-
-        //    forward.y = 0f;
-        //    right.y = 0f;
-
-        //    forward.Normalize();
-        //    right.Normalize();
-
-        //    return (forward * input.y + right * input.x);
-        //}
     }
 
 }

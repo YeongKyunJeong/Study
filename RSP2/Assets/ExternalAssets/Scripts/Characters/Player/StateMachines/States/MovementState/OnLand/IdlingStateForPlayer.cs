@@ -19,6 +19,7 @@ namespace RSP2
         {
             base.Enter();
 
+            runtimeData.HorizontalMovementVector = Vector3.zero;
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
 
             //player.RuntimeData.MovementSpeedModifier = defaultSpeedModifier;
