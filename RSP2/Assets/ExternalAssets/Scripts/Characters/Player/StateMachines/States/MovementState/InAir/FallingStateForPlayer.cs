@@ -8,8 +8,15 @@ namespace RSP2
     {
         public FallingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-            verticalVelocityVector = Vector3.zero;
 
+        }
+
+        public override void Enter()
+        {
+            base.Enter();
+            verticalVelocityVector = runtimeData.VerticalVelocityVector;
+            Debug.Log("    "+runtimeData.VerticalVelocityVector);
+            mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
         }
 
         public override void CallPhysicsUpdate()

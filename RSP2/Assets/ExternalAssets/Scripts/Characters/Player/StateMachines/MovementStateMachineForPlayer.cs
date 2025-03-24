@@ -8,20 +8,21 @@ namespace RSP2
     public class MovementStateMachineForPlayer : StateMachine
     {
         private Player player;
-        
+
         public IState CurrentState { get; private set; }
-        
+
         #region OnLand States
 
         public IdlingStateForPlayer IdlingState { get; private set; }
         public WalkingStateForPlayer WalkingState { get; private set; }
         public RunnigStateForPlayer RunnigState { get; private set; }
-        
+        public LandDashingStateForPlayer LandDashingState { get; private set; }
+
         #endregion
 
 
         #region InAir States
-        
+
         public JumpingStateForPlayer JumpingState { get; private set; }
 
         public FallingStateForPlayer FallingState { get; private set; }
@@ -40,9 +41,13 @@ namespace RSP2
 
             RunnigState = new RunnigStateForPlayer(_player, this);
 
+            LandDashingState = new LandDashingStateForPlayer(_player, this);
+
+
             JumpingState = new JumpingStateForPlayer(_player, this);
 
             FallingState = new FallingStateForPlayer(_player, this);
+
 
             SetDefaultState();
         }

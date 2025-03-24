@@ -12,6 +12,7 @@ namespace RSP2
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
         public event Action WalkToggleEvent;
+        public event Action DashEvent;
 
         //public PlayerInputReader(Player _player)
         //{
@@ -67,6 +68,11 @@ namespace RSP2
         public void OnWalkToggle()
         {
             WalkToggleEvent?.Invoke();
+        }
+
+        public void OnDash()
+        {
+            DashEvent?.Invoke();
         }
     }
 }

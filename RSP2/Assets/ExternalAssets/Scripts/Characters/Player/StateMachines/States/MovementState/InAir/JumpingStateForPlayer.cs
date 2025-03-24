@@ -37,7 +37,9 @@ namespace RSP2
 
             if (verticalVelocityVector.y <= 0)
             {
+                runtimeData.VerticalVelocityVector = Vector3.zero;
                 stateMachine.ChangeState(stateMachine.FallingState);
+                return;
             }
         }
     }

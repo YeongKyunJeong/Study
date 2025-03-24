@@ -16,6 +16,8 @@ namespace RSP2
         private Transform mainCameraTransform;
         private Vector3 nextVerticalVelocityVector;
 
+        private float fixedDeltaTime;
+
         //private bool isFirstJumpForceUpdate;
 
         //private Vector3 gravity;
@@ -30,73 +32,32 @@ namespace RSP2
             controller = player.Controller;
             mainCameraTransform = Camera.main.transform;
 
-            //inputReader.MoveEvent += OnMoveInput;
-            //inputReader.JumpEvent += OnJumpInput;
-
-            //gravity = Physics.gravity;
-
-            //isFirstJumpForceUpdate = false;
-            //isInAir = false;
             nextVerticalVelocityVector = Vector3.zero;
+
+            fixedDeltaTime = Time.fixedDeltaTime;
         }
 
         public void CallFixedUpdate()
         {
-            //UpdateNextVerticalMovement();
-
-            //UpdateHorizontalMovementInputResult();
-
             ApplyUpdatedMovement();
-
             return;
         }
 
-        //private void OnJumpInput()
-        //{
-        //    if (isInAir)
-        //    {
-        //        return;
-        //    }
-
-        //    isInAir = true;
-        //    isFirstJumpForceUpdate = true;
-        //}
-
-        //private void DoJump()
-        //{
-
-        //}
-
         private void ApplyUpdatedMovement()
         {
-            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * Time.fixedDeltaTime);
+            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * fixedDeltaTime);
+            //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
             if (nextHorizontalMovementVector == Vector3.zero)
             {
                 //Debug.Log("No Input : Mover");
                 return;
             }
             Rotate(nextHorizontalMovementVector);
+            nextVerticalVelocityVector = 0.1f*Vector3.down; ///////// To Do: Fix bouncing problem when going to down hill
         }
 
         public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
         {
-            //if (isInAir)
-            //{
-            //    if (isFirstJumpForceUpdate)
-            //    {
-            //        verticalVelocityVector.y = movementStateData.JumpForceModifier;
-            //        isFirstJumpForceUpdate = false;
-            //        return;
-            //    }
-
-            //    if (controller.isGrounded)
-            //    {
-            //        isInAir = false;
-            //        Debug.Log("isGrounded");
-            //    }
-
-            //    verticalVelocityVector += gravity * Time.fixedDeltaTime;
-            //}
             nextVerticalVelocityVector = velocityVector;
         }
 

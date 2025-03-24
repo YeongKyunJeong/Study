@@ -19,8 +19,9 @@ namespace RSP2
         {
             base.Enter();
 
-            runtimeData.HorizontalMovementVector = Vector3.zero;
-            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+            moveInput = Vector3.zero;
+            runtimeData.HorizontalMovementVector = moveInput;
+            mover.UpdateNextHorizontalMovementVector(moveInput);
 
             //player.RuntimeData.MovementSpeedModifier = defaultSpeedModifier;
             //player.RuntimeData.RotationSpeedModifier = rotationSpeedModifier;
@@ -28,6 +29,18 @@ namespace RSP2
             //player.RuntimeData.TimeToReachTargetYRotation.y = rotationTime;
             //player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
         }
+
+        public override void CallPhysicsUpdate()
+        {
+            base.CallPhysicsUpdate();
+            runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
+            if (!controller.isGrounded)
+            {
+                stateMachine.ChangeState(stateMachine.FallingState);
+                return;
+            }
+        }
+
 
         protected override void OnMoveInput(Vector2 moveInput)
         {

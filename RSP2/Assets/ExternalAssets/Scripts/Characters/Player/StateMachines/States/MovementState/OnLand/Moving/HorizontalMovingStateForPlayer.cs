@@ -18,11 +18,19 @@ namespace RSP2
             base.Enter();
 
             moveInput = runtimeData.MoveInput;
+
         }
 
         public override void CallPhysicsUpdate()
         {
             base.CallPhysicsUpdate();
+            runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
+
+            if (!controller.isGrounded)
+            {
+                stateMachine.ChangeState(stateMachine.FallingState);
+                return;
+            }
 
             if (moveInput == Vector2.zero)
             {

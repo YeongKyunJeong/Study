@@ -21,7 +21,7 @@ namespace RSP2
 
 
         protected Vector2 moveInput;
-
+        protected float fixedDeltaTime;
 
         public MovementStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine)
         {
@@ -37,6 +37,7 @@ namespace RSP2
             mover = player.Mover;
             controller = player.Controller;
 
+            fixedDeltaTime = Time.fixedDeltaTime;
         }
 
         #region IState Methods
@@ -45,6 +46,7 @@ namespace RSP2
             inputReader.MoveEvent += OnMoveInput;
             inputReader.JumpEvent += OnJumpInput;
             inputReader.WalkToggleEvent += OnWalkToggleInput;
+            inputReader.DashEvent += OnDashInput;
 
             moveInput = runtimeData.MoveInput;
         }
@@ -54,11 +56,13 @@ namespace RSP2
             inputReader.MoveEvent -= OnMoveInput;
             inputReader.JumpEvent -= OnJumpInput;
             inputReader.WalkToggleEvent -= OnWalkToggleInput;
+            inputReader.DashEvent -= OnDashInput;
         }
 
         public virtual void CallPhysicsUpdate()
         {
             //Move();
+
         }
 
 
@@ -98,6 +102,8 @@ namespace RSP2
         {
             runtimeData.IsWalking = !runtimeData.IsWalking;
         }
+
+        protected virtual void OnDashInput() { }
 
         #endregion
 
