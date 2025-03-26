@@ -15,7 +15,6 @@ namespace RSP2
         {
             base.Enter();
             verticalVelocityVector = runtimeData.VerticalVelocityVector;
-            Debug.Log("    "+runtimeData.VerticalVelocityVector);
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
         }
 

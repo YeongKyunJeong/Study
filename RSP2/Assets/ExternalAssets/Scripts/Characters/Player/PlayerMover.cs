@@ -54,7 +54,6 @@ namespace RSP2
             //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
             if (nextHorizontalMovementVector == Vector3.zero)
             {
-                //Debug.Log("No Input : Mover");
                 return;
             }
             Rotate(nextHorizontalMovementVector);

@@ -9,12 +9,19 @@ namespace RSP2
         //protected int isFallingCount;
         protected int fallingThresholdCount = 5;
         protected float fallingThreshold;
+        private Vector3 slopeNormalVector;
+        private Transform playerTransform;
+
+        private RaycastHit hit;
+        private LayerMask groundLayer;
 
         public OnLandStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //isFallingCount = 0;
-
+            playerTransform = _player.transform;
             fallingThreshold = Physics.gravity.y * fallingThreshold;
+
+            groundLayer = movementStateData.GroundLayer;
         }
 
         public override void Enter()
@@ -46,6 +53,12 @@ namespace RSP2
             }
 
             return false;
+        }
+
+        protected virtual Vector3 CheckIsSlope()
+        {
+
+            return slopeNormalVector;
         }
     }
 }
