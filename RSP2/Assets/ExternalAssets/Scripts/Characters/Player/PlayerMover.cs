@@ -16,7 +16,7 @@ namespace RSP2
         private Transform mainCameraTransform;
         private Vector3 nextVerticalVelocityVector;
 
-        private float fixedDeltaTime;
+        //private float fixedDeltaTime;
 
         //private bool isFirstJumpForceUpdate;
 
@@ -34,10 +34,15 @@ namespace RSP2
 
             nextVerticalVelocityVector = Vector3.zero;
 
-            fixedDeltaTime = Time.fixedDeltaTime;
+            //fixedDeltaTime = Time.fixedDeltaTime;
         }
 
         public void CallFixedUpdate()
+        {
+            return;
+        }
+
+        public void CallUpdate()
         {
             ApplyUpdatedMovement();
             return;
@@ -45,7 +50,7 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * fixedDeltaTime);
+            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * Time.deltaTime);
             //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
             if (nextHorizontalMovementVector == Vector3.zero)
             {
@@ -53,7 +58,7 @@ namespace RSP2
                 return;
             }
             Rotate(nextHorizontalMovementVector);
-            nextVerticalVelocityVector = 0.1f*Vector3.down; ///////// To Do: Fix bouncing problem when going to down hill
+            nextVerticalVelocityVector = Physics.gravity * Time.deltaTime; ///////// To Do: Fix bouncing problem when going to down hill
         }
 
         public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
@@ -69,7 +74,7 @@ namespace RSP2
         private void Rotate(Vector3 targetDir)
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir),
-                Time.fixedDeltaTime * movementStateData.RotationSpeedModifier);
+                Time.deltaTime * movementStateData.RotationSpeedModifier);
         }
 
 

@@ -17,9 +17,9 @@ namespace RSP2
             verticalVelocityVector += new Vector3(0, movementStateData.JumpForceModifier, 0);
         }
 
-        public override void CallPhysicsUpdate()
+        public override void CallUpdate()
         {
-            base.CallPhysicsUpdate();
+            base.CallUpdate();
 
             if (isFirstFixedUpdate)
             {
@@ -27,7 +27,7 @@ namespace RSP2
             }
             else
             {
-                 ApplyFallingToVector(ref verticalVelocityVector, Time.fixedDeltaTime);
+                 ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
             }
 
             runtimeData.VerticalVelocityVector = verticalVelocityVector;

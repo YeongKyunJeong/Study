@@ -21,9 +21,9 @@ namespace RSP2
 
         }
 
-        public override void CallPhysicsUpdate()
+        public override void CallUpdate()
         {
-            base.CallPhysicsUpdate();
+            base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
 
             if (!controller.isGrounded)

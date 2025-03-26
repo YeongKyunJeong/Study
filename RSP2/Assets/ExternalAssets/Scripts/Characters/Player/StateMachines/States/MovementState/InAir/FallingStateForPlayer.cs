@@ -19,9 +19,9 @@ namespace RSP2
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
         }
 
-        public override void CallPhysicsUpdate()
+        public override void CallUpdate()
         {
-            base.CallPhysicsUpdate();
+            base.CallUpdate();
 
             CheckIsFirstUpdate();
 
@@ -38,7 +38,7 @@ namespace RSP2
             }
             else
             {
-                ApplyFallingToVector(ref verticalVelocityVector, Time.fixedDeltaTime);
+                ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
             }
         }
 
@@ -46,6 +46,8 @@ namespace RSP2
         {
             if (controller.isGrounded)
             {
+                runtimeData.VerticalVelocityVector = Physics.gravity * Time.deltaTime;
+
                 if (moveInput == Vector2.zero)
                 {
                     Debug.Log("No Input : Falling State");

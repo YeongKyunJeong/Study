@@ -63,6 +63,7 @@ namespace RSP2
         private void Update()
         {
             MovementStateMachine.CallUpdate();
+            Mover.CallUpdate();
         }
 
         private void FixedUpdate()

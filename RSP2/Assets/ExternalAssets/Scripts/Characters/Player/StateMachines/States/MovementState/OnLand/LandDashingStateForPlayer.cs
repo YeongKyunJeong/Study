@@ -47,15 +47,15 @@ namespace RSP2
             passedTime = 0;
         }
 
-        public override void CallPhysicsUpdate()
+        public override void CallUpdate()
         {
-            base.CallPhysicsUpdate();
+            base.CallUpdate();
 
             mover.UpdateNextHorizontalMovementVector(dashMovementVector);
             runtimeData.HorizontalMovementVector = dashMovementVector;
 
 
-            passedTime += fixedDeltaTime;
+            passedTime += Time.deltaTime;
 
             if (passedTime < fallingStartTime)
             {
@@ -69,26 +69,27 @@ namespace RSP2
 
                 if (passedTime > durationTime)
                 {
-                    if (controller.isGrounded)
+                    if (CheckFalling(dampedFallingVelocity))
                     {
-                        if (moveInput == Vector2.zero)
-                        {
-                            stateMachine.ChangeState(stateMachine.IdlingState);
+                        stateMachine.ChangeState(stateMachine.FallingState);
+                        return;
 
-                            return;
-                        }
+                    }
 
-                        if (runtimeData.IsWalking)
-                        {
-                            stateMachine.ChangeState(stateMachine.WalkingState);
-                        }
-
-                        stateMachine.ChangeState(stateMachine.RunnigState);
+                    if (moveInput == Vector2.zero)
+                    {
+                        stateMachine.ChangeState(stateMachine.IdlingState);
 
                         return;
                     }
 
-                    stateMachine.ChangeState(stateMachine.FallingState);
+                    if (runtimeData.IsWalking)
+                    {
+                        stateMachine.ChangeState(stateMachine.WalkingState);
+                    }
+
+                    stateMachine.ChangeState(stateMachine.RunnigState);
+
                     return;
                 }
 

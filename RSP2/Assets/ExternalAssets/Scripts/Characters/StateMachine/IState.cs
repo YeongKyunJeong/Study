@@ -9,8 +9,8 @@ namespace RSP2
         public void Enter();
         public void Exit();
         //public void HandleInput();
-        public void CallUpdate();
         public void CallPhysicsUpdate();
+        public void CallUpdate();
 
         public void OnAnimationEnterEvent();
         public void OnAnimationExitEvent();
