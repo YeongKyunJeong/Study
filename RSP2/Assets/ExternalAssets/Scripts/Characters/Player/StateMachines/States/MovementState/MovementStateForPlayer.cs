@@ -114,8 +114,11 @@ namespace RSP2
     {
         static Transform mainCameraTransform = Camera.main.transform;
         //static Vector3 horizontalMovementVector;
-        static Vector3 forward;
-        static Vector3 right;
+        private static Vector3 forward;
+        private static Vector3 right;
+
+        private static Vector3 vectorOnXZ;
+        private static Vector3 vectorOnSlope;
 
         public static Vector3 ConvertInputToMovementDirectionVector(Vector3 input)
         {
@@ -129,6 +132,15 @@ namespace RSP2
             right.Normalize();
 
             return (forward * input.y + right * input.x);
+        }
+
+        public static Vector3 ConvertInputToMovementDirectionVectorOnSlope(Vector3 input, Vector3 normal)//////////////////////// To Do:
+        {
+            vectorOnXZ = ConvertInputToMovementDirectionVector(input);
+
+            vectorOnSlope = (vectorOnXZ - Vector3.Dot(vectorOnXZ, normal) * normal).normalized;
+
+            return vectorOnSlope;
         }
 
     }

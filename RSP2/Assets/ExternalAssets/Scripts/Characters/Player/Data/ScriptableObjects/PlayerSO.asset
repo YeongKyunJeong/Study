@@ -23,7 +23,10 @@ MonoBehaviour:
     <DashingDurationTime>k__BackingField: 0.4
     <DashFallingDelay>k__BackingField: 0.5
     <DashFallingModifier>k__BackingField: 0.3
+    FloatingHeight: 0.02
+    StartFallingMultiplier: 1
     <GroundLayer>k__BackingField:
       serializedVersion: 2
       m_Bits: 64
-    raycastDistance: 1
+    RaycastDistance: 0.25
+    SlopeDetectingRayStartHeight: 0.25

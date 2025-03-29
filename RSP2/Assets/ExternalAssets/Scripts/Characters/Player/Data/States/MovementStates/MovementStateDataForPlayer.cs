@@ -22,10 +22,17 @@ namespace RSP2
         [field: SerializeField] [field: Range(0, 1)] public float DashFallingDelay { get; private set; } = 0.5f;
         [field: SerializeField] [field: Range(0, 1)] public float DashFallingModifier { get; private set; } = 0.5f;
 
+
+        [field:Header("Floor")]    
+        [field: SerializeField] [field: Range(0, 0.2f)] public float FloatingHeight = 0.02f;
+        [field: SerializeField] [field: Range(1, 100f)] public float StartFallingMultiplier = 2f;
+
+
         [field: Header("Slope")]
         [field: SerializeField] public LayerMask GroundLayer { get; private set; }
 
-        [field: SerializeField] [field: Range(0.8f, 1.5f)] public float raycastDistance = 1f;
+        [field: SerializeField] [field: Range(0.1f, 1.5f)] public float RaycastDistance = 0.25f;
 
+        [field: SerializeField] [field: Range(0.1f, 3f)] public float SlopeDetectingRayStartHeight = 0.25f;
     }
 }

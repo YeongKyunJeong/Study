@@ -16,6 +16,9 @@ namespace RSP2
         private Transform mainCameraTransform;
         private Vector3 nextVerticalVelocityVector;
 
+        private bool needToSetHeight = false;
+        private Vector3 targetHeight;
+
         //private float fixedDeltaTime;
 
         //private bool isFirstJumpForceUpdate;
@@ -50,14 +53,28 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
+
             controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * Time.deltaTime);
+            //if (needToSetHeight)
+            //{
+            //    needToSetHeight = false;
+            //    this.enabled = false;
+            //    transform.position = targetHeight;
+            //    this.enabled = true;
+
+            //}
+
             //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
             if (nextHorizontalMovementVector == Vector3.zero)
             {
                 return;
             }
+
+            nextHorizontalMovementVector.y = 0;
             Rotate(nextHorizontalMovementVector);
-            nextVerticalVelocityVector = Physics.gravity * Time.deltaTime; ///////// To Do: Fix bouncing problem when going to down hill
+
+            nextVerticalVelocityVector = Time.deltaTime * Physics.gravity; ///////// To Do: Fix bouncing problem when going to down hill
+
         }
 
         public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
@@ -76,6 +93,10 @@ namespace RSP2
                 Time.deltaTime * movementStateData.RotationSpeedModifier);
         }
 
-
+        public void SetHeightManually(Vector3 targetHeightVector)
+        {
+            needToSetHeight = true;
+            targetHeight = targetHeightVector;
+        }
     }
 }

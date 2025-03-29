@@ -31,13 +31,27 @@ namespace RSP2
                 return;
             }
 
+
             if (moveInput == Vector2.zero)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
                 //Debug.Log("No Input : Horizontal Moving State");
+
+                return;
             }
 
-            horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
+            slopeNormalVecor = CheckIsSlope();
+            if (slopeNormalVecor.y > 0.98f)
+            {
+                horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
+
+            }
+            else
+            {
+                horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVectorOnSlope(moveInput, slopeNormalVecor);
+
+            }
+
             runtimeData.HorizontalMovementVector = horizontalMovementVector;
 
             mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
