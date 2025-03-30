@@ -13,6 +13,7 @@ namespace RSP2
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public Transform MainCameraTransform { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
+        [field: SerializeField] public Animator Animator { get; private set; }
 
         public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
         public PlayerRuntimeData RuntimeData { get; private set; }

@@ -18,6 +18,7 @@ namespace RSP2
         protected PlayerInputReader inputReader;
         protected PlayerMover mover;
         protected CharacterController controller;
+        protected Animator animator;
 
 
         protected Vector2 moveInput;
@@ -36,7 +37,7 @@ namespace RSP2
             inputReader = player.InputReader;
             mover = player.Mover;
             controller = player.Controller;
-
+            animator = player.Animator;
             //fixedDeltaTime = Time.fixedDeltaTime;
         }
 
@@ -107,6 +108,10 @@ namespace RSP2
 
         #endregion
 
+        protected virtual void SetAnimatorSelfStateParameter(bool isOn)
+        {
+
+        }
 
     }
 

@@ -73,7 +73,7 @@ namespace RSP2
             nextHorizontalMovementVector.y = 0;
             Rotate(nextHorizontalMovementVector);
 
-            nextVerticalVelocityVector = Time.deltaTime * Physics.gravity; ///////// To Do: Fix bouncing problem when going to down hill
+            nextVerticalVelocityVector = 5*Time.deltaTime * Physics.gravity;
 
         }
 

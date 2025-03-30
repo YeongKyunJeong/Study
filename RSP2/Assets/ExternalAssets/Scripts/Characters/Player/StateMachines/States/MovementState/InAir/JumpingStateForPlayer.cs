@@ -6,6 +6,8 @@ namespace RSP2
 {
     public class JumpingStateForPlayer : InAirStateForPlayer
     {
+        protected readonly int isJumpingHash = Animator.StringToHash("IsJumping");
+
         public JumpingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
@@ -14,7 +16,16 @@ namespace RSP2
         {
             base.Enter();
 
+            SetAnimatorSelfStateParameter(true);
+
             verticalVelocityVector += new Vector3(0, movementStateData.JumpForceModifier, 0);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetAnimatorSelfStateParameter(false);
         }
 
         public override void CallUpdate()
@@ -41,6 +52,13 @@ namespace RSP2
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;
             }
+        }
+
+        protected override void SetAnimatorSelfStateParameter(bool isOn)
+        {
+            //base.SetAnimatorSelfStateParameter(isOn);
+
+            animator.SetBool(isJumpingHash, isOn);
         }
     }
 }

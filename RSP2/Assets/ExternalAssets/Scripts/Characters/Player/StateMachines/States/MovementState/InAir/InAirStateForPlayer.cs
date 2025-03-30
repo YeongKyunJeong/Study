@@ -6,6 +6,8 @@ namespace RSP2
 {
     public class InAirStateForPlayer : MovementStateForPlayer
     {
+        protected readonly int inAirHash = Animator.StringToHash("InAir");
+
         protected Vector3 horizontalMomentum;
         protected Vector3 verticalVelocityVector;
         protected bool isFirstFixedUpdate;
@@ -20,6 +22,8 @@ namespace RSP2
         {
             base.Enter();
 
+            SetAnimatorInAirParameter(true);
+
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
             verticalVelocityVector = Vector3.zero;
@@ -33,6 +37,10 @@ namespace RSP2
             velocityVector += timeDelta * gravity;
             return;
         }
-
+        
+        protected virtual void SetAnimatorInAirParameter(bool isOn)
+        {
+            animator.SetBool(inAirHash, isOn);
+        }
     }
 }

@@ -17,12 +17,13 @@ MonoBehaviour:
     <RunningSpeedModifier>k__BackingField: 5
     <RotationSpeedModifier>k__BackingField: 8
     <JumpForceModifier>k__BackingField: 5
-    <DashingSpeedModifier>k__BackingField: 12
+    <FallingThreshoildMultiplier>k__BackingField: 0.1
+    <DashingSpeedModifier>k__BackingField: 18
     <DashingEndSpeedModifier>k__BackingField: 0.5
-    <DashingLerpModifier>k__BackingField: 0.2
-    <DashingDurationTime>k__BackingField: 0.4
+    <DashingLerpModifier>k__BackingField: 0.1
+    <DashingDurationTime>k__BackingField: 0.3
     <DashFallingDelay>k__BackingField: 0.5
-    <DashFallingModifier>k__BackingField: 0.3
+    <DashFallingModifier>k__BackingField: 0
     FloatingHeight: 0.02
     StartFallingMultiplier: 1
     <GroundLayer>k__BackingField:

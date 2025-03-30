@@ -6,6 +6,8 @@ namespace RSP2
 {
     public class LandDashingStateForPlayer : OnLandStateForPlayer
     {
+        protected readonly int isDashingHash = Animator.StringToHash("IsDashing");
+
         private Vector3 dashMovementVector;
         private Vector3 dampedDashVector;
         private float passedTime;
@@ -24,6 +26,8 @@ namespace RSP2
         public override void Enter()
         {
             base.Enter();
+
+            SetAnimatorSelfStateParameter(true);
 
             dampedGravity = Physics.gravity * movementStateData.DashFallingModifier;
             dampedFallingVelocity = Vector3.zero;
@@ -45,6 +49,13 @@ namespace RSP2
             runtimeData.HorizontalMovementVector = dashMovementVector;
             dampedDashVector = movementStateData.DashingEndSpeedModifier * dashMovementVector;
             passedTime = 0;
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetAnimatorSelfStateParameter(false);
         }
 
         public override void CallUpdate()
@@ -69,15 +80,19 @@ namespace RSP2
 
                 if (passedTime > durationTime)
                 {
-                    if (CheckFalling(dampedFallingVelocity))
+                    if (CheckFalling(dampedFallingVelocity, Vector3.down))
                     {
+                        SetAnimatorOnLandParameter(false);
+
                         stateMachine.ChangeState(stateMachine.FallingState);
                         return;
 
                     }
 
+                    
                     if (moveInput == Vector2.zero)
                     {
+
                         stateMachine.ChangeState(stateMachine.IdlingState);
 
                         return;
@@ -86,6 +101,7 @@ namespace RSP2
                     if (runtimeData.IsWalking)
                     {
                         stateMachine.ChangeState(stateMachine.WalkingState);
+                        return;
                     }
 
                     stateMachine.ChangeState(stateMachine.RunnigState);
@@ -101,9 +117,11 @@ namespace RSP2
             //mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
 
-        private void ApplyDampedFalling()
+        protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
+            //base.SetAnimatorSelfStateParameter(isOn);
 
+            animator.SetBool(isDashingHash, isOn);
         }
     }
 }

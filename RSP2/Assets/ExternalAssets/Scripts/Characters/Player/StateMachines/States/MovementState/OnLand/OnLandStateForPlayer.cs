@@ -12,8 +12,11 @@ namespace RSP2
         private Vector3 slopeNormalVector;
         private Transform playerTransform;
 
+        protected readonly int onLandHash = Animator.StringToHash("OnLand");
+
         private RaycastHit hit;
         private Vector3 slopeDetectingRayVector;
+        private float slopeDetectingRayMaxDistance;
         private Vector3 slopeDetectingRayStartHeightVector;
         private Vector3 floatingHeightVector;
         private LayerMask groundLayer;
@@ -24,9 +27,10 @@ namespace RSP2
         {
             //isFallingCount = 0;
             playerTransform = _player.transform;
-            fallingThreshold = Physics.gravity.y * fallingThreshold;
+            //fallingThreshold = Physics.gravity.y * movementStateData.FallingThreshoildMultiplier;
             slopeDetectingRayStartHeightVector = Vector3.up * movementStateData.SlopeDetectingRayStartHeight;
             slopeDetectingRayVector = Vector3.down * (movementStateData.RaycastDistance + movementStateData.SlopeDetectingRayStartHeight);
+            slopeDetectingRayMaxDistance = movementStateData.RaycastDistance + movementStateData.SlopeDetectingRayStartHeight;
             floatingHeightVector = Vector3.up * (movementStateData.FloatingHeight);
 
             groundLayer = movementStateData.GroundLayer;
@@ -36,12 +40,19 @@ namespace RSP2
         {
             base.Enter();
 
-            //isFallingCount = 0;
+            SetAnimatorOnLandParameter(true);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
         }
 
         protected override void OnJumpInput()
         {
             base.OnJumpInput();
+
+            SetAnimatorOnLandParameter(false);
 
             stateMachine.ChangeState(stateMachine.JumpingState);
         }
@@ -50,24 +61,34 @@ namespace RSP2
         {
             base.OnDashInput();
 
+            SetAnimatorSelfStateParameter(false);
+
             stateMachine.ChangeState(stateMachine.LandDashingState);
         }
 
-        protected virtual bool CheckFalling(Vector3 fallingVelocityVector)
+        protected virtual bool CheckFalling(Vector3 fallingVelocityVector, Vector3 slopeNormalVector)
         {
-            if (!controller.isGrounded && (fallingVelocityVector.y < fallingThreshold))
+            if (slopeNormalVecor.y < -0.98f)
             {
-                return true;
+                fallingThreshold =  5*Physics.gravity.y * Time.deltaTime;
+                if (!controller.isGrounded && (fallingVelocityVector.y < fallingThreshold))
+                {
+                    return true;
+                }
+
             }
 
             return false;
         }
 
-        protected virtual Vector3 CheckIsSlope(bool stickFloor = true )
+        protected virtual Vector3 CheckIsSlope(bool stickFloor = true)
         {
             Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
-            if (Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, out hit, groundLayer))
+            //if (Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, out hit, groundLayer))
+            if(Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, Vector3.down, out hit, slopeDetectingRayMaxDistance,
+                groundLayer))
             {
+                Debug.Log("hit");
                 slopeNormalVector = hit.normal;
                 //if (stickFloor)
                 //{
@@ -81,10 +102,16 @@ namespace RSP2
             }
             else
             {
+                Debug.Log("no floor");
                 slopeNormalVector = Vector3.down;
             }
 
             return slopeNormalVector;
+        }
+
+        protected virtual void SetAnimatorOnLandParameter(bool isOn)
+        {
+            animator.SetBool(onLandHash, isOn);
         }
     }
 }

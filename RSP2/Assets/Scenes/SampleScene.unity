@@ -2890,6 +2890,7 @@ MonoBehaviour:
   <Controller>k__BackingField: {fileID: 1685984819}
   <MainCameraTransform>k__BackingField: {fileID: 1064345950}
   <SOData>k__BackingField: {fileID: 11400000, guid: 41a34436e0cdb2646bbba02154f74d3b, type: 2}
+  <Animator>k__BackingField: {fileID: 1685984824}
 --- !u!114 &1685984821
 MonoBehaviour:
   m_ObjectHideFlags: 0

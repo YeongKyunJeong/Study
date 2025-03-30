@@ -7,6 +7,8 @@ namespace RSP2
     public class HorizontalMovingStateForPlayer : OnLandStateForPlayer
     {
         protected Vector3 horizontalMovementVector;
+
+
         //protected Vector2 moveInput;
 
         public HorizontalMovingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
@@ -24,13 +26,18 @@ namespace RSP2
         {
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
+            //Debug.Log(runtimeData.VerticalVelocityVector);
 
-            if (CheckFalling(runtimeData.VerticalVelocityVector))
+            slopeNormalVecor = CheckIsSlope();
+
+            if (CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVecor))
             {
+
+                animator.SetBool(onLandHash, false);
+
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;
             }
-
 
             if (moveInput == Vector2.zero)
             {
@@ -40,7 +47,7 @@ namespace RSP2
                 return;
             }
 
-            slopeNormalVecor = CheckIsSlope();
+            //slopeNormalVecor = CheckIsSlope();
             if (slopeNormalVecor.y > 0.98f)
             {
                 horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);

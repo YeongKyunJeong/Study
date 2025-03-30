@@ -6,6 +6,8 @@ namespace RSP2
 {
     public class IdlingStateForPlayer : OnLandStateForPlayer
     {
+        protected readonly int isIdlingHash = Animator.StringToHash("IsIdling");
+
         public IdlingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //defaultSpeedModifier = 0;
@@ -19,6 +21,8 @@ namespace RSP2
         {
             base.Enter();
 
+            SetAnimatorSelfStateParameter(true);
+
             moveInput = Vector3.zero;
             runtimeData.HorizontalMovementVector = moveInput;
             mover.UpdateNextHorizontalMovementVector(moveInput);
@@ -30,12 +34,20 @@ namespace RSP2
             //player.RuntimeData.RotationLerpUpdate = Time.fixedDeltaTime/(rotationTime);
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetAnimatorSelfStateParameter(false);
+        }
+
         public override void CallUpdate()
         {
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
-            if (!controller.isGrounded)
+            if (CheckFalling(runtimeData.VerticalVelocityVector, Vector3.down))
             {
+                SetAnimatorOnLandParameter(false);
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;
             }
@@ -47,17 +59,28 @@ namespace RSP2
             base.OnMoveInput(moveInput);
             runtimeData.MoveInput = moveInput;
 
+
             if (runtimeData.IsWalking)
             {
                 stateMachine.ChangeState(stateMachine.WalkingState);
+                return;
             }
 
             stateMachine.ChangeState(stateMachine.RunnigState);
+            return;
         }
 
         protected override void OnJumpInput()
         {
             base.OnJumpInput();
+
+            SetAnimatorOnLandParameter(false);
+        }
+
+        protected override void SetAnimatorSelfStateParameter(bool isOn)
+        {
+            //base.SetAnimatorSelfStateParameter(isOn);
+            animator.SetBool(isIdlingHash, isOn);
         }
     }
 }

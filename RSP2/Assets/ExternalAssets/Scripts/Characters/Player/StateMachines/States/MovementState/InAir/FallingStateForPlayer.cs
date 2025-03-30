@@ -6,6 +6,9 @@ namespace RSP2
 {
     public class FallingStateForPlayer : InAirStateForPlayer
     {
+
+        //protected readonly int isJumpingHash = Animator.StringToHash("IsJumping");
+
         public FallingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
 
@@ -16,6 +19,15 @@ namespace RSP2
             base.Enter();
             verticalVelocityVector = runtimeData.VerticalVelocityVector;
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
+
+            //animator.SetBool(isJumpingHash, true);
+        }
+
+        public override void Exit()
+        {
+            base.Exit();
+
+            //animator.SetBool(isJumpingHash, false);
         }
 
         public override void CallUpdate()
@@ -45,7 +57,9 @@ namespace RSP2
         {
             if (controller.isGrounded)
             {
-                runtimeData.VerticalVelocityVector = Physics.gravity * Time.deltaTime;
+                runtimeData.VerticalVelocityVector = 5*Physics.gravity * Time.deltaTime;
+
+                SetAnimatorInAirParameter(false);
 
                 if (moveInput == Vector2.zero)
                 {
@@ -82,5 +96,6 @@ namespace RSP2
         }
 
         #endregion
+
     }
 }
