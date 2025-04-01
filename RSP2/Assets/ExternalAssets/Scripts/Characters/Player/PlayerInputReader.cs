@@ -13,6 +13,7 @@ namespace RSP2
         public event Action JumpEvent;
         public event Action WalkToggleEvent;
         public event Action DashEvent;
+        public event Action AttackEvent;
 
         //public PlayerInputReader(Player _player)
         //{
@@ -73,6 +74,11 @@ namespace RSP2
         public void OnDash()
         {
             DashEvent?.Invoke();
+        }
+
+        public void OnAttack()
+        {
+            AttackEvent?.Invoke();
         }
     }
 }

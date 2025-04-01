@@ -15,6 +15,9 @@ namespace RSP2
         {
         }
 
+
+#region IStateMethods
+
         public override void Enter()
         {
             base.Enter();
@@ -63,6 +66,8 @@ namespace RSP2
 
             mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
+
+        #endregion
 
         protected virtual float ApplySpeedModifierToMovementVector()
         {

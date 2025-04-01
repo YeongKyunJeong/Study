@@ -24,8 +24,13 @@ namespace RSP2
         #region InAir States
 
         public JumpingStateForPlayer JumpingState { get; private set; }
-
         public FallingStateForPlayer FallingState { get; private set; }
+
+        #endregion
+
+        #region Attack States
+        
+        public LandAttackStateForPlayer LandAttackState { get; private set; }
 
         #endregion
 
@@ -47,6 +52,9 @@ namespace RSP2
             JumpingState = new JumpingStateForPlayer(_player, this);
 
             FallingState = new FallingStateForPlayer(_player, this);
+
+
+            LandAttackState = new LandAttackStateForPlayer(_player, this);
 
 
             SetDefaultState();

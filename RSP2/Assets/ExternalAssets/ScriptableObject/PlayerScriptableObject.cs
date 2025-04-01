@@ -8,5 +8,6 @@ namespace RSP2
     public class PlayerScriptableObject : ScriptableObject
     {
         [field : SerializeField] public MovementStateDataForPlayer MovementStateData { get; private set; }
+        [field : SerializeField] public AttackStateDataForPlayer AttackStateData { get; private set; }
     }
 }

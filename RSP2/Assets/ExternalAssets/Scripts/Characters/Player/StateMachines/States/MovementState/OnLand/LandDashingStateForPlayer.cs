@@ -10,7 +10,7 @@ namespace RSP2
 
         private Vector3 dashMovementVector;
         private Vector3 dampedDashVector;
-        private float passedTime;
+        private float passedTime; ////////// To Do: Add cool time and chain dash
 
         private float lerpModifier;
         private float durationTime;
@@ -22,6 +22,9 @@ namespace RSP2
         {
             //dampedGravity = Physics.gravity*movementStateData.DashFallingModifier;
         }
+
+
+        #region IState Methods
 
         public override void Enter()
         {
@@ -80,7 +83,7 @@ namespace RSP2
 
                 if (passedTime > durationTime)
                 {
-                    if (CheckFalling(dampedFallingVelocity, Vector3.down))
+                    if (CheckFalling(dampedFallingVelocity, Vector3.down)) 
                     {
                         SetAnimatorOnLandParameter(false);
 
@@ -116,6 +119,9 @@ namespace RSP2
 
             //mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
+
+        #endregion
+
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {

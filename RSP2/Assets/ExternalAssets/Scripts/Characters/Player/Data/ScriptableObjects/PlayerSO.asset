@@ -31,3 +31,11 @@ MonoBehaviour:
       m_Bits: 64
     RaycastDistance: 0.25
     SlopeDetectingRayStartHeight: 0.25
+  <AttackStateData>k__BackingField:
+    AttackWindUpMultiplier: 0.1
+    AttackRecoveryMultiplier: 0.5
+    AttackSizeMultiplyer:
+    - {x: 1, y: 1, z: 1}
+    AttackPositionMultiplyer:
+    - {x: 1, y: 1, z: 1}
+    AttackIntensity: 5

@@ -13,6 +13,9 @@ namespace RSP2
         {
         }
 
+
+        #region IStateMethods
+
         public override void Enter()
         {
             base.Enter();
@@ -26,6 +29,9 @@ namespace RSP2
 
             SetAnimatorSelfStateParameter(false);
         }
+
+        #endregion
+
 
         protected override void OnWalkToggleInput()
         {

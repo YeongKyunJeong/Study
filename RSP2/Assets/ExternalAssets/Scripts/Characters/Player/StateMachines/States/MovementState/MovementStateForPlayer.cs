@@ -21,6 +21,10 @@ namespace RSP2
         protected Animator animator;
 
 
+        protected readonly int onLandHash = Animator.StringToHash("OnLand");
+        protected readonly int inAirHash = Animator.StringToHash("InAir");
+
+
         protected Vector2 moveInput;
         //protected float fixedDeltaTime;
 
@@ -42,12 +46,14 @@ namespace RSP2
         }
 
         #region IState Methods
+
         public virtual void Enter()
         {
             inputReader.MoveEvent += OnMoveInput;
             inputReader.JumpEvent += OnJumpInput;
             inputReader.WalkToggleEvent += OnWalkToggleInput;
             inputReader.DashEvent += OnDashInput;
+            inputReader.AttackEvent += OnAttackInput;
 
             moveInput = runtimeData.MoveInput;
         }
@@ -58,6 +64,7 @@ namespace RSP2
             inputReader.JumpEvent -= OnJumpInput;
             inputReader.WalkToggleEvent -= OnWalkToggleInput;
             inputReader.DashEvent -= OnDashInput;
+            inputReader.AttackEvent -= OnAttackInput;
         }
 
         public virtual void CallUpdate()
@@ -86,6 +93,7 @@ namespace RSP2
         public virtual void OnAnimationTransitEvent()
         {
         }
+
         #endregion
 
 
@@ -106,12 +114,24 @@ namespace RSP2
 
         protected virtual void OnDashInput() { }
 
+        protected virtual void OnAttackInput() { }
+
         #endregion
 
         protected virtual void SetAnimatorSelfStateParameter(bool isOn)
         {
 
         }
+        protected virtual void SetAnimatorOnLandParameter(bool isOn)
+        {
+            animator.SetBool(onLandHash, isOn);
+        }
+
+        protected virtual void SetAnimatorInAirParameter(bool isOn)
+        {
+            animator.SetBool(inAirHash, isOn);
+        }
+
 
     }
 

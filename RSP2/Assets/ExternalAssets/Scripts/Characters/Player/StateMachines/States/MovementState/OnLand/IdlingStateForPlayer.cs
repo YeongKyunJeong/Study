@@ -17,6 +17,8 @@ namespace RSP2
             //rotationSpeedModifier = 8;
         }
 
+        #region IStateMethods
+
         public override void Enter()
         {
             base.Enter();
@@ -69,6 +71,9 @@ namespace RSP2
             stateMachine.ChangeState(stateMachine.RunnigState);
             return;
         }
+
+        #endregion
+
 
         protected override void OnJumpInput()
         {

@@ -12,7 +12,6 @@ namespace RSP2
         private Vector3 slopeNormalVector;
         private Transform playerTransform;
 
-        protected readonly int onLandHash = Animator.StringToHash("OnLand");
 
         private RaycastHit hit;
         private Vector3 slopeDetectingRayVector;
@@ -36,6 +35,9 @@ namespace RSP2
             groundLayer = movementStateData.GroundLayer;
         }
 
+
+        #region IStateMethods
+
         public override void Enter()
         {
             base.Enter();
@@ -46,7 +48,12 @@ namespace RSP2
         public override void Exit()
         {
             base.Exit();
+
+            SetAnimatorSelfStateParameter(false);
         }
+
+        #endregion
+
 
         protected override void OnJumpInput()
         {
@@ -61,10 +68,18 @@ namespace RSP2
         {
             base.OnDashInput();
 
-            SetAnimatorSelfStateParameter(false);
-
             stateMachine.ChangeState(stateMachine.LandDashingState);
         }
+
+        protected override void OnAttackInput()
+        {
+            base.OnAttackInput();
+
+            SetAnimatorOnLandParameter(false);
+
+            stateMachine.ChangeState(stateMachine.LandAttackState);
+        }
+
 
         protected virtual bool CheckFalling(Vector3 fallingVelocityVector, Vector3 slopeNormalVector)
         {
@@ -84,7 +99,7 @@ namespace RSP2
         protected virtual Vector3 CheckIsSlope(bool stickFloor = true)
         {
             Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
-            //if (Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, out hit, groundLayer))
+
             if(Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, Vector3.down, out hit, slopeDetectingRayMaxDistance,
                 groundLayer))
             {
@@ -102,16 +117,13 @@ namespace RSP2
             }
             else
             {
-                Debug.Log("no floor");
+                //Debug.Log("no floor");
                 slopeNormalVector = Vector3.down;
             }
 
             return slopeNormalVector;
         }
 
-        protected virtual void SetAnimatorOnLandParameter(bool isOn)
-        {
-            animator.SetBool(onLandHash, isOn);
-        }
+
     }
 }
