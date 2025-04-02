@@ -98,12 +98,12 @@ namespace RSP2
 
         protected virtual Vector3 CheckIsSlope(bool stickFloor = true)
         {
-            Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
+            //Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
 
             if(Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, Vector3.down, out hit, slopeDetectingRayMaxDistance,
                 groundLayer))
             {
-                Debug.Log("hit");
+                //Debug.Log("hit");
                 slopeNormalVector = hit.normal;
                 //if (stickFloor)
                 //{

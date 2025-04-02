@@ -69,7 +69,7 @@ namespace RSP2
 
                 if (moveInput == Vector2.zero)
                 {
-                    Debug.Log("No Input : Falling State");
+                    //Debug.Log("No Input : Falling State");
                     stateMachine.ChangeState(stateMachine.IdlingState);
                     return;
                 }

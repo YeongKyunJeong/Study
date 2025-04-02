@@ -11,6 +11,7 @@ namespace RSP2
 
         protected PlayerRuntimeData runtimeData;
         protected MovementStateDataForPlayer movementStateData;
+        protected AttackStateDataForPlayer attackStateData;
 
         protected Transform mainCameraTransform;
 
@@ -20,7 +21,7 @@ namespace RSP2
         protected CharacterController controller;
         protected Animator animator;
 
-
+        protected AnimatorStateInfo animationStateInfo;
         protected readonly int onLandHash = Animator.StringToHash("OnLand");
         protected readonly int inAirHash = Animator.StringToHash("InAir");
 
@@ -34,6 +35,7 @@ namespace RSP2
 
             runtimeData = player.RuntimeData;
             movementStateData = player.SOData.MovementStateData;
+            attackStateData = player.SOData.AttackStateData;
 
             //mainCameraTransform = Camera.main.transform;
 
@@ -118,6 +120,7 @@ namespace RSP2
 
         #endregion
 
+
         protected virtual void SetAnimatorSelfStateParameter(bool isOn)
         {
 
@@ -132,6 +135,24 @@ namespace RSP2
             animator.SetBool(inAirHash, isOn);
         }
 
+        protected virtual void SetAttackable()
+        {
+
+        }
+
+        protected float GetAnimationLength(Animator animator, string tag)
+        {
+            if (animator.IsInTransition(0))
+            {
+                animationStateInfo = animator.GetNextAnimatorStateInfo(0);
+                return animationStateInfo.IsTag(tag) ? animationStateInfo.normalizedTime : -1f;
+            }
+            else
+            {
+                animationStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                return animationStateInfo.IsTag(tag) ? animationStateInfo.normalizedTime : -1f;
+            }
+        }
 
     }
 

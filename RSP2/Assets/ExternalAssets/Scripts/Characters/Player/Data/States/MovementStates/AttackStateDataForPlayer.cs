@@ -8,7 +8,11 @@ namespace RSP2
 
     public class AttackStateDataForPlayer
     {
-        [field : Header("Attack Time Data")]
+        [field: Header("Attack Time Data")]
+        [field: SerializeField] [Range(0.1f, 10f)] public float AttackSpeedMultiplier = 1f;
+
+        [field: SerializeField] [Range(0, 10f)] public float AttackEndTime = 1f;
+
         [field: SerializeField] [Range(0, 10f)] public float AttackWindUpMultiplier = 0.1f;
         [field: SerializeField] [Range(0, 10f)] public float AttackRecoveryMultiplier = 0.1f; 
 

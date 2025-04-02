@@ -6,7 +6,6 @@ namespace RSP2
 {
     public class LandAttackStateForPlayer : AttackStateForPlayer
     {
-        protected readonly int landAttackHash = Animator.StringToHash("isAttacking");
 
         private float temporaryAttackDuration = 1;
 
@@ -20,21 +19,6 @@ namespace RSP2
 
         #region IState Methods
 
-        public override void Enter()
-        {
-            base.Enter();
-
-            SetAnimatorSelfStateParameter(true);
-
-            passedTime = 0;
-        }
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            SetAnimatorSelfStateParameter(false);
-        }
 
 
         public override void CallUpdate()
@@ -57,11 +41,6 @@ namespace RSP2
 
         #endregion
 
-        protected override void SetAnimatorSelfStateParameter(bool isOn)
-        {
-            //base.SetAnimatorSelfStateParameter(isOn);
 
-            animator.SetBool(landAttackHash, isOn);
-        }
     }
 }
