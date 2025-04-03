@@ -22,8 +22,9 @@ namespace RSP2
         protected Animator animator;
 
         protected AnimatorStateInfo animationStateInfo;
-        protected readonly int onLandHash = Animator.StringToHash("OnLand");
-        protected readonly int inAirHash = Animator.StringToHash("InAir");
+        protected readonly int onLandHash = Animator.StringToHash("@OnLand");
+        protected readonly int inAirHash = Animator.StringToHash("@InAir");
+        protected readonly int attackHash = Animator.StringToHash("@Attack");
 
         private RaycastHit hit;
         private Vector3 slopeDetectingRayVector;
@@ -143,6 +144,7 @@ namespace RSP2
         {
 
         }
+
         protected virtual void SetAnimatorOnLandParameter(bool isOn)
         {
             animator.SetBool(onLandHash, isOn);
@@ -151,6 +153,11 @@ namespace RSP2
         protected virtual void SetAnimatorInAirParameter(bool isOn)
         {
             animator.SetBool(inAirHash, isOn);
+        }
+
+        protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
+        {
+            animator.SetBool(attackHash, isOn);
         }
 
         protected float GetAnimationLength(Animator animator, string tag)

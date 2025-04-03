@@ -11,14 +11,18 @@ namespace RSP2
         [field: Header("Attack Time Data")]
         [field: SerializeField] [Range(0.1f, 10f)] public float AttackSpeedMultiplier = 1f;
 
-        [field: SerializeField] [Range(0, 10f)] public float AttackEndTime = 1f;
+        [field: SerializeField] [Range(0, 10f)] public float AttackRecoveryTime = 1f;
 
         [field: SerializeField] [Range(0, 10f)] public float AttackWindUpMultiplier = 0.1f;
         [field: SerializeField] [Range(0, 10f)] public float AttackRecoveryMultiplier = 0.1f; 
 
-        [field: Header("Attack Demension Data")]
+        [field: Header("Attack Hit Box Data")]
         [field: SerializeField] public Vector3[] AttackSizeMultiplyer = new Vector3[] { new Vector3(1, 1, 1) };
         [field: SerializeField] public Vector3[] AttackPositionMultiplyer = new Vector3[] { new Vector3(0, 0.9f, 1) };
+
+        [field: Header("Attack Movement Data")]
+        [field: SerializeField] [Range(0, 15f)] public float AttackDampingModifier = 5f;
+
 
         [field: Header("Attack Parameter Data")]
         [field: SerializeField] [Range(0, 10)] public int AttackIntensity = 5;

@@ -6,14 +6,12 @@ namespace RSP2
 {
     public class AttackStateForPlayer : MovementStateForPlayer
     {
-        protected readonly int attackingHash = Animator.StringToHash("Attacking");
-
-
         protected string animatorAttackStateTag = "Attack State";
 
         protected Vector3 horizontalMomentum;
         protected float passedTime;
 
+        protected float attackMinimumDuration;
         protected float attackAnimationTime;
 
         public AttackStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
@@ -25,21 +23,25 @@ namespace RSP2
         {
             base.Enter();
 
-            SetAnimatorIsAttacking(true);
+            SetAnimatorIsAttackingParameter(true);
 
             animator.speed *= attackStateData.AttackSpeedMultiplier;
-            attackAnimationTime = GetAnimationLength(animator, animatorAttackStateTag);
-            if (attackAnimationTime < 0)
-            {
-                Debug.Log("not work properly");
-                Debug.Log(attackAnimationTime);
-            }
-            else
-            {
-                Debug.Log(attackAnimationTime);
-            }
+
+            horizontalMomentum = runtimeData.HorizontalMovementVector;
+
+            //attackAnimationTime = GetAnimationLength(animator, animatorAttackStateTag);
+            //if (attackAnimationTime < 0)
+            //{
+            //    Debug.Log("not work properly");
+            //    Debug.Log(attackAnimationTime);
+            //}
+            //else
+            //{
+            //    Debug.Log(attackAnimationTime);
+            //}
             passedTime = 0;
         }
+
 
         public override void Exit()
         {
@@ -47,7 +49,7 @@ namespace RSP2
 
             animator.speed = 1;
 
-            SetAnimatorIsAttacking(false);
+            SetAnimatorIsAttackingParameter(false);
         }
 
 
@@ -58,10 +60,6 @@ namespace RSP2
 
         }
 
-        protected virtual void SetAnimatorIsAttacking(bool isOn)
-        {
-            animator.SetBool(attackingHash, isOn);
-        }
     }
 
 

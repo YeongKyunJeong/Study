@@ -30,7 +30,7 @@ namespace RSP2
 
         #region Attack States
         
-        public LandAttackStateForPlayer LandAttackState { get; private set; }
+        public LandAttackingStateForPlayer LandAttackingState { get; private set; }
 
         #endregion
 
@@ -54,7 +54,7 @@ namespace RSP2
             FallingState = new FallingStateForPlayer(_player, this);
 
 
-            LandAttackState = new LandAttackStateForPlayer(_player, this);
+            LandAttackingState = new LandAttackingStateForPlayer(_player, this);
 
 
             SetDefaultState();
