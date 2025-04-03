@@ -11,10 +11,10 @@ namespace RSP2
         protected Vector3 verticalVelocityVector;
         protected bool isFirstFixedUpdate;
 
-        protected Vector3 gravity;
 
         public InAirStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
+
         }
 
 
@@ -30,18 +30,11 @@ namespace RSP2
 
             verticalVelocityVector = Vector3.zero;
             isFirstFixedUpdate = true;
-
-            gravity = Physics.gravity;
         }
 
         #endregion
 
 
-        protected virtual void ApplyFallingToVector(ref Vector3 velocityVector, float timeDelta)
-        {
-            velocityVector += timeDelta * gravity;
-            return;
-        }
 
 
     }

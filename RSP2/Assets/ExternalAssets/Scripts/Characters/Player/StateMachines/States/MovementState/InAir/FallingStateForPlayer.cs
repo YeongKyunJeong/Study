@@ -55,7 +55,7 @@ namespace RSP2
             }
             else
             {
-                ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
+                FallingCalculator.ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
             }
         }
 

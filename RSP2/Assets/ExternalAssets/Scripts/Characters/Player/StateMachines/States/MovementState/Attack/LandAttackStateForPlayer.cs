@@ -8,6 +8,7 @@ namespace RSP2
     {
 
         private float temporaryAttackDuration = 1;
+        //protected readonly int landAttackingHash = Animator.StringToHash("IsLandAttacking");
 
         // To Do : Add combo attack
 
@@ -38,8 +39,15 @@ namespace RSP2
 
         }
 
-
         #endregion
+
+
+        protected override void SetAnimatorSelfStateParameter(bool isOn)
+        {
+            //base.SetAnimatorSelfStateParameter(isOn);
+
+            //animator.SetBool(landAttackingHash, isOn);
+        }
 
 
     }

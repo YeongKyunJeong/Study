@@ -6,9 +6,8 @@ namespace RSP2
 {
     public class AttackStateForPlayer : MovementStateForPlayer
     {
-        protected readonly int attackingHash = Animator.StringToHash("isAttacking");
-        protected readonly int attackableHash = Animator.StringToHash("Attackable");
-        protected readonly int attackTriggerHash = Animator.StringToHash("Attack");
+        protected readonly int attackingHash = Animator.StringToHash("Attacking");
+
 
         protected string animatorAttackStateTag = "Attack State";
 
@@ -27,7 +26,6 @@ namespace RSP2
             base.Enter();
 
             SetAnimatorIsAttacking(true);
-            SetAnimatorIsAttack();
 
             animator.speed *= attackStateData.AttackSpeedMultiplier;
             attackAnimationTime = GetAnimationLength(animator, animatorAttackStateTag);
@@ -60,21 +58,10 @@ namespace RSP2
 
         }
 
-        protected virtual void SetAnimatorAttackable(bool isOn)
-        {
-            animator.SetBool(attackableHash, isOn);
-
-        }
-
         protected virtual void SetAnimatorIsAttacking(bool isOn)
         {
             animator.SetBool(attackingHash, isOn);
         }
-        protected virtual void SetAnimatorIsAttack()
-        {
-            animator.SetTrigger(attackTriggerHash);
-        }
-
     }
 
 

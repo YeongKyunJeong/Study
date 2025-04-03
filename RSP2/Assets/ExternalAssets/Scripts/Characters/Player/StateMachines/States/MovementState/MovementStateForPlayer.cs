@@ -25,6 +25,13 @@ namespace RSP2
         protected readonly int onLandHash = Animator.StringToHash("OnLand");
         protected readonly int inAirHash = Animator.StringToHash("InAir");
 
+        private RaycastHit hit;
+        private Vector3 slopeDetectingRayVector;
+        private float slopeDetectingRayMaxDistance;
+        private Vector3 slopeDetectingRayStartHeightVector;
+        private Vector3 floatingHeightVector;
+        private LayerMask groundLayer;
+        private Transform playerTransform;
 
         protected Vector2 moveInput;
         //protected float fixedDeltaTime;
@@ -45,6 +52,17 @@ namespace RSP2
             controller = player.Controller;
             animator = player.Animator;
             //fixedDeltaTime = Time.fixedDeltaTime;
+
+
+            playerTransform = player.transform;
+
+            slopeDetectingRayStartHeightVector = Vector3.up * movementStateData.SlopeDetectingRayStartHeight;
+            slopeDetectingRayVector = Vector3.down * (movementStateData.RaycastDistance + movementStateData.SlopeDetectingRayStartHeight);
+            slopeDetectingRayMaxDistance = movementStateData.RaycastDistance + movementStateData.SlopeDetectingRayStartHeight;
+            floatingHeightVector = Vector3.up * (movementStateData.FloatingHeight);
+
+            groundLayer = movementStateData.GroundLayer;
+
         }
 
         #region IState Methods
@@ -135,11 +153,6 @@ namespace RSP2
             animator.SetBool(inAirHash, isOn);
         }
 
-        protected virtual void SetAttackable()
-        {
-
-        }
-
         protected float GetAnimationLength(Animator animator, string tag)
         {
             if (animator.IsInTransition(0))
@@ -154,7 +167,52 @@ namespace RSP2
             }
         }
 
+        protected virtual Vector3 CheckIsSlope(bool stickFloor = true)
+        {
+            //Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
+
+            if (Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, Vector3.down, out hit, slopeDetectingRayMaxDistance,
+                groundLayer))
+            {
+                return hit.normal;
+
+            }
+
+            return Vector3.down;
+
+        }
+
     }
+
+    public static class FallingCalculator
+    {
+        private static Vector3 gravity = Physics2D.gravity;
+        private static float fallingThreshold;
+
+        public static void ApplyFallingToVector(ref Vector3 velocityVector, float timeDelta)
+        {
+            velocityVector += timeDelta * gravity;
+            return;
+        }
+
+        public static bool CheckFalling(Vector3 fallingVelocityVector, Vector3 slopeNormalVector, CharacterController controller)
+        {
+            if (slopeNormalVector.y < -0.98f)
+            {
+                fallingThreshold = 5 * Physics.gravity.y * Time.deltaTime;
+                if (!controller.isGrounded && (fallingVelocityVector.y < fallingThreshold))
+                {
+                    return true;
+                }
+
+            }
+
+            return false;
+        }
+
+    }
+
+
 
     public static class InputToDirectionVectorConverter
     {

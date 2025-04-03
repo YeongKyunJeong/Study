@@ -31,9 +31,9 @@ namespace RSP2
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
             //Debug.Log(runtimeData.VerticalVelocityVector);
 
-            slopeNormalVecor = CheckIsSlope();
+            slopeNormalVector = CheckIsSlope();
 
-            if (CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVecor))
+            if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVector, controller))
             {
 
                 animator.SetBool(onLandHash, false);
@@ -51,14 +51,14 @@ namespace RSP2
             }
 
             //slopeNormalVecor = CheckIsSlope();
-            if (slopeNormalVecor.y > 0.98f)
+            if (slopeNormalVector.y > 0.98f)
             {
                 horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
 
             }
             else
             {
-                horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVectorOnSlope(moveInput, slopeNormalVecor);
+                horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVectorOnSlope(moveInput, slopeNormalVector);
 
             }
 

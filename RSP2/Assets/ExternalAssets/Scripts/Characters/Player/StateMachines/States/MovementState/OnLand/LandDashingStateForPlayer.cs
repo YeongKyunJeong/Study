@@ -83,7 +83,7 @@ namespace RSP2
 
                 if (passedTime > durationTime)
                 {
-                    if (CheckFalling(dampedFallingVelocity, Vector3.down)) 
+                    if (FallingCalculator.CheckFalling(dampedFallingVelocity, Vector3.down, controller)) 
                     {
                         SetAnimatorOnLandParameter(false);
 

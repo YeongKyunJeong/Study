@@ -47,7 +47,7 @@ namespace RSP2
         {
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
-            if (CheckFalling(runtimeData.VerticalVelocityVector, Vector3.down))
+            if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, Vector3.down, controller))
             {
                 SetAnimatorOnLandParameter(false);
                 stateMachine.ChangeState(stateMachine.FallingState);
