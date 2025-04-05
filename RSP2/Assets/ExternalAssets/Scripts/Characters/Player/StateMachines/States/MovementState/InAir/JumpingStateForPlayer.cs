@@ -6,7 +6,8 @@ namespace RSP2
 {
     public class JumpingStateForPlayer : InAirStateForPlayer
     {
-        protected readonly int isJumpingHash = Animator.StringToHash("IsJumping");
+        private readonly int isJumpingHash = Animator.StringToHash("IsJumping");
+        private readonly int instantJumpingHash = Animator.StringToHash("InAir.Jumping");
 
         public JumpingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -19,6 +20,8 @@ namespace RSP2
             SetAnimatorSelfStateParameter(true);
 
             verticalVelocityVector += new Vector3(0, movementStateData.JumpForceModifier, 0);
+
+            ApplyHorizontalMomentum();
         }
 
         public override void Exit()
@@ -38,7 +41,7 @@ namespace RSP2
             }
             else
             {
-                 FallingCalculator.ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
+                FallingCalculator.ApplyFallingToVector(ref verticalVelocityVector, Time.deltaTime);
             }
 
             runtimeData.VerticalVelocityVector = verticalVelocityVector;
@@ -57,8 +60,27 @@ namespace RSP2
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
             //base.SetAnimatorSelfStateParameter(isOn);
-
+            if (animator.IsInTransition(0))
+            {
+                animator.CrossFadeInFixedTime(instantJumpingHash, 0.25f);
+            }
             animator.SetBool(isJumpingHash, isOn);
+        }
+
+        private void ApplyHorizontalMomentum() // To Do : Find the way to unite the Method in HorizontalMovingStateForPlayer 
+        {
+            horizontalMomentum = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);
+            runtimeData.HorizontalMovementVector = horizontalMomentum;
+        }
+
+        private float ApplySpeedModifierToMovementVector()
+        {
+            if (runtimeData.IsWalking)
+            {
+                return movementStateData.WalkingSpeedModifier;
+
+            }
+            return movementStateData.RunningSpeedModifier;
         }
     }
 }

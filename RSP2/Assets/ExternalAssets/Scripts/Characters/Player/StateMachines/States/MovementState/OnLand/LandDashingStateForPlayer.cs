@@ -6,7 +6,8 @@ namespace RSP2
 {
     public class LandDashingStateForPlayer : OnLandStateForPlayer
     {
-        protected readonly int isDashingHash = Animator.StringToHash("IsDashing");
+        private readonly int isDashingHash = Animator.StringToHash("IsDashing");
+        private readonly int instantLandDashingHash = Animator.StringToHash("OnLand.Dashing");
 
         private Vector3 dashMovementVector;
         private Vector3 dampedDashVector;
@@ -78,39 +79,14 @@ namespace RSP2
             }
             else
             {
-                dashMovementVector = Vector3.Lerp(dashMovementVector, dampedDashVector, lerpModifier);
-
-
                 if (passedTime > durationTime)
                 {
-                    if (FallingCalculator.CheckFalling(dampedFallingVelocity, Vector3.down, controller)) 
-                    {
-                        SetAnimatorOnLandParameter(false);
-
-                        stateMachine.ChangeState(stateMachine.FallingState);
-                        return;
-
-                    }
-
-                    
-                    if (moveInput == Vector2.zero)
-                    {
-
-                        stateMachine.ChangeState(stateMachine.IdlingState);
-
-                        return;
-                    }
-
-                    if (runtimeData.IsWalking)
-                    {
-                        stateMachine.ChangeState(stateMachine.WalkingState);
-                        return;
-                    }
-
-                    stateMachine.ChangeState(stateMachine.RunnigState);
-
+                    EndLandDashState();
                     return;
                 }
+
+                dashMovementVector = Vector3.Lerp(dashMovementVector, dampedDashVector, lerpModifier);
+
 
             }
 
@@ -120,13 +96,47 @@ namespace RSP2
             //mover.UpdateNextHorizontalMovementVector(horizontalMovementVector);
         }
 
+        private void EndLandDashState()
+        {
+            if (FallingCalculator.CheckFalling(dampedFallingVelocity, Vector3.down, controller))
+            {
+                SetAnimatorOnLandParameter(false);
+
+                stateMachine.ChangeState(stateMachine.FallingState);
+                return;
+
+            }
+
+
+            if (moveInput == Vector2.zero)
+            {
+
+                stateMachine.ChangeState(stateMachine.IdlingState);
+
+                return;
+            }
+
+            if (runtimeData.IsWalking)
+            {
+                stateMachine.ChangeState(stateMachine.WalkingState);
+                return;
+            }
+
+            stateMachine.ChangeState(stateMachine.RunnigState);
+
+            return;
+        }
+
         #endregion
 
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
             //base.SetAnimatorSelfStateParameter(isOn);
-
+            if (animator.IsInTransition(0))
+            {
+                animator.CrossFadeInFixedTime(instantLandDashingHash, 0.25f);
+            }
             animator.SetBool(isDashingHash, isOn);
         }
     }

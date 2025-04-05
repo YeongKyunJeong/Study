@@ -140,10 +140,7 @@ namespace RSP2
         #endregion
 
 
-        protected virtual void SetAnimatorSelfStateParameter(bool isOn)
-        {
-
-        }
+        protected virtual void SetAnimatorSelfStateParameter(bool isOn) { }
 
         protected virtual void SetAnimatorOnLandParameter(bool isOn)
         {
@@ -160,7 +157,8 @@ namespace RSP2
             animator.SetBool(attackHash, isOn);
         }
 
-        protected float GetAnimationLength(Animator animator, string tag)
+
+        protected float GetNormalizedTime(Animator animator, string tag)
         {
             if (animator.IsInTransition(0))
             {

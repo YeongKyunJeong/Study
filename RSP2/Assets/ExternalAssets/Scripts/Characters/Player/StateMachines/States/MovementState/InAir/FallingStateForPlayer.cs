@@ -8,6 +8,7 @@ namespace RSP2
     {
 
         //protected readonly int isJumpingHash = Animator.StringToHash("IsJumping");
+        private readonly int instantFallingHash = Animator.StringToHash("InAir.Falling");
 
         public FallingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -20,6 +21,12 @@ namespace RSP2
         public override void Enter()
         {
             base.Enter();
+
+            if (animator.IsInTransition(0))
+            {
+                animator.CrossFadeInFixedTime(instantFallingHash, 0.25f);
+            }
+
             verticalVelocityVector = runtimeData.VerticalVelocityVector;
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
 
@@ -97,10 +104,10 @@ namespace RSP2
 
         #region Movement Input Method
 
-        protected override void OnMoveInput(Vector2 _moveInput)
-        {
-            base.OnMoveInput(_moveInput);
-        }
+        //protected override void OnMoveInput(Vector2 _moveInput)
+        //{
+        //    base.OnMoveInput(_moveInput);
+        //}
 
         #endregion
 

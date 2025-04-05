@@ -14,7 +14,7 @@ namespace RSP2
         [field: SerializeField] public Transform MainCameraTransform { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
-
+        [field: SerializeField] public Collider AttackHitBox { get; private set; }
         public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
         public PlayerRuntimeData RuntimeData { get; private set; }
 
@@ -55,6 +55,11 @@ namespace RSP2
             //{
             //    throw new NotImplementedException("Rigidbody Not Assigned");
             //}
+            if (AttackHitBox == null)
+            {
+                throw new NotImplementedException("Main Camera Transform Not Assigned");
+            }
+            AttackHitBox.enabled = false;
         }
 
         private void Start()

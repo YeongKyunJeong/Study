@@ -7,7 +7,8 @@ namespace RSP2
     public class WalkingStateForPlayer : HorizontalMovingStateForPlayer
     {
 
-        protected readonly int isWalkingHash = Animator.StringToHash("IsWalking");
+        private readonly int isWalkingHash = Animator.StringToHash("IsWalking");
+        private readonly int instantWalkingHash = Animator.StringToHash("OnLand.Walking");
 
         public WalkingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -49,7 +50,10 @@ namespace RSP2
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
             //base.SetAnimatorSelfStateParameter(isOn);
-
+            if (animator.IsInTransition(0))
+            {
+                animator.CrossFadeInFixedTime(instantWalkingHash, 0.25f);
+            }
             animator.SetBool(isWalkingHash, isOn);
         }
     }

@@ -64,7 +64,7 @@ namespace RSP2
 
             SetAnimatorOnLandParameter(false);
 
-            stateMachine.ChangeState(stateMachine.LandAttackingState);
+            stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
         }
 
 

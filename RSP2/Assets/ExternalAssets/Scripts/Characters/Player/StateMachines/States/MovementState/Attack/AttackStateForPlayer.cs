@@ -9,15 +9,23 @@ namespace RSP2
         protected string animatorAttackStateTag = "Attack State";
 
         protected Vector3 horizontalMomentum;
-        protected float passedTime;
+        //protected float passedTime;
+        protected float normalizedPassedTime;
 
-        protected float attackMinimumDuration;
+        protected float minimumDuration;
         protected float attackAnimationTime;
+
+        protected bool isCancelable;
+        protected bool isAnimationEnd;
+
 
         public AttackStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
 
         }
+
+
+        #region IState Methods
 
         public override void Enter()
         {
@@ -29,17 +37,34 @@ namespace RSP2
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
-            //attackAnimationTime = GetAnimationLength(animator, animatorAttackStateTag);
-            //if (attackAnimationTime < 0)
-            //{
-            //    Debug.Log("not work properly");
-            //    Debug.Log(attackAnimationTime);
-            //}
-            //else
-            //{
-            //    Debug.Log(attackAnimationTime);
-            //}
-            passedTime = 0;
+            //passedTime = 0;
+            isCancelable = false;
+            isAnimationEnd = false;
+        }
+
+
+        public override void CallUpdate()
+        {
+            base.CallUpdate();
+
+            UpdateNormalizedPassedTime();
+
+            if (isAnimationEnd)
+            {
+                EndAttackState();
+                return;
+            }
+
+            if (!isCancelable)
+            {
+                isCancelable = CheckIsCancelable();
+            }
+
+            horizontalMomentum = CalculateThisUpdateMomentum();
+
+            runtimeData.HorizontalMovementVector = horizontalMomentum;
+
+            mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
         }
 
 
@@ -52,7 +77,84 @@ namespace RSP2
             SetAnimatorIsAttackingParameter(false);
         }
 
+        #endregion
 
+
+        #region Input Methods
+
+        protected override void OnDashInput()
+        {
+            if (isCancelable)
+            {
+                base.OnDashInput();
+
+                // To Do: Check is Landing
+
+                stateMachine.ChangeState(stateMachine.LandDashingState);
+            }
+        }
+
+        protected override void OnJumpInput()
+        {
+            if (isCancelable)
+            {
+                base.OnJumpInput();
+
+                // To Do: Check is Landing
+
+                stateMachine.ChangeState(stateMachine.JumpingState);
+                return;
+            }
+
+        }
+
+        #endregion
+
+
+        private void EndAttackState()
+        {
+            SetAnimatorIsAttackingParameter(false);
+
+            if (CheckIsSlope().y < -0.98) // No collider detected
+            {
+                stateMachine.ChangeState(stateMachine.FallingState);
+                return;
+            }
+
+            if (moveInput == Vector2.zero)
+            {
+                stateMachine.ChangeState(stateMachine.IdlingState);
+                return;
+            }
+
+            if (runtimeData.IsWalking)
+            {
+                stateMachine.ChangeState(stateMachine.WalkingState);
+                return;
+            }
+            stateMachine.ChangeState(stateMachine.RunnigState);
+            return;
+        }
+
+        protected virtual bool CheckIsCancelable()
+        {
+            return false;
+        }
+
+        protected virtual void UpdateNormalizedPassedTime()
+        {
+            normalizedPassedTime = GetNormalizedTime(animator, "Attack State");
+            if (normalizedPassedTime >= minimumDuration)
+            {
+                isCancelable = true;
+            }
+            if (normalizedPassedTime >= 1)
+            {
+                isAnimationEnd = true;
+            }
+        }
+
+        protected virtual Vector3 CalculateThisUpdateMomentum() { return Vector3.zero; }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {

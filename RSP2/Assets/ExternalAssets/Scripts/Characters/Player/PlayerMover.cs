@@ -14,8 +14,10 @@ namespace RSP2
 
         private Vector2 movementInputVector;
         private Vector3 nextHorizontalMovementVector;
+        private Vector3 nextRotationVector;
         private Transform mainCameraTransform;
         private Vector3 nextVerticalVelocityVector;
+        private bool keepRotation = false;
 
         private bool needToSetHeight = false;
         private Vector3 targetHeight;
@@ -67,15 +69,23 @@ namespace RSP2
             //}
 
             //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
-            if (nextHorizontalMovementVector == Vector3.zero)
+
+            if (keepRotation)
             {
-                return;
+                Rotate(nextRotationVector);
             }
+            else
+            {
+                if (nextHorizontalMovementVector != Vector3.zero)
+                    Rotate(nextHorizontalMovementVector);
+                //Debug.Log(nextHorizontalMovementVector);
+            }
+            //if (nextHorizontalMovementVector == Vector3.zero)
+            //{
+            //    return;
+            //}
 
-            nextHorizontalMovementVector.y = 0;
-            Rotate(nextHorizontalMovementVector);
-
-            nextVerticalVelocityVector = 5*Time.deltaTime * Physics.gravity;
+            nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
 
         }
 
@@ -87,6 +97,11 @@ namespace RSP2
         public void UpdateNextHorizontalMovementVector(Vector3 movementVector)
         {
             nextHorizontalMovementVector = movementVector;
+            if (movementVector != Vector3.zero)
+            {
+                nextRotationVector = movementVector;
+                nextRotationVector.y = 0;
+            }
         }
 
         private void Rotate(Vector3 targetDir)
@@ -99,6 +114,11 @@ namespace RSP2
         {
             needToSetHeight = true;
             targetHeight = targetHeightVector;
+        }
+
+        public void SetKeepRotate(bool keep)
+        {
+            keepRotation = keep;
         }
     }
 }

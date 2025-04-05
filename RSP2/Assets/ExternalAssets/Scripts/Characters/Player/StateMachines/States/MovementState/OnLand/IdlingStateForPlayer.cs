@@ -6,15 +6,11 @@ namespace RSP2
 {
     public class IdlingStateForPlayer : OnLandStateForPlayer
     {
-        protected readonly int isIdlingHash = Animator.StringToHash("IsIdling");
+        private readonly int isIdlingHash = Animator.StringToHash("IsIdling");
+        private readonly int instantIdlingHash = Animator.StringToHash("OnLand.Idling");
 
         public IdlingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-            //defaultSpeedModifier = 0;
-            //rotationTime = 0.14f;
-
-            //defaultSpeedModifier = 5f;
-            //rotationSpeedModifier = 8;
         }
 
         #region IStateMethods
@@ -59,7 +55,7 @@ namespace RSP2
         protected override void OnMoveInput(Vector2 moveInput)
         {
             base.OnMoveInput(moveInput);
-            runtimeData.MoveInput = moveInput;
+            //runtimeData.MoveInput = moveInput;
 
 
             if (runtimeData.IsWalking)
@@ -85,6 +81,10 @@ namespace RSP2
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
             //base.SetAnimatorSelfStateParameter(isOn);
+            if (animator.IsInTransition(0))
+            {
+                animator.CrossFadeInFixedTime(instantIdlingHash, 0.25f);
+            }
             animator.SetBool(isIdlingHash, isOn);
         }
     }
