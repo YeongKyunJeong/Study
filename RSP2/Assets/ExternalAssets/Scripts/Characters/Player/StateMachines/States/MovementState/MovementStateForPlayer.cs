@@ -9,7 +9,7 @@ namespace RSP2
     {
         protected Player player;
 
-        protected PlayerRuntimeData runtimeData;
+        protected RuntimeDataForPlayer runtimeData;
         protected MovementStateDataForPlayer movementStateData;
         protected AttackStateDataForPlayer attackStateData;
 

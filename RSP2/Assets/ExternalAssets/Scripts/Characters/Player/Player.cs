@@ -15,14 +15,16 @@ namespace RSP2
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public Collider AttackHitBox { get; private set; }
+        
         public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
-        public PlayerRuntimeData RuntimeData { get; private set; }
+        public StatisticsForPlayer Statistics { get; private set; }
+        public RuntimeDataForPlayer RuntimeData { get; private set; }
 
         private void Awake()
         {
-            RuntimeData = new PlayerRuntimeData();
+            RuntimeData = new RuntimeDataForPlayer();
             MovementStateMachine = new MovementStateMachineForPlayer(this);
-
+            Statistics = new StatisticsForPlayer(this);
 
             if (SOData == null)
             {
@@ -51,10 +53,6 @@ namespace RSP2
                 throw new NotImplementedException("Main Camera Transform Not Assigned");
             }
 
-            //if (Rigidbody == null)
-            //{
-            //    throw new NotImplementedException("Rigidbody Not Assigned");
-            //}
             if (AttackHitBox == null)
             {
                 throw new NotImplementedException("Main Camera Transform Not Assigned");
@@ -77,16 +75,6 @@ namespace RSP2
             MovementStateMachine.CallPhysicsUpdate();
             Mover.CallFixedUpdate();
         }
-
-        //public void SubscribeMovementEvent(Action<Vector2> action)
-        //{
-        //    InputReader.MovementEvent += action;
-        //}
-
-        //public void CancelMovementEvent(Action<Vector2> action)
-        //{
-        //    InputReader.MovementEvent -= action;
-        //}
 
     }
 

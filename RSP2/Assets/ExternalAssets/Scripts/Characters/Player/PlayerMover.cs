@@ -8,7 +8,7 @@ namespace RSP2
         private PlayerScriptableObject sOData;
         private MovementStateDataForPlayer movementStateData;
         private AttackStateDataForPlayer attackStateData;
-        private PlayerRuntimeData runtimeData;
+        private RuntimeDataForPlayer runtimeData;
         private PlayerInputReader inputReader;
         private CharacterController controller;
 
