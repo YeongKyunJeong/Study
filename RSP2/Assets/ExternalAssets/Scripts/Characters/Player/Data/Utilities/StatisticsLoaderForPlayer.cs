@@ -23,18 +23,18 @@ namespace RSP2
 
     public class StatisticsLoaderForPlayer
     {
-        public StatisticsTableForPlayer PlayerStatisticsTable { get; private set; }
+        private StatisticsTableForPlayer playerStatisticsTable { get; set; }
 
         public StatisticsLoaderForPlayer(string path = "")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;
-            PlayerStatisticsTable = JsonUtility.FromJson<StatisticsTableForPlayer>(loadedTableDataString);
+            playerStatisticsTable = JsonUtility.FromJson<StatisticsTableForPlayer>(loadedTableDataString);
         }
 
         public StatisticsTableForPlayer GetStatistics()
         {
-            return PlayerStatisticsTable;
+            return playerStatisticsTable;
         }
     }
 

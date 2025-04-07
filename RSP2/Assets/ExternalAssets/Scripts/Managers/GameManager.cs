@@ -25,6 +25,8 @@ namespace RSP2
             }
 
             DataManager = new DataManager();
+
+            DataManager.Initialize();
         }
 
         public static void InstantiateGameManager()

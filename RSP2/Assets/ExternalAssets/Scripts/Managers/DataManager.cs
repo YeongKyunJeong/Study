@@ -6,16 +6,15 @@ namespace RSP2
 {
     public class DataManager : MonoBehaviour
     {
-        // Start is called before the first frame update
-        void Start()
+        public TableDataLoader TableDataLoader { get; private set; }
+       
+        public void Initialize()
         {
-        
-        }
+            TableDataLoader = new TableDataLoader();
 
-        // Update is called once per frame
-        void Update()
-        {
-        
+            TableDataLoader.Initialize();
         }
     }
+
+
 }

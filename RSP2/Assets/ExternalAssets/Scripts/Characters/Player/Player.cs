@@ -74,6 +74,7 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
+            Statistics.SetStatisticsFromLoader(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
         }
 
         private void Update()
