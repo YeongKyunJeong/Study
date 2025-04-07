@@ -2,17 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum Faction
-{
-    Player, Enemy, Neutrality, None
-}
 
 namespace RSP2
 {
     public abstract class StatisticsForCharacter : IStatistics
     {
-        public int MaxHP { get; set; }
-        public int MaxMP { get; set; }
+        public Faction Faction { get; set; }
+
+        public float MaxHP { get; set; }
+        public float HPRegen { get; set; }
+
+        public float MaxMP { get; set; }
+
+        public float MPRegen { get; set; }
+
+        public float MaxStamina { get; set; }
+
+        public float StaminaRegen { get; set; }
+
         public int Attack { get; set; }
         public int Deffence { get; set; }
         public float MovementSpeed { get; set; }

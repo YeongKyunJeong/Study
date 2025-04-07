@@ -7,7 +7,7 @@ namespace RSP2
 {
     public class Player : MonoBehaviour
     {
-
+        private GameManager gameManager;
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public PlayerMover Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
@@ -15,7 +15,7 @@ namespace RSP2
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public Collider AttackHitBox { get; private set; }
-        
+
         public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
         public StatisticsForPlayer Statistics { get; private set; }
         public RuntimeDataForPlayer RuntimeData { get; private set; }
@@ -62,6 +62,18 @@ namespace RSP2
 
         private void Start()
         {
+            if (gameManager == null)
+            {
+                if (GameManager.Instance == null)
+                {
+                    // Instantiate if there is no GameManager
+                    GameManager.InstantiateGameManager();
+
+                }
+
+                gameManager = GameManager.Instance;
+            }
+
         }
 
         private void Update()

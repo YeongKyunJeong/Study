@@ -5,10 +5,15 @@ using UnityEngine;
 namespace RSP2
 {
     [System.Serializable]
-    public class StatisticsTableForPlayer
+    public class StatisticsTableForPlayer // To do : Use TableLoaderTarget class as parent to other target
     {
-        public int MaxHP;
-        public int MaxMP;
+        public Faction Faction;
+        public float MaxHP;
+        public float HPRegen;
+        public float MaxMP;
+        public float MPRegen;
+        public float MaxStamina;
+        public float StaminaRegen;
         public int Attack;
         public int Deffence;
         public float MovementSpeed;

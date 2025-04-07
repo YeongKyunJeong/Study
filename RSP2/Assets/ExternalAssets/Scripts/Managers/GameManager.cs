@@ -4,9 +4,12 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class GameManager : MonoBehaviour
+    public class GameManager : MonoBehaviour // Use MonoSingleton
     {
         public static GameManager Instance { get; private set; }
+
+        [SerializeField] private static GameObject gameManagerPrefab;
+
         public DataManager DataManager { get; private set; }
 
         private void Awake()
@@ -23,5 +26,16 @@ namespace RSP2
 
             DataManager = new DataManager();
         }
+
+        public static void InstantiateGameManager()
+        {
+            if (Instance == null)
+            {
+                Instance = Instantiate(gameManagerPrefab).GetComponent<GameManager>();
+            }
+
+            return ;
+        }
+
     }
 }
