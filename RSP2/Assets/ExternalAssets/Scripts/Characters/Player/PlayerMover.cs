@@ -77,7 +77,11 @@ namespace RSP2
             else
             {
                 if (nextHorizontalMovementVector != Vector3.zero)
+                {
+                    nextHorizontalMovementVector.y = 0;
+
                     Rotate(nextHorizontalMovementVector);
+                }
                 //Debug.Log(nextHorizontalMovementVector);
             }
             //if (nextHorizontalMovementVector == Vector3.zero)

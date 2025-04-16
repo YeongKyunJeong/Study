@@ -9,7 +9,7 @@ namespace RSP2
         Player, Enemy, Neutrality, None
     }
 
-    public interface IStatistics
+    public interface IStatisticsForCharacter
     {
         public Faction Faction { get; set; }
         public float MaxHP { get; set; }

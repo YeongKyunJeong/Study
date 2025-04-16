@@ -6,14 +6,20 @@ namespace RSP2
 {
     public class MeleeAttackingState : AttackStateForPlayer
     {
-        protected Collider attackHitBox;
+        //protected Collider hitBoxCollider;
+        //protected Transform hitBoxTransform;
+
+        protected AttackHitBox attackHitBox;
         protected float hitBoxEnableTime;
         protected float hitBoxDisableTime;
+
         //protected Vector3 targetDirVector;
 
         public MeleeAttackingState(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             attackHitBox = _player.AttackHitBox;
+
+            //hitBoxCollider = _player.AttackHitBoxCollider;
         }
 
         public override void Enter()
@@ -33,19 +39,18 @@ namespace RSP2
 
             if (normalizedPassedTime >= hitBoxDisableTime)
             {
-                attackHitBox.enabled = false;
+                attackHitBox.Deactivate();
             }
             else if (normalizedPassedTime >= hitBoxEnableTime)
             {
-                attackHitBox.enabled = true;
+                attackHitBox.Activate();
             }
         }
 
         public override void Exit()
         {
             base.Exit();
-            if (attackHitBox.enabled)
-                attackHitBox.enabled = false;
+            attackHitBox.Deactivate();
             mover.SetKeepRotate(false);
         }
 
@@ -79,6 +84,22 @@ namespace RSP2
             }
 
             return false;
+        }
+
+        protected virtual void SetHitBox()
+        {
+            SetHitBoxShape();
+            SetHitBoxPosition();
+        }
+
+        protected virtual void SetHitBoxShape()
+        {
+            // To Do
+        }
+
+        protected virtual void SetHitBoxPosition()
+        {
+            // To Do
         }
     }
 }

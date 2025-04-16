@@ -6,12 +6,32 @@ namespace RSP2
 {
     public class StatisticsForPlayer : StatisticsForCharacter
     {
-        private Player player;
+        public StatisticsTableForPlayer OriginalLoadedData { get; private set; }
 
-        public StatisticsForPlayer(Player _player)
+        
+        public void SetStatisticsFromLoader(StatisticsTableForPlayer loadedData)
         {
-            player = _player;
-        }
+            Faction = loadedData.Faction;
 
+            MaxHP = loadedData.MaxHP;
+
+            HPRegen = loadedData.HPRegen;
+
+            MaxMP = loadedData.MaxMP;
+
+            MPRegen = loadedData.MPRegen;
+
+            MaxStamina = loadedData.MaxStamina;
+
+            StaminaRegen = loadedData.StaminaRegen;
+
+            Attack = loadedData.Attack;
+
+            Deffence = loadedData.Deffence;
+
+            MovementSpeed = loadedData.MovementSpeed;
+
+            AttackSpeed = loadedData.AttackSpeed;
+        }
     }
 }
