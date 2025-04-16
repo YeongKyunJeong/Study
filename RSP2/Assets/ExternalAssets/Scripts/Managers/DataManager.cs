@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class DataManager : MonoBehaviour
+    public class DataManager : MonoSingleton<DataManager>
     {
         public TableDataLoader TableDataLoader { get; private set; }
        
