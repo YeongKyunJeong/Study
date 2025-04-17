@@ -6,7 +6,7 @@ namespace RSP2
 {
     public enum Faction
     {
-        Player, Enemy, Neutrality, None
+        None, Player, Enemy, Neutrality
     }
 
     public interface IStatisticsForCharacter

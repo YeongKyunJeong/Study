@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,32 +7,92 @@ namespace RSP2
 {
     public class StatisticsForPlayer : StatisticsForCharacter
     {
-        public StatisticsTableForPlayer OriginalLoadedData { get; private set; }
-
-        
-        public void SetStatisticsFromLoader(StatisticsTableForPlayer loadedData)
+        public StatisticsForPlayer()
         {
-            Faction = loadedData.Faction;
+            Faction = Faction.Player;
 
-            MaxHP = loadedData.MaxHP;
+            MaxHP = 10;
 
-            HPRegen = loadedData.HPRegen;
+            HPRegen = 10;
 
-            MaxMP = loadedData.MaxMP;
+            MaxMP = 10;
 
-            MPRegen = loadedData.MPRegen;
+            MPRegen = 10;
 
-            MaxStamina = loadedData.MaxStamina;
+            MaxStamina = 10;
 
-            StaminaRegen = loadedData.StaminaRegen;
+            StaminaRegen = 10;
 
-            Attack = loadedData.Attack;
+            Attack = 10;
 
-            Deffence = loadedData.Deffence;
+            Deffence = 10;
 
-            MovementSpeed = loadedData.MovementSpeed;
+            MovementSpeed = 10;
 
-            AttackSpeed = loadedData.AttackSpeed;
+            AttackSpeed = 10;
         }
+
+        public StatisticsForPlayer(StatisticsTableForPlayer baseStatisticsTable)
+        {
+            SetStatisticsByTable(baseStatisticsTable);
+        }
+
+        public StatisticsForPlayer(StatisticsForPlayer baseStatistics)
+        {
+            SetStatistics(baseStatistics);
+        }
+
+        public void SetStatisticsByTable(StatisticsTableForPlayer newDataTable)
+        {
+            Faction = newDataTable.Faction;
+
+            MaxHP = newDataTable.MaxHP;
+
+            HPRegen = newDataTable.HPRegen;
+
+            MaxMP = newDataTable.MaxMP;
+
+            MPRegen = newDataTable.MPRegen;
+
+            MaxStamina = newDataTable.MaxStamina;
+
+            StaminaRegen = newDataTable.StaminaRegen;
+
+            Attack = newDataTable.Attack;
+
+            Deffence = newDataTable.Deffence;
+
+            MovementSpeed = newDataTable.MovementSpeed;
+
+            AttackSpeed = newDataTable.AttackSpeed;
+        }
+
+        private void SetStatistics(StatisticsForPlayer newData)
+        {
+            Faction = newData.Faction;
+
+            MaxHP = newData.MaxHP;
+
+            HPRegen = newData.HPRegen;
+
+            MaxMP = newData.MaxMP;
+
+            MPRegen = newData.MPRegen;
+
+            MaxStamina = newData.MaxStamina;
+
+            StaminaRegen = newData.StaminaRegen;
+
+            Attack = newData.Attack;
+
+            Deffence = newData.Deffence;
+
+            MovementSpeed = newData.MovementSpeed;
+
+            AttackSpeed = newData.AttackSpeed;
+        }
+
+
+
     }
 }

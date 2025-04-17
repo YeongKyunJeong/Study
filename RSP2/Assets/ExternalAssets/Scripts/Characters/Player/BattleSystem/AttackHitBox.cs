@@ -6,6 +6,8 @@ namespace RSP2
 {
     public class AttackHitBox : MonoBehaviour
     {
+        private LayerMask targetLayerMask;
+
         private Collider hitBoxCollider;
         public Collider HitBoxCollider
         {
@@ -34,7 +36,6 @@ namespace RSP2
             }
         }
 
-
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
         private void Awake()
@@ -42,7 +43,8 @@ namespace RSP2
             hitBoxCollider = GetComponent<Collider>();
             hitBoxTransform = transform;
             Deactivate();
-            Debug.Log(hitBoxCollider.name);
+            targetLayerMask = 1 << LayerMask.NameToLayer("Battle Unit");
+            //Debug.Log(hitBoxCollider.name);
         }
 
         public void Activate()
@@ -55,6 +57,14 @@ namespace RSP2
         {
             if (hitBoxCollider.enabled)
                 hitBoxCollider.enabled = false;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (((1 << other.gameObject.layer) & targetLayerMask.value) != 0)
+            {
+                Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
+            }
         }
 
     }

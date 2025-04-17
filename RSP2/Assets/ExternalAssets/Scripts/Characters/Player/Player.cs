@@ -18,17 +18,17 @@ namespace RSP2
         [field: SerializeField] public BattleSystemForPlayer BattleSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
 
-        
+
         public Collider AttackHitBoxCollider { get; private set; }
         public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
-        public StatisticsForPlayer BaseStatistics { get; private set; }
-        public StatisticsForPlayer CurrentStatistics { get; private set; }
+        //public StatisticsForPlayer BaseStatistics { get; private set; }
+        //public StatisticsForPlayer CurrentStatistics { get; private set; }
         public RuntimeDataForPlayer RuntimeData { get; private set; }
 
         private void Awake()
         {
-            BaseStatistics = new StatisticsForPlayer();
-            CurrentStatistics = new StatisticsForPlayer();
+            //BaseStatistics = new StatisticsForPlayer();
+            //CurrentStatistics = new StatisticsForPlayer();
             RuntimeData = new RuntimeDataForPlayer();
             MovementStateMachine = new MovementStateMachineForPlayer(this);
 
@@ -87,7 +87,12 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-            BaseStatistics.SetStatisticsFromLoader(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
+                StatisticsHandler.Initialize();
+
+
+                //StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
+
+            
         }
 
         private void Update()

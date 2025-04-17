@@ -9,7 +9,11 @@ namespace RSP2
     {
         [SerializeField] private float healthChangeDelay = .5f;
 
-        StatisticsHandlerForCharacter statisticsHandler;
+        StatisticsHandlerForCharacter StatisticsHandler;
+        
+        [SerializeField] protected Faction myFaction;
+        public virtual Faction MyFaction { get => myFaction; set { myFaction = value; } }
+
         private float timeSinceLastChange = float.MaxValue;
 
         public event Action OnDamage;
@@ -18,11 +22,11 @@ namespace RSP2
         public event Action OnInvicibilityEnd;
 
         public float CurrentHealth { get; private set; }
-        public float MaxHP => statisticsHandler.CurrentStatistics.MaxHP;
+        public float MaxHP => StatisticsHandler.CurrentStatistics.MaxHP;
 
-        private void Awake()
+        protected virtual void Awake()
         {
-            statisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
+            StatisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
         }
 
         public void InitHealth()

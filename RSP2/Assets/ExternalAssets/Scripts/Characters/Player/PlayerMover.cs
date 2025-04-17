@@ -40,7 +40,7 @@ namespace RSP2
             mainCameraTransform = Camera.main.transform;
 
             nextVerticalVelocityVector = Vector3.zero;
-
+            nextRotationVector = transform.forward;
             //fixedDeltaTime = Time.fixedDeltaTime;
         }
 

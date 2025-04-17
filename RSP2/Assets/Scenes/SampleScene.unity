@@ -447,10 +447,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 238198677}
+  - component: {fileID: 238198679}
+  - component: {fileID: 238198678}
   - component: {fileID: 238198676}
   - component: {fileID: 238198675}
   - component: {fileID: 238198674}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Capsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -545,6 +547,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &238198678
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238198673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47f61a1a42a48c14d94708c1b6c7de01, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &238198679
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 238198673}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d03fe1edbde8d564d9d355b0f505452a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthChangeDelay: 0.5
+  myFaction: 0
 --- !u!850595691 &358389690
 LightingSettings:
   m_ObjectHideFlags: 0
@@ -2866,6 +2894,38 @@ MonoBehaviour:
   m_CameraActivatedEvent:
     m_PersistentCalls:
       m_Calls: []
+--- !u!1 &1703834532 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7587764975927703886, guid: b31af1353f22a704bb8984805207b298, type: 3}
+  m_PrefabInstance: {fileID: 215005155428977369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &1703834536
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1703834532}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1770210403
 GameObject:
   m_ObjectHideFlags: 0
@@ -3021,10 +3081,17 @@ PrefabInstance:
       propertyPath: <MainCameraTransform>k__BackingField
       value: 
       objectReference: {fileID: 1064345950}
+    - target: {fileID: 6448276985352829928, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7587764975927703886, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1703834536}
   m_SourcePrefab: {fileID: 100100000, guid: b31af1353f22a704bb8984805207b298, type: 3}
 --- !u!1001 &8234391404714127023
 PrefabInstance:

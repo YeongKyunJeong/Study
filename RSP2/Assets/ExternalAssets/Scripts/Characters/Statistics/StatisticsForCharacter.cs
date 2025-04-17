@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public abstract class StatisticsForCharacter : IStatisticsForCharacter
+    public class StatisticsForCharacter : IStatisticsForCharacter
     {
         public Faction Faction { get; set; }
         public float MaxHP { get; set; }
@@ -19,5 +19,39 @@ namespace RSP2
         public float MovementSpeed { get; set; }
         public float AttackSpeed { get; set; }
 
+        public StatisticsForCharacter()
+        {
+            Debug.Log("Initialized Without Data");
+        }
+
+        public StatisticsForCharacter(StatisticsForCharacter baseStatistics)
+        {
+            SetStatistics(baseStatistics);
+        }
+
+        private void SetStatistics(StatisticsForCharacter newData)
+        {
+            Faction = newData.Faction;
+
+            MaxHP = newData.MaxHP;
+
+            HPRegen = newData.HPRegen;
+
+            MaxMP = newData.MaxMP;
+
+            MPRegen = newData.MPRegen;
+
+            MaxStamina = newData.MaxStamina;
+
+            StaminaRegen = newData.StaminaRegen;
+
+            Attack = newData.Attack;
+
+            Deffence = newData.Deffence;
+
+            MovementSpeed = newData.MovementSpeed;
+
+            AttackSpeed = newData.AttackSpeed;
+        }
     }
 }

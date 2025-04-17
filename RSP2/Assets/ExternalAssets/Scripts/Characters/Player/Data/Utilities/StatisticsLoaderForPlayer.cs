@@ -34,7 +34,7 @@ namespace RSP2
 
         public StatisticsTableForPlayer GetStatistics()
         {
-            return playerStatisticsTable;
+            return playerStatisticsTable == null? null : playerStatisticsTable;
         }
     }
 
