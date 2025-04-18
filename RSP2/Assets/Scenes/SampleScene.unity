@@ -3020,6 +3020,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &1929661494 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 310363256608967031, guid: b31af1353f22a704bb8984805207b298, type: 3}
+  m_PrefabInstance: {fileID: 215005155428977369}
+  m_PrefabAsset: {fileID: 0}
+--- !u!136 &1929661503
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1929661494}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.25
+  m_Height: 1.8
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!4 &2006076676 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 566058004026945538, guid: b31af1353f22a704bb8984805207b298, type: 3}
@@ -3089,6 +3117,9 @@ PrefabInstance:
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 310363256608967031, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1929661503}
     - targetCorrespondingSourceObject: {fileID: 7587764975927703886, guid: b31af1353f22a704bb8984805207b298, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1703834536}

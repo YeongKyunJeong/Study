@@ -6,8 +6,8 @@ namespace RSP2
 {
     public class StatisticsHandlerForCharacter : MonoBehaviour
     {
-        public StatisticsForCharacter BaseStatistics { get; private set; }
-        public StatisticsForCharacter CurrentStatistics { get; private set; }
+        public virtual StatisticsForCharacter BaseStatistics { get; protected set; }
+        public virtual StatisticsForCharacter CurrentStatistics { get; protected set; }
 
         public void Initialize(StatisticsForCharacter initialStatistics)
         {
@@ -18,6 +18,15 @@ namespace RSP2
 
         protected virtual void CalculateFinalStat()
         {
+            BattleSystem battleSystem = GetComponent<BattleSystem>();
+            if (battleSystem != null)
+            {
+                if (CurrentStatistics != null)
+                {
+                    battleSystem.MyFaction = CurrentStatistics.Faction;
+
+                }
+            }
             //    int health = baseStat.BaseHealth;
             //    float speed = baseStat.BaseSpeed;
             //    int attack = baseStat.BaseAttack;

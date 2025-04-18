@@ -9,6 +9,10 @@ namespace RSP2
     {
         public StatisticsForPlayer()
         {
+            key = -1;
+
+            Name = "Player";
+
             Faction = Faction.Player;
 
             MaxHP = 10;
@@ -34,6 +38,7 @@ namespace RSP2
 
         public StatisticsForPlayer(StatisticsTableForPlayer baseStatisticsTable)
         {
+            Debug.Log("Loaded by JSON");
             SetStatisticsByTable(baseStatisticsTable);
         }
 
@@ -44,6 +49,10 @@ namespace RSP2
 
         public void SetStatisticsByTable(StatisticsTableForPlayer newDataTable)
         {
+            key = newDataTable.key;
+
+            Name = newDataTable.Name;
+            
             Faction = newDataTable.Faction;
 
             MaxHP = newDataTable.MaxHP;
@@ -69,6 +78,10 @@ namespace RSP2
 
         private void SetStatistics(StatisticsForPlayer newData)
         {
+            key = newData.key;
+
+            Name = newData.Name;
+
             Faction = newData.Faction;
 
             MaxHP = newData.MaxHP;

@@ -6,11 +6,17 @@ namespace RSP2
 {
     public enum Faction
     {
-        None, Player, Enemy, Neutrality
+        Null,   // Not assigned yet
+        Player,
+        Enemy,
+        Neutral,
+        None
     }
 
     public interface IStatisticsForCharacter
     {
+        public int key { get; set; }
+        public string Name { get; set; }
         public Faction Faction { get; set; }
         public float MaxHP { get; set; }
         public float HPRegen { get; set; }
@@ -22,8 +28,8 @@ namespace RSP2
         public float MaxStamina { get; set; }
 
         public float StaminaRegen { get; set; }
-        public int Attack { get; set; }
-        public int Deffence { get; set; }
+        public float Attack { get; set; }
+        public float Deffence { get; set; }
         public float MovementSpeed { get; set; }
         public float AttackSpeed { get; set; }
     }

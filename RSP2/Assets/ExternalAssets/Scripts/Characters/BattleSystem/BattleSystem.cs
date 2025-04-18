@@ -16,6 +16,7 @@ namespace RSP2
 
         private float timeSinceLastChange = float.MaxValue;
 
+        protected AttackHitBox attackHitBox;
         public event Action OnDamage;
         public event Action OnHeal;
         public event Action OnDeath;

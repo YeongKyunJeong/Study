@@ -87,12 +87,12 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-                StatisticsHandler.Initialize();
+                //StatisticsHandler.Initialize();
 
 
-                //StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
+            StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
 
-            
+
         }
 
         private void Update()

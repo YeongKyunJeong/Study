@@ -6,33 +6,44 @@ namespace RSP2
 {
     public class StatisticsHandlerForPlayer : StatisticsHandlerForCharacter
     {
-        new public StatisticsForPlayer BaseStatistics { get; private set; }
-        new public StatisticsForPlayer CurrentStatistics { get; private set; }
+        private StatisticsForPlayer PlayerBaseStatistics; /*{ get; private set; }*/
+        private StatisticsForPlayer PlayerCurrentStatistics;/* { get; private set; }*/
 
         public void Initialize()
         {
-            BaseStatistics = new StatisticsForPlayer();
-            CurrentStatistics = new StatisticsForPlayer();
+            PlayerBaseStatistics = new StatisticsForPlayer();
+            PlayerCurrentStatistics = new StatisticsForPlayer();
         }
 
         public void Initialize(StatisticsTableForPlayer baseStatisticsTable)
         {
             StatisticsTableForPlayer OriginalLoadedDataTable = baseStatisticsTable;
-            BaseStatistics = new StatisticsForPlayer(baseStatisticsTable);
-            CurrentStatistics = new StatisticsForPlayer(baseStatisticsTable);
+            PlayerBaseStatistics = new StatisticsForPlayer(baseStatisticsTable);
+            PlayerCurrentStatistics = new StatisticsForPlayer(baseStatisticsTable);
             CalculateFinalStat();
         }
 
         public void Initialize(StatisticsForPlayer initialStatistics)
         {
-            BaseStatistics = new StatisticsForPlayer(initialStatistics);
-            CurrentStatistics = new StatisticsForPlayer(initialStatistics);
+            PlayerBaseStatistics = new StatisticsForPlayer(initialStatistics);
+            PlayerCurrentStatistics = new StatisticsForPlayer(initialStatistics);
             CalculateFinalStat();
         }
 
         protected override void CalculateFinalStat()
         {
+            BaseStatistics = PlayerBaseStatistics as StatisticsForCharacter;
+            CurrentStatistics = PlayerCurrentStatistics as StatisticsForCharacter;
             base.CalculateFinalStat();
+            //BattleSystem battleSystem = GetComponent<BattleSystem>();
+            //if (battleSystem != null)
+            //{
+            //    if (PlayerCurrentStatistics != null)
+            //    {
+            //        battleSystem.MyFaction = PlayerCurrentStatistics.Faction;
+
+            //    }
+            //}
         }
     }
 }
