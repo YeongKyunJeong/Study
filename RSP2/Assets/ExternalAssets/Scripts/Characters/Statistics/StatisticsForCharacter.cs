@@ -7,8 +7,8 @@ namespace RSP2
 {
     public class StatisticsForCharacter : IStatisticsForCharacter
     {
-        public int key { get ; set ; }
-        public string Name { get ; set ; }
+        public int key { get; set; }
+        public string Name { get; set; }
         public Faction Faction { get; set; }
         public float MaxHP { get; set; }
         public float HPRegen { get; set; }
@@ -24,6 +24,41 @@ namespace RSP2
         public StatisticsForCharacter()
         {
             //Debug.Log("Initialized Without Data");
+        }
+
+        public void InitializeByDefault(bool isDefauilt = false)
+        {
+            if (isDefauilt)
+            {
+
+                key = -1;
+
+                Name = "Default";
+
+                Faction = Faction.Enemy;
+
+                MaxHP = 50;
+
+                HPRegen = 1;
+
+                MaxMP = 20;
+
+                MPRegen = 1;
+
+                MaxStamina = 20;
+
+                StaminaRegen = 5;
+
+                Attack = 3;
+
+                Deffence = 3;
+
+                MovementSpeed = 8;
+
+                AttackSpeed = 5;
+                return;
+            }
+            
         }
 
         public StatisticsForCharacter(StatisticsForCharacter baseStatistics)

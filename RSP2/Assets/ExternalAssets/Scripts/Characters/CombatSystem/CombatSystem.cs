@@ -5,14 +5,18 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class BattleSystem : MonoBehaviour
+    public class CombatSystem : MonoBehaviour
     {
         [SerializeField] private float healthChangeDelay = .5f;
 
         StatisticsHandlerForCharacter StatisticsHandler;
         
         [SerializeField] protected Faction myFaction;
-        public virtual Faction MyFaction { get => myFaction; set { myFaction = value; } }
+        public Faction MyFaction { get => myFaction; set { myFaction = value; } }
+
+        [SerializeField] protected bool isDead;
+
+        public bool IsDead { get => isDead; set { isDead = value; } }
 
         private float timeSinceLastChange = float.MaxValue;
 
@@ -28,11 +32,13 @@ namespace RSP2
         protected virtual void Awake()
         {
             StatisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
+            isDead = false;
         }
 
         public void InitHealth()
         {
             CurrentHealth = MaxHP;
+            isDead = false;
         }
 
         private void Update()

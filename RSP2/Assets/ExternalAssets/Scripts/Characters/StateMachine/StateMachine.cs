@@ -49,7 +49,10 @@ namespace RSP2
         }
 
 
+        public virtual void SetDefaultState()
+        {
 
-
+        }
+        
     }
 }

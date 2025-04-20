@@ -8,22 +8,39 @@ namespace RSP2
     {
         public virtual StatisticsForCharacter BaseStatistics { get; protected set; }
         public virtual StatisticsForCharacter CurrentStatistics { get; protected set; }
+        protected CombatSystem combatSystem;
+
+        public void InitializeByDefault()
+        {
+            BaseStatistics = new StatisticsForCharacter();
+            BaseStatistics.InitializeByDefault();
+            CurrentStatistics = new StatisticsForCharacter();
+            CurrentStatistics.InitializeByDefault();
+
+            if (combatSystem == null)
+            {
+                combatSystem = GetComponent<CombatSystem>();
+            }
+
+            CalculateFinalStat();
+        }
 
         public void Initialize(StatisticsForCharacter initialStatistics)
         {
             BaseStatistics = new StatisticsForCharacter(initialStatistics);
             CurrentStatistics = new StatisticsForCharacter(initialStatistics);
+            combatSystem = GetComponent<CombatSystem>();
+
             CalculateFinalStat();
         }
 
         protected virtual void CalculateFinalStat()
         {
-            BattleSystem battleSystem = GetComponent<BattleSystem>();
-            if (battleSystem != null)
+            if (combatSystem != null)
             {
                 if (CurrentStatistics != null)
                 {
-                    battleSystem.MyFaction = CurrentStatistics.Faction;
+                    combatSystem.MyFaction = CurrentStatistics.Faction;
 
                 }
             }
