@@ -9,17 +9,17 @@ namespace RSP2
         private StatisticsForPlayer PlayerBaseStatistics; /*{ get; private set; }*/
         private StatisticsForPlayer PlayerCurrentStatistics;/* { get; private set; }*/
 
-        public void Initialize()
-        {
-            PlayerBaseStatistics = new StatisticsForPlayer();
-            PlayerCurrentStatistics = new StatisticsForPlayer();
-        }
-
         public void Initialize(StatisticsTableForPlayer baseStatisticsTable)
         {
             StatisticsTableForPlayer OriginalLoadedDataTable = baseStatisticsTable;
             PlayerBaseStatistics = new StatisticsForPlayer(baseStatisticsTable);
             PlayerCurrentStatistics = new StatisticsForPlayer(baseStatisticsTable);
+
+            if (combatSystem == null)
+            {
+                combatSystem = GetComponent<CombatSystem>();
+            }
+
             CalculateFinalStat();
         }
 
@@ -27,6 +27,12 @@ namespace RSP2
         {
             PlayerBaseStatistics = new StatisticsForPlayer(initialStatistics);
             PlayerCurrentStatistics = new StatisticsForPlayer(initialStatistics);
+
+            if (combatSystem == null)
+            {
+                combatSystem = GetComponent<CombatSystem>();
+            }
+
             CalculateFinalStat();
         }
 

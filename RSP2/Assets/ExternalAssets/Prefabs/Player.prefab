@@ -45,10 +45,10 @@ GameObject:
   - component: {fileID: 2101898750188141801}
   - component: {fileID: 6662429965656308785}
   - component: {fileID: 8049803004861275054}
-  - component: {fileID: 8935902564236214146}
   - component: {fileID: 1082692146327613832}
   - component: {fileID: 618572945416049502}
-  m_Layer: 0
+  - component: {fileID: 8935902564236214146}
+  m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -92,7 +92,7 @@ MonoBehaviour:
   <SOData>k__BackingField: {fileID: 11400000, guid: 41a34436e0cdb2646bbba02154f74d3b, type: 2}
   <Animator>k__BackingField: {fileID: 4254256474133448164}
   <StatisticsHandler>k__BackingField: {fileID: 6662429965656308785}
-  <BattleSystem>k__BackingField: {fileID: 8049803004861275054}
+  <CombatSystem>k__BackingField: {fileID: 8049803004861275054}
   <AttackHitBox>k__BackingField: {fileID: 2328548645168764254}
 --- !u!114 &2101898750188141801
 MonoBehaviour:
@@ -131,32 +131,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   healthChangeDelay: 0.5
---- !u!143 &8935902564236214146
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 310363256608967031}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Height: 1.8
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.01
-  m_MinMoveDistance: 0
-  m_Center: {x: 0, y: 0.9, z: 0}
+  myFaction: 0
+  StatisticsHandlerFoPlayer: {fileID: 0}
 --- !u!114 &1082692146327613832
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -199,6 +175,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6457c157fed907a4dab6af01641c7e57, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!143 &8935902564236214146
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310363256608967031}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Height: 1.8
+  m_Radius: 0.25
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.01
+  m_MinMoveDistance: 0
+  m_Center: {x: 0, y: 0.9, z: 0}
 --- !u!1 &381193501822710417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2457,6 +2459,7 @@ GameObject:
   - component: {fileID: 7097867795298359189}
   - component: {fileID: 2328548645168764254}
   - component: {fileID: 6448276985352829928}
+  - component: {fileID: 2654743365440533161}
   m_Layer: 7
   m_Name: AttackHitBox
   m_TagString: Untagged
@@ -2473,7 +2476,7 @@ Transform:
   m_GameObject: {fileID: 7587764975927703886}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.2, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2506,12 +2509,39 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
   m_Radius: 0.8
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Center: {x: 0, y: 1.2, z: 1}
+--- !u!54 &2654743365440533161
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7587764975927703886}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &7770885959786203320
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,9 +28,9 @@ namespace RSP2
 
         //private Vector3 gravity;
 
-        public void Initialize()
+        public void Initialize(Player _player)
         {
-            player = GetComponent<Player>();
+            player = _player;
             sOData = player.SOData;
             movementStateData = sOData.MovementStateData;
             attackStateData = sOData.AttackStateData;

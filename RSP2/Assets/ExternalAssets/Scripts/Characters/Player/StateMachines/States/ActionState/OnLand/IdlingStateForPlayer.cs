@@ -9,7 +9,7 @@ namespace RSP2
         private readonly int isIdlingHash = Animator.StringToHash("IsIdling");
         private readonly int instantIdlingHash = Animator.StringToHash("OnLand.Idling");
 
-        public IdlingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public IdlingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class MovementStateForPlayer : IState
+    public class ActionStateForPlayer : IState
     {
         protected Player player;
 
@@ -15,16 +15,14 @@ namespace RSP2
 
         protected Transform mainCameraTransform;
 
-        protected MovementStateMachineForPlayer stateMachine;
+        protected ActionStateMachineForPlayer stateMachine;
         protected PlayerInputReader inputReader;
         protected PlayerMover mover;
         protected CharacterController controller;
         protected Animator animator;
 
         protected AnimatorStateInfo animationStateInfo;
-        protected readonly int onLandHash = Animator.StringToHash("@OnLand");
-        protected readonly int inAirHash = Animator.StringToHash("@InAir");
-        protected readonly int attackHash = Animator.StringToHash("@Attack");
+
 
         private RaycastHit hit;
         private Vector3 slopeDetectingRayVector;
@@ -37,7 +35,7 @@ namespace RSP2
         protected Vector2 moveInput;
         //protected float fixedDeltaTime;
 
-        public MovementStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine)
+        public ActionStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine)
         {
             player = _player;
 
@@ -142,20 +140,6 @@ namespace RSP2
 
         protected virtual void SetAnimatorSelfStateParameter(bool isOn) { }
 
-        protected virtual void SetAnimatorOnLandParameter(bool isOn)
-        {
-            animator.SetBool(onLandHash, isOn);
-        }
-
-        protected virtual void SetAnimatorInAirParameter(bool isOn)
-        {
-            animator.SetBool(inAirHash, isOn);
-        }
-
-        protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
-        {
-            animator.SetBool(attackHash, isOn);
-        }
 
 
         protected float GetNormalizedTime(Animator animator, string tag)

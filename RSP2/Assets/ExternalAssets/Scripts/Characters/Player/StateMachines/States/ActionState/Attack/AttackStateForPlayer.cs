@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class AttackStateForPlayer : MovementStateForPlayer
+    public class AttackStateForPlayer : ActionStateForPlayer
     {
         protected string animatorAttackStateTag = "Attack State";
 
@@ -18,8 +18,9 @@ namespace RSP2
         protected bool isCancelable;
         protected bool isAnimationEnd;
 
+        protected readonly int attackHash = Animator.StringToHash("@Attack");
 
-        public AttackStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public AttackStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
 
         }
@@ -141,6 +142,7 @@ namespace RSP2
             return false;
         }
 
+
         protected virtual void UpdateNormalizedPassedTime()
         {
             normalizedPassedTime = GetNormalizedTime(animator, "Attack State");
@@ -153,6 +155,13 @@ namespace RSP2
                 isAnimationEnd = true;
             }
         }
+
+
+        protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
+        {
+            animator.SetBool(attackHash, isOn);
+        }
+
 
         protected virtual Vector3 CalculateThisUpdateMomentum() { return Vector3.zero; }
 

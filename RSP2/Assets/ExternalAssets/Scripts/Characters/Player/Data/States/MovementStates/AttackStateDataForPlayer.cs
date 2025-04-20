@@ -8,6 +8,8 @@ namespace RSP2
 
     public class AttackStateDataForPlayer
     {
+        [field : SerializeField] public LayerMask AttackTargetLayerMask;
+
         [field: Header("Attack Time Data")]
         [field: SerializeField] [Range(0.1f, 10f)] public float AttackSpeedMultiplier = 1f;
         [field: SerializeField] [Range(0, 1f)] public float AttackHitBoxEnableMultiplier = 0.3f;

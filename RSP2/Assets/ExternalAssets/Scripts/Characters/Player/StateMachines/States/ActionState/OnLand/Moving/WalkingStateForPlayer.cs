@@ -10,7 +10,7 @@ namespace RSP2
         private readonly int isWalkingHash = Animator.StringToHash("IsWalking");
         private readonly int instantWalkingHash = Animator.StringToHash("OnLand.Walking");
 
-        public WalkingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public WalkingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

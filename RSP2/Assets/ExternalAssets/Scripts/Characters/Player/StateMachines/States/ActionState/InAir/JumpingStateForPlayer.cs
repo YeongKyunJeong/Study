@@ -9,7 +9,7 @@ namespace RSP2
         private readonly int isJumpingHash = Animator.StringToHash("IsJumping");
         private readonly int instantJumpingHash = Animator.StringToHash("InAir.Jumping");
 
-        public JumpingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public JumpingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

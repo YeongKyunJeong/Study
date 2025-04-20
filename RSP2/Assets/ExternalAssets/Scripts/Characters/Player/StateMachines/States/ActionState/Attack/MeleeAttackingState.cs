@@ -15,7 +15,7 @@ namespace RSP2
 
         //protected Vector3 targetDirVector;
 
-        public MeleeAttackingState(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public MeleeAttackingState(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             attackHitBox = _player.AttackHitBox;
 
@@ -71,8 +71,8 @@ namespace RSP2
 
         protected override Vector3 CalculateThisUpdateMomentum()
         {
-            horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-3 * Time.deltaTime));
-            return base.CalculateThisUpdateMomentum();
+            horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-5 * Time.deltaTime));
+            return horizontalMomentum;
         }
 
         protected override bool CheckIsCancelable()

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class BattleSystemForPlayer : BattleSystem
+    public class CombatSystemForPlayer : CombatSystem
     {
         public StatisticsHandlerForPlayer StatisticsHandlerFoPlayer;
         protected override void Awake()

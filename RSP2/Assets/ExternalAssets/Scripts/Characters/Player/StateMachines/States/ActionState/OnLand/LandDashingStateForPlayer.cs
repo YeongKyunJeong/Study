@@ -19,7 +19,7 @@ namespace RSP2
         private Vector3 dampedGravity;
         private Vector3 dampedFallingVelocity;
 
-        public LandDashingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public LandDashingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //dampedGravity = Physics.gravity*movementStateData.DashFallingModifier;
         }

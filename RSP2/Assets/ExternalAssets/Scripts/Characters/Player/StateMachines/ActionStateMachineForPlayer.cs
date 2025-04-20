@@ -5,11 +5,9 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class MovementStateMachineForPlayer : StateMachine
+    public class ActionStateMachineForPlayer : StateMachine
     {
         private Player player;
-
-        public IState CurrentState { get; private set; }
 
         #region OnLand States
 
@@ -30,17 +28,17 @@ namespace RSP2
 
 
         #region Attack States
-        
+
         public BasicMeleeAttackingStateForPlayer BasicMeleeAttackingState { get; private set; }
 
         #endregion
 
 
-        public MovementStateMachineForPlayer(Player _player)
+        public ActionStateMachineForPlayer(Player _player)
         {
+
             player = _player;
 
-            // To Do : Intialize States
             IdlingState = new IdlingStateForPlayer(_player, this);
 
             WalkingState = new WalkingStateForPlayer(_player, this);
@@ -61,9 +59,10 @@ namespace RSP2
             SetDefaultState();
         }
 
-        private void SetDefaultState()
+        public override void SetDefaultState()
         {
             ChangeState(IdlingState);
         }
+
     }
 }

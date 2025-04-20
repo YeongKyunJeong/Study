@@ -32,8 +32,12 @@ MonoBehaviour:
     RaycastDistance: 0.25
     SlopeDetectingRayStartHeight: 0.25
   <AttackStateData>k__BackingField:
+    AttackTargetLayerMask:
+      serializedVersion: 2
+      m_Bits: 256
     AttackSpeedMultiplier: 1
-    AttackWindUpMultiplier: 0.3
+    AttackHitBoxEnableMultiplier: 0.3
+    AttackHitBoxDiableMultiplier: 0.7
     AttackRecoveryMultiplier: 0.7
     AttackSizeMultiplyer:
     - {x: 0.8, y: 0.8, z: 0.8}

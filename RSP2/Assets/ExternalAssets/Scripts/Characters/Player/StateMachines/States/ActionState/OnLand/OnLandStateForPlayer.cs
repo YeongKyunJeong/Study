@@ -4,18 +4,18 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class OnLandStateForPlayer : MovementStateForPlayer
+    public class OnLandStateForPlayer : ActionStateForPlayer
     {
         //protected int isFallingCount;
         protected int fallingThresholdCount = 5;
         protected float fallingThreshold;
         protected Vector3 slopeNormalVector;
 
+        protected readonly int onLandHash = Animator.StringToHash("@OnLand");
 
 
 
-
-        public OnLandStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public OnLandStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             //isFallingCount = 0;
             //fallingThreshold = Physics.gravity.y * movementStateData.FallingThreshoildMultiplier;
@@ -67,6 +67,10 @@ namespace RSP2
             stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
         }
 
+        protected virtual void SetAnimatorOnLandParameter(bool isOn)
+        {
+            animator.SetBool(onLandHash, isOn);
+        }
 
 
 

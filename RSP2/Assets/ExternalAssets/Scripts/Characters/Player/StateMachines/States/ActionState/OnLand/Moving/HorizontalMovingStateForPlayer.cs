@@ -11,7 +11,7 @@ namespace RSP2
 
         //protected Vector2 moveInput;
 
-        public HorizontalMovingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public HorizontalMovingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

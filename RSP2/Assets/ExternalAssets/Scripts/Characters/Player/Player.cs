@@ -15,22 +15,20 @@ namespace RSP2
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatisticsHandlerForPlayer StatisticsHandler { get; private set; }
-        [field: SerializeField] public BattleSystemForPlayer BattleSystem { get; private set; }
+        [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
 
 
         public Collider AttackHitBoxCollider { get; private set; }
-        public MovementStateMachineForPlayer MovementStateMachine { get; private set; }
-        //public StatisticsForPlayer BaseStatistics { get; private set; }
-        //public StatisticsForPlayer CurrentStatistics { get; private set; }
+        public ActionStateMachineForPlayer ActionStateMachine { get; private set; }
+
         public RuntimeDataForPlayer RuntimeData { get; private set; }
 
         private void Awake()
         {
-            //BaseStatistics = new StatisticsForPlayer();
-            //CurrentStatistics = new StatisticsForPlayer();
+
             RuntimeData = new RuntimeDataForPlayer();
-            MovementStateMachine = new MovementStateMachineForPlayer(this);
+            ActionStateMachine = new ActionStateMachineForPlayer(this);
 
             if (SOData == null)
             {
@@ -45,39 +43,40 @@ namespace RSP2
 
             if (Mover == null)
             {
-                throw new NotImplementedException("Player Input Reader Not Assigned");
+                throw new NotImplementedException("Player Mover Not Assigned");
             }
-            Mover.Initialize();
+            Mover.Initialize(this);
 
             if (Controller == null)
             {
-                throw new NotImplementedException("Character Controller Not Assigned");
+                throw new NotImplementedException("Player Character Controller Not Assigned");
             }
 
             if (MainCameraTransform == null)
             {
-                throw new NotImplementedException("Main Camera Transform Not Assigned");
+                throw new NotImplementedException("Player Main Camera Transform Not Assigned");
             }
 
             if (Animator == null)
             {
-                throw new NotImplementedException("Animator Not Assigned");
+                throw new NotImplementedException("Player Animator Not Assigned");
             }
 
             if (StatisticsHandler == null)
             {
-                throw new NotImplementedException("StatisticsHandler Not Assigned");
+                throw new NotImplementedException("Player StatisticsHandler Not Assigned");
             }
 
-            if (BattleSystem == null)
+            if (CombatSystem == null)
             {
-                throw new NotImplementedException("BattleSystem Not Assigned");
+                throw new NotImplementedException("Player BattleSystem Not Assigned");
             }
 
             if (AttackHitBox == null)
             {
-                throw new NotImplementedException("AttackHitBox Not Assigned");
+                throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
+            AttackHitBox.Initialize(SOData.AttackStateData.AttackTargetLayerMask);
         }
 
         private void Start()
@@ -97,13 +96,13 @@ namespace RSP2
 
         private void Update()
         {
-            MovementStateMachine.CallUpdate();
+            ActionStateMachine.CallUpdate();
             Mover.CallUpdate();
         }
 
         private void FixedUpdate()
         {
-            MovementStateMachine.CallPhysicsUpdate();
+            ActionStateMachine.CallPhysicsUpdate();
             Mover.CallFixedUpdate();
         }
 

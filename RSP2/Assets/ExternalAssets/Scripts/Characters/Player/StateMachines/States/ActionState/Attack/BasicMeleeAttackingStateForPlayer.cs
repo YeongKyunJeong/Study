@@ -11,7 +11,7 @@ namespace RSP2
         // To Do : Add combo attack
         // To Do :Refer to attack data from scriptable object to set the data  
 
-        public BasicMeleeAttackingStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public BasicMeleeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

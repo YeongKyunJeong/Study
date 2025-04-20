@@ -8,7 +8,7 @@ namespace RSP2
     {
         private readonly int instantRunnigHash = Animator.StringToHash("OnLand.Running");
 
-        public RunnigStateForPlayer(Player _player, MovementStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public RunnigStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 
