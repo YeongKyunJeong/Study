@@ -18,6 +18,7 @@ namespace RSP2
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
 
+        [field: SerializeField] public Weapon CurrentWeapon { get; private set; }
 
         public Collider AttackHitBoxCollider { get; private set; }
         public ActionStateMachineForPlayer ActionStateMachine { get; private set; }
@@ -76,7 +77,7 @@ namespace RSP2
             {
                 throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
-            AttackHitBox.Initialize(SOData.AttackStateData.AttackTargetLayerMask);
+            AttackHitBox.Initialize(SOData.AttackStateData.BaseAttackData.TargetLayerMask);
         }
 
         private void Start()
@@ -86,7 +87,7 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-                //StatisticsHandler.Initialize();
+            //StatisticsHandler.Initialize();
 
 
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
@@ -104,6 +105,23 @@ namespace RSP2
         {
             ActionStateMachine.CallPhysicsUpdate();
             Mover.CallFixedUpdate();
+        }
+
+        public void EquipItem(ItemInstance item)
+        {
+            if (item.ItemData.equipPrefab == null)
+                return;
+
+            if (CurrentWeapon)
+            {
+                CurrentWeapon.ItemInstance.equipped = false;
+                Destroy(CurrentWeapon.gameObject);
+            }
+
+            GameObject go = Instantiate(item.ItemData.equipPrefab, WeaponJoint);
+            CurrentWeapon = go.GetComponent<Weapon>();
+            CurrentWeapon?.Initialize(entityLayerMask, item);
+            item.equipped = true;
         }
 
     }

@@ -34,7 +34,7 @@ namespace RSP2
 
             SetAnimatorIsAttackingParameter(true);
 
-            animator.speed *= attackStateData.AttackSpeedMultiplier;
+            animator.speed *= attackStateData.BaseAttackData.AttackSpeed;
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 

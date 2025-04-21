@@ -28,10 +28,10 @@ namespace RSP2
 
             mover.SetKeepRotate(true);
             //passedTime = 0;
-            minimumDuration = attackStateData.AttackRecoveryMultiplier;
+            minimumDuration = attackStateData.BaseAttackData.AttackRecoveryTime;
 
-            hitBoxEnableTime = attackStateData.AttackHitBoxEnableMultiplier;
-            hitBoxDisableTime = Mathf.Min(attackStateData.AttackHitBoxDiableMultiplier, attackStateData.AttackRecoveryMultiplier);
+            hitBoxEnableTime = attackStateData.BaseAttackData.HitBoxActivationTime;
+            hitBoxDisableTime = Mathf.Min(attackStateData.BaseAttackData.HitBoxDeactivationTime, attackStateData.BaseAttackData.AttackRecoveryTime);
         }
         public override void CallUpdate()
         {

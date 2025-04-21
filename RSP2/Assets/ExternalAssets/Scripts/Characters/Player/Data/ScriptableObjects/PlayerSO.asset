@@ -32,16 +32,22 @@ MonoBehaviour:
     RaycastDistance: 0.25
     SlopeDetectingRayStartHeight: 0.25
   <AttackStateData>k__BackingField:
-    AttackTargetLayerMask:
-      serializedVersion: 2
-      m_Bits: 256
-    AttackSpeedMultiplier: 1
-    AttackHitBoxEnableMultiplier: 0.3
-    AttackHitBoxDiableMultiplier: 0.7
-    AttackRecoveryMultiplier: 0.7
-    AttackSizeMultiplyer:
-    - {x: 0.8, y: 0.8, z: 0.8}
-    AttackPositionMultiplyer:
-    - {x: 0, y: 1.1, z: 1.2}
-    AttackDampingModifier: 5
-    AttackIntensity: 5
+    <BaseAttackData>k__BackingField:
+      <AttackType>k__BackingField: 0
+      <AttackName>k__BackingField: BasicMeleeAttack
+      <TargetLayerMask>k__BackingField:
+        serializedVersion: 2
+        m_Bits: 256
+      <Damage>k__BackingField: 3
+      Intensity: 5
+      <ForceTransitionTime>k__BackingField: 0
+      <PushForce>k__BackingField: 0
+      AttackSpeed: 1
+      HitBoxActivationTime: 0.3
+      HitBoxDeactivationTime: 0.7
+      AttackRecoveryTime: 0.7
+      <DetectionType>k__BackingField: 0
+      <ColliderSize>k__BackingField: {x: 0.8, y: 0.8, z: 0.8}
+      <ColliderPosition>k__BackingField: {x: 0, y: 1.2, z: 1}
+      MovementDamping: 5
+    <AttackDataList>k__BackingField: []

@@ -7,7 +7,7 @@ namespace RSP2
     public class BasicMeleeAttackingStateForPlayer : MeleeAttackingState
     {
         //protected readonly int landAttackingHash = Animator.StringToHash("IsLandAttacking");
-        private readonly int instantBasicMeleeAttackHash = Animator.StringToHash("Attack.BaseMeleeAttack");
+        private readonly int instantBasicMeleeAttackHash = Animator.StringToHash("Attack.BasicMeleeAttack");
         // To Do : Add combo attack
         // To Do :Refer to attack data from scriptable object to set the data  
 
