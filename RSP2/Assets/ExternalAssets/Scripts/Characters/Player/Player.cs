@@ -118,10 +118,10 @@ namespace RSP2
                 Destroy(CurrentWeapon.gameObject);
             }
 
-            GameObject go = Instantiate(item.ItemData.equipPrefab, WeaponJoint);
-            CurrentWeapon = go.GetComponent<Weapon>();
-            CurrentWeapon?.Initialize(entityLayerMask, item);
-            item.equipped = true;
+            //GameObject go = Instantiate(item.ItemData.equipPrefab, WeaponJoint);
+            //CurrentWeapon = go.GetComponent<Weapon>();
+            //CurrentWeapon?.Initialize(targetLayerMask, item);
+            //item.equipped = true;
         }
 
     }
