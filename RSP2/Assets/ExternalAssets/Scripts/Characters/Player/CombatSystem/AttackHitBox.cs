@@ -20,7 +20,7 @@ namespace RSP2
                 hitBoxCollider = value;
             }
         }
-        private Queue<Collider> detectedTarget;
+        private HashSet<Collider> detectedTarget;
 
         private Transform hitBoxTransform;
         public Transform HitBoxTransform
@@ -48,7 +48,7 @@ namespace RSP2
         {
             hitBoxCollider = GetComponent<Collider>();
             hitBoxTransform = transform;
-            detectedTarget = new Queue<Collider>();
+            detectedTarget = new HashSet<Collider>();
             Deactivate();
             if (GetComponent<Player>() == null && GetComponent<Enemy>() == null)
                 targetLayerMask = 1 << LayerMask.NameToLayer("Combat Unit");
@@ -81,7 +81,7 @@ namespace RSP2
 
             if (detectedTarget.Contains(other)) return;
 
-            detectedTarget.Enqueue(other);
+            detectedTarget.Add(other);
             hitCombatSystem = other.GetComponent<CombatSystem>();
 
             if (hitCombatSystem == null) return;
