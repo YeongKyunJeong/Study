@@ -51,3 +51,6 @@ MonoBehaviour:
       <ColliderPosition>k__BackingField: {x: 0, y: 1.2, z: 1}
       MovementDamping: 5
     <AttackDataList>k__BackingField: []
+  <WeaponDataLibrary>k__BackingField:
+    <WeaponData>k__BackingField:
+    - {fileID: 11400000, guid: c7e586ce510e04346960bb3e55665b4c, type: 2}

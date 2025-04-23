@@ -9,5 +9,6 @@ namespace RSP2
     {
         [field : SerializeField] public MovementStateDataForPlayer MovementStateData { get; private set; }
         [field : SerializeField] public AttackStateDataForPlayer AttackStateData { get; private set; }
+        [field: SerializeField] public EquipmentDataLibrary WeaponDataLibrary { get; private set; }
     }
 }

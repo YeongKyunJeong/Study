@@ -23,7 +23,7 @@ namespace RSP2
         public int value;
     }
 
-    [CreateAssetMenu(fileName = "Item", menuName = "New Item")]
+    [CreateAssetMenu(fileName = "Item", menuName = "Custom/New Item")]
     public class ItemData : ScriptableObject
     {
         [Header("Info")]
@@ -35,11 +35,10 @@ namespace RSP2
         public bool canStack;
         public int maxStackAmount;
 
-        [Header("Consumable")]
-        public ItemDataForConsumable[] consumables;
+        //[Header("Consumable")]
+        //public ItemDataForConsumable[] consumables;
 
-        [Header("Equip")]
-        public GameObject equipPrefab;
+
     }
 
 }

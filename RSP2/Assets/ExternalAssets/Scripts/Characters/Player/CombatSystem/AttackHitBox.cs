@@ -41,7 +41,7 @@ namespace RSP2
 
         private LayerMask targetLayerMask;
 
-
+        
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
         private void Awake()

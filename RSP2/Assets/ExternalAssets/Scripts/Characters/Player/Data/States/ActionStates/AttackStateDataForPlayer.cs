@@ -55,7 +55,7 @@ namespace RSP2
         [field: SerializeField] public AttackType AttackType { get; private set; } = AttackType.Basic;
         [field: SerializeField] public string AttackName { get; private set; } = "BasicMeleeAttack";
         public int AnimatorStateNameHash { get; private set; }
-        [field: SerializeField] public LayerMask TargetLayerMask { get; private set; }
+        [field: SerializeField] public LayerMask TargetLayerMask { get; private set; } = 1 << 9;
         //1 << LayerMask.NameToLayer("Combat Unit");
 
         [field: Header("General Parameter Data")]

@@ -18,6 +18,8 @@ namespace RSP2
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
 
+
+        [field: SerializeField] public Transform WeaponHolder { get; private set; }// TODO:: Make WeaponHolder class and use it to show weapon
         [field: SerializeField] public Weapon CurrentWeapon { get; private set; }
 
         public Collider AttackHitBoxCollider { get; private set; }
@@ -92,7 +94,10 @@ namespace RSP2
 
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
 
+            // Temporary weapon equipment
 
+            ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
+            EquipItem(startWeaponInstance);
         }
 
         private void Update()
@@ -109,8 +114,10 @@ namespace RSP2
 
         public void EquipItem(ItemInstance item)
         {
-            if (item.ItemData.equipPrefab == null)
-                return;
+            WeaponData weaponData = item.ItemData as WeaponData;
+            if (weaponData == null) return;
+
+            if (weaponData.EquipPrefab == null) return;
 
             if (CurrentWeapon)
             {
@@ -118,6 +125,10 @@ namespace RSP2
                 Destroy(CurrentWeapon.gameObject);
             }
 
+            GameObject nextWeaponGO = Instantiate(weaponData.EquipPrefab, WeaponHolder);
+            CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
+            CurrentWeapon?.Initialize(item);
+            item.equipped = true;
             //GameObject go = Instantiate(item.ItemData.equipPrefab, WeaponJoint);
             //CurrentWeapon = go.GetComponent<Weapon>();
             //CurrentWeapon?.Initialize(targetLayerMask, item);
