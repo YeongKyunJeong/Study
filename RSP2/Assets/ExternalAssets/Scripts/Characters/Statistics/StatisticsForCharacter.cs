@@ -26,10 +26,9 @@ namespace RSP2
             //Debug.Log("Initialized Without Data");
         }
 
-        public void InitializeByDefault(bool isDefauilt = false)
+        public void InitializeByDefault()
         {
-            if (isDefauilt)
-            {
+
 
                 key = -1;
 
@@ -57,7 +56,7 @@ namespace RSP2
 
                 AttackSpeed = 5;
                 return;
-            }
+
             
         }
 

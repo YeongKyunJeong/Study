@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,8 @@ namespace RSP2
         protected float hitBoxEnableTime;
         protected float hitBoxDisableTime;
 
+        protected AttackData attackData;
+
         //protected Vector3 targetDirVector;
 
         public MeleeAttackingState(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
@@ -22,17 +25,33 @@ namespace RSP2
             //hitBoxCollider = _player.AttackHitBoxCollider;
         }
 
+        #region IState Methods
+
         public override void Enter()
         {
             base.Enter();
 
+            attackHitBox.HitEvent += OnHit;
+
             mover.SetKeepRotate(true);
-            //passedTime = 0;
             minimumDuration = attackStateData.BaseAttackData.AttackRecoveryTime;
+
+            SetHitBoxShape();
 
             hitBoxEnableTime = attackStateData.BaseAttackData.HitBoxActivationTime;
             hitBoxDisableTime = Mathf.Min(attackStateData.BaseAttackData.HitBoxDeactivationTime, attackStateData.BaseAttackData.AttackRecoveryTime);
         }
+
+        public override void Exit()
+        {
+            attackHitBox.HitEvent -= OnHit;
+
+
+            base.Exit();
+            attackHitBox.Deactivate();
+            mover.SetKeepRotate(false);
+        }
+
         public override void CallUpdate()
         {
             base.CallUpdate();
@@ -47,12 +66,7 @@ namespace RSP2
             }
         }
 
-        public override void Exit()
-        {
-            base.Exit();
-            attackHitBox.Deactivate();
-            mover.SetKeepRotate(false);
-        }
+        #endregion
 
 
         //public override void CallUpdate()
@@ -68,6 +82,14 @@ namespace RSP2
         //    //Debug.Log(horizontalMomentum);
 
         //}
+
+        protected virtual void OnHit(CombatSystem hitCombatSystem)
+        {
+            if(combatSystem.MyFaction != hitCombatSystem.MyFaction)
+            {
+                hitCombatSystem.ChangeHealth(-1);
+            }
+        }
 
         protected override Vector3 CalculateThisUpdateMomentum()
         {
@@ -86,20 +108,34 @@ namespace RSP2
             return false;
         }
 
-        protected virtual void SetHitBox()
-        {
-            SetHitBoxShape();
-            SetHitBoxPosition();
-        }
 
         protected virtual void SetHitBoxShape()
         {
-            // To Do
+            // TODO:: Add other shape collider case
+            switch (attackData.DetectionType)
+            {
+                case DetectionType.SphereCollider:
+                    {
+                        SphereCollider sphereCollider = attackHitBox.HitBoxCollider as SphereCollider;
+                        sphereCollider.radius = attackData.ColliderSize.x;
+                        sphereCollider.center = attackData.ColliderPosition;
+
+                        break;
+                    }
+
+                case DetectionType.BoxCollider:
+                    {
+                        BoxCollider sphereCollider = attackHitBox.HitBoxCollider as BoxCollider;
+                        sphereCollider.size = attackData.ColliderSize;
+                        sphereCollider.center = attackData.ColliderPosition;
+                        break;
+                    }
+
+                default:
+                    break;
+            }
         }
 
-        protected virtual void SetHitBoxPosition()
-        {
-            // To Do
-        }
+
     }
 }

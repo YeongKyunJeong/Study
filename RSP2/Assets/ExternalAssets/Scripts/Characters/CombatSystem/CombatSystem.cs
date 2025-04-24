@@ -21,22 +21,25 @@ namespace RSP2
         private float timeSinceLastChange = float.MaxValue;
 
         protected AttackHitBox attackHitBox;
-        public event Action OnDamage;
-        public event Action OnHeal;
-        public event Action OnDeath;
-        public event Action OnInvicibilityEnd;
+        public event Action DamageEvent;
+        public event Action HealEvent;
+        public event Action DeathEvent;
+        public event Action InvicibilityEndEvent;
 
         public float CurrentHealth { get; private set; }
         public float MaxHP => StatisticsHandler.CurrentStatistics.MaxHP;
+        private bool isInitialized;
 
         protected virtual void Awake()
         {
             StatisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
+            isInitialized = false;
             isDead = false;
         }
 
         public void InitHealth()
         {
+            isInitialized = true;
             CurrentHealth = MaxHP;
             isDead = false;
         }
@@ -48,13 +51,15 @@ namespace RSP2
                 timeSinceLastChange += Time.deltaTime;
                 if (timeSinceLastChange >= healthChangeDelay)
                 {
-                    OnInvicibilityEnd?.Invoke();
+                    InvicibilityEndEvent?.Invoke();
                 }
             }
         }
 
         public bool ChangeHealth(float value)
         {
+            if (!isInitialized) InitHealth(); 
+
             if (value == 0 || timeSinceLastChange < healthChangeDelay)
             {
                 return false;
@@ -67,11 +72,11 @@ namespace RSP2
 
             if (value > 0)
             {
-                OnHeal?.Invoke();
+                HealEvent?.Invoke();
             }
             else
             {
-                OnDamage?.Invoke();
+                DamageEvent?.Invoke();
             }
 
             if (CurrentHealth <= 0f)
@@ -84,7 +89,7 @@ namespace RSP2
 
         private void Death()
         {
-            OnDeath?.Invoke();
+            DeathEvent?.Invoke();
 
 
         }

@@ -6,8 +6,26 @@ namespace RSP2
 {
     public class StatisticsHandlerForCharacter : MonoBehaviour
     {
-        public virtual StatisticsForCharacter BaseStatistics { get; protected set; }
-        public virtual StatisticsForCharacter CurrentStatistics { get; protected set; }
+        private StatisticsForCharacter baseStatistics;
+        public virtual StatisticsForCharacter BaseStatistics
+        {
+            get
+            {
+                if (baseStatistics == null) InitializeByDefault();
+                return baseStatistics;
+            }
+            protected set { baseStatistics = value; }
+        }
+        private StatisticsForCharacter currentStatistics;
+        public virtual StatisticsForCharacter CurrentStatistics
+        {
+            get
+            {
+                if (currentStatistics == null) InitializeByDefault();
+                return currentStatistics;
+            }
+            protected set { currentStatistics = value; }
+        }
         protected CombatSystem combatSystem;
 
         public void InitializeByDefault()

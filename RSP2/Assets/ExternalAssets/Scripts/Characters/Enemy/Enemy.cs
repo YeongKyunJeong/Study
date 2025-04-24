@@ -55,7 +55,7 @@ namespace RSP2
 
             if (CombatSystem == null)
             {
-                throw new NotImplementedException("Player BattleSystem Not Assigned");
+                throw new NotImplementedException("Player CombatSystem Not Assigned");
             }
 
             if (AttackHitBox == null)

@@ -9,10 +9,10 @@ namespace RSP2
         //protected readonly int landAttackingHash = Animator.StringToHash("IsLandAttacking");
         private readonly int instantBasicMeleeAttackHash = Animator.StringToHash("Attack.BasicMeleeAttack");
         // To Do : Add combo attack
-        // To Do :Refer to attack data from scriptable object to set the data  
 
         public BasicMeleeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
+            attackData = player.SOData.AttackStateData.BaseAttackData;
         }
 
 
@@ -22,6 +22,8 @@ namespace RSP2
         {
             base.Enter();
             //base.SetAnimatorSelfStateParameter(isOn);
+
+            // TODO :: Apply attack speed to animation speed
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantBasicMeleeAttackHash, 0.25f);
@@ -30,11 +32,9 @@ namespace RSP2
 
         #endregion
 
-        protected override void SetHitBoxPosition()
+        protected override void OnHit(CombatSystem system)
         {
-            base.SetHitBoxPosition();
+            base.OnHit(system);
         }
-
-
     }
 }

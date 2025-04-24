@@ -12,6 +12,7 @@ namespace RSP2
         //protected float passedTime;
         protected float normalizedPassedTime;
 
+        protected CombatSystem combatSystem;
         protected float minimumDuration;
         protected float attackAnimationTime;
 
@@ -22,7 +23,7 @@ namespace RSP2
 
         public AttackStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-
+            combatSystem = _player.CombatSystem;
         }
 
 
@@ -38,7 +39,6 @@ namespace RSP2
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
-            //passedTime = 0;
             isCancelable = false;
             isAnimationEnd = false;
         }
