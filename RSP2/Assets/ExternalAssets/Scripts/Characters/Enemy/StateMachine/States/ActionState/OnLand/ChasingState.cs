@@ -63,10 +63,17 @@ namespace RSP2
                 float distance = Vector3.Distance(enemy.Target.transform.position, enemy.transform.position);
                 if (distance >= enemy.SearchingDistance * 1.2f)
                 {
-                    stateMachine.ChangeState(stateMachine.IdlingState);
+                    SearchForTaget();
+                    if (enemy.Target == null)
+                    {
+                        stateMachine.ChangeState(stateMachine.IdlingState);
+                    }
                     return;
                 }
-                moveDir = (enemy.Target.transform.position - enemy.transform.position).normalized * enemy.ChasingSpeedModifier;
+                moveDir = (enemy.Target.transform.position - enemy.transform.position);
+                moveDir.y = 0;
+                //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
+                moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
                 mover.UpdateNextHorizontalMovementVector(moveDir);
             }
 

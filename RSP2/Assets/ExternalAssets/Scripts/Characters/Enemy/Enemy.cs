@@ -24,6 +24,7 @@ namespace RSP2
 
         [field: SerializeField][field: Range(0f, 25f)] public float ChasingSpeedModifier { get; private set; } = 4f;
         [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; private set; } = 6;
+        public ChasingTargetTpye ChasingTargetType = ChasingTargetTpye.PlayerOnly;
 
         public CombatSystem Target { get; set; }
 

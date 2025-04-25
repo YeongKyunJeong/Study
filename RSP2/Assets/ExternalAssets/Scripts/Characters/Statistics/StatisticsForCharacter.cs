@@ -52,7 +52,7 @@ namespace RSP2
 
                 Deffence = 3;
 
-                MovementSpeed = 8;
+                MovementSpeed = 4;
 
                 AttackSpeed = 5;
                 return;

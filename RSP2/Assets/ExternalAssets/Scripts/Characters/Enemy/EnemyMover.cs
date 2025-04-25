@@ -47,6 +47,10 @@ namespace RSP2
         public void UpdateNextHorizontalMovementVector(Vector3 velocityVector)
         {
             nextHorizontalMovementVector = velocityVector;
+            if (nextHorizontalMovementVector != Vector3.zero)
+            {
+                nextHorizontalMovementVector.y = 0;
+            }
         }
 
         private void Rotate(Vector3 targetDir)

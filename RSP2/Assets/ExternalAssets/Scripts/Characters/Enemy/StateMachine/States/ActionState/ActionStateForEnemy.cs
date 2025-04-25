@@ -5,6 +5,14 @@ using UnityEngine.UIElements;
 
 namespace RSP2
 {
+    public enum ChasingTargetTpye
+    {
+        PlayerOnly,
+        AllFaction,
+        NotMyFaction
+    }
+
+
     public class ActionStateForEnemy : IState
     {
         protected Enemy enemy;
@@ -85,11 +93,52 @@ namespace RSP2
 
                 if (detectedCombatSystem != null
                     /*&& !detectedCombatSystem.IsDead*/
-                    && detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
+                    /*&& detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction*/)
                 {
-                    Debug.Log($"Target detected : {detectedCombatSystem.name}");
-                    enemy.Target = detectedCombatSystem;
-                    return true;
+                    switch (enemy.ChasingTargetType)
+                    {
+                        case ChasingTargetTpye.PlayerOnly:
+                            {
+                                if (detectedCombatSystem.MyFaction == Faction.Player)
+                                {
+                                    enemy.Target = detectedCombatSystem;
+
+                                    Debug.Log($"Target detected : {detectedCombatSystem.name}");
+                                    return true;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        case ChasingTargetTpye.AllFaction:
+                            {
+                                enemy.Target = detectedCombatSystem;
+
+                                Debug.Log($"Target detected : {detectedCombatSystem.name}");
+                                return true;
+
+                            }
+                        case ChasingTargetTpye.NotMyFaction:
+                            {
+                                if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
+                                {
+                                    enemy.Target = detectedCombatSystem;
+
+                                    Debug.Log($"Target detected : {detectedCombatSystem.name}");
+                                    return true;
+                                }
+                                else
+                                {
+                                    continue;
+                                }
+                            }
+                        default:
+                            {
+                                enemy.Target = null;
+                                return false;
+                            }
+                    }
                 }
 
             }
