@@ -89,10 +89,10 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-            //StatisticsHandler.Initialize();
-
-
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
+
+            CombatSystem.DeathEvent += OnDie;
+
 
             // Temporary weapon equipment
 
@@ -135,6 +135,10 @@ namespace RSP2
             //item.equipped = true;
         }
 
+        private void OnDie()
+        {
+            
+        }
     }
 
 }

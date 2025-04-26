@@ -1,59 +1,72 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Linq;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RSP2
 {
-    public class StatisticsForPlayer : StatisticsForCharacter
+    public class StatisticsForEnemy : StatisticsForCharacter
     {
-        public StatisticsForPlayer()
+        public ChasingTargetTpye ChasingTargetTpye { get; set; }
+        public float SearchingDistance { get; set; }
+
+        public StatisticsForEnemy()
         {
             key = -1;
 
-            Name = "Player";
+            Name = "Default";
 
-            Faction = Faction.Player;
+            Faction = Faction.Enemy;
 
-            MaxHP = 10;
+            ChasingTargetTpye = ChasingTargetTpye.PlayerOnly;
 
-            HPRegen = 10;
+            SearchingDistance = 4;
 
-            MaxMP = 10;
+            MaxHP = 50;
 
-            MPRegen = 10;
+            HPRegen = 1;
 
-            MaxStamina = 10;
+            MaxMP = 20;
 
-            StaminaRegen = 10;
+            MPRegen = 1;
 
-            Attack = 10;
+            MaxStamina = 20;
 
-            Deffence = 10;
+            StaminaRegen = 5;
 
-            MovementSpeed = 10;
+            Attack = 3;
 
-            AttackSpeed = 10;
+            Deffence = 3;
+
+            MovementSpeed = 4;
+
+            AttackSpeed = 5;
+            return;
         }
 
-        public StatisticsForPlayer(StatisticsTableForPlayer baseStatisticsTable)
+        public StatisticsForEnemy(StatisticsTableForEnemy baseStatisticsTable)
         {
-            Debug.Log("Loaded by JSON : Player");
+            Debug.Log("Loaded by JSON : Enemy");
             SetStatisticsByTable(baseStatisticsTable);
         }
 
-        public StatisticsForPlayer(StatisticsForPlayer baseStatistics)
+        public StatisticsForEnemy(StatisticsForEnemy baseStatistics)
         {
             SetStatistics(baseStatistics);
         }
 
-        public void SetStatisticsByTable(StatisticsTableForPlayer newDataTable)
+        public void SetStatisticsByTable(StatisticsTableForEnemy newDataTable)
         {
             key = newDataTable.key;
 
             Name = newDataTable.Name;
-            
+
             Faction = newDataTable.Faction;
+
+            ChasingTargetTpye = newDataTable.ChasingTargetTpye;
+
+            SearchingDistance = newDataTable.SearchingDistance;
 
             MaxHP = newDataTable.MaxHP;
 
@@ -76,13 +89,17 @@ namespace RSP2
             AttackSpeed = newDataTable.AttackSpeed;
         }
 
-        private void SetStatistics(StatisticsForPlayer newData)
+        private void SetStatistics(StatisticsForEnemy newData)
         {
             key = newData.key;
 
             Name = newData.Name;
 
             Faction = newData.Faction;
+
+            ChasingTargetTpye = newData.ChasingTargetTpye;
+
+            SearchingDistance = newData.SearchingDistance;
 
             MaxHP = newData.MaxHP;
 
@@ -104,8 +121,5 @@ namespace RSP2
 
             AttackSpeed = newData.AttackSpeed;
         }
-
-
-
     }
 }

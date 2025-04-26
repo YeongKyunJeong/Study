@@ -15,9 +15,11 @@ namespace RSP2
     public class Weapon : Equipment
     {
         public ItemInstance ItemInstance { get; private set; }
+        public WeaponData WeaponData { get; set; }
         public void Initialize(ItemInstance _itemInstance)
         {
             ItemInstance = _itemInstance;
+            WeaponData = ItemInstance.ItemData as WeaponData;
         }
     }
 

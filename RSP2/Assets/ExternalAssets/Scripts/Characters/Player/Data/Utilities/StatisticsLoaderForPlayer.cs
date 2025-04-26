@@ -26,22 +26,21 @@ namespace RSP2
 
     public class StatisticsLoaderForPlayer
     {
-        public List<StatisticsTableForPlayer> ItemsList { get; private set; }
-        public Dictionary<int, StatisticsTableForPlayer> ItemsDict { get; private set; }
+        public List<StatisticsTableForPlayer> TableList { get; private set; }
+        public Dictionary<int, StatisticsTableForPlayer> TableDict { get; private set; }
         private StatisticsTableForPlayer playerStatisticsTable { get; set; }
 
         public StatisticsLoaderForPlayer(string path = "JSON/StatisticsData_Player")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;
-            ItemsList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
-            ItemsDict = new Dictionary<int, StatisticsTableForPlayer>();
-            //playerStatisticsTable = JsonUtility.FromJson<StatisticsTableForPlayer>(loadedTableDataString);
-            foreach (var item in ItemsList)
+            TableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
+            TableDict = new Dictionary<int, StatisticsTableForPlayer>();
+            foreach (var item in TableList)
             {
-                ItemsDict.Add(item.key, item);
+                TableDict.Add(item.key, item);
             }
-            playerStatisticsTable = ItemsDict[1];
+            playerStatisticsTable = TableDict[1];
         }
 
         [Serializable]

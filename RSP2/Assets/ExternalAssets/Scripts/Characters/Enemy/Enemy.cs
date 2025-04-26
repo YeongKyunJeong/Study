@@ -18,6 +18,8 @@ namespace RSP2
         public ActionStateMachineForEnemy ActionStateMachine { get; private set; }
 
         // To do : Move these parameter to SO and RuntimeData
+        public int EnemyKey;
+
         [field: SerializeField] public float SearchingDistance { get; private set; }
         [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }
         [field: SerializeField] public float FieldOfView { get; private set; }
@@ -74,13 +76,21 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-            StatisticsHandler.InitializeByDefault();
+            //StatisticsHandler.InitializeByDefault();
+            StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForEnemy.GetByKey(2));
+
+            CombatSystem.DeathEvent += OnDie;
         }
 
         private void Update()
         {
             ActionStateMachine.CallUpdate();
             Mover.CallUpdate();
+        }
+        private void OnDie()
+        {
+            Debug.Log($"{this.name} was dead");
+            this.enabled = false;
         }
 
     }

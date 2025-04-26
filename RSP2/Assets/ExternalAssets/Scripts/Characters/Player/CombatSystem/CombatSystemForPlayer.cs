@@ -6,12 +6,12 @@ namespace RSP2
 {
     public class CombatSystemForPlayer : CombatSystem
     {
-        public StatisticsHandlerForPlayer StatisticsHandlerFoPlayer;
+        public StatisticsHandlerForPlayer StatisticsHandlerForPlayer;
         protected override void Awake()
         {
             base.Awake();
 
-            StatisticsHandlerFoPlayer = GetComponent<StatisticsHandlerForPlayer>();
+            StatisticsHandlerForPlayer = GetComponent<StatisticsHandlerForPlayer>();
         }
     }
 }

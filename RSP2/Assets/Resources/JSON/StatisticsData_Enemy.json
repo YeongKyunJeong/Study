@@ -1,0 +1,21 @@
+{
+  "Items": [
+    {
+      "key": 2,
+      "Name": "Enemy_00",
+      "Faction": 2,
+      "ChasingTargetType": 0,
+      "SearchingDistance": 6,
+      "MaxHP": 60,
+      "HPRegen": 2,
+      "MaxMP": 10,
+      "MPRegen": 1,
+      "MaxStamina": 20,
+      "StaminaRegen": 6,
+      "Attack": 5,
+      "Deffence": 3,
+      "MovementSpeed": 4,
+      "AttackSpeed": 5
+    }
+  ]
+}

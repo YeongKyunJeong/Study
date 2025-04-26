@@ -66,9 +66,11 @@ namespace RSP2
             }
 
             timeSinceLastChange = 0;
+            
             CurrentHealth += value;
             CurrentHealth = CurrentHealth > MaxHP ? MaxHP : CurrentHealth;
             CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
+            Debug.Log(CurrentHealth);
 
             if (value > 0)
             {

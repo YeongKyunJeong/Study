@@ -26,38 +26,36 @@ namespace RSP2
             //Debug.Log("Initialized Without Data");
         }
 
-        public void InitializeByDefault()
+        public virtual void InitializeByDefault()
         {
+            key = -1;
+
+            Name = "Default";
+
+            Faction = Faction.Enemy;
+
+            MaxHP = 50;
+
+            HPRegen = 1;
+
+            MaxMP = 20;
+
+            MPRegen = 1;
+
+            MaxStamina = 20;
+
+            StaminaRegen = 5;
+
+            Attack = 3;
+
+            Deffence = 3;
+
+            MovementSpeed = 4;
+
+            AttackSpeed = 5;
+            return;
 
 
-                key = -1;
-
-                Name = "Default";
-
-                Faction = Faction.Enemy;
-
-                MaxHP = 50;
-
-                HPRegen = 1;
-
-                MaxMP = 20;
-
-                MPRegen = 1;
-
-                MaxStamina = 20;
-
-                StaminaRegen = 5;
-
-                Attack = 3;
-
-                Deffence = 3;
-
-                MovementSpeed = 4;
-
-                AttackSpeed = 5;
-                return;
-
-            
         }
 
         public StatisticsForCharacter(StatisticsForCharacter baseStatistics)

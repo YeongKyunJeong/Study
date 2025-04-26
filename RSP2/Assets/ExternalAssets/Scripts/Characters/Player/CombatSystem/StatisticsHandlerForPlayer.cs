@@ -41,15 +41,6 @@ namespace RSP2
             BaseStatistics = PlayerBaseStatistics as StatisticsForCharacter;
             CurrentStatistics = PlayerCurrentStatistics as StatisticsForCharacter;
             base.CalculateFinalStat();
-            //BattleSystem battleSystem = GetComponent<BattleSystem>();
-            //if (battleSystem != null)
-            //{
-            //    if (PlayerCurrentStatistics != null)
-            //    {
-            //        battleSystem.MyFaction = PlayerCurrentStatistics.Faction;
-
-            //    }
-            //}
         }
     }
 }

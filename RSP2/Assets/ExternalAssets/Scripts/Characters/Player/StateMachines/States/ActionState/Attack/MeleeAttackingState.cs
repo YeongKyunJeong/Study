@@ -85,9 +85,10 @@ namespace RSP2
 
         protected virtual void OnHit(CombatSystem hitCombatSystem)
         {
-            if(combatSystem.MyFaction != hitCombatSystem.MyFaction)
+            if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.ChangeHealth(-1);
+                hitCombatSystem.ChangeHealth(-attackData.Damage - player.CurrentWeapon.WeaponData.DamageBonus);
+                Debug.Log($"{player.name} gives {attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus} damage to {combatSystem.name}");
             }
         }
 

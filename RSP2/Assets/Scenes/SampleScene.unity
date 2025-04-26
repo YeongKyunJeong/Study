@@ -3176,6 +3176,7 @@ MonoBehaviour:
   <StatisticsHandler>k__BackingField: {fileID: 1159308676}
   <CombatSystem>k__BackingField: {fileID: 1159308673}
   <AttackHitBox>k__BackingField: {fileID: 649003752}
+  EnemyKey: 0
   <SearchingDistance>k__BackingField: 6
   <SearchingLayerMask>k__BackingField:
     serializedVersion: 2
@@ -3183,6 +3184,7 @@ MonoBehaviour:
   <FieldOfView>k__BackingField: 60
   <ChasingSpeedModifier>k__BackingField: 4
   <RotationSpeedModifier>k__BackingField: 6
+  ChasingTargetType: 0
 --- !u!4 &1159308675
 Transform:
   m_ObjectHideFlags: 0
