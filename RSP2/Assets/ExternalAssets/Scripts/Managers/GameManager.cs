@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,14 +9,38 @@ namespace RSP2
     {
 
         [SerializeField] private static GameObject gameManagerPrefab;
-
+        public  Player Player { get; set; }
+        public CinemachineInputProvider CinemachineInputProvider { get; private set; }
+        public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
+
 
         private void Awake()
         {
+            Player = FindObjectOfType<Player>();
+            CinemachineInputProvider =FindObjectOfType<CinemachineInputProvider>();
+            CanvasUIManager = FindObjectOfType<CanvasUIManager>();
+
             DataManager = DataManager.Instance;
 
+            CanvasUIManager.Initialize(this);
             DataManager.Initialize();
+        }
+
+        public void OnInventoryUIOpen(bool isOn)
+        {
+            EnablePlayerInput(!isOn);
+            EnableCinemachinInput(!isOn);
+        }
+
+        private void EnablePlayerInput(bool isOn)
+        {
+            Player.InputReader.EnablePlayerInput(isOn);
+        }
+
+        private void EnableCinemachinInput(bool isOn)
+        {
+            CinemachineInputProvider.enabled = isOn;
         }
 
 

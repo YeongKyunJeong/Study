@@ -79,7 +79,7 @@ namespace RSP2
             //StatisticsHandler.InitializeByDefault();
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForEnemy.GetByKey(2));
 
-            CombatSystem.DeathEvent += OnDie;
+            CombatSystem.DieEvent += OnDie;
         }
 
         private void Update()
@@ -87,10 +87,10 @@ namespace RSP2
             ActionStateMachine.CallUpdate();
             Mover.CallUpdate();
         }
+
         private void OnDie()
         {
-            Debug.Log($"{this.name} was dead");
-            this.enabled = false;
+            ActionStateMachine.OnDie();
         }
 
     }

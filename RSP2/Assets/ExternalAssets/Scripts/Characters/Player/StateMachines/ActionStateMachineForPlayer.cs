@@ -9,6 +9,10 @@ namespace RSP2
     {
         private Player player;
 
+        private readonly int instantDyingHash = Animator.StringToHash("Dying");
+
+        #region Action States
+
         #region OnLand States
 
         public IdlingStateForPlayer IdlingState { get; private set; }
@@ -30,6 +34,8 @@ namespace RSP2
         #region Attack States
 
         public BasicMeleeAttackingStateForPlayer BasicMeleeAttackingState { get; private set; }
+
+        #endregion
 
         #endregion
 
@@ -64,5 +70,12 @@ namespace RSP2
             ChangeState(IdlingState);
         }
 
+        public void OnDie()
+        {
+            player.Animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
+            currentState = null; // TODO :: Add dyingState
+        }
     }
+
+
 }

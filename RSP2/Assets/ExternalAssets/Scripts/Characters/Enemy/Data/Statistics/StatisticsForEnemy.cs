@@ -47,7 +47,7 @@ namespace RSP2
 
         public StatisticsForEnemy(StatisticsTableForEnemy baseStatisticsTable)
         {
-            Debug.Log("Loaded by JSON : Enemy");
+            //Debug.Log("Loaded by JSON : Enemy");
             SetStatisticsByTable(baseStatisticsTable);
         }
 

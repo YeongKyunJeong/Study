@@ -9,6 +9,10 @@ namespace RSP2
     public class PlayerInputReader : MonoBehaviour
     {
         private Player player;
+        private PlayerInput playerInputComponent;
+
+        public Vector2 MovementInput { get; private set; }
+        
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
         public event Action WalkToggleEvent;
@@ -23,6 +27,7 @@ namespace RSP2
         public void Initialize(Player _player)
         {
             player = _player;
+            playerInputComponent = GetComponent<PlayerInput>();
         }
 
         //private void OnDestroy()
@@ -35,8 +40,10 @@ namespace RSP2
         //    player = GetComponent<Player>();
         //}
 
-        public Vector2 MovementInput { get; private set; }
-
+        public void EnablePlayerInput(bool isOn)
+        {
+            playerInputComponent.enabled = isOn;
+        }
 
         public void OnMove(InputValue value)
         {
@@ -58,7 +65,7 @@ namespace RSP2
         public void OnZoom(InputValue zoomDelta)
         {
             return;
-            // To Do : Use CameraZommer;
+            // TODO :: Use CameraZommer;
         }
 
         public Vector2 GetMovementInput()

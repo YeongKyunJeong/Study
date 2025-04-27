@@ -23,7 +23,7 @@ namespace RSP2
         protected AttackHitBox attackHitBox;
         public event Action DamageEvent;
         public event Action HealEvent;
-        public event Action DeathEvent;
+        public event Action DieEvent;
         public event Action InvicibilityEndEvent;
 
         public float CurrentHealth { get; private set; }
@@ -83,17 +83,16 @@ namespace RSP2
 
             if (CurrentHealth <= 0f)
             {
-                Death();
+                Die();
             }
 
             return true;
         }
 
-        private void Death()
+        private void Die()
         {
-            DeathEvent?.Invoke();
-
-
+            isDead = true;
+            DieEvent?.Invoke();
         }
     }
 }

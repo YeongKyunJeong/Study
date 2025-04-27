@@ -38,7 +38,7 @@ namespace RSP2
 
         public StatisticsForPlayer(StatisticsTableForPlayer baseStatisticsTable)
         {
-            Debug.Log("Loaded by JSON : Player");
+            //Debug.Log("Loaded by JSON : Player");
             SetStatisticsByTable(baseStatisticsTable);
         }
 

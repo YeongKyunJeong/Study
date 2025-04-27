@@ -26,17 +26,17 @@ namespace RSP2
 
     public class Inventory : MonoBehaviour
     {
-        GameManager _gameManager;
-        //UIManager _uiManager;
-        //InventoryUI _inventoryUI;
+        private GameManager gameManager;
+        private CanvasUIManager canvasUIManager;
+        InventoryUI inventoryUI;
 
         List<ItemInstance> items = new List<ItemInstance>();
 
-        public void Initialize(GameManager gameManager)
+        public void Initialize(GameManager _gameManager)
         {
-            _gameManager = gameManager;
-            //_uiManager = gameManager.UIManager;
-            //_inventoryUI = _uiManager.InventoryUI;
+            gameManager = _gameManager;
+            canvasUIManager = gameManager.CanvasUIManager;
+            inventoryUI = canvasUIManager.InventoryUI;
 
         }
 
@@ -55,7 +55,7 @@ namespace RSP2
                     amount -= diff;
                     item.amount += diff;
 
-                    //_inventoryUI.UpdateItemSlot(item);
+                    inventoryUI.UpdateItemSlot(item);
 
                     if (amount <= 0)
                         return true;
@@ -72,7 +72,7 @@ namespace RSP2
                 amount -= diff;
 
                 items.Add(newItem);
-                //_inventoryUI.AddItemSlot(newItem);
+                inventoryUI.AddItemSlot(newItem);
 
                 if (amount <= 0) return true;
             }

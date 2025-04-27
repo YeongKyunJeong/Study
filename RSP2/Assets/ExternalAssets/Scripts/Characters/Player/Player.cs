@@ -8,6 +8,7 @@ namespace RSP2
     public class Player : MonoBehaviour
     {
         private GameManager gameManager;
+        
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public PlayerMover Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
@@ -17,6 +18,9 @@ namespace RSP2
         [field: SerializeField] public StatisticsHandlerForPlayer StatisticsHandler { get; private set; }
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
+
+        [field: SerializeField] public Inventory Inventory { get; private set; }
+
 
 
         [field: SerializeField] public Transform WeaponHolder { get; private set; }// TODO:: Make WeaponHolder class and use it to show weapon
@@ -88,16 +92,28 @@ namespace RSP2
             {
                 gameManager = GameManager.Instance;
             }
+            if (Inventory == null)
+            {
+                Inventory = GetComponent<Inventory>();
+                if (Inventory == null)
+                {
+                    throw new NotImplementedException("Player Inventory Not Assigned");
+                }
+            }
+            Inventory.Initialize(gameManager);
+
 
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
 
-            CombatSystem.DeathEvent += OnDie;
+            CombatSystem.DieEvent += OnDie;
 
 
             // Temporary weapon equipment
 
-            ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
-            EquipItem(startWeaponInstance);
+            AddItem(SOData.WeaponDataLibrary.WeaponData[0]);
+
+            //ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
+            //EquipItem(startWeaponInstance);
         }
 
         private void Update()
@@ -129,15 +145,17 @@ namespace RSP2
             CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
             CurrentWeapon?.Initialize(item);
             item.equipped = true;
-            //GameObject go = Instantiate(item.ItemData.equipPrefab, WeaponJoint);
-            //CurrentWeapon = go.GetComponent<Weapon>();
-            //CurrentWeapon?.Initialize(targetLayerMask, item);
-            //item.equipped = true;
+        }
+
+        public bool AddItem(ItemData item, int amount = 1) // Use when get item
+        {
+            return Inventory.AddItem(item, amount);
         }
 
         private void OnDie()
         {
-            
+            ActionStateMachine.OnDie();
+            // TODO :: Add something to do On Dying;
         }
     }
 
