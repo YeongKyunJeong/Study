@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class PlayerMover : MonoBehaviour
+    public class MoverForPlayer : MonoBehaviour
     {
         private Player player;
         private PlayerScriptableObject sOData;

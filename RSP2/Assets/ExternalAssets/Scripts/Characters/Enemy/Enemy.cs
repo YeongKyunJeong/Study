@@ -8,7 +8,7 @@ namespace RSP2
     public class Enemy : MonoBehaviour
     {
         private GameManager gameManager;
-        [field: SerializeField] public EnemyMover Mover { get; private set; }
+        [field: SerializeField] public MoverForEnemy Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatisticsHandlerForEnemy StatisticsHandler { get; private set; }
@@ -79,6 +79,7 @@ namespace RSP2
             //StatisticsHandler.InitializeByDefault();
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForEnemy.GetByKey(2));
 
+            CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
         }
 
@@ -86,6 +87,11 @@ namespace RSP2
         {
             ActionStateMachine.CallUpdate();
             Mover.CallUpdate();
+        }
+
+        private void OnHit()
+        {
+            ActionStateMachine.OnHit();
         }
 
         private void OnDie()

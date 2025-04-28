@@ -18,7 +18,7 @@ namespace RSP2
         protected Enemy enemy;
 
         protected ActionStateMachineForEnemy stateMachine;
-        protected EnemyMover mover;
+        protected MoverForEnemy mover;
         protected CharacterController controller;
         protected Animator animator;
 

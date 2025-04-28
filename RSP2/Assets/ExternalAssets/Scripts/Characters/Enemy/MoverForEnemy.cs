@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class EnemyMover : MonoBehaviour
+    public class MoverForEnemy : MonoBehaviour
     {
         private Enemy enemy;
         private CharacterController controller;

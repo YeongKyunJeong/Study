@@ -10,7 +10,7 @@ namespace RSP2
         private GameManager gameManager;
         
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
-        [field: SerializeField] public PlayerMover Mover { get; private set; }
+        [field: SerializeField] public MoverForPlayer Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public Transform MainCameraTransform { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
@@ -92,6 +92,9 @@ namespace RSP2
             {
                 gameManager = GameManager.Instance;
             }
+
+
+
             if (Inventory == null)
             {
                 Inventory = GetComponent<Inventory>();
@@ -105,6 +108,7 @@ namespace RSP2
 
             StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
 
+            CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
 
@@ -150,6 +154,11 @@ namespace RSP2
         public bool AddItem(ItemData item, int amount = 1) // Use when get item
         {
             return Inventory.AddItem(item, amount);
+        }
+
+        private void OnHit()
+        {
+            ActionStateMachine.OnHit();
         }
 
         private void OnDie()

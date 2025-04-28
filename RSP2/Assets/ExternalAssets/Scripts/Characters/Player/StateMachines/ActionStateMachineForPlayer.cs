@@ -8,7 +8,10 @@ namespace RSP2
     public class ActionStateMachineForPlayer : StateMachine
     {
         private Player player;
+        private MoverForPlayer mover;
+        private Animator animator;
 
+        private readonly int instantHitHash = Animator.StringToHash("Hit");
         private readonly int instantDyingHash = Animator.StringToHash("Dying");
 
         #region Action States
@@ -45,6 +48,11 @@ namespace RSP2
 
             player = _player;
 
+            mover = player.Mover;
+
+            animator = player.Animator;
+
+
             IdlingState = new IdlingStateForPlayer(_player, this);
 
             WalkingState = new WalkingStateForPlayer(_player, this);
@@ -70,9 +78,17 @@ namespace RSP2
             ChangeState(IdlingState);
         }
 
+        public void OnHit()
+        {
+            // TODO :: Add force
+            animator.CrossFadeInFixedTime(instantHitHash, 0.25f);
+        }
+
         public void OnDie()
         {
-            player.Animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
+            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+            mover.UpdateNextVerticalVelocityVector(Vector3.zero);
+            animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
             currentState = null; // TODO :: Add dyingState
         }
     }

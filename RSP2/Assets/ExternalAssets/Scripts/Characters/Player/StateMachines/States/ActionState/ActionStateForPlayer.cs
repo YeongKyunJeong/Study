@@ -17,7 +17,7 @@ namespace RSP2
 
         protected ActionStateMachineForPlayer stateMachine;
         protected PlayerInputReader inputReader;
-        protected PlayerMover mover;
+        protected MoverForPlayer mover;
         protected CharacterController controller;
         protected Animator animator;
 
