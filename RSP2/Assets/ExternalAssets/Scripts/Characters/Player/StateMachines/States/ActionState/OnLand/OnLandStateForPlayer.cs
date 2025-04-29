@@ -62,9 +62,12 @@ namespace RSP2
         {
             base.OnAttackInput();
 
-            SetAnimatorOnLandParameter(false);
+            if (player.CurrentWeapon != null)
+            {
+                SetAnimatorOnLandParameter(false);
 
-            stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
+                stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
+            }
         }
 
         protected virtual void SetAnimatorOnLandParameter(bool isOn)
