@@ -34,8 +34,7 @@ namespace RSP2
             base.Enter();
 
             SetAnimatorIsAttackingParameter(true);
-
-            animator.speed *= attackStateData.BaseAttackData.AttackSpeed;
+            SetAnimatorPlayingSpeed();
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
@@ -43,6 +42,14 @@ namespace RSP2
             isAnimationEnd = false;
         }
 
+        public override void Exit()
+        {
+            base.Exit();
+
+            SetAnimatorPlayingSpeed(true);
+
+            SetAnimatorIsAttackingParameter(false);
+        }
 
         public override void CallUpdate()
         {
@@ -68,15 +75,6 @@ namespace RSP2
             mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
         }
 
-
-        public override void Exit()
-        {
-            base.Exit();
-
-            animator.speed = 1;
-
-            SetAnimatorIsAttackingParameter(false);
-        }
 
         #endregion
 
@@ -142,6 +140,13 @@ namespace RSP2
             return false;
         }
 
+        protected virtual void SetAnimatorPlayingSpeed(bool isExit = false)
+        {
+            if (isExit)
+            {
+                animator.speed = 1;
+            }
+        }
 
         protected virtual void UpdateNormalizedPassedTime()
         {

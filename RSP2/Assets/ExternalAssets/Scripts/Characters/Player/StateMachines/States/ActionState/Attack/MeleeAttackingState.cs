@@ -14,6 +14,8 @@ namespace RSP2
         protected float hitBoxEnableTime;
         protected float hitBoxDisableTime;
 
+        protected Weapon currentWeapon;
+
         protected AttackData attackData;
 
         //protected Vector3 targetDirVector;
@@ -31,12 +33,17 @@ namespace RSP2
         {
             base.Enter();
 
+            currentWeapon = player.CurrentWeapon;
+
+            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackStateData.BaseAttackData.AttackSpeed;
+
             attackHitBox.HitEvent += OnHit;
 
             mover.SetKeepRotate(true);
             minimumDuration = attackStateData.BaseAttackData.AttackRecoveryTime;
 
             SetHitBoxShape();
+
 
             hitBoxEnableTime = attackStateData.BaseAttackData.HitBoxActivationTime;
             hitBoxDisableTime = Mathf.Min(attackStateData.BaseAttackData.HitBoxDeactivationTime, attackStateData.BaseAttackData.AttackRecoveryTime);
@@ -45,7 +52,6 @@ namespace RSP2
         public override void Exit()
         {
             attackHitBox.HitEvent -= OnHit;
-
 
             base.Exit();
             attackHitBox.Deactivate();
@@ -109,6 +115,18 @@ namespace RSP2
             return false;
         }
 
+        protected override void SetAnimatorPlayingSpeed(bool isExit = false)
+        {
+            base.SetAnimatorPlayingSpeed(isExit);
+
+            if (isExit)
+            {
+                return;
+            }
+            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed;
+
+
+        }
 
         protected virtual void SetHitBoxShape()
         {
@@ -118,7 +136,7 @@ namespace RSP2
                 case DetectionType.SphereCollider:
                     {
                         SphereCollider sphereCollider = attackHitBox.HitBoxCollider as SphereCollider;
-                        sphereCollider.radius = attackData.ColliderSize.x;
+                        sphereCollider.radius = attackData.ColliderSize.x * currentWeapon.WeaponData.RangeModifier;
                         sphereCollider.center = attackData.ColliderPosition;
 
                         break;

@@ -53,4 +53,5 @@ MonoBehaviour:
     <AttackDataList>k__BackingField: []
   <WeaponDataLibrary>k__BackingField:
     <WeaponData>k__BackingField:
-    - {fileID: 11400000, guid: c7e586ce510e04346960bb3e55665b4c, type: 2}
+    - {fileID: 11400000, guid: b3fb20e072a3fa4438c3794879a86461, type: 2}
+    - {fileID: 11400000, guid: ecfcd6db6500213438a532476adcbcd1, type: 2}
