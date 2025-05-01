@@ -40,7 +40,7 @@ namespace RSP2
             {
                 if (IsInSight())
                 {
-                    stateMachine.ChangeState(stateMachine.BasicAttackingState);
+                    stateMachine.ChangeState(stateMachine.AttackingState);
                 }
                 else
                 {

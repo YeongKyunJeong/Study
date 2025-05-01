@@ -23,7 +23,6 @@ namespace RSP2
             base.Enter();
             //base.SetAnimatorSelfStateParameter(isOn);
 
-            // TODO :: Apply attack speed to animation speed
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantBasicMeleeAttackHash, 0.25f);

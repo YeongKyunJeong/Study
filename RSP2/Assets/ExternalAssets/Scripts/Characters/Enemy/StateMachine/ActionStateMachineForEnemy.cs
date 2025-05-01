@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -19,9 +20,12 @@ namespace RSP2
         public ChasingState ChasingState { get; private set; }
 
         // temporary class type, change later to exact class
-        public ActionStateForEnemy BasicAttackingState { get; private set; }
+        public BaseAttackingStateForEnemy AttackingState { get; private set; }
 
         #endregion
+
+        public bool IsInAttackingState { get; set; }
+        public event Action<bool> AttackingEvent;
 
 
         public ActionStateMachineForEnemy(Enemy _enemy)
@@ -36,12 +40,15 @@ namespace RSP2
 
             ChasingState = new ChasingState(_enemy, this);
 
+            AttackingState = new BaseAttackingStateForEnemy(_enemy, this);
+
             SetDefaultState();
         }
 
         public override void SetDefaultState()
         {
             ChangeState(IdlingState);
+            IsInAttackingState = false;
         }
 
         public void OnHit()
@@ -56,6 +63,13 @@ namespace RSP2
             //enemy.Mover.UpdateNextVerticalVelocityVector(Vector3.zero);
             enemy.Animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
             currentState = null; // TODO :: Add dyingState
+        }
+
+        public void BroadcastAttackingEvent(bool isStart)
+        {
+            IsInAttackingState = isStart;
+
+            AttackingEvent?.Invoke(isStart);
         }
     }
 }

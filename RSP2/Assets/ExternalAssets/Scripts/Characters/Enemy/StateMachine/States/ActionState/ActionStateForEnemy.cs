@@ -18,9 +18,12 @@ namespace RSP2
         protected Enemy enemy;
 
         protected ActionStateMachineForEnemy stateMachine;
+        protected StatisticsHandlerForEnemy statisticsHandler;
         protected MoverForEnemy mover;
         protected CharacterController controller;
         protected Animator animator;
+
+        protected AnimatorStateInfo animationStateInfo;
 
         private Transform enemyTransform;
 
@@ -28,19 +31,48 @@ namespace RSP2
         private CombatSystem detectedCombatSystem;
         protected Vector3 moveDir;
 
+        private Vector3 targetVector;
+        public Vector3 TargetVector
+        {
+            get
+            {
+                if (!isTargetVectorThisFrame)
+                {
+                    GetAndSaveTargetVector();
+                }
+                return targetVector;
+            }
+        }
+        private float targetDistanceSqr;
+        public float TargetDistanceSqr
+        {
+            get
+            {
+                if (!isTargetVectorThisFrame)
+                {
+                    GetAndSaveTargetVector();
+                }
+                return targetDistanceSqr;
+            }
+        }
+
+        private bool isTargetVectorThisFrame = false;
+
         protected readonly int inAirHash = Animator.StringToHash("@InAir");
-        protected readonly int attackHash = Animator.StringToHash("@Attack");
+
 
         public ActionStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine)
         {
             enemy = _enemy;
-
             stateMachine = _stateMachine;
+
+            statisticsHandler = _enemy.StatisticsHandler;
             mover = enemy.Mover;
             controller = enemy.Controller;
             animator = enemy.Animator;
 
             enemyTransform = enemy.transform;
+
         }
 
         #region IState Methods
@@ -57,6 +89,7 @@ namespace RSP2
 
         public virtual void CallUpdate()
         {
+            isTargetVectorThisFrame = false;
         }
 
         public virtual void CallPhysicsUpdate()
@@ -80,6 +113,28 @@ namespace RSP2
 
         protected virtual void SetAnimatorSelfStateParameter(bool isOn) { }
 
+        protected float GetNormalizedTime(Animator animator, string tag)
+        {
+            if (animator.IsInTransition(0))
+            {
+                animationStateInfo = animator.GetNextAnimatorStateInfo(0);
+                return animationStateInfo.IsTag(tag) ? animationStateInfo.normalizedTime : -1f;
+            }
+            else
+            {
+                animationStateInfo = animator.GetCurrentAnimatorStateInfo(0);
+                return animationStateInfo.IsTag(tag) ? animationStateInfo.normalizedTime : -1f;
+            }
+        }
+
+        protected Vector3 GetAndSaveTargetVector()
+        {
+            targetVector = enemy.Target.transform.position - enemy.transform.position;
+            targetDistanceSqr = targetVector.sqrMagnitude;
+            isTargetVectorThisFrame = true;
+            return targetVector;
+        }
+
         protected bool SearchForTaget()
         {
             // To Do : Save result and return that if called more than once within one frame
@@ -92,7 +147,7 @@ namespace RSP2
                 detectedCombatSystem = hit.GetComponent<CombatSystem>();
 
                 if (detectedCombatSystem != null
-                    /*&& !detectedCombatSystem.IsDead*/
+                    && !detectedCombatSystem.IsDead
                     /*&& detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction*/)
                 {
                     switch (enemy.ChasingTargetType)
@@ -147,7 +202,7 @@ namespace RSP2
             return false;
         }
 
-        protected bool IsInAttackRange()
+        protected bool IsInAttackRange(bool useDistance = false)
         {
             if (enemy.Target == null) return false;
 
@@ -156,7 +211,19 @@ namespace RSP2
             //if (stateMachine.CurrentAttackInfo == null)
             //    SelectAttack();
 
-            float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
+            if (useDistance)
+            {
+                //float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
+                // TODO :: Compare with attack distance;
+                if (TargetDistanceSqr <= enemy.AttackRangeSqr)
+                {
+                    return true;
+                }
+
+                return false;
+                //return false;
+            }
+
 
             //switch (stateMachine.CurrentAttackInfo.DetectionType)
             //{
@@ -176,7 +243,8 @@ namespace RSP2
 
             if (enemy.Target.IsDead) return false;
 
-            Vector3 directionToTarget = enemy.Target.transform.position - enemy.transform.position;
+            //Vector3 directionToTarget = enemy.Target.transform.position - enemy.transform.position;
+            Vector3 directionToTarget = TargetVector;
             directionToTarget.y = 0;
             directionToTarget.Normalize();
 

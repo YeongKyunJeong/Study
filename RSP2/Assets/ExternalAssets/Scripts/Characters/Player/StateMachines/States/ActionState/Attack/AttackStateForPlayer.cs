@@ -46,9 +46,9 @@ namespace RSP2
         {
             base.Exit();
 
+            SetAnimatorIsAttackingParameter(false);
             SetAnimatorPlayingSpeed(true);
 
-            SetAnimatorIsAttackingParameter(false);
         }
 
         public override void CallUpdate()
@@ -112,7 +112,7 @@ namespace RSP2
 
         private void EndAttackState()
         {
-            SetAnimatorIsAttackingParameter(false);
+            //SetAnimatorIsAttackingParameter(false);
 
             if (CheckIsSlope().y < -0.98) // No collider detected
             {
@@ -150,7 +150,7 @@ namespace RSP2
 
         protected virtual void UpdateNormalizedPassedTime()
         {
-            normalizedPassedTime = GetNormalizedTime(animator, "Attack State");
+            normalizedPassedTime = GetNormalizedTime(animator, animatorAttackStateTag);
             if (normalizedPassedTime >= minimumDuration)
             {
                 isCancelable = true;
@@ -173,7 +173,6 @@ namespace RSP2
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
             //base.SetAnimatorSelfStateParameter(isOn);
-
         }
 
     }

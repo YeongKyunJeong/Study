@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7585731631327339032}
-  - component: {fileID: 1385802181053978374}
+  - component: {fileID: 6498365184910085326}
   - component: {fileID: 925772123658360438}
   - component: {fileID: 2644403302864251516}
   m_Layer: 7
@@ -34,7 +34,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7123104769300382178}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1385802181053978374
+--- !u!114 &6498365184910085326
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -43,7 +43,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 201504267391204319}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbbcb954bc28d4340970c6704ae7ee2b, type: 3}
+  m_Script: {fileID: 11500000, guid: 89ccf4673c2b6d14abad81ee6c2d4933, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!135 &925772123658360438
@@ -180,14 +180,13 @@ MonoBehaviour:
   <Animator>k__BackingField: {fileID: 5420575401002140697}
   <StatisticsHandler>k__BackingField: {fileID: 4650921598329305135}
   <CombatSystem>k__BackingField: {fileID: 3187639084749330371}
-  <AttackHitBox>k__BackingField: {fileID: 1385802181053978374}
+  <AttackHitBox>k__BackingField: {fileID: 6498365184910085326}
   EnemyKey: 0
   <SearchingDistance>k__BackingField: 6
   <SearchingLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
   <FieldOfView>k__BackingField: 60
-  <ChasingSpeedModifier>k__BackingField: 4
   <RotationSpeedModifier>k__BackingField: 6
   ChasingTargetType: 0
 --- !u!114 &4650921598329305135

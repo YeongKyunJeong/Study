@@ -73,7 +73,7 @@ namespace RSP2
                 moveDir = (enemy.Target.transform.position - enemy.transform.position);
                 moveDir.y = 0;
                 //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
-                moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
+                moveDir = moveDir.normalized * statisticsHandler.CurrentStatistics.MovementSpeed;
                 mover.UpdateNextHorizontalMovementVector(moveDir);
             }
 

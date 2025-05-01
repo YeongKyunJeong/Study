@@ -13,7 +13,7 @@ namespace RSP2
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatisticsHandlerForEnemy StatisticsHandler { get; private set; }
         [field: SerializeField] public CombatSystemForEnemy CombatSystem { get; private set; }
-        [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
+        [field: SerializeField] public AttackHitBoxForEnemy AttackHitBox { get; private set; }
 
         public ActionStateMachineForEnemy ActionStateMachine { get; private set; }
 
@@ -24,8 +24,10 @@ namespace RSP2
         [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }
         [field: SerializeField] public float FieldOfView { get; private set; }
 
-        [field: SerializeField][field: Range(0f, 25f)] public float ChasingSpeedModifier { get; private set; } = 4f;
+        //[field: SerializeField][field: Range(0f, 25f)] public float ChasingSpeedModifier { get; private set; } = 4f;
         [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; private set; } = 6;
+        public float AttackRange { get; set; }
+        public float AttackRangeSqr { get; private set; }
         public ChasingTargetTpye ChasingTargetType = ChasingTargetTpye.PlayerOnly;
 
         public CombatSystem Target { get; set; }
@@ -81,12 +83,19 @@ namespace RSP2
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
+
         }
 
         private void Update()
         {
             ActionStateMachine.CallUpdate();
             Mover.CallUpdate();
+        }
+
+        public void SetAttackRange(float range)
+        {
+            AttackRange = range;
+            AttackRangeSqr = range * range;
         }
 
         private void OnHit()

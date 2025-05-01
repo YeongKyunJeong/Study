@@ -7,7 +7,7 @@ namespace RSP2
 {
     public class AttackHitBox : MonoBehaviour
     {
-        private Collider hitBoxCollider;
+        protected Collider hitBoxCollider;
         public Collider HitBoxCollider
         {
             get
@@ -20,9 +20,9 @@ namespace RSP2
                 hitBoxCollider = value;
             }
         }
-        private HashSet<Collider> detectedTarget;
+        protected HashSet<Collider> detectedTarget;
 
-        private Transform hitBoxTransform;
+        protected Transform hitBoxTransform;
         public Transform HitBoxTransform
         {
             get
@@ -37,14 +37,14 @@ namespace RSP2
         }
 
         public event Action<CombatSystem> HitEvent;
-        private CombatSystem hitCombatSystem;
+        protected CombatSystem hitCombatSystem;
 
-        private LayerMask targetLayerMask;
+        protected LayerMask targetLayerMask;
 
         
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
-        private void Awake()
+        protected virtual void Awake()
         {
             hitBoxCollider = GetComponent<Collider>();
             hitBoxTransform = transform;
@@ -55,7 +55,7 @@ namespace RSP2
             //Debug.Log(hitBoxCollider.name);
         }
 
-        public void Initialize(LayerMask _targetLayerMask)
+        public virtual void Initialize(LayerMask _targetLayerMask)
         {
             targetLayerMask = _targetLayerMask;
         }
@@ -75,7 +75,7 @@ namespace RSP2
                 hitBoxCollider.enabled = false;
         }
 
-        private void OnTriggerEnter(Collider other)
+        protected virtual void OnTriggerEnter(Collider other)
         {
             if (((1 << other.gameObject.layer) & targetLayerMask.value) == 0) return;
 
