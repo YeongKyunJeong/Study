@@ -8,7 +8,7 @@ namespace RSP2
     public class Player : MonoBehaviour
     {
         private GameManager gameManager;
-        
+
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public MoverForPlayer Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
@@ -167,6 +167,16 @@ namespace RSP2
             ActionStateMachine.OnDie();
             InputReader.enabled = false;
             // TODO :: Add something to do On Dying;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            IInteractable interactable = other.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
+                interactable?.OnInteract(this);
+            }
         }
     }
 

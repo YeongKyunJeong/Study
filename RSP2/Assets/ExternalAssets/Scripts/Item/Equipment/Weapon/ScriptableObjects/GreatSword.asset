@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:WeaponData
   displayName: GreatSword
   type: 0
-  dropPrefab: {fileID: 0}
+  dropPrefab: {fileID: 8243482275800551301, guid: 99c032096fff03848a4b17c090e28482, type: 3}
   canStack: 0
   maxStackAmount: 1
   EquipPrefab: {fileID: 8887224701790690321, guid: 3a078232abb58e049ac7e99e15aa5575, type: 3}

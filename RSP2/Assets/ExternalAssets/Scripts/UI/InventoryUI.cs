@@ -134,24 +134,26 @@ namespace RSP2
             if (selectedItem.ItemInstance.equipped)
                 return;
 
-            //Drop(selectedItem.ItemInstance);
+            Drop(selectedItem.ItemInstance);
 
             itemSlots.Remove(selectedItem);
             player.Inventory.RemoveItem(selectedItem.ItemInstance);
             Destroy(selectedItem.gameObject);
         }
 
-        //void Drop(ItemInstance itemInstance)
-        //{
-        //    ItemData itemData = itemInstance.ItemData;
-        //    Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
+        void Drop(ItemInstance itemInstance)
+        {
+            ItemData itemData = itemInstance.ItemData;
+            Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
 
-        //    GameObject go = Instantiate(itemData.dropPrefab, dropPosition, Quaternion.identity);
-        //    Rigidbody rigidbody = go.GetComponent<Rigidbody>();
-        //    rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
+            GameObject go = Instantiate(itemData.dropPrefab, dropPosition, Quaternion.identity);
+            Rigidbody rigidbody = go.GetComponent<Rigidbody>();
+            rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
 
-        //    ItemObject itemObject = go.GetComponent<ItemObject>();
-        //    itemObject.amount = itemInstance.amount;
-        //}
+            ItemObject itemObject = go.GetComponent<ItemObject>();
+            itemObject.amount = itemInstance.amount;
+            if (itemObject.itemData == null)
+                itemObject.itemData = itemInstance.ItemData;
+        }
     }
 }
