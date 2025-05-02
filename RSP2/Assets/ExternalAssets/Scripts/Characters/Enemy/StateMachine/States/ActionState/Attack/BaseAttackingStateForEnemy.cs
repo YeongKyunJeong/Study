@@ -12,19 +12,18 @@ namespace RSP2
         private readonly int instantAttackHash = Animator.StringToHash("Attack.BaseAttack");
         //private readonly int isAttackingHash = Animator.StringToHash("isAttacking");
 
-
-
         protected float normalizedPassedTime;
 
         protected CombatSystem combatSystem;
 
-
         protected bool isAnimationEnd;
+
+        protected AttackHitBox attackHitBox;
 
         public BaseAttackingStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
         {
             combatSystem = _enemy.CombatSystem;
-
+            attackHitBox = _enemy.AttackHitBox;
 
         }
 
@@ -32,11 +31,13 @@ namespace RSP2
         {
             base.Enter();
 
-            stateMachine.IsInAttackingState = true;
-
             SetAnimatorIsAttackingParameter(true);
             SetAnimatorSelfStateParameter(true);
             SetAnimatorPlayingSpeed();
+
+            attackHitBox.Deactivate();
+            attackHitBox.EnterEvent += OnAttack;
+            stateMachine.BroadcastAttackingEvent(true);
 
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
 
@@ -47,7 +48,8 @@ namespace RSP2
         {
             base.Exit();
 
-            stateMachine.IsInAttackingState = false;
+            attackHitBox.Activate();
+            stateMachine.BroadcastAttackingEvent(false);
 
             SetAnimatorIsAttackingParameter(false);
             //SetAnimatorSelfStateParameter(false);
@@ -68,6 +70,18 @@ namespace RSP2
                 return;
             }
 
+            if (normalizedPassedTime > 0.8)
+            {
+                attackHitBox.Deactivate();
+                return;
+            }
+            else if (normalizedPassedTime > 0.3)
+            {
+                attackHitBox.Activate();
+                return;
+            }
+
+
             //horizontalMomentum = CalculateThisUpdateMomentum();
 
             //runtimeData.HorizontalMovementVector = horizontalMomentum;
@@ -82,12 +96,11 @@ namespace RSP2
             //{
             //    isCancelable = true;
             //}
-            //if (normalizedPassedTime >= 1)
-            //{
-            //    isAnimationEnd = true;
-            //}
+            if (normalizedPassedTime >= 1)
+            {
+                isAnimationEnd = true;
+            }
         }
-
 
         private void EndAttackState()
         {
@@ -126,6 +139,16 @@ namespace RSP2
         protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
         {
             animator.SetBool(attackHash, isOn);
+        }
+
+        protected virtual void OnAttack(CombatSystem hitCombatSystem)
+        {
+            if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
+            {
+                hitCombatSystem.ChangeHealth(-statisticsHandler.CurrentStatistics.Attack);
+                //hitCombatSystem.ChangeHealth(-attackData.Damage - player.CurrentWeapon.WeaponData.DamageBonus);
+                Debug.Log($"{enemy.name} gives {statisticsHandler.CurrentStatistics.Attack} damage to {combatSystem.name}");
+            }
         }
 
         protected virtual Vector3 CalculateThisUpdateMomentum() { return Vector3.zero; }

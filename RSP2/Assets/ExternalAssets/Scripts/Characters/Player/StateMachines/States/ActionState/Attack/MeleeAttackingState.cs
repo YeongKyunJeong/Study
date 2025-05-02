@@ -37,7 +37,7 @@ namespace RSP2
 
             animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackStateData.BaseAttackData.AttackSpeed;
 
-            attackHitBox.HitEvent += OnHit;
+            attackHitBox.EnterEvent += OnAttack;
 
             mover.SetKeepRotate(true);
             minimumDuration = attackStateData.BaseAttackData.AttackRecoveryTime;
@@ -51,7 +51,7 @@ namespace RSP2
 
         public override void Exit()
         {
-            attackHitBox.HitEvent -= OnHit;
+            attackHitBox.EnterEvent -= OnAttack;
 
             base.Exit();
             attackHitBox.Deactivate();
@@ -65,10 +65,12 @@ namespace RSP2
             if (normalizedPassedTime >= hitBoxDisableTime)
             {
                 attackHitBox.Deactivate();
+                return;
             }
             else if (normalizedPassedTime >= hitBoxEnableTime)
             {
                 attackHitBox.Activate();
+                return;
             }
         }
 
@@ -89,7 +91,7 @@ namespace RSP2
 
         //}
 
-        protected virtual void OnHit(CombatSystem hitCombatSystem)
+        protected virtual void OnAttack(CombatSystem hitCombatSystem)
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {

@@ -21,6 +21,7 @@ namespace RSP2
         public int EnemyKey;
 
         [field: SerializeField] public float SearchingDistance { get; private set; }
+        public float SearchingDistanceSqr { get; private set; }
         [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }
         [field: SerializeField] public float FieldOfView { get; private set; }
 
@@ -84,6 +85,7 @@ namespace RSP2
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
+            SearchingDistanceSqr = SearchingDistance * SearchingDistance;
         }
 
         private void Update()

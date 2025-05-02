@@ -7,7 +7,7 @@ namespace RSP2
     public class ChasingState : OnLandStateForEnemy
     {
         private readonly int isChasingHash = Animator.StringToHash("IsChasing");
-        private readonly int instantChasingHash = Animator.StringToHash("OnLand.IsChasing");
+        private readonly int instantChasingHash = Animator.StringToHash("OnLand.Chasing");
 
         private float distance;
 
@@ -60,8 +60,10 @@ namespace RSP2
             }
             else
             {
-                float distance = Vector3.Distance(enemy.Target.transform.position, enemy.transform.position);
-                if (distance >= enemy.SearchingDistance * 1.2f)
+
+                //float distance = Vector3.Distance(enemy.Target.transform.position, enemy.transform.position);
+                if (TargetDistanceSqr >= enemy.SearchingDistanceSqr * 1.2f)
+                //if (distance >= enemy.SearchingDistance * 1.2f)
                 {
                     SearchForTaget();
                     if (enemy.Target == null)
@@ -70,7 +72,20 @@ namespace RSP2
                     }
                     return;
                 }
-                moveDir = (enemy.Target.transform.position - enemy.transform.position);
+
+                if(TargetDistanceSqr <= enemy.AttackRangeSqr)
+                {
+                    if (IsInSight()) 
+                    {
+                        SetAnimatorOnLandParameter(false);
+                        stateMachine.ChangeState(stateMachine.AttackingState);
+                        return;
+                    }
+                }
+
+
+                //moveDir = (enemy.Target.transform.position - enemy.transform.position);
+                moveDir = TargetVector;
                 moveDir.y = 0;
                 //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
                 moveDir = moveDir.normalized * statisticsHandler.CurrentStatistics.MovementSpeed;

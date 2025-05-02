@@ -165,6 +165,7 @@ namespace RSP2
         private void OnDie()
         {
             ActionStateMachine.OnDie();
+            InputReader.enabled = false;
             // TODO :: Add something to do On Dying;
         }
     }
