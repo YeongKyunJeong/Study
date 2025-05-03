@@ -35,6 +35,7 @@ namespace RSP2
         public bool canStack;
         public int maxStackAmount;
 
+        public AudioClip usageSoundClip;
         //[Header("Consumable")]
         //public ItemDataForConsumable[] consumables;
 

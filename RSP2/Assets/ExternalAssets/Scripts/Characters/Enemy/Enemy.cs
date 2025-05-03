@@ -17,9 +17,11 @@ namespace RSP2
 
         public ActionStateMachineForEnemy ActionStateMachine { get; private set; }
 
+
         // To do : Move these parameter to SO and RuntimeData
         public int EnemyKey;
 
+        [field: SerializeField] public AudioClip attackSound;
         [field: SerializeField] public float SearchingDistance { get; private set; }
         public float SearchingDistanceSqr { get; private set; }
         [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }

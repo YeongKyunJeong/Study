@@ -28,12 +28,15 @@ namespace RSP2
     {
         [Header("Equip Prefab")]
         public GameObject EquipPrefab;
+        public AudioClip equipmentSoundClip;
 
         [Header("Statistics Data")]
-        public EquipmentType equipmentType;
+        public EquipmentType EquipmentType;
+        public DamageType AttackDamageType;
         public float RangeModifier;
         public float SpeedModifier;
         public float DamageBonus;
         public float IntensityBonus;
+        
     }
 }

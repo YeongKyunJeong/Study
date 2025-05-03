@@ -44,12 +44,20 @@ namespace RSP2
             }
         }
 
-        public GameObject SpawnFromPool(string poolTag)
+        public GameObject SpawnFromPool(string poolTag, bool expandable = true)
         {
             if (!availablePoolDictionary.ContainsKey(poolTag))
             {
                 Debug.Log($"{poolTag} is not in the Pool Dictionary");
                 return null;
+            }
+
+            if (!expandable)
+            {
+                GameObject availableObj = availablePoolDictionary[poolTag].Dequeue();
+                availablePoolDictionary[poolTag].Enqueue(availableObj);
+                availableObj.SetActive(true);
+                return availableObj;
             }
 
             if (availablePoolDictionary[poolTag].Count > 0)
@@ -60,14 +68,17 @@ namespace RSP2
                 return availableObj;
             }
 
+
             Pool pool = pools.Find(p => p.tag == poolTag);
-            
+
             GameObject newObj = Instantiate(pool.prefab);
             newObj.GetComponent<PooledObject>()?.Initialize(this, poolTag);
             inUsePoolDictionary[poolTag].Add(newObj);
             pool.size++;
 
             return newObj;
+
+
         }
 
         public void ResetPoolDictionary()

@@ -55,6 +55,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3569472222761025509}
   - component: {fileID: 5209038590903662440}
+  - component: {fileID: 6328002883443411950}
   m_Layer: 0
   m_Name: SoundManager
   m_TagString: Untagged
@@ -89,3 +90,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 35e9993e87a881d458bc14289844b3d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  soundEffectVolume: 0.3
+  soundEffectPitchVariance: 0.2
+  musicVolume: 0.2
+  musicClip: {fileID: 8300000, guid: 051168dd3f18b614cb273426a6521fb5, type: 3}
+--- !u!114 &6328002883443411950
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6020894421534004710}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6a757420b739e4e9efb0ca4c18bb8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: SoundSource
+    prefab: {fileID: 5896195862159808235, guid: eba1966ec9bc11e488ca5ce435dee801, type: 3}
+    size: 20

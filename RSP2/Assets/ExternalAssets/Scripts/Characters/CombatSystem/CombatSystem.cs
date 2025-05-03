@@ -56,7 +56,7 @@ namespace RSP2
             }
         }
 
-        public bool ChangeHealth(float value)
+        public bool ChangeHealth(float value, DamageType damageType)
         {
             if (!isInitialized) InitHealth(); 
 
@@ -79,6 +79,7 @@ namespace RSP2
             else
             {
                 DamageEvent?.Invoke();
+                SoundManager.PlayDamageSoundClip(damageType);
             }
 
             if (CurrentHealth <= 0f)

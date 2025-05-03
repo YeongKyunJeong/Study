@@ -4,6 +4,13 @@ using UnityEngine;
 
 namespace RSP2
 {
+    public enum DamageType
+    {
+        None,
+        Slashing,
+        Blunging
+    }
+
     public class StatisticsHandlerForCharacter : MonoBehaviour
     {
         private StatisticsForCharacter baseStatistics;

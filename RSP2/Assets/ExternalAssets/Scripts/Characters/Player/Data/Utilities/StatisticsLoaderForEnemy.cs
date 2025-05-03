@@ -20,6 +20,7 @@ namespace RSP2
         public float MPRegen;
         public float MaxStamina;
         public float StaminaRegen;
+        public DamageType AttackDamageType;
         public float Attack;
         public float Deffence;
         public float MovementSpeed;

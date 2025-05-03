@@ -9,6 +9,7 @@ namespace RSP2
     public class StatisticsForEnemy : StatisticsForCharacter
     {
         public ChasingTargetTpye ChasingTargetTpye { get; set; }
+        public DamageType AttackDamageType { get; set; }
         public float SearchingDistance { get; set; }
 
         public StatisticsForEnemy()
@@ -34,6 +35,8 @@ namespace RSP2
             MaxStamina = 20;
 
             StaminaRegen = 5;
+
+            AttackDamageType = DamageType.Slashing;
 
             Attack = 3;
 
@@ -80,6 +83,8 @@ namespace RSP2
 
             StaminaRegen = newDataTable.StaminaRegen;
 
+            AttackDamageType = newDataTable.AttackDamageType;
+
             Attack = newDataTable.Attack;
 
             Deffence = newDataTable.Deffence;
@@ -112,6 +117,8 @@ namespace RSP2
             MaxStamina = newData.MaxStamina;
 
             StaminaRegen = newData.StaminaRegen;
+
+            AttackDamageType = newData.AttackDamageType;
 
             Attack = newData.Attack;
 

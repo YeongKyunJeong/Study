@@ -95,8 +95,8 @@ namespace RSP2
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.ChangeHealth(-attackData.Damage - player.CurrentWeapon.WeaponData.DamageBonus);
-                Debug.Log($"{player.name} gives {attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus} damage to {combatSystem.name}");
+                hitCombatSystem.ChangeHealth(-attackData.Damage - currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
+                Debug.Log($"{player.name} gives {attackData.Damage + currentWeapon.WeaponData.DamageBonus} damage to {combatSystem.name}");
             }
         }
 

@@ -6,14 +6,14 @@ namespace RSP2
 {
     public class StatisticsHandlerForEnemy : StatisticsHandlerForCharacter
     {
-        private StatisticsForEnemy PlayerBaseStatistics; 
-        private StatisticsForEnemy PlayerCurrentStatistics;
+        public StatisticsForEnemy EnemyBaseStatistics; 
+        public StatisticsForEnemy EnemyCurrentStatistics;
 
         public void Initialize(StatisticsTableForEnemy baseStatisticsTable)
         {
             StatisticsTableForEnemy OriginalLoadedDataTable = baseStatisticsTable;
-            PlayerBaseStatistics = new StatisticsForEnemy(baseStatisticsTable);
-            PlayerCurrentStatistics = new StatisticsForEnemy(baseStatisticsTable);
+            EnemyBaseStatistics = new StatisticsForEnemy(baseStatisticsTable);
+            EnemyCurrentStatistics = new StatisticsForEnemy(baseStatisticsTable);
 
             if (combatSystem == null)
             {
@@ -25,8 +25,8 @@ namespace RSP2
 
         public void Initialize(StatisticsForEnemy initialStatistics)
         {
-            PlayerBaseStatistics = new StatisticsForEnemy(initialStatistics);
-            PlayerCurrentStatistics = new StatisticsForEnemy(initialStatistics);
+            EnemyBaseStatistics = new StatisticsForEnemy(initialStatistics);
+            EnemyCurrentStatistics = new StatisticsForEnemy(initialStatistics);
 
             if (combatSystem == null)
             {
@@ -38,8 +38,8 @@ namespace RSP2
 
         protected override void CalculateFinalStat()
         {
-            BaseStatistics = PlayerBaseStatistics as StatisticsForCharacter;
-            CurrentStatistics = PlayerCurrentStatistics as StatisticsForCharacter;
+            BaseStatistics = EnemyBaseStatistics as StatisticsForCharacter;
+            CurrentStatistics = EnemyCurrentStatistics as StatisticsForCharacter;
             base.CalculateFinalStat();
         }
     }

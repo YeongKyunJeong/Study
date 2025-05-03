@@ -6,8 +6,8 @@ namespace RSP2
 {
     public class StatisticsHandlerForPlayer : StatisticsHandlerForCharacter
     {
-        private StatisticsForPlayer PlayerBaseStatistics; /*{ get; private set; }*/
-        private StatisticsForPlayer PlayerCurrentStatistics;/* { get; private set; }*/
+        public StatisticsForPlayer PlayerBaseStatistics; /*{ get; private set; }*/
+        public StatisticsForPlayer PlayerCurrentStatistics;/* { get; private set; }*/
 
         public void Initialize(StatisticsTableForPlayer baseStatisticsTable)
         {
