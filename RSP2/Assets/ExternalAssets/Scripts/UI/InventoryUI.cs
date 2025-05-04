@@ -126,6 +126,7 @@ namespace RSP2
             if (selectedItem == null) return;
 
             player.EquipItem(selectedItem.ItemInstance);
+            SoundManager.PlayClip(selectedItem.ItemInstance.ItemData.usageSoundClip);
         }
         public void OnDropButton()
         {

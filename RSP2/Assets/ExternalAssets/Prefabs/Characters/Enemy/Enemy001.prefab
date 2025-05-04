@@ -183,6 +183,7 @@ MonoBehaviour:
   <CombatSystem>k__BackingField: {fileID: 3187639084749330371}
   <AttackHitBox>k__BackingField: {fileID: 6498365184910085326}
   EnemyKey: 0
+  attackSound: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
   <SearchingDistance>k__BackingField: 6
   <SearchingLayerMask>k__BackingField:
     serializedVersion: 2

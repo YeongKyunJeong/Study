@@ -14,8 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <SFXDataLibrary>k__BackingField:
     <SlashingHitSounds>k__BackingField:
-    - {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
     - {fileID: 8300000, guid: ecb642c8078cb814fb9efb6b2b223cf6, type: 3}
     <BlungingHitSounds>k__BackingField:
     - {fileID: 8300000, guid: 74a21b68c4d61e34f916b97fd828ec9b, type: 3}
-    - {fileID: 8300000, guid: d764ccfa569566b48b32aaf0104e41b3, type: 3}

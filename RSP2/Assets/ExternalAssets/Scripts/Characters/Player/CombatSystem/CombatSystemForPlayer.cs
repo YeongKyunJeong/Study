@@ -7,6 +7,10 @@ namespace RSP2
     public class CombatSystemForPlayer : CombatSystem
     {
         public StatisticsHandlerForPlayer StatisticsHandlerForPlayer;
+
+        private Coroutine mPRegenCoroutine;
+        private Coroutine staminaRegenCoroutine;
+
         protected override void Awake()
         {
             base.Awake();

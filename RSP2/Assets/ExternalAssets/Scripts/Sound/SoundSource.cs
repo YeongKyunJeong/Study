@@ -8,7 +8,7 @@ namespace RSP2
     {
         private AudioSource audioSource;
 
-        public void Play(AudioClip clip, float soundEffectVolume, float soundEffectPichVariance)
+        public void Play(AudioClip clip, float sFXVolume, float sFXPitch, float sFXPichVariance)
         {
             if (audioSource == null)
                 audioSource = GetComponent<AudioSource>();
@@ -16,10 +16,11 @@ namespace RSP2
             CancelInvoke();
 
             audioSource.clip = clip;
-            audioSource.volume = soundEffectVolume;
+            audioSource.volume = sFXVolume;
 
             audioSource.Play();
-            audioSource.pitch = 1f + Random.Range(-soundEffectPichVariance, soundEffectPichVariance);
+            audioSource.pitch = 1f + Random.Range(-sFXPichVariance, sFXPichVariance);
+            audioSource.pitch *= sFXPitch;
 
             Invoke("Disable", clip.length + 2);
         }

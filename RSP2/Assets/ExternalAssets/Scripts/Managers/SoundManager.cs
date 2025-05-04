@@ -6,8 +6,8 @@ namespace RSP2
 {
     public class SoundManager : MonoSingleton<SoundManager>
     {
-        [field: SerializeField] [Range(0f, 1f)] private float soundEffectVolume;
-        [field: SerializeField] [Range(0f, 1f)] private float soundEffectPitchVariance;
+        [field: SerializeField][Range(0f, 1f)] private float soundEffectVolume;
+        [field: SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance;
         [field: SerializeField][Range(0f, 1f)] private float musicVolume;
 
 
@@ -42,15 +42,15 @@ namespace RSP2
             Instance.musicAudioSource.Play();
         }
 
-        public static void PlayClip(AudioClip clip, float volumeMultiplier = 1.0f)
+        public static void PlayClip(AudioClip clip, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
             GameObject go = Instance.objectPool.SpawnFromPool("SoundSource", false);
             go.SetActive(true);
             SoundSource soundSource = go.GetComponent<SoundSource>();
-            soundSource.Play(clip, Instance.soundEffectVolume * volumeMultiplier, Instance.soundEffectPitchVariance);
+            soundSource.Play(clip, Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
         }
 
-        public static void PlayDamageSoundClip(DamageType damageType, float volumeMultiplier = 1.0f)
+        public static void PlayDamageSoundClip(DamageType damageType, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
             GameObject go = Instance.objectPool.SpawnFromPool("SoundSource", false);
             go.SetActive(true);
@@ -62,13 +62,13 @@ namespace RSP2
                     break;
                 case DamageType.Slashing:
                     {
-                        soundSource.Play(SFXSO.SFXDataLibrary.SlashingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, Instance.soundEffectPitchVariance);
+                        soundSource.Play(SFXSO.SFXDataLibrary.SlashingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
 
                         break;
                     }
                 case DamageType.Blunging:
                     {
-                        soundSource.Play(SFXSO.SFXDataLibrary.BlungingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, Instance.soundEffectPitchVariance);
+                        soundSource.Play(SFXSO.SFXDataLibrary.BlungingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
                         break;
                     }
             }

@@ -87,7 +87,7 @@ namespace RSP2
             if (hitCombatSystem == null) return;
 
             EnterEvent?.Invoke(hitCombatSystem);
-            Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
+            //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
 
         }
 

@@ -27,6 +27,8 @@ namespace RSP2
             {
                 animator.CrossFadeInFixedTime(instantBasicMeleeAttackHash, 0.25f);
             }
+
+            SoundManager.PlayClip(currentWeapon.WeaponData.attackSoundClip);
         }
 
         #endregion

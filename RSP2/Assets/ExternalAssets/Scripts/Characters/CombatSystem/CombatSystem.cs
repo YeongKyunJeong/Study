@@ -9,8 +9,8 @@ namespace RSP2
     {
         [SerializeField] private float healthChangeDelay = .5f;
 
-        StatisticsHandlerForCharacter StatisticsHandler;
-        
+        private StatisticsHandlerForCharacter statisticsHandler;
+
         [SerializeField] protected Faction myFaction;
         public Faction MyFaction { get => myFaction; set { myFaction = value; } }
 
@@ -20,19 +20,23 @@ namespace RSP2
 
         private float timeSinceLastChange = float.MaxValue;
 
+        private Coroutine hPRegenCoroutine;
+        private Coroutine hPRegenDelayCoroutine;
+        private float hpRegenDelayTime = 5f;
+
         protected AttackHitBox attackHitBox;
         public event Action DamageEvent;
         public event Action HealEvent;
         public event Action DieEvent;
         public event Action InvicibilityEndEvent;
 
-        public float CurrentHealth { get; private set; }
-        public float MaxHP => StatisticsHandler.CurrentStatistics.MaxHP;
+        public float CurrentHP { get; private set; }
+        public float MaxHP => statisticsHandler.CurrentStatistics.MaxHP;
         private bool isInitialized;
 
         protected virtual void Awake()
         {
-            StatisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
+            statisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
             isInitialized = false;
             isDead = false;
         }
@@ -40,7 +44,7 @@ namespace RSP2
         public void InitHealth()
         {
             isInitialized = true;
-            CurrentHealth = MaxHP;
+            CurrentHP = MaxHP;
             isDead = false;
         }
 
@@ -56,9 +60,10 @@ namespace RSP2
             }
         }
 
+
         public bool ChangeHealth(float value, DamageType damageType)
         {
-            if (!isInitialized) InitHealth(); 
+            if (!isInitialized) InitHealth();
 
             if (value == 0 || timeSinceLastChange < healthChangeDelay)
             {
@@ -66,11 +71,11 @@ namespace RSP2
             }
 
             timeSinceLastChange = 0;
-            
-            CurrentHealth += value;
-            CurrentHealth = CurrentHealth > MaxHP ? MaxHP : CurrentHealth;
-            CurrentHealth = CurrentHealth < 0 ? 0 : CurrentHealth;
-            Debug.Log(CurrentHealth);
+
+            CurrentHP += value;
+            CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
+            CurrentHP = CurrentHP < 0 ? 0 : CurrentHP;
+            Debug.Log(CurrentHP);
 
             if (value > 0)
             {
@@ -79,10 +84,19 @@ namespace RSP2
             else
             {
                 DamageEvent?.Invoke();
+
+                if (hPRegenCoroutine != null)
+                {
+                    StopCoroutine(hPRegenCoroutine);
+                }
+
+                hPRegenDelayCoroutine = StartCoroutine(StartRegenAfterDelay());
+
                 SoundManager.PlayDamageSoundClip(damageType);
+
             }
 
-            if (CurrentHealth <= 0f)
+            if (CurrentHP <= 0f)
             {
                 Die();
             }
@@ -95,5 +109,37 @@ namespace RSP2
             isDead = true;
             DieEvent?.Invoke();
         }
+
+        private IEnumerator StartRegenAfterDelay()
+        {
+            yield return new WaitForSeconds(hpRegenDelayTime);
+
+            if (CurrentHP < MaxHP)
+            {
+                hPRegenCoroutine = StartCoroutine(HPRegen());
+            }
+
+            hPRegenDelayCoroutine = null;
+
+            yield return null;
+        }
+
+        private IEnumerator HPRegen()
+        {
+            while (CurrentHP < MaxHP)
+            {
+                CurrentHP += statisticsHandler.CurrentStatistics.HPRegen;
+                CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
+
+                Debug.Log($"{name} HP È¸º¹ Áß : {CurrentHP}/{MaxHP}");
+
+                yield return new WaitForSeconds(1);
+            }
+
+            hPRegenCoroutine = null;
+
+            yield return null;
+        }
+
     }
 }

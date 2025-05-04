@@ -42,6 +42,8 @@ namespace RSP2
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
 
             isAnimationEnd = false;
+
+            SoundManager.PlayClip(enemy.attackSound);
         }
 
         public override void Exit()
@@ -147,7 +149,6 @@ namespace RSP2
             {
                 hitCombatSystem.ChangeHealth(-statisticsHandler.CurrentStatistics.Attack,
                     statisticsHandler.EnemyCurrentStatistics.AttackDamageType);
-                //hitCombatSystem.ChangeHealth(-attackData.Damage - player.CurrentWeapon.WeaponData.DamageBonus);
                 Debug.Log($"{enemy.name} gives {statisticsHandler.CurrentStatistics.Attack} damage to {combatSystem.name}");
             }
         }
