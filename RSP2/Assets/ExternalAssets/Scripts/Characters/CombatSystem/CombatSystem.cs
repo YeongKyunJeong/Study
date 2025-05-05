@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace RSP2
 {
@@ -60,9 +61,9 @@ namespace RSP2
             }
         }
 
-
-        public bool ChangeHealth(float value, DamageType damageType)
+        public bool TakeDamage(float value, DamageType damageType, bool applyDef = true)
         {
+
             if (!isInitialized) InitHealth();
 
             if (value == 0 || timeSinceLastChange < healthChangeDelay)
@@ -72,7 +73,42 @@ namespace RSP2
 
             timeSinceLastChange = 0;
 
+            float reducedDamage;
+
+            if (applyDef)
+            {
+                // HP & Def = 10 => 2HP & Def = 0 
+                reducedDamage = (10 / (10 + statisticsHandler.CurrentStatistics.Deffence)) * value;
+                reducedDamage = Mathf.Round(reducedDamage * 10f) / 10f;
+            }
+            else
+            {
+                reducedDamage = value;
+            }
+
+            ChangeHealth(reducedDamage);
+
+            Debug.Log($"{name} got {reducedDamage} damage");
+
+            SoundManager.PlayDamageSoundClip(damageType);
+
+
+            return true;
+        }
+
+        public bool ChangeHealth(float value)
+        {
+            //if (!isInitialized) InitHealth();
+
+            //if (value == 0 || timeSinceLastChange < healthChangeDelay)
+            //{
+            //    return false;
+            //}
+
+            //timeSinceLastChange = 0;
+
             CurrentHP += value;
+            CurrentHP = Mathf.Round(CurrentHP * 10) / 10;
             CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
             CurrentHP = CurrentHP < 0 ? 0 : CurrentHP;
             Debug.Log(CurrentHP);
@@ -92,7 +128,6 @@ namespace RSP2
 
                 hPRegenDelayCoroutine = StartCoroutine(StartRegenAfterDelay());
 
-                SoundManager.PlayDamageSoundClip(damageType);
 
             }
 

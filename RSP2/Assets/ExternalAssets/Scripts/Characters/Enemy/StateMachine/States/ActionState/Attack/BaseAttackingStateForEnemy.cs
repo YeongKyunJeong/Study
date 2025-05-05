@@ -147,9 +147,8 @@ namespace RSP2
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.ChangeHealth(-statisticsHandler.CurrentStatistics.Attack,
+                hitCombatSystem.TakeDamage(-statisticsHandler.CurrentStatistics.Attack,
                     statisticsHandler.EnemyCurrentStatistics.AttackDamageType);
-                Debug.Log($"{enemy.name} gives {statisticsHandler.CurrentStatistics.Attack} damage to {combatSystem.name}");
             }
         }
 
