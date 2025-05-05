@@ -31,7 +31,7 @@ namespace RSP2
             gameObject.SetActive(false);
 
             equipButton.onClick.AddListener(OnEquipButton);
-            //useButton.onClick.AddListener(OnUseButton);
+            useButton.onClick.AddListener(OnUseButton);
             dropButton.onClick.AddListener(OnDropButton);
         }
 
@@ -91,35 +91,40 @@ namespace RSP2
             dropButton.interactable = true;
         }
 
+        public void OnUseButton()
+        {
+            if (selectedItem == null) return;
 
+            ConsumableData ConsumableData = selectedItem.ItemInstance.ItemData as ConsumableData;
 
-        //public void OnUseButton()
-        //{
-        //    if (selectedItem == null)
-        //        return;
+            if (ConsumableData == null) return;
 
-        //    ItemData itemData = selectedItem.ItemInstance.ItemData;
+            for (int i = 0; i < ConsumableData.ConsumableEffects.Length; i++)
+            {
+                switch (ConsumableData.ConsumableEffects[i].ConsumableType)
+                {
+                    case ConsumableType.HPHealing: // TODO :: Make separate healing logic
+                        {
+                            player.CombatSystem.ChangeHealth(ConsumableData.ConsumableEffects[i].effectValue);
+                            break;
+                        }
+                }
+            }
 
-        //    for (int i = 0; i < itemData.consumables.Length; i++)
-        //    {
-        //        switch (itemData.consumables[i].type)
-        //        {
-        //            case ConsumableType.Health:
-        //                player.HealthSystem.TakeDamage(-itemData.consumables[i].value); break;
-        //        }
-        //    }
+            SoundManager.PlayClip(ConsumableData.usageSoundClip);
 
-        //    if (selectedItem.ItemInstance.Use() == false)
-        //    {
-        //        itemSlots.Remove(selectedItem);
-        //        Destroy(selectedItem.gameObject);
-        //        selectedItem = null;
-        //    }
-        //    else
-        //    {
-        //        selectedItem.SetUI(selectedItem.ItemInstance);
-        //    }
-        //}
+            if (selectedItem.ItemInstance.Use() == false)
+            {
+                itemSlots.Remove(selectedItem);
+                Destroy(selectedItem.gameObject);
+                selectedItem = null;
+                UpdateButtons(null);
+            }
+            else
+            {
+                selectedItem.SetUI(selectedItem.ItemInstance);
+            }
+        }
 
         public void OnEquipButton()
         {
@@ -140,6 +145,8 @@ namespace RSP2
             itemSlots.Remove(selectedItem);
             player.Inventory.RemoveItem(selectedItem.ItemInstance);
             Destroy(selectedItem.gameObject);
+
+            UpdateButtons(null);
         }
 
         void Drop(ItemInstance itemInstance)

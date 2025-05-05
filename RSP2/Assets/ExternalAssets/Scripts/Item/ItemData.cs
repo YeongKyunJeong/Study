@@ -11,17 +11,6 @@ namespace RSP2
         Consumable,
     }
 
-    public enum ConsumableType
-    {
-        Health,
-    }
-
-    [System.Serializable]
-    public class ItemDataForConsumable
-    {
-        public ConsumableType type;
-        public int value;
-    }
 
     [CreateAssetMenu(fileName = "Item", menuName = "Custom/New Item")]
     public class ItemData : ScriptableObject

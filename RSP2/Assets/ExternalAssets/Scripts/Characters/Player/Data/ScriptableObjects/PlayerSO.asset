@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PlayerSO
   m_EditorClassIdentifier: 
   <MovementStateData>k__BackingField:
-    <WalkingSpeedModifier>k__BackingField: 2
+    <WalkingSpeedModifier>k__BackingField: 1
     <RunningSpeedModifier>k__BackingField: 5
     <RotationSpeedModifier>k__BackingField: 8
     <JumpForceModifier>k__BackingField: 5
@@ -55,3 +55,6 @@ MonoBehaviour:
     <WeaponData>k__BackingField:
     - {fileID: 11400000, guid: b3fb20e072a3fa4438c3794879a86461, type: 2}
     - {fileID: 11400000, guid: ecfcd6db6500213438a532476adcbcd1, type: 2}
+  <ConsumableDataLibrary>k__BackingField:
+    <ConsumableData>k__BackingField:
+    - {fileID: 11400000, guid: 336cef2ec79aae247998da974e330e50, type: 2}

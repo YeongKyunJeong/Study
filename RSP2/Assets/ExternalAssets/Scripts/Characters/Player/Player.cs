@@ -116,7 +116,7 @@ namespace RSP2
 
             AddItem(SOData.WeaponDataLibrary.WeaponData[0]);
             AddItem(SOData.WeaponDataLibrary.WeaponData[1]);
-
+            AddItem(SOData.ConsumableDataLibrary.ConsumableData[0], 4);
             //ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
             //EquipItem(startWeaponInstance);
         }
@@ -152,9 +152,10 @@ namespace RSP2
             item.equipped = true;
         }
 
-        public bool AddItem(ItemData item, int amount = 1) // Use when get item
+        public bool AddItem(ItemData item, int amount = 1)
         {
             return Inventory.AddItem(item, amount);
+            // DOTO :: arrange item stack by left
         }
 
         private void OnHit()

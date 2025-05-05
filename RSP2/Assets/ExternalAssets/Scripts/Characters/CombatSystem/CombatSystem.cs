@@ -64,7 +64,6 @@ namespace RSP2
         public bool TakeDamage(float value, DamageType damageType, bool applyDef = true)
         {
 
-            if (!isInitialized) InitHealth();
 
             if (value == 0 || timeSinceLastChange < healthChangeDelay)
             {
@@ -98,7 +97,7 @@ namespace RSP2
 
         public bool ChangeHealth(float value)
         {
-            //if (!isInitialized) InitHealth();
+            if (!isInitialized) InitHealth();
 
             //if (value == 0 || timeSinceLastChange < healthChangeDelay)
             //{

@@ -102,7 +102,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6a26b00624a451e46a7052fd76f264d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  item: {fileID: 0}
+  itemData: {fileID: 0}
   amount: 1
 --- !u!114 &7853578898009175777
 MonoBehaviour:
@@ -176,5 +176,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 1.2862573
-  m_Center: {x: -0.0000005364418, y: -0.00000029802322, z: 0}
+  m_Radius: 1.28
+  m_Center: {x: 0, y: 0, z: 0}
