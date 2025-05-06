@@ -31,6 +31,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3569472222761025509}
+  - {fileID: 3706481126580643283}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8827929891110237300
@@ -57,7 +58,7 @@ GameObject:
   - component: {fileID: 5209038590903662440}
   - component: {fileID: 6328002883443411950}
   m_Layer: 0
-  m_Name: SoundManager
+  m_Name: SFXManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -94,6 +95,7 @@ MonoBehaviour:
   soundEffectPitchVariance: 0.2
   musicVolume: 0.2
   musicClip: {fileID: 8300000, guid: 051168dd3f18b614cb273426a6521fb5, type: 3}
+  <SFXSOData>k__BackingField: {fileID: 0}
 --- !u!114 &6328002883443411950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -110,3 +112,34 @@ MonoBehaviour:
   - tag: SoundSource
     prefab: {fileID: 5896195862159808235, guid: eba1966ec9bc11e488ca5ce435dee801, type: 3}
     size: 20
+--- !u!1 &6908762970492635199
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3706481126580643283}
+  m_Layer: 0
+  m_Name: VFXManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3706481126580643283
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908762970492635199}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4469978215258712696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

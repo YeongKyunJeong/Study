@@ -111,7 +111,7 @@ namespace RSP2
                 }
             }
 
-            SoundManager.PlayClip(ConsumableData.usageSoundClip);
+            SFXManager.PlayClip(ConsumableData.usageSoundClip, player.transform.position);
 
             if (selectedItem.ItemInstance.Use() == false)
             {
@@ -131,7 +131,7 @@ namespace RSP2
             if (selectedItem == null) return;
 
             player.EquipItem(selectedItem.ItemInstance);
-            SoundManager.PlayClip(selectedItem.ItemInstance.ItemData.usageSoundClip);
+            SFXManager.PlayClip(selectedItem.ItemInstance.ItemData.usageSoundClip, player.transform.position);
         }
         public void OnDropButton()
         {

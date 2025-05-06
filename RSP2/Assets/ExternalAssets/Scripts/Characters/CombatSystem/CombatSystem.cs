@@ -8,6 +8,8 @@ namespace RSP2
 {
     public class CombatSystem : MonoBehaviour
     {
+        private CombatUnit MyUnit;
+        
         [SerializeField] private float healthChangeDelay = .5f;
 
         private StatisticsHandlerForCharacter statisticsHandler;
@@ -37,6 +39,7 @@ namespace RSP2
 
         protected virtual void Awake()
         {
+            MyUnit = GetComponent<CombatUnit>();
             statisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
             isInitialized = false;
             isDead = false;
@@ -89,7 +92,7 @@ namespace RSP2
 
             Debug.Log($"{name} got {reducedDamage} damage");
 
-            SoundManager.PlayDamageSoundClip(damageType);
+            SFXManager.PlayDamageSoundClip(damageType, transform.position);
 
 
             return true;
@@ -123,6 +126,13 @@ namespace RSP2
                 if (hPRegenCoroutine != null)
                 {
                     StopCoroutine(hPRegenCoroutine);
+                    hPRegenCoroutine = null;
+                }
+
+                if(hPRegenDelayCoroutine != null)
+                {
+                    StopCoroutine(hPRegenDelayCoroutine);
+                    hPRegenDelayCoroutine = null;
                 }
 
                 hPRegenDelayCoroutine = StartCoroutine(StartRegenAfterDelay());

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class Player : MonoBehaviour
+    public class Player : CombatUnit
     {
         private GameManager gameManager;
 

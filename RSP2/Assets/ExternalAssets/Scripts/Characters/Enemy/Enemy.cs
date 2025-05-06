@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class Enemy : MonoBehaviour
+    public class Enemy : CombatUnit
     {
         private GameManager gameManager;
         [field: SerializeField] public MoverForEnemy Mover { get; private set; }

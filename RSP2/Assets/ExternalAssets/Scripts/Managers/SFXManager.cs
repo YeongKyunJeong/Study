@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class SoundManager : MonoSingleton<SoundManager>
+    public class SFXManager : MonoSingleton<SFXManager>
     {
         [field: SerializeField][Range(0f, 1f)] private float soundEffectVolume;
         [field: SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance;
@@ -42,19 +42,15 @@ namespace RSP2
             Instance.musicAudioSource.Play();
         }
 
-        public static void PlayClip(AudioClip clip, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
+        public static void PlayClip(AudioClip clip, Vector3 sourcePosition,  float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
-            GameObject go = Instance.objectPool.SpawnFromPool("SoundSource", false);
-            go.SetActive(true);
-            SoundSource soundSource = go.GetComponent<SoundSource>();
+            SoundSource soundSource = GetAndSetSoundSource(sourcePosition);
             soundSource.Play(clip, Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
         }
 
-        public static void PlayDamageSoundClip(DamageType damageType, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
+        public static void PlayDamageSoundClip(DamageType damageType, Vector3 sourcePosition, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
-            GameObject go = Instance.objectPool.SpawnFromPool("SoundSource", false);
-            go.SetActive(true);
-            SoundSource soundSource = go.GetComponent<SoundSource>();
+            SoundSource soundSource = GetAndSetSoundSource(sourcePosition);
 
             switch (damageType)
             {
@@ -73,5 +69,15 @@ namespace RSP2
                     }
             }
         }
+
+        private static SoundSource GetAndSetSoundSource(Vector3 sourcePosition)
+        {
+            GameObject go = Instance.objectPool.SpawnFromPool("SoundSource", false);
+            go.SetActive(true);
+            go.transform.position = sourcePosition;
+            SoundSource soundSource = go.GetComponent<SoundSource>();
+            return soundSource;
+        }
+
     }
 }

@@ -43,7 +43,7 @@ namespace RSP2
 
             isAnimationEnd = false;
 
-            SoundManager.PlayClip(enemy.attackSound);
+            SFXManager.PlayClip(enemy.attackSound, enemy.transform.position);
         }
 
         public override void Exit()
