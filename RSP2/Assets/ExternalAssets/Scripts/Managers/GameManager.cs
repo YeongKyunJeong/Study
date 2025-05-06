@@ -9,7 +9,7 @@ namespace RSP2
     {
 
         [SerializeField] private static GameObject gameManagerPrefab;
-        public  Player Player { get; set; }
+        public Player Player { get; set; }
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
         public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
@@ -18,7 +18,7 @@ namespace RSP2
         private void Awake()
         {
             Player = FindObjectOfType<Player>();
-            CinemachineInputProvider =FindObjectOfType<CinemachineInputProvider>();
+            CinemachineInputProvider = FindObjectOfType<CinemachineInputProvider>();
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
 
             DataManager = DataManager.Instance;
@@ -27,10 +27,16 @@ namespace RSP2
             DataManager.Initialize();
         }
 
+        private void Start()
+        {
+            LockCursor(true);
+        }
+
         public void OnInventoryUIOpen(bool isOn)
         {
             EnablePlayerInput(!isOn);
             EnableCinemachinInput(!isOn);
+            LockCursor(!isOn);
         }
 
         private void EnablePlayerInput(bool isOn)
@@ -43,6 +49,17 @@ namespace RSP2
             CinemachineInputProvider.enabled = isOn;
         }
 
+        public void LockCursor(bool isLock)
+        {
+            if (isLock)
+            {
+                Cursor.lockState = CursorLockMode.Locked;
+            }
+            else
+            {
+                Cursor.lockState = CursorLockMode.None;
+            }
+        }
 
     }
 }
