@@ -36,12 +36,12 @@ namespace RSP2
             }
         }
 
-        public event Action<CombatSystem> EnterEvent;
+        public event Action<CombatSystem, Collider> EnterEvent;
         protected CombatSystem hitCombatSystem;
 
         protected LayerMask targetLayerMask;
 
-        
+
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
         protected virtual void Awake()
@@ -86,7 +86,8 @@ namespace RSP2
 
             if (hitCombatSystem == null) return;
 
-            EnterEvent?.Invoke(hitCombatSystem);
+            // TODO:: Change position to collider's 
+            EnterEvent?.Invoke(hitCombatSystem, other);
             //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
 
         }

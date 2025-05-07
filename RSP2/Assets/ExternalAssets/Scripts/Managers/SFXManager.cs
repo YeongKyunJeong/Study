@@ -18,15 +18,13 @@ namespace RSP2
 
 
         [field: SerializeField] public SFXScriptableObject SFXSOData { get; private set; }
-        private static SFXScriptableObject SFXSO { get; set; }
 
-        void Awake()
+        private void Awake()
         {
             musicAudioSource = Camera.main.GetComponent<AudioSource>();
             musicAudioSource.volume = musicVolume;
             musicAudioSource.loop = true;
 
-            SFXSO = SFXSOData;
             objectPool = GetComponent<ObjectPool>();
         }
 
@@ -42,7 +40,7 @@ namespace RSP2
             Instance.musicAudioSource.Play();
         }
 
-        public static void PlayClip(AudioClip clip, Vector3 sourcePosition,  float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
+        public static void PlayClip(AudioClip clip, Vector3 sourcePosition, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
             SoundSource soundSource = GetAndSetSoundSource(sourcePosition);
             soundSource.Play(clip, Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
@@ -58,13 +56,13 @@ namespace RSP2
                     break;
                 case DamageType.Slashing:
                     {
-                        soundSource.Play(SFXSO.SFXDataLibrary.SlashingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
+                        soundSource.Play(Instance.SFXSOData.SFXDataLibrary.SlashingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
 
                         break;
                     }
                 case DamageType.Blunging:
                     {
-                        soundSource.Play(SFXSO.SFXDataLibrary.BlungingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
+                        soundSource.Play(Instance.SFXSOData.SFXDataLibrary.BlungingHitSounds[0], Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
                         break;
                     }
             }

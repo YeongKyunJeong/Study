@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
 
 namespace RSP2
 {
@@ -91,11 +92,14 @@ namespace RSP2
 
         //}
 
-        protected virtual void OnAttack(CombatSystem hitCombatSystem)
+        protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
                 hitCombatSystem.TakeDamage(-attackData.Damage - currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
+                Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
+                Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
+                VFXManager.PlayHitEffect(currentWeapon.WeaponData.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
             }
         }
 
@@ -140,14 +144,17 @@ namespace RSP2
                         sphereCollider.radius = attackData.ColliderSize.x * currentWeapon.WeaponData.RangeModifier;
                         sphereCollider.center = attackData.ColliderPosition;
 
+                        player.RuntimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
                         break;
                     }
 
                 case DetectionType.BoxCollider:
                     {
-                        BoxCollider sphereCollider = attackHitBox.HitBoxCollider as BoxCollider;
-                        sphereCollider.size = attackData.ColliderSize;
-                        sphereCollider.center = attackData.ColliderPosition;
+                        BoxCollider BoxCollider = attackHitBox.HitBoxCollider as BoxCollider;
+                        BoxCollider.size = attackData.ColliderSize;
+                        BoxCollider.center = attackData.ColliderPosition;
+
+                        player.RuntimeData.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
                         break;
                     }
 

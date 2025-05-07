@@ -33,6 +33,8 @@ namespace RSP2
         public float AttackRangeSqr { get; private set; }
         public ChasingTargetTpye ChasingTargetType = ChasingTargetTpye.PlayerOnly;
 
+        public Vector3 AttackPositionModifier { get; private set; }
+
         public CombatSystem Target { get; set; }
 
 
@@ -71,7 +73,7 @@ namespace RSP2
                 throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
             AttackHitBox.Initialize(1 << LayerMask.NameToLayer("Combat Unit"));
-
+            AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
         }
 
         private void Start()

@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class CombatSystem : MonoBehaviour
     {
-        private CombatUnit MyUnit;
+        public CombatUnit MyUnit { get; private set; }
         
         [SerializeField] private float healthChangeDelay = .5f;
 

@@ -51,6 +51,7 @@ namespace RSP2
             base.Exit();
 
             attackHitBox.Activate();
+            attackHitBox.EnterEvent -= OnAttack;
             stateMachine.BroadcastAttackingEvent(false);
 
             SetAnimatorIsAttackingParameter(false);
@@ -143,12 +144,15 @@ namespace RSP2
             animator.SetBool(attackHash, isOn);
         }
 
-        protected virtual void OnAttack(CombatSystem hitCombatSystem)
+        protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
                 hitCombatSystem.TakeDamage(-statisticsHandler.CurrentStatistics.Attack,
                     statisticsHandler.EnemyCurrentStatistics.AttackDamageType);
+                Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
+                Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
+                VFXManager.PlayHitEffect(statisticsHandler.EnemyBaseStatistics.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition- hitPosition).normalized);
             }
         }
 

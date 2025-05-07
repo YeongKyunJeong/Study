@@ -33,9 +33,9 @@ namespace RSP2
 
         #endregion
 
-        protected override void OnAttack(CombatSystem system)
+        protected override void OnAttack(CombatSystem system, Collider hitCollider)
         {
-            base.OnAttack(system);
+            base.OnAttack(system, hitCollider);
         }
     }
 }
