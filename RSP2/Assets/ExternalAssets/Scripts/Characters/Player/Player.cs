@@ -12,16 +12,16 @@ namespace RSP2
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public MoverForPlayer Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
-        [field: SerializeField] public Transform MainCameraTransform { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatisticsHandlerForPlayer StatisticsHandler { get; private set; }
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
-
+        [field: SerializeField] public InteractionHitBox InteractionHitBox { get; private set; }
         [field: SerializeField] public Inventory Inventory { get; private set; }
 
 
+        [field: SerializeField] public Transform MainCameraTransform { get; private set; }
 
         [field: SerializeField] public Transform WeaponHolder { get; private set; }// TODO:: Make WeaponHolder class and use it to show weapon
         [field: SerializeField] public Weapon CurrentWeapon { get; private set; }
@@ -30,6 +30,7 @@ namespace RSP2
         public ActionStateMachineForPlayer ActionStateMachine { get; private set; }
 
         public RuntimeDataForPlayer RuntimeData { get; private set; }
+
 
         private void Awake()
         {
@@ -59,11 +60,6 @@ namespace RSP2
                 throw new NotImplementedException("Player Character Controller Not Assigned");
             }
 
-            if (MainCameraTransform == null)
-            {
-                throw new NotImplementedException("Player Main Camera Transform Not Assigned");
-            }
-
             if (Animator == null)
             {
                 throw new NotImplementedException("Player Animator Not Assigned");
@@ -84,6 +80,19 @@ namespace RSP2
                 throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
             AttackHitBox.Initialize(SOData.AttackStateData.BaseAttackData.TargetLayerMask);
+            RuntimeData.AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
+
+            if (InteractionHitBox == null)
+            {
+                throw new NotImplementedException("Player InteractionHitBox Not Assigned");
+            }
+            InteractionHitBox.Initialize(this);
+
+
+            if (MainCameraTransform == null)
+            {
+                MainCameraTransform = Camera.main.transform;
+            }
         }
 
         private void Start()
@@ -170,15 +179,15 @@ namespace RSP2
             // TODO :: Add something to do On Dying;
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            IInteractable interactable = other.GetComponent<IInteractable>();
-            if (interactable != null)
-            {
-                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
-                interactable?.OnInteract(this);
-            }
-        }
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    IInteractable interactable = other.GetComponent<IInteractable>();
+        //    if (interactable != null)
+        //    {
+        //        //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
+        //        interactable?.OnInteract(this);
+        //    }
+        //}
     }
 
 }
