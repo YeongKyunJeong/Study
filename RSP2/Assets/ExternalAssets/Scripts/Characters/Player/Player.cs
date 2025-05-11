@@ -79,7 +79,7 @@ namespace RSP2
             {
                 throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
-            AttackHitBox.Initialize(SOData.AttackStateData.BaseAttackData.TargetLayerMask);
+            AttackHitBox.Initialize(SOData.AttackDataLibrary.BaseAttackData.TargetLayerMask);
             RuntimeData.AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
 
             if (InteractionHitBox == null)

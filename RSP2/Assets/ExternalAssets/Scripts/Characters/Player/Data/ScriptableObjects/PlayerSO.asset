@@ -31,26 +31,10 @@ MonoBehaviour:
       m_Bits: 64
     RaycastDistance: 0.25
     SlopeDetectingRayStartHeight: 0.25
-  <AttackStateData>k__BackingField:
-    <BaseAttackData>k__BackingField:
-      <AttackType>k__BackingField: 0
-      <AttackName>k__BackingField: BasicMeleeAttack
-      <TargetLayerMask>k__BackingField:
-        serializedVersion: 2
-        m_Bits: 256
-      <Damage>k__BackingField: 3
-      Intensity: 5
-      <ForceTransitionTime>k__BackingField: 0
-      <PushForce>k__BackingField: 0
-      AttackSpeed: 1
-      HitBoxActivationTime: 0.3
-      HitBoxDeactivationTime: 0.7
-      AttackRecoveryTime: 0.7
-      <DetectionType>k__BackingField: 0
-      <ColliderSize>k__BackingField: {x: 0.8, y: 0.8, z: 0.8}
-      <ColliderPosition>k__BackingField: {x: 0, y: 1.2, z: 1}
-      MovementDamping: 5
-    <AttackDataList>k__BackingField: []
+  <AttackDataLibrary>k__BackingField:
+    <BaseAttackData>k__BackingField: {fileID: 11400000, guid: 02b774a5704910c4d8b0da5d7b98b1af, type: 2}
+    <AttackDataList>k__BackingField:
+    - {fileID: 11400000, guid: 1bea0967eeed52b48ab56f9c576da9df, type: 2}
   <WeaponDataLibrary>k__BackingField:
     <WeaponData>k__BackingField:
     - {fileID: 11400000, guid: b3fb20e072a3fa4438c3794879a86461, type: 2}

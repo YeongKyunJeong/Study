@@ -17,7 +17,7 @@ namespace RSP2
 
         protected Weapon currentWeapon;
 
-        protected AttackData attackData;
+
 
         //protected Vector3 targetDirVector;
 
@@ -35,19 +35,19 @@ namespace RSP2
             base.Enter();
 
             currentWeapon = player.CurrentWeapon;
-
-            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackStateData.BaseAttackData.AttackSpeed;
-
             attackHitBox.EnterEvent += OnAttack;
-
             mover.SetKeepRotate(true);
-            minimumDuration = attackStateData.BaseAttackData.AttackRecoveryTime;
-
             SetHitBoxShape();
 
 
-            hitBoxEnableTime = attackStateData.BaseAttackData.HitBoxActivationTime;
-            hitBoxDisableTime = Mathf.Min(attackStateData.BaseAttackData.HitBoxDeactivationTime, attackStateData.BaseAttackData.AttackRecoveryTime);
+            //animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackDataLibrary.BaseAttackData.AttackSpeed;
+            //minimumDuration = attackDataLibrary.BaseAttackData.AttackRecoveryTime;
+            //hitBoxEnableTime = attackDataLibrary.BaseAttackData.HitBoxActivationTime;
+            //hitBoxDisableTime = Mathf.Min(attackDataLibrary.BaseAttackData.HitBoxDeactivationTime, attackDataLibrary.BaseAttackData.AttackRecoveryTime);
+            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed;
+            minimumDuration = attackData.AttackRecoveryTime;
+            hitBoxEnableTime = attackData.HitBoxActivationTime;
+            hitBoxDisableTime = Mathf.Min(attackData.HitBoxDeactivationTime, attackData.AttackRecoveryTime);
         }
 
         public override void Exit()
@@ -57,6 +57,7 @@ namespace RSP2
             base.Exit();
             attackHitBox.Deactivate();
             mover.SetKeepRotate(false);
+
         }
 
         public override void CallUpdate()
@@ -96,17 +97,11 @@ namespace RSP2
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.TakeDamage(-attackData.Damage - currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
+                hitCombatSystem.TakeDamage(-(attackData.Damage + currentWeapon.WeaponData.DamageBonus), currentWeapon.WeaponData.AttackDamageType);
                 Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
                 Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
                 VFXManager.PlayHitEffect(currentWeapon.WeaponData.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
             }
-        }
-
-        protected override Vector3 CalculateThisUpdateMomentum()
-        {
-            horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-5 * Time.deltaTime));
-            return horizontalMomentum;
         }
 
         protected override bool CheckIsCancelable()

@@ -7,6 +7,7 @@ namespace RSP2
     public interface IState
     {
         public void Enter();
+        public void Enter(int dataKey);
         public void Exit();
         //public void HandleInput();
         public void CallPhysicsUpdate();

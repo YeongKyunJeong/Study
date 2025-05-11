@@ -7,7 +7,7 @@ namespace RSP2
         private Player player;
         private PlayerScriptableObject sOData;
         private MovementStateDataForPlayer movementStateData;
-        private AttackStateDataForPlayer attackStateData;
+        private AttackDataLibrary attackData;
         private RuntimeDataForPlayer runtimeData;
         private PlayerInputReader inputReader;
         private CharacterController controller;
@@ -33,7 +33,7 @@ namespace RSP2
             player = _player;
             sOData = player.SOData;
             movementStateData = sOData.MovementStateData;
-            attackStateData = sOData.AttackStateData;
+            attackData = sOData.AttackDataLibrary;
             runtimeData = player.RuntimeData;
             inputReader = GetComponent<PlayerInputReader>();
             controller = player.Controller;

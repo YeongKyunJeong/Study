@@ -79,7 +79,12 @@ namespace RSP2
 
         public virtual void Enter()
         {
-            //moveInput = runtimeData.MoveInput;
+
+        }
+
+        public void Enter(int dataKey)
+        {
+
         }
 
         public virtual void Exit()
@@ -262,7 +267,6 @@ namespace RSP2
 
             return false;
         }
-
 
     }
 }

@@ -12,7 +12,7 @@ namespace RSP2
 
         public BasicMeleeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-            attackData = player.SOData.AttackStateData.BaseAttackData;
+            attackData = player.SOData.AttackDataLibrary.BaseAttackData;
         }
 
 
@@ -32,6 +32,15 @@ namespace RSP2
         }
 
         #endregion
+
+        protected override void OnAttackInput()
+        {
+            if (normalizedPassedTime >= minimumDuration)
+            {
+                stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
+            }
+
+        }
 
         protected override void OnAttack(CombatSystem system, Collider hitCollider)
         {

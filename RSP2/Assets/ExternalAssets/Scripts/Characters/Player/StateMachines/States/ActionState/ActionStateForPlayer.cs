@@ -11,7 +11,7 @@ namespace RSP2
 
         protected RuntimeDataForPlayer runtimeData;
         protected MovementStateDataForPlayer movementStateData;
-        protected AttackStateDataForPlayer attackStateData;
+        protected AttackDataLibrary attackDataLibrary;
 
         protected Transform mainCameraTransform;
 
@@ -41,7 +41,7 @@ namespace RSP2
 
             runtimeData = player.RuntimeData;
             movementStateData = player.SOData.MovementStateData;
-            attackStateData = player.SOData.AttackStateData;
+            attackDataLibrary = player.SOData.AttackDataLibrary;
 
             //mainCameraTransform = Camera.main.transform;
 
@@ -75,6 +75,11 @@ namespace RSP2
             inputReader.AttackEvent += OnAttackInput;
 
             moveInput = runtimeData.MoveInput;
+        }
+
+        public virtual void Enter(int dataKey)
+        {
+            Enter();
         }
 
         public virtual void Exit()
@@ -227,7 +232,7 @@ namespace RSP2
             return (forward * input.y + right * input.x);
         }
 
-        public static Vector3 ConvertInputToMovementDirectionVectorOnSlope(Vector3 input, Vector3 normal)//////////////////////// To Do:
+        public static Vector3 ConvertInputToMovementDirectionVectorOnSlope(Vector3 input, Vector3 normal)
         {
             vectorOnXZ = ConvertInputToMovementDirectionVector(input);
 

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.Search;
 using UnityEngine;
 
 namespace RSP2
@@ -8,13 +9,21 @@ namespace RSP2
     {
         protected string animatorAttackStateTag = "Attack State";
 
-        protected Vector3 horizontalMomentum;
-        //protected float passedTime;
-        protected float normalizedPassedTime;
+        protected AttackData attackData;
+        protected ForceWithTime[] selfForces;
+        protected int forceIndex;
+        protected int maxForceIndex;
+        protected MomentumDampingMode momentumDampingMode;
+        protected bool isAddingForce;
+        protected bool isForceUpdateFrame;
 
         protected CombatSystem combatSystem;
         protected float minimumDuration;
         protected float attackAnimationTime;
+
+        protected Vector3 horizontalMomentum;
+        //protected float passedTime;
+        protected float normalizedPassedTime;
 
         protected bool isCancelable;
         protected bool isAnimationEnd;
@@ -34,9 +43,29 @@ namespace RSP2
             base.Enter();
 
             SetAnimatorIsAttackingParameter(true);
+            SetAnimatorSelfStateParameter(true);
             SetAnimatorPlayingSpeed();
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
+
+            selfForces = attackData.SelfForces;
+            isForceUpdateFrame = false;
+            switch (selfForces.Length)
+            {
+                case 0:
+                    {
+                        isAddingForce = false;
+                        momentumDampingMode = MomentumDampingMode.DefaultDamping;
+                        break;
+                    }
+                default:
+                    {
+                        isAddingForce = true;
+                        forceIndex = 0;
+                        maxForceIndex = selfForces.Length;
+                        break;
+                    }
+            }
 
             isCancelable = false;
             isAnimationEnd = false;
@@ -47,6 +76,7 @@ namespace RSP2
             base.Exit();
 
             SetAnimatorIsAttackingParameter(false);
+            SetAnimatorSelfStateParameter(false);
             SetAnimatorPlayingSpeed(true);
 
         }
@@ -68,7 +98,7 @@ namespace RSP2
                 isCancelable = CheckIsCancelable();
             }
 
-            horizontalMomentum = CalculateThisUpdateMomentum();
+            CalculateThisUpdateMomentum(momentumDampingMode);
 
             runtimeData.HorizontalMovementVector = horizontalMomentum;
 
@@ -151,6 +181,7 @@ namespace RSP2
         protected virtual void UpdateNormalizedPassedTime()
         {
             normalizedPassedTime = GetNormalizedTime(animator, animatorAttackStateTag);
+
             if (normalizedPassedTime >= minimumDuration)
             {
                 isCancelable = true;
@@ -168,13 +199,67 @@ namespace RSP2
         }
 
 
-        protected virtual Vector3 CalculateThisUpdateMomentum() { return Vector3.zero; }
-
-        protected override void SetAnimatorSelfStateParameter(bool isOn)
+        protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {
-            //base.SetAnimatorSelfStateParameter(isOn);
+            if (isAddingForce)
+            {
+                if (normalizedPassedTime > selfForces[forceIndex].NormalizedTime)
+                {
+                    momentumDampingMode = selfForces[forceIndex].MomentumDamping;
+                    _momentumDampingMode = momentumDampingMode;
+                    Debug.Log(momentumDampingMode);
+                    AddForce(selfForces[forceIndex].Force);
+                    isForceUpdateFrame = true;
+                    forceIndex++;
+                    if (forceIndex >= maxForceIndex)
+                    {
+                        isAddingForce = false;
+                    }
+                }
+            }
+
+            if (isForceUpdateFrame) { isForceUpdateFrame = false; return; }
+
+            switch (_momentumDampingMode)
+            {
+                case MomentumDampingMode.DefaultDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-5 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.SoftDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-2 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.HardDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-10 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.InstantStop:
+                    {
+                        horizontalMomentum = Vector3.zero;
+                        return;
+                    }
+                case MomentumDampingMode.NoDamping:
+                    {
+                        return;
+                    }
+                default:
+                    {
+                        horizontalMomentum = Vector3.zero;
+                        return;
+                    }
+            }
         }
 
+        protected virtual void ChangeMomentum(Vector3 delta)
+        {
+            horizontalMomentum = player.transform.TransformDirection(delta);
+        }
+
+        protected virtual void AddForce(Vector3 delta) { horizontalMomentum += player.transform.TransformDirection(delta); }
     }
 
 

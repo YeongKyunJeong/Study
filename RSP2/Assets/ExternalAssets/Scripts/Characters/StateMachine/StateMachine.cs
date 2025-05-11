@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RSP2
@@ -16,6 +17,16 @@ namespace RSP2
             //Debug.Log(currentState.ToString());
 
             currentState.Enter();
+        }
+
+        public void ChangeStateWithAttackData(IState nextAttackState, int dataKey)
+        {
+            currentState?.Exit();
+
+            currentState = nextAttackState;
+            //Debug.Log(currentState.ToString());
+
+            currentState.Enter(dataKey);
         }
 
         //public void DeliverInput()
