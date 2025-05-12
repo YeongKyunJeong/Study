@@ -18,8 +18,11 @@ MonoBehaviour:
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
+  <MPCost>k__BackingField: 0
+  <StaminaCost>k__BackingField: 5
   <Damage>k__BackingField: 3
-  Intensity: 5
+  <Intensity>k__BackingField: 5
+  <SelfForces>k__BackingField: []
   <ForceTransitionTime>k__BackingField: 0
   <PushForce>k__BackingField: 0
   AttackSpeed: 1
@@ -29,4 +32,3 @@ MonoBehaviour:
   <DetectionType>k__BackingField: 0
   <ColliderSize>k__BackingField: {x: 0.8, y: 0.8, z: 0.8}
   <ColliderPosition>k__BackingField: {x: 0, y: 1.2, z: 1}
-  MovementDamping: 5

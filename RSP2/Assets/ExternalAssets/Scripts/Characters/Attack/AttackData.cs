@@ -47,8 +47,10 @@ namespace RSP2
         //1 << LayerMask.NameToLayer("Combat Unit"); 
 
         [field: Header("General Parameter Data")]
+        [field: SerializeField] public int MPCost { get; private set; }
+        [field: SerializeField] public int StaminaCost { get; private set; }
         [field: SerializeField] public int Damage { get; private set; } = 3;
-        [field: SerializeField] public int Intensity = 5;
+        [field: SerializeField] public int Intensity { get; private set; } = 5;
 
         [field: Header("Force Settings")]
         [field: SerializeField] public ForceWithTime[] SelfForces { get; private set; } 

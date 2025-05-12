@@ -15,6 +15,8 @@ namespace RSP2
         protected float hitBoxEnableTime;
         protected float hitBoxDisableTime;
 
+        protected bool isEnabled;
+        protected bool isDisabled;
         protected Weapon currentWeapon;
 
 
@@ -38,7 +40,8 @@ namespace RSP2
             attackHitBox.EnterEvent += OnAttack;
             mover.SetKeepRotate(true);
             SetHitBoxShape();
-
+            isDisabled = false;
+            isEnabled = false;
 
             //animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackDataLibrary.BaseAttackData.AttackSpeed;
             //minimumDuration = attackDataLibrary.BaseAttackData.AttackRecoveryTime;
@@ -64,13 +67,22 @@ namespace RSP2
         {
             base.CallUpdate();
 
+            if (isDisabled) { return; }
+
             if (normalizedPassedTime >= hitBoxDisableTime)
             {
+                isDisabled = true;
                 attackHitBox.Deactivate();
                 return;
             }
-            else if (normalizedPassedTime >= hitBoxEnableTime)
+
+            if (isEnabled) { return; }
+
+            if (normalizedPassedTime >= hitBoxEnableTime)
             {
+                combatSystem.ChangeStamina(-attackData.StaminaCost);
+                combatSystem.ChangeMana(-attackData.MPCost);
+                isEnabled = true;
                 attackHitBox.Activate();
                 return;
             }

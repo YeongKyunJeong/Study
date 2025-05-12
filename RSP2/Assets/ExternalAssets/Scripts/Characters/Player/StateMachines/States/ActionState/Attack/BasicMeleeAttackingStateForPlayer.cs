@@ -38,6 +38,7 @@ namespace RSP2
             if (normalizedPassedTime >= minimumDuration)
             {
                 stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
+                return;
             }
 
         }

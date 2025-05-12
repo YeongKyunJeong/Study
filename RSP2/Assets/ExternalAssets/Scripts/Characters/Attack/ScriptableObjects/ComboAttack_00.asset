@@ -18,8 +18,10 @@ MonoBehaviour:
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
+  <MPCost>k__BackingField: 10
+  <StaminaCost>k__BackingField: 20
   <Damage>k__BackingField: 15
-  Intensity: 5
+  <Intensity>k__BackingField: 5
   <SelfForces>k__BackingField:
   - MomentumDamping: 0
     NormalizedTime: 0

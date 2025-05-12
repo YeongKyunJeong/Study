@@ -25,6 +25,7 @@ namespace RSP2
         //protected float passedTime;
         protected float normalizedPassedTime;
 
+        protected bool isFirstFrame;
         protected bool isCancelable;
         protected bool isAnimationEnd;
 
@@ -67,6 +68,7 @@ namespace RSP2
                     }
             }
 
+            isFirstFrame = true;
             isCancelable = false;
             isAnimationEnd = false;
         }
@@ -86,6 +88,11 @@ namespace RSP2
             base.CallUpdate();
 
             UpdateNormalizedPassedTime();
+            if(isFirstFrame)
+            {
+                normalizedPassedTime = 0;
+                isFirstFrame = false;
+            }
 
             if (isAnimationEnd)
             {
@@ -207,7 +214,7 @@ namespace RSP2
                 {
                     momentumDampingMode = selfForces[forceIndex].MomentumDamping;
                     _momentumDampingMode = momentumDampingMode;
-                    Debug.Log(momentumDampingMode);
+                    //Debug.Log(momentumDampingMode);
                     AddForce(selfForces[forceIndex].Force);
                     isForceUpdateFrame = true;
                     forceIndex++;
