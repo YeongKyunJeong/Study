@@ -37,7 +37,11 @@ namespace RSP2
         {
             if (normalizedPassedTime >= minimumDuration)
             {
-                stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
+                if (stateMachine.SkillMeleeAttackingStates[0].CheckAttackResources(AttackType.MeleeAttackSkill, 0))
+                {
+                    stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
+                }
+
                 return;
             }
 

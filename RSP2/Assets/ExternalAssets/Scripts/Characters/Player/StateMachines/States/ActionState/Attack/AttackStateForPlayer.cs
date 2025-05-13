@@ -88,7 +88,7 @@ namespace RSP2
             base.CallUpdate();
 
             UpdateNormalizedPassedTime();
-            if(isFirstFrame)
+            if (isFirstFrame)
             {
                 normalizedPassedTime = 0;
                 isFirstFrame = false;
@@ -145,6 +145,34 @@ namespace RSP2
         }
 
         #endregion
+
+
+        public virtual bool CheckAttackResources(AttackType attackType, int key)
+        {
+            switch (attackType)
+            {
+                case AttackType.Basic:
+                    {
+                        attackData = attackDataLibrary.BaseAttackData;
+                        break;
+                    }
+                case AttackType.MeleeAttackSkill:
+                    {
+                        attackData = attackDataLibrary.AttackDataList[key];
+                        break;
+                    }
+            }
+
+            if (combatSystem.CurrentMP >= attackData.MPCost)
+            {
+                if (combatSystem.CurrentStamina >= attackData.StaminaCost)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
 
 
         private void EndAttackState()
