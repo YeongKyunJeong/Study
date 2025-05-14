@@ -26,7 +26,7 @@ namespace RSP2
 
         protected AttackHitBox attackHitBox;
         public event Action DamageEvent;
-        public event Action HPHealEvent;
+        public event Action HealEvent;
         public event Action DieEvent;
         public event Action InvicibilityEndEvent;
         private Coroutine hPRegenCoroutine;
@@ -123,14 +123,14 @@ namespace RSP2
             if (!isInitialized) InitStatistics();
 
             CurrentHP += value;
-            CurrentHP = Mathf.Round(CurrentHP * 10) / 10;
+            CurrentHP = Mathf.Round(CurrentHP * 100) / 100;
             CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
             CurrentHP = CurrentHP < 0 ? 0 : CurrentHP;
             Debug.Log(CurrentHP);
 
             if (value > 0)
             {
-                HPHealEvent?.Invoke();
+                HealEvent?.Invoke();
             }
             else
             {
@@ -169,7 +169,7 @@ namespace RSP2
             if (!isInitialized) InitStatistics();
 
             CurrentMP += value;
-            CurrentMP = Mathf.Round(CurrentMP * 10) / 10;
+            CurrentMP = Mathf.Round(CurrentMP * 100) / 100;
             CurrentMP = CurrentMP > MaxMP ? MaxMP : CurrentMP;
             CurrentMP = CurrentMP < 0 ? 0 : CurrentMP;
             Debug.Log(CurrentMP);
@@ -203,7 +203,7 @@ namespace RSP2
             if (!isInitialized) InitStatistics();
 
             CurrentStamina += value;
-            CurrentStamina = Mathf.Round(CurrentStamina * 10) / 10;
+            CurrentStamina = Mathf.Round(CurrentStamina * 100) / 100;
             CurrentStamina = CurrentStamina > MaxStamina ? MaxStamina : CurrentStamina;
             CurrentStamina = CurrentStamina < 0 ? 0 : CurrentStamina;
             Debug.Log(CurrentStamina);
@@ -251,12 +251,13 @@ namespace RSP2
         {
             while (CurrentHP < MaxHP)
             {
-                CurrentHP += statisticsHandler.CurrentStatistics.HPRegen;
+                CurrentHP += statisticsHandler.CurrentStatistics.HPRegen/4;
                 CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
+                HealEvent?.Invoke();
 
                 //Debug.Log($"{name} HP 회복 중 : {CurrentHP}/{MaxHP}");
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1/4f);
             }
 
             hPRegenCoroutine = null;
@@ -284,12 +285,13 @@ namespace RSP2
         {
             while (CurrentMP < MaxMP)
             {
-                CurrentMP += statisticsHandler.CurrentStatistics.MPRegen;
+                CurrentMP += statisticsHandler.CurrentStatistics.MPRegen/4;
                 CurrentMP = CurrentMP > MaxMP ? MaxMP : CurrentMP;
+                MPRecoveryEvent?.Invoke();
 
                 //Debug.Log($"{name} MP 회복 중 : {CurrentMP}/{MaxMP}");
 
-                yield return new WaitForSeconds(1);
+                yield return new WaitForSeconds(1/4f);
             }
 
             mPRegenCoroutine = null;
@@ -318,12 +320,13 @@ namespace RSP2
         {
             while (CurrentStamina < MaxStamina)
             {
-                CurrentStamina += 0.25f * statisticsHandler.CurrentStatistics.StaminaRegen;
+                CurrentStamina +=  statisticsHandler.CurrentStatistics.StaminaRegen/8;
                 CurrentStamina = CurrentStamina > MaxStamina ? MaxStamina : CurrentStamina;
+                StaminaRecoveryEvent?.Invoke();
 
                 //Debug.Log($"{name} 스태미나 회복 중 : {CurrentStamina}/{MaxStamina}");
 
-                yield return new WaitForSeconds(0.25f);
+                yield return new WaitForSeconds(1/8f);
             }
 
             staminaRegenCoroutine = null;
