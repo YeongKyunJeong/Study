@@ -1,0 +1,104 @@
+{
+  "Items": [
+    {
+      "Key": 1,
+      "RequiredExp": 100,
+      "TotalExp": 100
+    },
+    {
+      "Key": 2,
+      "RequiredExp": 200,
+      "TotalExp": 300
+    },
+    {
+      "Key": 3,
+      "RequiredExp": 300,
+      "TotalExp": 600
+    },
+    {
+      "Key": 4,
+      "RequiredExp": 450,
+      "TotalExp": 1050
+    },
+    {
+      "Key": 5,
+      "RequiredExp": 600,
+      "TotalExp": 1650
+    },
+    {
+      "Key": 6,
+      "RequiredExp": 750,
+      "TotalExp": 2400
+    },
+    {
+      "Key": 7,
+      "RequiredExp": 900,
+      "TotalExp": 3300
+    },
+    {
+      "Key": 8,
+      "RequiredExp": 1200,
+      "TotalExp": 4500
+    },
+    {
+      "Key": 9,
+      "RequiredExp": 1500,
+      "TotalExp": 6000
+    },
+    {
+      "Key": 10,
+      "RequiredExp": 1800,
+      "TotalExp": 7800
+    },
+    {
+      "Key": 11,
+      "RequiredExp": 2500,
+      "TotalExp": 10300
+    },
+    {
+      "Key": 12,
+      "RequiredExp": 3200,
+      "TotalExp": 13500
+    },
+    {
+      "Key": 13,
+      "RequiredExp": 4000,
+      "TotalExp": 17500
+    },
+    {
+      "Key": 14,
+      "RequiredExp": 5000,
+      "TotalExp": 22500
+    },
+    {
+      "Key": 15,
+      "RequiredExp": 6000,
+      "TotalExp": 28500
+    },
+    {
+      "Key": 16,
+      "RequiredExp": 7200,
+      "TotalExp": 35700
+    },
+    {
+      "Key": 17,
+      "RequiredExp": 8400,
+      "TotalExp": 44100
+    },
+    {
+      "Key": 18,
+      "RequiredExp": 10000,
+      "TotalExp": 54100
+    },
+    {
+      "Key": 19,
+      "RequiredExp": 12000,
+      "TotalExp": 66100
+    },
+    {
+      "Key": 20,
+      "RequiredExp": 15000,
+      "TotalExp": 81100
+    }
+  ]
+}

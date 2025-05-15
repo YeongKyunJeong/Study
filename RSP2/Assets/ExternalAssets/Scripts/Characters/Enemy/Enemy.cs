@@ -11,7 +11,7 @@ namespace RSP2
         [field: SerializeField] public MoverForEnemy Mover { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
-        [field: SerializeField] public StatisticsHandlerForEnemy StatisticsHandler { get; private set; }
+        [field: SerializeField] public StatHandlerForEnemy StatHandler { get; private set; }
         [field: SerializeField] public CombatSystemForEnemy CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBoxForEnemy AttackHitBox { get; private set; }
 
@@ -58,7 +58,7 @@ namespace RSP2
                 throw new NotImplementedException("Enemy Animator Not Assigned");
             }
 
-            if (StatisticsHandler == null)
+            if (StatHandler == null)
             {
                 throw new NotImplementedException("Enemy StatisticsHandler Not Assigned");
             }
@@ -84,7 +84,7 @@ namespace RSP2
             }
 
             //StatisticsHandler.InitializeByDefault();
-            StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForEnemy.GetByKey(2));
+            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey(2));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

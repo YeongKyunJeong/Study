@@ -12,7 +12,7 @@ namespace RSP2
 
         [SerializeField] private float healthChangeDelay = .5f;
 
-        private StatisticsHandlerForCharacter statisticsHandler;
+        private StatHandlerForCharacter statHandler;
 
         [SerializeField] protected Faction myFaction;
         public Faction MyFaction { get => myFaction; set { myFaction = value; } }
@@ -48,18 +48,18 @@ namespace RSP2
 
         private bool isInitialized;
         public float CurrentHP { get; private set; }
-        public float MaxHP => statisticsHandler.CurrentStatistics.MaxHP;
+        public float MaxHP => statHandler.CurrentStatistics.MaxHP;
 
         public float CurrentMP { get; private set; }
-        public float MaxMP => statisticsHandler.CurrentStatistics.MaxMP;
+        public float MaxMP => statHandler.CurrentStatistics.MaxMP;
 
         public float CurrentStamina { get; private set; }
-        public float MaxStamina => statisticsHandler.CurrentStatistics.MaxStamina;
+        public float MaxStamina => statHandler.CurrentStatistics.MaxStamina;
 
         protected virtual void Awake()
         {
             MyUnit = GetComponent<CombatUnit>();
-            statisticsHandler = GetComponent<StatisticsHandlerForCharacter>();
+            statHandler = GetComponent<StatHandlerForCharacter>();
             isInitialized = false;
             isDead = false;
         }
@@ -99,7 +99,7 @@ namespace RSP2
             if (applyDef)
             {
                 // HP & Def = 10 => 2HP & Def = 0 
-                reducedDamage = (10 / (10 + statisticsHandler.CurrentStatistics.Deffence)) * value;
+                reducedDamage = (10 / (10 + statHandler.CurrentStatistics.Deffence)) * value;
                 reducedDamage = Mathf.Round(reducedDamage * 10f) / 10f;
             }
             else
@@ -251,7 +251,7 @@ namespace RSP2
         {
             while (CurrentHP < MaxHP)
             {
-                CurrentHP += statisticsHandler.CurrentStatistics.HPRegen/4;
+                CurrentHP += statHandler.CurrentStatistics.HPRegen/4;
                 CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
                 HealEvent?.Invoke();
 
@@ -285,7 +285,7 @@ namespace RSP2
         {
             while (CurrentMP < MaxMP)
             {
-                CurrentMP += statisticsHandler.CurrentStatistics.MPRegen/4;
+                CurrentMP += statHandler.CurrentStatistics.MPRegen/4;
                 CurrentMP = CurrentMP > MaxMP ? MaxMP : CurrentMP;
                 MPRecoveryEvent?.Invoke();
 
@@ -320,7 +320,7 @@ namespace RSP2
         {
             while (CurrentStamina < MaxStamina)
             {
-                CurrentStamina +=  statisticsHandler.CurrentStatistics.StaminaRegen/8;
+                CurrentStamina +=  statHandler.CurrentStatistics.StaminaRegen/8;
                 CurrentStamina = CurrentStamina > MaxStamina ? MaxStamina : CurrentStamina;
                 StaminaRecoveryEvent?.Invoke();
 

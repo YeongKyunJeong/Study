@@ -6,13 +6,13 @@ using UnityEngine.InputSystem;
 
 namespace RSP2
 {
-    public class StatisticsForEnemy : StatisticsForCharacter
+    public class StatForEnemy : StatForCharacter
     {
         public ChasingTargetTpye ChasingTargetTpye { get; set; }
         public DamageType AttackDamageType { get; set; }
         public float SearchingDistance { get; set; }
 
-        public StatisticsForEnemy()
+        public StatForEnemy()
         {
             key = -1;
 
@@ -48,18 +48,18 @@ namespace RSP2
             return;
         }
 
-        public StatisticsForEnemy(StatisticsTableForEnemy baseStatisticsTable)
+        public StatForEnemy(StatTableForEnemy baseStatisticsTable)
         {
             //Debug.Log("Loaded by JSON : Enemy");
             SetStatisticsByTable(baseStatisticsTable);
         }
 
-        public StatisticsForEnemy(StatisticsForEnemy baseStatistics)
+        public StatForEnemy(StatForEnemy baseStatistics)
         {
             SetStatistics(baseStatistics);
         }
 
-        public void SetStatisticsByTable(StatisticsTableForEnemy newDataTable)
+        public void SetStatisticsByTable(StatTableForEnemy newDataTable)
         {
             key = newDataTable.key;
 
@@ -94,7 +94,7 @@ namespace RSP2
             AttackSpeed = newDataTable.AttackSpeed;
         }
 
-        private void SetStatistics(StatisticsForEnemy newData)
+        private void SetStatistics(StatForEnemy newData)
         {
             key = newData.key;
 

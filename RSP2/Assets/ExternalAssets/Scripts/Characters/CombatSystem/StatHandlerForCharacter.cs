@@ -11,20 +11,20 @@ namespace RSP2
         Blunging
     }
 
-    public class StatisticsHandlerForCharacter : MonoBehaviour
+    public class StatHandlerForCharacter : MonoBehaviour
     {
-        private StatisticsForCharacter baseStatistics;
-        public virtual StatisticsForCharacter BaseStatistics
+        private StatForCharacter baseStat;
+        public virtual StatForCharacter BaseStat
         {
             get
             {
-                if (baseStatistics == null) InitializeByDefault();
-                return baseStatistics;
+                if (baseStat == null) InitializeByDefault();
+                return baseStat;
             }
-            protected set { baseStatistics = value; }
+            protected set { baseStat = value; }
         }
-        private StatisticsForCharacter currentStatistics;
-        public virtual StatisticsForCharacter CurrentStatistics
+        private StatForCharacter currentStatistics;
+        public virtual StatForCharacter CurrentStatistics
         {
             get
             {
@@ -37,9 +37,9 @@ namespace RSP2
 
         public void InitializeByDefault()
         {
-            BaseStatistics = new StatisticsForCharacter();
-            BaseStatistics.InitializeByDefault();
-            CurrentStatistics = new StatisticsForCharacter();
+            BaseStat = new StatForCharacter();
+            BaseStat.InitializeByDefault();
+            CurrentStatistics = new StatForCharacter();
             CurrentStatistics.InitializeByDefault();
 
             if (combatSystem == null)
@@ -50,10 +50,10 @@ namespace RSP2
             CalculateFinalStat();
         }
 
-        public void Initialize(StatisticsForCharacter initialStatistics)
+        public void Initialize(StatForCharacter initialStatistics)
         {
-            BaseStatistics = new StatisticsForCharacter(initialStatistics);
-            CurrentStatistics = new StatisticsForCharacter(initialStatistics);
+            BaseStat = new StatForCharacter(initialStatistics);
+            CurrentStatistics = new StatForCharacter(initialStatistics);
             combatSystem = GetComponent<CombatSystem>();
 
             CalculateFinalStat();

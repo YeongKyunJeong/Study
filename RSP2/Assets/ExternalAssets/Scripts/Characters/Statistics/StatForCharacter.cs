@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class StatisticsForCharacter : IStatisticsForCharacter
+    public class StatForCharacter : IStatForCharacter
     {
         public int key { get; set; }
         public string Name { get; set; }
@@ -21,7 +21,7 @@ namespace RSP2
         public float MovementSpeed { get; set; }
         public float AttackSpeed { get; set; }
 
-        public StatisticsForCharacter()
+        public StatForCharacter()
         {
             //Debug.Log("Initialized Without Data");
         }
@@ -58,12 +58,12 @@ namespace RSP2
 
         }
 
-        public StatisticsForCharacter(StatisticsForCharacter baseStatistics)
+        public StatForCharacter(StatForCharacter baseStatistics)
         {
             SetStatistics(baseStatistics);
         }
 
-        private void SetStatistics(StatisticsForCharacter newData)
+        private void SetStatistics(StatForCharacter newData)
         {
             key = newData.key;
 

@@ -7,7 +7,7 @@ using UnityEngine;
 namespace RSP2
 {
     [System.Serializable]
-    public class StatisticsTableForEnemy
+    public class StatTableForEnemy
     {
         public int key;
         public string Name;
@@ -27,38 +27,38 @@ namespace RSP2
         public float AttackSpeed;
 
     }
-    public class StatisticsLoaderForEnemy
+    public class StatLoaderForEnemy
     {
 
-        public List<StatisticsTableForEnemy> TableList { get; private set; }
-        public Dictionary<int, StatisticsTableForEnemy> TableDict { get; private set; }
-        private StatisticsTableForEnemy enemyStatisticsTable { get; set; }
+        public List<StatTableForEnemy> TableList { get; private set; }
+        public Dictionary<int, StatTableForEnemy> TableDict { get; private set; }
+        private StatTableForEnemy enemyStatTable { get; set; }
 
-        public StatisticsLoaderForEnemy(string path = "JSON/StatisticsData_Enemy")
+        public StatLoaderForEnemy(string path = "JSON/StatData_Enemy")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;
             TableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
-            TableDict = new Dictionary<int, StatisticsTableForEnemy>();
+            TableDict = new Dictionary<int, StatTableForEnemy>();
             foreach (var item in TableList)
             {
                 TableDict.Add(item.key, item);
             }
-            enemyStatisticsTable = TableDict[2];
+            enemyStatTable = TableDict[2];
         }
 
         [Serializable]
         private class Wrapper
         {
-            public List<StatisticsTableForEnemy> Items;
+            public List<StatTableForEnemy> Items;
         }
 
-        public StatisticsTableForEnemy GetStatistics()
+        public StatTableForEnemy GetStat()
         {
-            return enemyStatisticsTable == null ? null : enemyStatisticsTable;
+            return enemyStatTable == null ? null : enemyStatTable;
         }
 
-        public StatisticsTableForEnemy GetByKey(int key)
+        public StatTableForEnemy GetByKey(int key)
         {
             if (TableDict.ContainsKey(key))
             {
@@ -66,7 +66,7 @@ namespace RSP2
             }
             return null;
         }
-        public StatisticsTableForEnemy GetByIndex(int index)
+        public StatTableForEnemy GetByIndex(int index)
         {
             if (index >= 0 && index < TableList.Count)
             {

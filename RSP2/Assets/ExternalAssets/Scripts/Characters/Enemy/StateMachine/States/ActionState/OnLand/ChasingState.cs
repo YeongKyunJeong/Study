@@ -88,7 +88,7 @@ namespace RSP2
                 moveDir = TargetVector;
                 moveDir.y = 0;
                 //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
-                moveDir = moveDir.normalized * statisticsHandler.CurrentStatistics.MovementSpeed;
+                moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
                 mover.UpdateNextHorizontalMovementVector(moveDir);
             }
 

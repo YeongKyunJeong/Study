@@ -18,7 +18,7 @@ namespace RSP2
         protected Enemy enemy;
 
         protected ActionStateMachineForEnemy stateMachine;
-        protected StatisticsHandlerForEnemy statisticsHandler;
+        protected StatHandlerForEnemy statHandler;
         protected MoverForEnemy mover;
         protected CharacterController controller;
         protected Animator animator;
@@ -66,7 +66,7 @@ namespace RSP2
             enemy = _enemy;
             stateMachine = _stateMachine;
 
-            statisticsHandler = _enemy.StatisticsHandler;
+            statHandler = _enemy.StatHandler;
             mover = enemy.Mover;
             controller = enemy.Controller;
             animator = enemy.Animator;

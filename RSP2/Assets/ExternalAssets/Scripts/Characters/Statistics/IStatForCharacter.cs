@@ -13,7 +13,7 @@ namespace RSP2
         None
     }
 
-    public interface IStatisticsForCharacter
+    public interface IStatForCharacter
     {
         public int key { get; set; }
         public string Name { get; set; }

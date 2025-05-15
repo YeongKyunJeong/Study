@@ -148,11 +148,11 @@ namespace RSP2
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.TakeDamage(-statisticsHandler.CurrentStatistics.Attack,
-                    statisticsHandler.EnemyCurrentStatistics.AttackDamageType);
+                hitCombatSystem.TakeDamage(-statHandler.CurrentStatistics.Attack,
+                    statHandler.EnemyCurrentStatistics.AttackDamageType);
                 Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
                 Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
-                VFXManager.PlayHitEffect(statisticsHandler.EnemyBaseStatistics.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition- hitPosition).normalized);
+                VFXManager.PlayHitEffect(statHandler.EnemyBaseStatistics.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition- hitPosition).normalized);
             }
         }
 
@@ -166,7 +166,7 @@ namespace RSP2
                 return;
             }
 
-            animator.speed = enemy.StatisticsHandler.CurrentStatistics.AttackSpeed / 5;
+            animator.speed = enemy.StatHandler.CurrentStatistics.AttackSpeed / 5;
             return;
         }
 

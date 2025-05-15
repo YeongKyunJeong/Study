@@ -14,7 +14,7 @@ namespace RSP2
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
-        [field: SerializeField] public StatisticsHandlerForPlayer StatisticsHandler { get; private set; }
+        [field: SerializeField] public StatHandlerForPlayer StatHandler { get; private set; }
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
         [field: SerializeField] public InteractionHitBox InteractionHitBox { get; private set; }
@@ -65,7 +65,7 @@ namespace RSP2
                 throw new NotImplementedException("Player Animator Not Assigned");
             }
 
-            if (StatisticsHandler == null)
+            if (StatHandler == null)
             {
                 throw new NotImplementedException("Player StatisticsHandler Not Assigned");
             }
@@ -115,7 +115,7 @@ namespace RSP2
             Inventory.Initialize(gameManager);
 
 
-            StatisticsHandler.Initialize(gameManager.DataManager.TableDataLoader.StatisticsLoaderForPlayer.GetStatistics());
+            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.BaseStatLoaderForPlayer.GetStat());
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

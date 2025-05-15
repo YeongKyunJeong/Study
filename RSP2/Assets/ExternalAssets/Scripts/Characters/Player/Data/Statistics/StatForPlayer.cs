@@ -5,13 +5,17 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class StatisticsForPlayer : StatisticsForCharacter
+    public class StatForPlayer : StatForCharacter
     {
-        public StatisticsForPlayer()
+        public int Level;
+        
+        public StatForPlayer()
         {
             key = -1;
 
             Name = "Player";
+
+            Level = 1;
 
             Faction = Faction.Player;
 
@@ -36,23 +40,25 @@ namespace RSP2
             AttackSpeed = 10;
         }
 
-        public StatisticsForPlayer(StatisticsTableForPlayer baseStatisticsTable)
+        public StatForPlayer(BaseStatTableForPlayer baseStatTable)
         {
             //Debug.Log("Loaded by JSON : Player");
-            SetStatisticsByTable(baseStatisticsTable);
+            SetBaseStatByTable(baseStatTable);
         }
 
-        public StatisticsForPlayer(StatisticsForPlayer baseStatistics)
+        public StatForPlayer(StatForPlayer baseStatistics)
         {
-            SetStatistics(baseStatistics);
+            SetStat(baseStatistics);
         }
 
-        public void SetStatisticsByTable(StatisticsTableForPlayer newDataTable)
+        public void SetBaseStatByTable(BaseStatTableForPlayer newDataTable)
         {
             key = newDataTable.key;
 
             Name = newDataTable.Name;
-            
+
+            Level = newDataTable.Level;
+
             Faction = newDataTable.Faction;
 
             MaxHP = newDataTable.MaxHP;
@@ -76,11 +82,13 @@ namespace RSP2
             AttackSpeed = newDataTable.AttackSpeed;
         }
 
-        private void SetStatistics(StatisticsForPlayer newData)
+        private void SetStat(StatForPlayer newData)
         {
             key = newData.key;
 
             Name = newData.Name;
+
+            Level = newData.Level;
 
             Faction = newData.Faction;
 

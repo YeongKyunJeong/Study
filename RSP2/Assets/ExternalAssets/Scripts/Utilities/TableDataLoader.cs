@@ -6,13 +6,13 @@ namespace RSP2
 {
     public class TableDataLoader
     {
-        public StatisticsLoaderForPlayer StatisticsLoaderForPlayer { get; private set; }
-        public StatisticsLoaderForEnemy StatisticsLoaderForEnemy { get; private set; } 
+        public BaseStatLoaderForPlayer BaseStatLoaderForPlayer { get; private set; }
+        public StatLoaderForEnemy StatLoaderForEnemy { get; private set; } 
 
         public void Initialize()
         {
-            StatisticsLoaderForPlayer = new StatisticsLoaderForPlayer();
-            StatisticsLoaderForEnemy = new StatisticsLoaderForEnemy();
+            BaseStatLoaderForPlayer = new BaseStatLoaderForPlayer();
+            StatLoaderForEnemy = new StatLoaderForEnemy();
         }
     }
 

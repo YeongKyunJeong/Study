@@ -6,7 +6,7 @@ namespace RSP2
 {
     public class CombatSystemForPlayer : CombatSystem
     {
-        public StatisticsHandlerForPlayer StatisticsHandlerForPlayer;
+        public StatHandlerForPlayer StatHandlerForPlayer;
 
         private Coroutine mPRegenCoroutine;
         private Coroutine staminaRegenCoroutine;
@@ -15,7 +15,7 @@ namespace RSP2
         {
             base.Awake();
 
-            StatisticsHandlerForPlayer = GetComponent<StatisticsHandlerForPlayer>();
+            StatHandlerForPlayer = GetComponent<StatHandlerForPlayer>();
         }
     }
 }
