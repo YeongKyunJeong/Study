@@ -17,7 +17,7 @@ namespace RSP2
         public float MaxStamina { get; set; }
         public float StaminaRegen { get; set; }
         public float Attack { get; set; }
-        public float Deffence { get; set; }
+        public float Defence { get; set; }
         public float MovementSpeed { get; set; }
         public float AttackSpeed { get; set; }
 
@@ -48,7 +48,7 @@ namespace RSP2
 
             Attack = 3;
 
-            Deffence = 3;
+            Defence = 3;
 
             MovementSpeed = 4;
 
@@ -85,7 +85,7 @@ namespace RSP2
 
             Attack = newData.Attack;
 
-            Deffence = newData.Deffence;
+            Defence = newData.Defence;
 
             MovementSpeed = newData.MovementSpeed;
 

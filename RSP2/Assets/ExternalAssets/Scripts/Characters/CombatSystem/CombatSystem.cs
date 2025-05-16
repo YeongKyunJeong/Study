@@ -99,7 +99,7 @@ namespace RSP2
             if (applyDef)
             {
                 // HP & Def = 10 => 2HP & Def = 0 
-                reducedDamage = (10 / (10 + statHandler.CurrentStatistics.Deffence)) * value;
+                reducedDamage = (10 / (10 + statHandler.CurrentStatistics.Defence)) * value;
                 reducedDamage = Mathf.Round(reducedDamage * 10f) / 10f;
             }
             else

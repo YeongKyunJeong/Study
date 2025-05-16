@@ -10,7 +10,7 @@
       "MaxStamina": 30,
       "StaminaRegen": 10,
       "Attack": 10,
-      "Deffence": 3
+      "Defence": 3
     },
     {
       "key": 2,
@@ -22,7 +22,7 @@
       "MaxStamina": 33,
       "StaminaRegen": 11,
       "Attack": 12,
-      "Deffence": 3.5
+      "Defence": 3.5
     },
     {
       "key": 3,
@@ -34,7 +34,7 @@
       "MaxStamina": 36,
       "StaminaRegen": 12,
       "Attack": 14,
-      "Deffence": 4
+      "Defence": 4
     },
     {
       "key": 4,
@@ -46,7 +46,7 @@
       "MaxStamina": 39,
       "StaminaRegen": 13,
       "Attack": 16,
-      "Deffence": 4.5
+      "Defence": 4.5
     },
     {
       "key": 5,
@@ -58,7 +58,7 @@
       "MaxStamina": 42,
       "StaminaRegen": 14,
       "Attack": 18,
-      "Deffence": 5
+      "Defence": 5
     },
     {
       "key": 6,
@@ -70,7 +70,7 @@
       "MaxStamina": 45,
       "StaminaRegen": 15,
       "Attack": 20,
-      "Deffence": 5.5
+      "Defence": 5.5
     },
     {
       "key": 7,
@@ -82,7 +82,7 @@
       "MaxStamina": 48,
       "StaminaRegen": 16,
       "Attack": 22,
-      "Deffence": 6
+      "Defence": 6
     },
     {
       "key": 8,
@@ -94,7 +94,7 @@
       "MaxStamina": 51,
       "StaminaRegen": 17,
       "Attack": 24,
-      "Deffence": 6.5
+      "Defence": 6.5
     },
     {
       "key": 9,
@@ -106,7 +106,7 @@
       "MaxStamina": 54,
       "StaminaRegen": 18,
       "Attack": 26,
-      "Deffence": 7
+      "Defence": 7
     },
     {
       "key": 10,
@@ -118,7 +118,7 @@
       "MaxStamina": 57,
       "StaminaRegen": 19,
       "Attack": 28,
-      "Deffence": 7.5
+      "Defence": 7.5
     },
     {
       "key": 11,
@@ -130,7 +130,7 @@
       "MaxStamina": 60,
       "StaminaRegen": 20,
       "Attack": 30,
-      "Deffence": 8
+      "Defence": 8
     },
     {
       "key": 12,
@@ -142,7 +142,7 @@
       "MaxStamina": 63,
       "StaminaRegen": 21,
       "Attack": 32,
-      "Deffence": 8.5
+      "Defence": 8.5
     },
     {
       "key": 13,
@@ -154,7 +154,7 @@
       "MaxStamina": 66,
       "StaminaRegen": 22,
       "Attack": 34,
-      "Deffence": 9
+      "Defence": 9
     },
     {
       "key": 14,
@@ -166,7 +166,7 @@
       "MaxStamina": 69,
       "StaminaRegen": 23,
       "Attack": 36,
-      "Deffence": 9.5
+      "Defence": 9.5
     },
     {
       "key": 15,
@@ -178,7 +178,7 @@
       "MaxStamina": 72,
       "StaminaRegen": 24,
       "Attack": 38,
-      "Deffence": 10
+      "Defence": 10
     },
     {
       "key": 16,
@@ -190,7 +190,7 @@
       "MaxStamina": 75,
       "StaminaRegen": 25,
       "Attack": 40,
-      "Deffence": 10.5
+      "Defence": 10.5
     },
     {
       "key": 17,
@@ -202,7 +202,7 @@
       "MaxStamina": 78,
       "StaminaRegen": 26,
       "Attack": 42,
-      "Deffence": 11
+      "Defence": 11
     },
     {
       "key": 18,
@@ -214,7 +214,7 @@
       "MaxStamina": 81,
       "StaminaRegen": 27,
       "Attack": 44,
-      "Deffence": 11.5
+      "Defence": 11.5
     },
     {
       "key": 19,
@@ -226,7 +226,7 @@
       "MaxStamina": 84,
       "StaminaRegen": 28,
       "Attack": 46,
-      "Deffence": 12
+      "Defence": 12
     },
     {
       "key": 20,
@@ -238,7 +238,7 @@
       "MaxStamina": 87,
       "StaminaRegen": 29,
       "Attack": 48,
-      "Deffence": 12.5
+      "Defence": 12.5
     }
   ]
 }

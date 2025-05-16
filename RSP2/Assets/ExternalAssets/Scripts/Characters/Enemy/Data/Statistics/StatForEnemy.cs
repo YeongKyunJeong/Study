@@ -40,7 +40,7 @@ namespace RSP2
 
             Attack = 3;
 
-            Deffence = 3;
+            Defence = 3;
 
             MovementSpeed = 4;
 
@@ -87,7 +87,7 @@ namespace RSP2
 
             Attack = newDataTable.Attack;
 
-            Deffence = newDataTable.Deffence;
+            Defence = newDataTable.Deffence;
 
             MovementSpeed = newDataTable.MovementSpeed;
 
@@ -122,7 +122,7 @@ namespace RSP2
 
             Attack = newData.Attack;
 
-            Deffence = newData.Deffence;
+            Defence = newData.Defence;
 
             MovementSpeed = newData.MovementSpeed;
 

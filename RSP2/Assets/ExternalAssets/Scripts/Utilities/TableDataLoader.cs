@@ -7,11 +7,17 @@ namespace RSP2
     public class TableDataLoader
     {
         public BaseStatLoaderForPlayer BaseStatLoaderForPlayer { get; private set; }
-        public StatLoaderForEnemy StatLoaderForEnemy { get; private set; } 
+        public LevelStatLoaderForPlayer LevelStatLoaderForPlayer { get; private set; }
+        public ExpDataLoader ExpDataLoader { get; private set; }
+
+        public StatLoaderForEnemy StatLoaderForEnemy { get; private set; }
 
         public void Initialize()
         {
             BaseStatLoaderForPlayer = new BaseStatLoaderForPlayer();
+            LevelStatLoaderForPlayer = new LevelStatLoaderForPlayer();
+            ExpDataLoader = new ExpDataLoader();
+
             StatLoaderForEnemy = new StatLoaderForEnemy();
         }
     }

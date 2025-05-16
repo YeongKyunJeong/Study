@@ -29,7 +29,7 @@ namespace RSP2
 
         public float StaminaRegen { get; set; }
         public float Attack { get; set; }
-        public float Deffence { get; set; }
+        public float Defence { get; set; }
         public float MovementSpeed { get; set; }
         public float AttackSpeed { get; set; }
     }

@@ -8,7 +8,7 @@ namespace RSP2
     public class StatForPlayer : StatForCharacter
     {
         public int Level;
-        
+
         public StatForPlayer()
         {
             key = -1;
@@ -33,7 +33,7 @@ namespace RSP2
 
             Attack = 10;
 
-            Deffence = 10;
+            Defence = 10;
 
             MovementSpeed = 10;
 
@@ -48,7 +48,7 @@ namespace RSP2
 
         public StatForPlayer(StatForPlayer baseStatistics)
         {
-            SetStat(baseStatistics);
+            SetBaseStat(baseStatistics);
         }
 
         public void SetBaseStatByTable(BaseStatTableForPlayer newDataTable)
@@ -75,14 +75,14 @@ namespace RSP2
 
             Attack = newDataTable.Attack;
 
-            Deffence = newDataTable.Deffence;
+            Defence = newDataTable.Deffence;
 
             MovementSpeed = newDataTable.MovementSpeed;
 
             AttackSpeed = newDataTable.AttackSpeed;
         }
 
-        private void SetStat(StatForPlayer newData)
+        private void SetBaseStat(StatForPlayer newData)
         {
             key = newData.key;
 
@@ -106,14 +106,34 @@ namespace RSP2
 
             Attack = newData.Attack;
 
-            Deffence = newData.Deffence;
+            Defence = newData.Defence;
 
             MovementSpeed = newData.MovementSpeed;
 
             AttackSpeed = newData.AttackSpeed;
         }
 
+        public void SetStatByLevelTable(LevelStatTable newStat)
+        {
+            Level = newStat.Level;
 
+            MaxHP = newStat.MaxHP;
+
+            HPRegen = newStat.HPRegen;
+
+            MaxMP = newStat.MaxMP;
+
+            MPRegen = newStat.MPRegen;
+
+            MaxStamina = newStat.MaxStamina;
+
+            StaminaRegen = newStat.StaminaRegen;
+
+            Attack = newStat.Attack;
+
+            Defence = newStat.Defence;
+
+        }
 
     }
 }
