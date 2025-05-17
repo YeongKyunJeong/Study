@@ -163,7 +163,7 @@ namespace RSP2
                                 {
                                     enemy.Target = detectedCombatSystem;
 
-                                    Debug.Log($"Target detected : {detectedCombatSystem.name}");
+                                    //Debug.Log($"Target detected : {detectedCombatSystem.name}");
                                     return true;
                                 }
                                 else

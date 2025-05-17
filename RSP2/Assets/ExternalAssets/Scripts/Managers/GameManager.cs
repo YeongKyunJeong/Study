@@ -1,4 +1,5 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,6 +15,7 @@ namespace RSP2
         public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
 
+        public Action<Enemy> EnemyDieEvent; 
 
         private void Awake()
         {
@@ -60,6 +62,10 @@ namespace RSP2
                 Cursor.lockState = CursorLockMode.None;
             }
         }
-
+        
+        public void EnemyDie(Enemy diedEnemy)
+        {
+            EnemyDieEvent?.Invoke(diedEnemy);
+        }
     }
 }

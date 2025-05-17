@@ -3,6 +3,7 @@
     {
         "key": 2,
         "Name": "Enemy_00",
+        "Exp": 500,
         "Faction": 2,
         "ChasingTargetType": 0,
         "SearchingDistance": 6,

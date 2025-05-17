@@ -8,6 +8,8 @@ namespace RSP2
 {
     public class StatForEnemy : StatForCharacter
     {
+        public int Exp;
+
         public ChasingTargetTpye ChasingTargetTpye { get; set; }
         public DamageType AttackDamageType { get; set; }
         public float SearchingDistance { get; set; }
@@ -17,6 +19,8 @@ namespace RSP2
             key = -1;
 
             Name = "Default";
+
+            Exp = 300;
 
             Faction = Faction.Enemy;
 
@@ -45,6 +49,7 @@ namespace RSP2
             MovementSpeed = 4;
 
             AttackSpeed = 5;
+
             return;
         }
 
@@ -64,6 +69,8 @@ namespace RSP2
             key = newDataTable.key;
 
             Name = newDataTable.Name;
+
+            Exp = newDataTable.Exp;
 
             Faction = newDataTable.Faction;
 
@@ -99,6 +106,8 @@ namespace RSP2
             key = newData.key;
 
             Name = newData.Name;
+
+            Exp = newData.Exp;
 
             Faction = newData.Faction;
 

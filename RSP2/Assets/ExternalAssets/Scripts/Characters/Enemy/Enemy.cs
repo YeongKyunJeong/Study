@@ -112,6 +112,10 @@ namespace RSP2
         private void OnDie()
         {
             ActionStateMachine.OnDie();
+            gameManager.EnemyDie(this);
+            this.enabled = false;
+            Controller.enabled = false;
+            AttackHitBox.Deactivate();
         }
 
     }

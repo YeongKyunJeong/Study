@@ -14,13 +14,13 @@ namespace RSP2
     }
 
 
-    public class ExpDataLoader : MonoBehaviour
+    public class ExpDataLoader
     {
         public List<ExpDataTable> TableList { get; private set; }
         public Dictionary<int, ExpDataTable> TableDict { get; private set; }
         private ExpDataTable ExpDataTable { get; set; }
 
-        public ExpDataLoader(string path = "JSON/LevelStatData_Player")
+        public ExpDataLoader(string path = "JSON/ExpData")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

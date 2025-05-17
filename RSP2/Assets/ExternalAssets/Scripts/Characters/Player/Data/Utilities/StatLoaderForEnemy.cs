@@ -11,6 +11,7 @@ namespace RSP2
     {
         public int key;
         public string Name;
+        public int Exp;
         public Faction Faction;
         public ChasingTargetTpye ChasingTargetTpye;
         public float SearchingDistance;

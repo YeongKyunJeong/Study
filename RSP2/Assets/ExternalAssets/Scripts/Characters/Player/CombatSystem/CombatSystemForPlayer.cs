@@ -17,5 +17,12 @@ namespace RSP2
 
             StatHandlerForPlayer = GetComponent<StatHandlerForPlayer>();
         }
+
+        public void ChangeStatByLevelUp(LevelStatTable nextLevelData)
+        {
+            CurrentHP += nextLevelData.MaxHP - MaxHP;
+            CurrentMP += nextLevelData.MaxHP - MaxHP;
+            CurrentStamina += nextLevelData.MaxHP - MaxHP;
+        }
     }
 }

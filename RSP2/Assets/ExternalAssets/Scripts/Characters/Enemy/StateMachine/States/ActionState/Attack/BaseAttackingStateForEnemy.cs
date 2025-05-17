@@ -148,7 +148,7 @@ namespace RSP2
         {
             if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
             {
-                hitCombatSystem.TakeDamage(-statHandler.CurrentStatistics.Attack,
+                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack,
                     statHandler.EnemyCurrentStatistics.AttackDamageType);
                 Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
                 Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
