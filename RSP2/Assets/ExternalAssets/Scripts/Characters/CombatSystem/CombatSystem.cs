@@ -47,13 +47,50 @@ namespace RSP2
         private float exhaustionDelayTime = 5f;
 
         private bool isInitialized;
-        public float CurrentHP { get; protected set; }
+
+        private float currentHP;
+        public float CurrentHP
+        {
+            get
+            {
+                if (!isInitialized) InitStatistics();
+                return currentHP;
+            }
+            protected set
+            {
+                currentHP = value;
+            }
+        }
         public float MaxHP => statHandler.CurrentStatistics.MaxHP;
 
-        public float CurrentMP { get; protected set; }
+        private float currentMP;
+        public float CurrentMP 
+        {
+            get
+            {
+                if (!isInitialized) InitStatistics();
+                return currentMP;
+            }
+            protected set
+            {
+                currentMP = value;
+            }
+        }
         public float MaxMP => statHandler.CurrentStatistics.MaxMP;
 
-        public float CurrentStamina { get; protected set; }
+        private float currentStamina;
+        public float CurrentStamina
+        {
+            get
+            {
+                if (!isInitialized) InitStatistics();
+                return currentStamina;
+            }
+            protected set
+            {
+                currentStamina = value;
+            }
+        } 
         public float MaxStamina => statHandler.CurrentStatistics.MaxStamina;
 
         protected virtual void Awake()

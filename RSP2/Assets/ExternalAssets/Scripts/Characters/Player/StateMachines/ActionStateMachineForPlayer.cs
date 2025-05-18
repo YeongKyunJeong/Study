@@ -91,6 +91,20 @@ namespace RSP2
             animator.CrossFadeInFixedTime(instantHitHash, 0.25f);
         }
 
+        public virtual bool CheckAttackResources(AttackData attackData, CombatSystem combatSystem)
+        {
+            if (combatSystem.CurrentMP >= attackData.MPCost)
+            {
+                if (combatSystem.CurrentStamina >= attackData.StaminaCost)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+
         public void OnDie()
         {
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);

@@ -12,9 +12,11 @@ namespace RSP2
         //protected Transform hitBoxTransform;
 
         protected AttackHitBox attackHitBox;
+        protected float vFXStartTime;
         protected float hitBoxEnableTime;
         protected float hitBoxDisableTime;
 
+        protected bool vFXStarted;
         protected bool isEnabled;
         protected bool isDisabled;
         protected Weapon currentWeapon;
@@ -49,6 +51,11 @@ namespace RSP2
             //hitBoxDisableTime = Mathf.Min(attackDataLibrary.BaseAttackData.HitBoxDeactivationTime, attackDataLibrary.BaseAttackData.AttackRecoveryTime);
             animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed;
             minimumDuration = attackData.AttackRecoveryTime;
+            if (attackData.VFXName.Length > 0)
+            {
+                vFXStartTime = attackData.VFXStartTime;
+            }
+            else vFXStarted = true;
             hitBoxEnableTime = attackData.HitBoxActivationTime;
             hitBoxDisableTime = Mathf.Min(attackData.HitBoxDeactivationTime, attackData.AttackRecoveryTime);
         }
@@ -74,6 +81,15 @@ namespace RSP2
                 isDisabled = true;
                 attackHitBox.Deactivate();
                 return;
+            }
+
+            if (!vFXStarted)
+            {
+                if (normalizedPassedTime >= vFXStartTime)
+                {
+                    VFXManager.PlayVFXEffect(attackData.VFXName, player.transform.position + player.RuntimeData.AttackPositionModifier, player.transform.forward);
+                    vFXStarted = true;
+                }
             }
 
             if (isEnabled) { return; }

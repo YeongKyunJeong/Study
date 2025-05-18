@@ -559,7 +559,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47f61a1a42a48c14d94708c1b6c7de01, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  combatSystem: {fileID: 0}
 --- !u!114 &238198679
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1644,6 +1643,9 @@ MonoBehaviour:
   - tag: HitVFX_01
     prefab: {fileID: 3789688698643211216, guid: 60bab04b20b72a04798b7ee71aa4eb30, type: 3}
     size: 4
+  - tag: ComboVFX
+    prefab: {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}
+    size: 1
 --- !u!114 &626726452
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5158,6 +5160,17 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!114 &1771165433 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8049803004861275054, guid: b31af1353f22a704bb8984805207b298, type: 3}
+  m_PrefabInstance: {fileID: 215005155428977369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c23955f75e1c4e040af7c95c6c927da8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1884243501
 GameObject:
   m_ObjectHideFlags: 0
@@ -5674,6 +5687,10 @@ PrefabInstance:
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6662429965656308785, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: combatSystemForPlayer
+      value: 
+      objectReference: {fileID: 1771165433}
     - target: {fileID: 8049803004861275054, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: StatHandlerForPlayer
       value: 

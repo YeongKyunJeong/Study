@@ -15,3 +15,4 @@ MonoBehaviour:
   <VFXDataLibrary>k__BackingField:
     <HitVFX>k__BackingField:
     - {fileID: 3789688698643211216, guid: 60bab04b20b72a04798b7ee71aa4eb30, type: 3}
+    - {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}

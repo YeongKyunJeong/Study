@@ -64,9 +64,15 @@ namespace RSP2
 
             if (player.CurrentWeapon != null)
             {
-                SetAnimatorOnLandParameter(false);
 
-                stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
+                if (stateMachine.CheckAttackResources(attackDataLibrary.BaseAttackData, player.CombatSystem))
+                {
+                    SetAnimatorOnLandParameter(false);
+
+                    stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
+                    return;
+
+                }
             }
         }
 

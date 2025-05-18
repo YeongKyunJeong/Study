@@ -34,13 +34,21 @@ namespace RSP2
                     }
             }
 
-            ParticleSystem vFXParticleSystem = GetHitVFX(Instance.DefaultHitVFXTag, sourcePosition, sourceDir);
+            ParticleSystem vFXParticleSystem = PoolVFX(Instance.DefaultHitVFXTag, sourcePosition, sourceDir);
             var main = vFXParticleSystem.main;
             main.simulationSpeed = 1f + Random.Range(-Instance.HitEffectPitchVariance, Instance.HitEffectPitchVariance);
             main.simulationSpeed *= speedMultipliyer;
         }
 
-        private static ParticleSystem GetHitVFX(string tag, Vector3 sourcePosition, Vector3 sourceDir)
+        public static void PlayVFXEffect(string VFXName, Vector3 sourcePosition, Vector3 sourceDir, float scaleMultiplier = 1.0f, float speedMultipliyer = 1.0f)
+        {            
+            ParticleSystem vFXParticleSystem = PoolVFX(VFXName, sourcePosition, sourceDir);
+            var main = vFXParticleSystem.main;
+            main.simulationSpeed = 1f + Random.Range(-Instance.HitEffectPitchVariance, Instance.HitEffectPitchVariance);
+            main.simulationSpeed *= speedMultipliyer;
+        }
+
+        private static ParticleSystem PoolVFX(string tag, Vector3 sourcePosition, Vector3 sourceDir)
         {
             GameObject go = Instance.objectPool.SpawnFromPool(tag);
             go.SetActive(true);
