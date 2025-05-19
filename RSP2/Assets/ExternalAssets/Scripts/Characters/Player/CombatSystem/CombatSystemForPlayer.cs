@@ -7,6 +7,8 @@ namespace RSP2
     public class CombatSystemForPlayer : CombatSystem
     {
         public StatHandlerForPlayer StatHandlerForPlayer;
+        private ForceReceiverForPlayer forceReceiver;
+
 
         private Coroutine mPRegenCoroutine;
         private Coroutine staminaRegenCoroutine;
@@ -16,6 +18,7 @@ namespace RSP2
             base.Awake();
 
             StatHandlerForPlayer = GetComponent<StatHandlerForPlayer>();
+            forceReceiver = GetComponent<ForceReceiverForPlayer>();
         }
 
         public void ChangeStatByLevelUp(LevelStatTable nextLevelData)
@@ -23,6 +26,11 @@ namespace RSP2
             CurrentHP += nextLevelData.MaxHP - MaxHP;
             CurrentMP += nextLevelData.MaxHP - MaxHP;
             CurrentStamina += nextLevelData.MaxHP - MaxHP;
+        }
+
+        public override void TakeForce(Vector3 force)
+        {
+            forceReceiver.AddForce(force);
         }
     }
 }

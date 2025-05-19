@@ -9,6 +9,7 @@ namespace RSP2
     public class CombatSystem : MonoBehaviour
     {
         public CombatUnit MyUnit { get; private set; }
+        private ForceReceiver forceReceiver { get; set; }
 
         [SerializeField] private float healthChangeDelay = .5f;
 
@@ -64,7 +65,7 @@ namespace RSP2
         public float MaxHP => statHandler.CurrentStatistics.MaxHP;
 
         private float currentMP;
-        public float CurrentMP 
+        public float CurrentMP
         {
             get
             {
@@ -90,12 +91,17 @@ namespace RSP2
             {
                 currentStamina = value;
             }
-        } 
+        }
         public float MaxStamina => statHandler.CurrentStatistics.MaxStamina;
 
         protected virtual void Awake()
         {
             MyUnit = GetComponent<CombatUnit>();
+            forceReceiver = GetComponent<ForceReceiver>();
+            if(forceReceiver == null)
+            {
+                forceReceiver = GetComponent<ForceReceiver>();
+            }
             statHandler = GetComponent<StatHandlerForCharacter>();
             isInitialized = false;
             isDead = false;
@@ -154,6 +160,10 @@ namespace RSP2
             return true;
         }
 
+        public virtual void TakeForce(Vector3 force)
+        {
+            forceReceiver?.AddForce(force);
+        }
 
         public bool ChangeHealth(float value)
         {
@@ -201,41 +211,6 @@ namespace RSP2
             DieEvent?.Invoke();
             StopAllRegenCoroutine();
             this.enabled = false;
-        }
-
-        private void StopAllRegenCoroutine()
-        {
-            if (hPRegenCoroutine != null)
-            {
-                StopCoroutine(hPRegenCoroutine);
-                hPRegenCoroutine = null;
-            }
-            if (hPRegenDelayCoroutine != null)
-            {
-                StopCoroutine(hPRegenDelayCoroutine);
-                hPRegenDelayCoroutine = null;
-            }
-            if (mPRegenCoroutine != null)
-            {
-                StopCoroutine(mPRegenCoroutine);
-                mPRegenCoroutine = null;
-            }
-            if (mPRegenDelayCoroutine != null)
-            {
-                StopCoroutine(mPRegenDelayCoroutine);
-                mPRegenDelayCoroutine = null;
-            }
-            if (staminaRegenCoroutine != null)
-            {
-                StopCoroutine(staminaRegenCoroutine);
-                staminaRegenCoroutine = null;
-            }
-
-            if (staminaRegenDelayCoroutine != null)
-            {
-                StopCoroutine(staminaRegenDelayCoroutine);
-                staminaRegenDelayCoroutine = null;
-            }
         }
 
         public void ChangeMana(float value)
@@ -303,6 +278,41 @@ namespace RSP2
                 }
 
                 staminaRegenDelayCoroutine = StartCoroutine(StartStaminaRegenAfterDelay());
+            }
+        }
+
+        private void StopAllRegenCoroutine()
+        {
+            if (hPRegenCoroutine != null)
+            {
+                StopCoroutine(hPRegenCoroutine);
+                hPRegenCoroutine = null;
+            }
+            if (hPRegenDelayCoroutine != null)
+            {
+                StopCoroutine(hPRegenDelayCoroutine);
+                hPRegenDelayCoroutine = null;
+            }
+            if (mPRegenCoroutine != null)
+            {
+                StopCoroutine(mPRegenCoroutine);
+                mPRegenCoroutine = null;
+            }
+            if (mPRegenDelayCoroutine != null)
+            {
+                StopCoroutine(mPRegenDelayCoroutine);
+                mPRegenDelayCoroutine = null;
+            }
+            if (staminaRegenCoroutine != null)
+            {
+                StopCoroutine(staminaRegenCoroutine);
+                staminaRegenCoroutine = null;
+            }
+
+            if (staminaRegenDelayCoroutine != null)
+            {
+                StopCoroutine(staminaRegenDelayCoroutine);
+                staminaRegenDelayCoroutine = null;
             }
         }
 

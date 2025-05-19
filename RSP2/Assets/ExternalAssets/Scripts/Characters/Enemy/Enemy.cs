@@ -9,6 +9,7 @@ namespace RSP2
     {
         private GameManager gameManager;
         [field: SerializeField] public MoverForEnemy Mover { get; private set; }
+        [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatHandlerForEnemy StatHandler { get; private set; }
@@ -44,9 +45,14 @@ namespace RSP2
 
             if (Mover == null)
             {
-                throw new NotImplementedException("Enemy Input Reader Not Assigned");
+                throw new NotImplementedException("Enemy Mover Not Assigned");
             }
             Mover.Initialize(this);
+
+            if (ForceReceiver == null)
+            {
+                throw new NotImplementedException("Enemy ForceReceiver Not Assigned");
+            }
 
             if (Controller == null)
             {
@@ -95,6 +101,7 @@ namespace RSP2
         private void Update()
         {
             ActionStateMachine.CallUpdate();
+            ForceReceiver.CallUpdate();
             Mover.CallUpdate();
         }
 

@@ -31,8 +31,7 @@ MonoBehaviour:
   - MomentumDamping: 1
     NormalizedTime: 0.3
     Force: {x: 0, y: 0, z: 6}
-  <ForceTransitionTime>k__BackingField: 0
-  <PushForce>k__BackingField: 0
+  <PushForce>k__BackingField: 8
   AttackSpeed: 1
   HitBoxActivationTime: 0.38
   HitBoxDeactivationTime: 0.6

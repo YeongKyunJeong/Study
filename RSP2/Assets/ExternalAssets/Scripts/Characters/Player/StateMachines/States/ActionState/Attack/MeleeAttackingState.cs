@@ -128,7 +128,11 @@ namespace RSP2
                 hitCombatSystem.TakeDamage(attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
                 Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
                 Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
-                VFXManager.PlayHitEffect(currentWeapon.WeaponData.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
+                Vector3 attackVector = attackPosition - hitPosition;
+                VFXManager.PlayHitEffect(currentWeapon.WeaponData.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
+                attackVector.y = 0;
+                hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
+
             }
         }
 

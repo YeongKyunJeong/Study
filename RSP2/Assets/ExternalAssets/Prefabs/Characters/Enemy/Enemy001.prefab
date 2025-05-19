@@ -136,8 +136,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7123104769300382178}
   - component: {fileID: 3195955462574004909}
-  - component: {fileID: 4650921598329305135}
+  - component: {fileID: 3402772260213224989}
   - component: {fileID: 3187639084749330371}
+  - component: {fileID: 5474293942476311651}
   - component: {fileID: 5554678414318250587}
   - component: {fileID: 3758292661706335882}
   m_Layer: 8
@@ -177,9 +178,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Mover>k__BackingField: {fileID: 5554678414318250587}
+  <ForceReceiver>k__BackingField: {fileID: 0}
   <Controller>k__BackingField: {fileID: 3758292661706335882}
   <Animator>k__BackingField: {fileID: 5420575401002140697}
-  <StatisticsHandler>k__BackingField: {fileID: 4650921598329305135}
+  <StatHandler>k__BackingField: {fileID: 3402772260213224989}
   <CombatSystem>k__BackingField: {fileID: 3187639084749330371}
   <AttackHitBox>k__BackingField: {fileID: 6498365184910085326}
   EnemyKey: 0
@@ -191,7 +193,7 @@ MonoBehaviour:
   <FieldOfView>k__BackingField: 60
   <RotationSpeedModifier>k__BackingField: 6
   ChasingTargetType: 0
---- !u!114 &4650921598329305135
+--- !u!114 &3402772260213224989
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -200,7 +202,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8922455260479561857}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 19eaafa4dbc002b4696a701e0a2ae08e, type: 3}
+  m_Script: {fileID: 11500000, guid: 50c3bcb669e6b4e4589bcc72bf346a5a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &3187639084749330371
@@ -218,7 +220,20 @@ MonoBehaviour:
   healthChangeDelay: 0.5
   myFaction: 0
   isDead: 0
-  StatisticsHandlerForEnemy: {fileID: 0}
+  StatHandlerForEnemy: {fileID: 3402772260213224989}
+  GainExp: 0
+--- !u!114 &5474293942476311651
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922455260479561857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50c3bcb669e6b4e4589bcc72bf346a5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5554678414318250587
 MonoBehaviour:
   m_ObjectHideFlags: 0

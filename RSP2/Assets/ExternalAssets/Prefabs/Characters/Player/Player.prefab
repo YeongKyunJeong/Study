@@ -45,6 +45,7 @@ GameObject:
   - component: {fileID: 2101898750188141801}
   - component: {fileID: 6662429965656308785}
   - component: {fileID: 8049803004861275054}
+  - component: {fileID: 7916834845398715263}
   - component: {fileID: 618572945416049502}
   - component: {fileID: 1133415188499951212}
   - component: {fileID: 1082692146327613832}
@@ -89,15 +90,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <InputReader>k__BackingField: {fileID: 2101898750188141801}
   <Mover>k__BackingField: {fileID: 618572945416049502}
+  <ForceReceiver>k__BackingField: {fileID: 7916834845398715263}
   <Controller>k__BackingField: {fileID: 8935902564236214146}
-  <MainCameraTransform>k__BackingField: {fileID: 0}
   <SOData>k__BackingField: {fileID: 11400000, guid: 41a34436e0cdb2646bbba02154f74d3b, type: 2}
   <Animator>k__BackingField: {fileID: 4254256474133448164}
-  <StatisticsHandler>k__BackingField: {fileID: 6662429965656308785}
+  <StatHandler>k__BackingField: {fileID: 6662429965656308785}
   <CombatSystem>k__BackingField: {fileID: 8049803004861275054}
   <AttackHitBox>k__BackingField: {fileID: 2328548645168764254}
   <InteractionHitBox>k__BackingField: {fileID: 3643413058505082396}
   <Inventory>k__BackingField: {fileID: 1133415188499951212}
+  <MainCameraTransform>k__BackingField: {fileID: 0}
   <WeaponHolder>k__BackingField: {fileID: 2291532561049628135}
   <CurrentWeapon>k__BackingField: {fileID: 0}
 --- !u!114 &2101898750188141801
@@ -124,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c8d2866ecc338a4dacc718e793f2eca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  combatSystemForPlayer: {fileID: 8049803004861275054}
 --- !u!114 &8049803004861275054
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,7 +142,19 @@ MonoBehaviour:
   healthChangeDelay: 0.5
   myFaction: 1
   isDead: 0
-  StatisticsHandlerForPlayer: {fileID: 0}
+  StatHandlerForPlayer: {fileID: 6662429965656308785}
+--- !u!114 &7916834845398715263
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310363256608967031}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a8023a42b2421b14f968b853df04ae61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &618572945416049502
 MonoBehaviour:
   m_ObjectHideFlags: 0

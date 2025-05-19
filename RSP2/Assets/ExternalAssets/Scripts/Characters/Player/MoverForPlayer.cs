@@ -14,6 +14,7 @@ namespace RSP2
 
         private Vector2 movementInputVector;
         private Vector3 nextHorizontalMovementVector;
+        private Vector3 nextForceVector;
         private Vector3 nextRotationVector;
         private Transform mainCameraTransform;
         private Vector3 nextVerticalVelocityVector;
@@ -40,11 +41,12 @@ namespace RSP2
             mainCameraTransform = Camera.main.transform;
 
             nextVerticalVelocityVector = Vector3.zero;
+            nextForceVector = Vector3.zero;
             nextRotationVector = transform.forward;
             //fixedDeltaTime = Time.fixedDeltaTime;
         }
 
-        public void CallFixedUpdate()
+        public void CallPhysicsUpdate()
         {
             return;
         }
@@ -58,7 +60,7 @@ namespace RSP2
         private void ApplyUpdatedMovement()
         {
 
-            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector) * Time.deltaTime);
+            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector + nextForceVector) * Time.deltaTime);
             //if (needToSetHeight)
             //{
             //    needToSetHeight = false;
@@ -90,6 +92,7 @@ namespace RSP2
             //}
 
             nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
+            nextForceVector= Vector3.zero;
 
         }
 
@@ -106,6 +109,11 @@ namespace RSP2
                 nextRotationVector = movementVector;
                 nextRotationVector.y = 0;
             }
+        }
+
+        public void UpdateNextForceVector(Vector3 forceVector)
+        {
+            nextForceVector = forceVector;
         }
 
         private void Rotate(Vector3 targetDir)

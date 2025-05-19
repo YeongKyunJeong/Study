@@ -11,6 +11,8 @@ namespace RSP2
 
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public MoverForPlayer Mover { get; private set; }
+        [field: SerializeField] public ForceReceiverForPlayer ForceReceiver { get; private set; }
+
         [field: SerializeField] public CharacterController Controller { get; private set; }
         [field: SerializeField] public PlayerScriptableObject SOData { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
@@ -54,6 +56,11 @@ namespace RSP2
                 throw new NotImplementedException("Player Mover Not Assigned");
             }
             Mover.Initialize(this);
+
+            if (ForceReceiver == null)
+            {
+                throw new NotImplementedException("Player Force Receiver Not Assigned");
+            }
 
             if (Controller == null)
             {
@@ -103,7 +110,6 @@ namespace RSP2
             }
 
 
-
             if (Inventory == null)
             {
                 Inventory = GetComponent<Inventory>();
@@ -133,13 +139,15 @@ namespace RSP2
         private void Update()
         {
             ActionStateMachine.CallUpdate();
+            ForceReceiver.CallUpdate();
             Mover.CallUpdate();
         }
 
         private void FixedUpdate()
         {
             ActionStateMachine.CallPhysicsUpdate();
-            Mover.CallFixedUpdate();
+            ForceReceiver.CallPhysicsUpdate();
+            Mover.CallPhysicsUpdate();
         }
 
         public void EquipItem(ItemInstance item)

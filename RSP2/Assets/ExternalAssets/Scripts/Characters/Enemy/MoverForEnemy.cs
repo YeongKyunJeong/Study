@@ -10,6 +10,7 @@ namespace RSP2
         private CharacterController controller;
 
         private Vector3 nextHorizontalMovementVector;
+        private Vector3 nextForceVector;
         private Vector3 nextRotationVector;
 
         // Start is called before the first frame update
@@ -19,6 +20,7 @@ namespace RSP2
             controller = enemy.Controller;
 
             nextHorizontalMovementVector = Vector3.zero;
+            nextForceVector = Vector3.zero;
             nextRotationVector = transform.forward;
         }
 
@@ -34,7 +36,8 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-            controller.Move(nextHorizontalMovementVector * Time.deltaTime);
+            // TODO:: Add falling logic
+            controller.Move((nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
 
 
             if (nextHorizontalMovementVector != Vector3.zero)
@@ -42,6 +45,7 @@ namespace RSP2
                 nextHorizontalMovementVector.y = 0;
                 Rotate(nextHorizontalMovementVector);
             }
+            nextForceVector = Vector3.zero;
         }
 
         public void UpdateNextHorizontalMovementVector(Vector3 velocityVector)
@@ -51,6 +55,11 @@ namespace RSP2
             {
                 nextHorizontalMovementVector.y = 0;
             }
+        }
+
+        public void UpdateNextForceVector(Vector3 forceVector)
+        {
+            nextForceVector = forceVector;
         }
 
         private void Rotate(Vector3 targetDir)

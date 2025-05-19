@@ -15,7 +15,7 @@ namespace RSP2
         protected int maxForceIndex;
         protected MomentumDampingMode momentumDampingMode;
         protected bool isAddingForce;
-        protected bool isForceUpdateFrame;
+        protected bool isMomentumUpdateFrame;
 
         protected CombatSystem combatSystem;
         protected float minimumDuration;
@@ -50,7 +50,7 @@ namespace RSP2
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
             selfForces = attackData.SelfForces;
-            isForceUpdateFrame = false;
+            isMomentumUpdateFrame = false;
             switch (selfForces.Length)
             {
                 case 0:
@@ -244,7 +244,7 @@ namespace RSP2
                     _momentumDampingMode = momentumDampingMode;
                     //Debug.Log(momentumDampingMode);
                     AddForce(selfForces[forceIndex].Force);
-                    isForceUpdateFrame = true;
+                    isMomentumUpdateFrame = true;
                     forceIndex++;
                     if (forceIndex >= maxForceIndex)
                     {
@@ -253,7 +253,7 @@ namespace RSP2
                 }
             }
 
-            if (isForceUpdateFrame) { isForceUpdateFrame = false; return; }
+            if (isMomentumUpdateFrame) { isMomentumUpdateFrame = false; return; }
 
             switch (_momentumDampingMode)
             {
