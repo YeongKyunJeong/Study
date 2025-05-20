@@ -36,6 +36,6 @@ MonoBehaviour:
   HitBoxActivationTime: 0.38
   HitBoxDeactivationTime: 0.6
   AttackRecoveryTime: 0.8
-  <DetectionType>k__BackingField: 0
+  <DetectionType>k__BackingField: 2
   <ColliderSize>k__BackingField: {x: 1, y: 1, z: 1}
   <ColliderPosition>k__BackingField: {x: 0, y: 1.25, z: 1.2}

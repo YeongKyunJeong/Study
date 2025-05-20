@@ -40,7 +40,8 @@ namespace RSP2
         protected CombatSystem hitCombatSystem;
 
         protected LayerMask targetLayerMask;
-
+        public LayerMask TargetLayerMask { get { return targetLayerMask; } }
+        private Collider hitCollider;
 
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
@@ -79,6 +80,12 @@ namespace RSP2
         {
             if (((1 << other.gameObject.layer) & targetLayerMask.value) == 0) return;
 
+            FindCombatSystemAndCallEvent(other);
+            //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
+        }
+
+        private void FindCombatSystemAndCallEvent(Collider other)
+        {
             if (detectedTarget.Contains(other)) return;
 
             detectedTarget.Add(other);
@@ -86,11 +93,24 @@ namespace RSP2
 
             if (hitCombatSystem == null) return;
 
-            // TODO:: Change position to collider's 
             EnterEvent?.Invoke(hitCombatSystem, other);
-            //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
-
+            return;
         }
 
+        public void SendRaycastHitsResults(RaycastHit[] raycastHits)
+        {
+            detectedTarget.Clear();
+            foreach (var hit in raycastHits)
+            {
+                hitCollider = hit.collider;
+                FindCombatSystemAndCallEvent(hit.collider);
+                //if (detectedTarget.Contains(hitCollider)) continue;
+
+                //detectedTarget.Add(hitCollider);
+                //hitCombatSystem = hitCollider.GetComponent<CombatSystem>();
+
+                //if (hitCombatSystem == null) continue;
+            }
+        }
     }
 }

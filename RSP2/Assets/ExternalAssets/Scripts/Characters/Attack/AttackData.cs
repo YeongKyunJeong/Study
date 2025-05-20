@@ -14,7 +14,9 @@ namespace RSP2
     public enum DetectionType
     {
         SphereCollider,
-        BoxCollider
+        BoxCollider,
+        SphereRaycast,
+        BoxRaycast
     }
 
     public enum MomentumDampingMode

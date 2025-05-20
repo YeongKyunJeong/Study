@@ -4065,6 +4065,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1027009516}
   m_CullTransparentMesh: 1
+--- !u!1 &1031666704 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 310363256608967031, guid: b31af1353f22a704bb8984805207b298, type: 3}
+  m_PrefabInstance: {fileID: 215005155428977369}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1064345947
 GameObject:
   m_ObjectHideFlags: 0
@@ -5167,10 +5172,22 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7916834845398715263, guid: b31af1353f22a704bb8984805207b298, type: 3}
   m_PrefabInstance: {fileID: 215005155428977369}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
+  m_GameObject: {fileID: 1031666704}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a8023a42b2421b14f968b853df04ae61, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1771165451
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1031666704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86b9c5a8a97087f43a8312b869e32d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1884243501
@@ -5688,7 +5705,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 310363256608967031, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      insertIndex: 8
+      addedObject: {fileID: 1771165451}
   m_SourcePrefab: {fileID: 100100000, guid: b31af1353f22a704bb8984805207b298, type: 3}
 --- !u!1001 &2202674938042920827
 PrefabInstance:
@@ -6232,6 +6252,10 @@ PrefabInstance:
     - target: {fileID: 4469978215258712696, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5209038590903662440, guid: 59bc22016132aef4ba80137530ded473, type: 3}
+      propertyPath: musicVolume
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5209038590903662440, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: <SFXSOData>k__BackingField
