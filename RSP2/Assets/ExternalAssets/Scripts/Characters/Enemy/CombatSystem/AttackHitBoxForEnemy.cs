@@ -14,19 +14,18 @@ namespace RSP2
 
         protected override void Awake()
         {
-            base.Awake();
-            Activate();
-            enemy = GetComponentInParent<Enemy>();
-            SphereCollider thisCollider = hitBoxCollider as SphereCollider;
-            enemy.SetAttackRange(thisCollider.center.z + thisCollider.radius);
-
-            isInAttacking = false;
 
         }
 
         public override void Initialize(LayerMask _targetLayerMask)
         {
             base.Initialize(_targetLayerMask);
+            Activate();
+            enemy = GetComponentInParent<Enemy>();
+            SphereCollider thisCollider = hitBoxCollider as SphereCollider;
+            enemy.SetAttackRange(thisCollider.center.z + thisCollider.radius);
+
+            isInAttacking = false;
             enemy.ActionStateMachine.AttackingEvent += OnAttacking;
 
         }

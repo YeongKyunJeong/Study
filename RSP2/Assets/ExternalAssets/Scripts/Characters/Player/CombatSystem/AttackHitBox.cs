@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 namespace RSP2
@@ -47,17 +48,17 @@ namespace RSP2
 
         protected virtual void Awake()
         {
+            //Debug.Log(hitBoxCollider.name);
+        }
+
+        public virtual void Initialize(LayerMask _targetLayerMask)
+        {
             hitBoxCollider = GetComponent<Collider>();
             hitBoxTransform = transform;
             detectedTarget = new HashSet<Collider>();
             Deactivate();
             if (GetComponent<Player>() == null && GetComponent<Enemy>() == null)
                 targetLayerMask = 1 << LayerMask.NameToLayer("Combat Unit");
-            //Debug.Log(hitBoxCollider.name);
-        }
-
-        public virtual void Initialize(LayerMask _targetLayerMask)
-        {
             targetLayerMask = _targetLayerMask;
         }
 
@@ -99,7 +100,6 @@ namespace RSP2
 
         public void SendRaycastHitsResults(RaycastHit[] raycastHits)
         {
-            detectedTarget.Clear();
             foreach (var hit in raycastHits)
             {
                 hitCollider = hit.collider;
@@ -112,5 +112,11 @@ namespace RSP2
                 //if (hitCombatSystem == null) continue;
             }
         }
+
+         public void StartRayCasting()
+        {
+            detectedTarget.Clear();
+        }
+
     }
 }

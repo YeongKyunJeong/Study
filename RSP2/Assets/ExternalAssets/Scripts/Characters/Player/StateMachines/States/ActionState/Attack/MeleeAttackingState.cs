@@ -102,13 +102,13 @@ namespace RSP2
                     {
                         if (normalizedPassedTime >= hitBoxDisableTime)
                         {
-                            isDisabled = true;
                             gizmosDrawer.UpdateParameter(Vector3.zero, Vector3.zero, DetectionType.SphereCollider);
+                            isDisabled = true;
                         }
                         else if (normalizedPassedTime >= hitBoxEnableTime)
                         {
-                            isEnabled = true;
                             CastRayAndSendResults();
+                            isEnabled = true;
                             return;
                         }
                         break;
@@ -141,6 +141,13 @@ namespace RSP2
 
         private void CastRayAndSendResults()
         {
+            if (!isEnabled)
+            {
+                combatSystem.ChangeStamina(-attackData.StaminaCost);
+                combatSystem.ChangeMana(-attackData.MPCost);
+                attackHitBox.StartRayCasting();
+            }
+
             attackSize = attackData.ColliderSize * currentWeapon.WeaponData.RangeModifier;
             switch (detectionType)
             {

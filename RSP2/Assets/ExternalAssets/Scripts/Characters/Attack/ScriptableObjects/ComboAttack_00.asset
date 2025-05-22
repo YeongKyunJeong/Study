@@ -14,14 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ID: 0
   <AttackType>k__BackingField: 1
-  <AttackName>k__BackingField: Combo00
+  <AttackName>k__BackingField: ComboAttack
   <VFXName>k__BackingField: ComboVFX
   VFXStartTime: 0.43
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
-  <MPCost>k__BackingField: 10
-  <StaminaCost>k__BackingField: 20
+  <MPCost>k__BackingField: 5
+  <StaminaCost>k__BackingField: 10
   <Damage>k__BackingField: 15
   <Intensity>k__BackingField: 5
   <SelfForces>k__BackingField:

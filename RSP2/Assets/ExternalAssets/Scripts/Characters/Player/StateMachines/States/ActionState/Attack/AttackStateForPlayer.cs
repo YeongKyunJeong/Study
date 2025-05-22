@@ -77,8 +77,8 @@ namespace RSP2
         {
             base.Exit();
 
-            SetAnimatorIsAttackingParameter(false);
             SetAnimatorSelfStateParameter(false);
+            SetAnimatorIsAttackingParameter(false);
             SetAnimatorPlayingSpeed(true);
 
         }

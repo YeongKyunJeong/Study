@@ -32,12 +32,20 @@ namespace RSP2
             SFXManager.PlayClip(currentWeapon.WeaponData.attackSoundClip, player.transform.position, speedMultipliyer: 0.7f);
             // TODO :: Add resource using logic
         }
-        
+
+        public override void Exit()
+        {
+            base.Exit();
+        }
+
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
-            if (animator.IsInTransition(0))
+            if (isOn)
             {
-                animator.CrossFadeInFixedTime(instantComboAttackHash, 0.25f);
+                if (animator.IsInTransition(0))
+                {
+                    animator.CrossFadeInFixedTime(instantComboAttackHash, 0.25f);
+                }
             }
             animator.SetBool(isComboHash, isOn);
         }
