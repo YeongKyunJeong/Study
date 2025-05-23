@@ -20,11 +20,14 @@ namespace RSP2
         public ChasingState ChasingState { get; private set; }
 
         // temporary class type, change later to exact class
-        public BaseAttackingStateForEnemy AttackingState { get; private set; }
+
+        private MeleeAttackingStateForEnemy MeleeAttackingState { get; set; }
+        //private RangeAttackingStateForEnemy RangeAttackingState { get; set; }
 
         #endregion
 
-        public bool IsInAttackingState { get; set; }
+        //public bool IsInAttackingState { get; set; }
+        private AttackType BasicAttackType { get; set; }
         public event Action<bool> AttackingEvent;
 
 
@@ -32,15 +35,25 @@ namespace RSP2
         {
             enemy = _enemy;
 
-            mover = enemy.Mover;
+            mover = _enemy.Mover;
 
-            animator = enemy.Animator;
+            animator = _enemy.Animator;
 
             IdlingState = new IdlingStateForEnemy(_enemy, this);
 
             ChasingState = new ChasingState(_enemy, this);
 
-            AttackingState = new BaseAttackingStateForEnemy(_enemy, this);
+            BasicAttackType = enemy.AttackDataArray[0].AttackType;
+
+            if (BasicAttackType == AttackType.MeleeAttackSkill)
+            {
+                MeleeAttackingState = new MeleeAttackingStateForEnemy(_enemy, this);
+            }
+            else
+            {
+                // TODO :: Add RangeAttackingState
+                //RangeAttackingState = new RangeAttackingStateForEnemy(_enemy, this);
+            }
 
             SetDefaultState();
         }
@@ -48,7 +61,7 @@ namespace RSP2
         public override void SetDefaultState()
         {
             ChangeState(IdlingState);
-            IsInAttackingState = false;
+            //IsInAttackingState = false;
         }
 
         public void OnHit()
@@ -65,11 +78,22 @@ namespace RSP2
             currentState = null; // TODO :: Add dyingState
         }
 
-        public void BroadcastAttackingEvent(bool isStart)
-        {
-            IsInAttackingState = isStart;
 
-            AttackingEvent?.Invoke(isStart);
+        public void ChangeToBasicAttackState()
+        {
+            switch (BasicAttackType)
+            {
+                case AttackType.MeleeAttackSkill:
+                    {
+                        ChangeState(MeleeAttackingState);
+                        break;
+                    }
+                case AttackType.RangeAttackSkill:
+                    {
+                        //ChangeState(RangeAttackingState);
+                        break;
+                    }
+            }
         }
     }
 }

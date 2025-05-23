@@ -46,17 +46,14 @@ namespace RSP2
 
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
 
-        protected virtual void Awake()
-        {
-            //Debug.Log(hitBoxCollider.name);
-        }
+
 
         public virtual void Initialize(LayerMask _targetLayerMask)
         {
-            hitBoxCollider = GetComponent<Collider>();
+            hitBoxCollider = GetComponent<Collider>();  
+            Deactivate();
             hitBoxTransform = transform;
             detectedTarget = new HashSet<Collider>();
-            Deactivate();
             if (GetComponent<Player>() == null && GetComponent<Enemy>() == null)
                 targetLayerMask = 1 << LayerMask.NameToLayer("Combat Unit");
             targetLayerMask = _targetLayerMask;
@@ -83,7 +80,7 @@ namespace RSP2
 
             FindCombatSystemAndCallEvent(other);
             //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
-        }
+            }
 
         private void FindCombatSystemAndCallEvent(Collider other)
         {

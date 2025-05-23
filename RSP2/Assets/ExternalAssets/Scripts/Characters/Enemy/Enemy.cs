@@ -21,8 +21,7 @@ namespace RSP2
 
         // To do : Move these parameter to SO and RuntimeData
         public int EnemyKey;
-
-        [field: SerializeField] public AudioClip attackSound;
+        [field: SerializeField] public AttackData[] AttackDataArray { get; private set; }
         [field: SerializeField] public float SearchingDistance { get; private set; }
         public float SearchingDistanceSqr { get; private set; }
         [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }
@@ -34,7 +33,7 @@ namespace RSP2
         public float AttackRangeSqr { get; private set; }
         public ChasingTargetTpye ChasingTargetType = ChasingTargetTpye.PlayerOnly;
 
-        public Vector3 AttackPositionModifier { get; private set; }
+        public Vector3 AttackPositionModifier { get; set; }
 
         public CombatSystem Target { get; set; }
 
@@ -90,7 +89,7 @@ namespace RSP2
             }
 
             //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey(2));
+            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey( EnemyKey));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

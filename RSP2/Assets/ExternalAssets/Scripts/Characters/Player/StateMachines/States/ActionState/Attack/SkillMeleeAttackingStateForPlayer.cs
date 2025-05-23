@@ -5,7 +5,7 @@ using UnityEngine.Windows;
 
 namespace RSP2
 {
-    public class SkillMeleeAttackingStateForPlayer : MeleeAttackingState
+    public class SkillMeleeAttackingStateForPlayer : MeleeAttackingStateForPlayer
     {
         private readonly int instantComboAttackHash = Animator.StringToHash("Attack.ComboAttack");
         private readonly int isComboHash = Animator.StringToHash("IsCombo");

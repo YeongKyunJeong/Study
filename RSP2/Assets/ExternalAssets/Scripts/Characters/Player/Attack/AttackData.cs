@@ -8,8 +8,9 @@ namespace RSP2
     public enum AttackType
     {
         Basic,
-        MeleeAttackSkill
-    }      
+        MeleeAttackSkill,
+        RangeAttackSkill
+    }
 
     public enum DetectionType
     {
@@ -49,15 +50,18 @@ namespace RSP2
         public int AnimatorStateNameHash { get; private set; }
         [field: SerializeField] public LayerMask TargetLayerMask { get; private set; } = 1 << 9;
         //1 << LayerMask.NameToLayer("Combat Unit"); 
+        [field: Header("Reference Data")]
+        [field: SerializeField] public AudioClip attackSound;
 
         [field: Header("General Parameter Data")]
+        [field: SerializeField] public DamageType DamageType { get; private set; }
         [field: SerializeField] public int MPCost { get; private set; }
         [field: SerializeField] public int StaminaCost { get; private set; }
         [field: SerializeField] public int Damage { get; private set; } = 3;
         [field: SerializeField] public int Intensity { get; private set; } = 5;
 
         [field: Header("Force Settings")]
-        [field: SerializeField] public ForceWithTime[] SelfForces { get; private set; } 
+        [field: SerializeField] public ForceWithTime[] SelfForces { get; private set; }
         [field: SerializeField][field: Range(-10f, 10f)] public float PushForce { get; private set; }
 
         [field: Header("Time Data Setting")]

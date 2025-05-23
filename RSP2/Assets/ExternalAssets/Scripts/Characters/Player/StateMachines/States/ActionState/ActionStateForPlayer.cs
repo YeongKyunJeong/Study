@@ -16,6 +16,7 @@ namespace RSP2
         protected Transform mainCameraTransform;
 
         protected ActionStateMachineForPlayer stateMachine;
+        protected StatHandlerForPlayer statHandler;
         protected PlayerInputReader inputReader;
         protected MoverForPlayer mover;
         protected CharacterController controller;
@@ -38,14 +39,14 @@ namespace RSP2
         public ActionStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine)
         {
             player = _player;
+            stateMachine = _stateMachine;
 
             runtimeData = player.RuntimeData;
             movementStateData = player.SOData.MovementStateData;
             attackDataLibrary = player.SOData.AttackDataLibrary;
 
             //mainCameraTransform = Camera.main.transform;
-
-            stateMachine = _stateMachine;
+            statHandler = _player.StatHandler;
             inputReader = player.InputReader;
             mover = player.Mover;
             controller = player.Controller;

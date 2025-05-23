@@ -6,12 +6,24 @@ using UnityEngine.InputSystem;
 
 namespace RSP2
 {
+    public enum ChasingTargetTpye
+    {
+        PlayerOnly,
+        AllFaction,
+        NotMyFaction
+    }
+
+    //public enum EnemyBasicAttack
+    //{
+    //    Melee,
+    //    Ranged
+    //}
+
     public class StatForEnemy : StatForCharacter
     {
         public int Exp;
 
         public ChasingTargetTpye ChasingTargetTpye { get; set; }
-        public DamageType AttackDamageType { get; set; }
         public float SearchingDistance { get; set; }
 
         public StatForEnemy()
@@ -39,8 +51,6 @@ namespace RSP2
             MaxStamina = 20;
 
             StaminaRegen = 5;
-
-            AttackDamageType = DamageType.Slashing;
 
             Attack = 3;
 
@@ -90,8 +100,6 @@ namespace RSP2
 
             StaminaRegen = newDataTable.StaminaRegen;
 
-            AttackDamageType = newDataTable.AttackDamageType;
-
             Attack = newDataTable.Attack;
 
             Defence = newDataTable.Deffence;
@@ -126,8 +134,6 @@ namespace RSP2
             MaxStamina = newData.MaxStamina;
 
             StaminaRegen = newData.StaminaRegen;
-
-            AttackDamageType = newData.AttackDamageType;
 
             Attack = newData.Attack;
 

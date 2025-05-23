@@ -406,7 +406,11 @@ PrefabInstance:
     - target: {fileID: 5866666021909216657, guid: ce5e0d59209a18a4abd51d95d9b85a15, type: 3}
       propertyPath: m_Avatar
       value: 
-      objectReference: {fileID: 9000000, guid: 9cc01c9335c14004da5208da4aff8045, type: 2}
+      objectReference: {fileID: 9000000, guid: ce5e0d59209a18a4abd51d95d9b85a15, type: 3}
+    - target: {fileID: 5866666021909216657, guid: ce5e0d59209a18a4abd51d95d9b85a15, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 8a1b37a44a37a304db5dbd7f0c4738c0, type: 2}
     - target: {fileID: 5866666021909216657, guid: ce5e0d59209a18a4abd51d95d9b85a15, type: 3}
       propertyPath: m_ApplyRootMotion
       value: 0

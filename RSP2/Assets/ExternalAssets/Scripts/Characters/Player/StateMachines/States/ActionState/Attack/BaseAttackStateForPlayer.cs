@@ -5,10 +5,11 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class AttackStateForPlayer : ActionStateForPlayer
+    public class BaseAttackStateForPlayer : ActionStateForPlayer
     {
         protected string animatorAttackStateTag = "Attack State";
 
+        protected CombatSystem combatSystem;
         protected AttackData attackData;
         protected ForceWithTime[] selfForces;
         protected int forceIndex;
@@ -17,9 +18,7 @@ namespace RSP2
         protected bool isAddingForce;
         protected bool isMomentumUpdateFrame;
 
-        protected CombatSystem combatSystem;
         protected float minimumDuration;
-        protected float attackAnimationTime;
 
         protected Vector3 horizontalMomentum;
         //protected float passedTime;
@@ -31,7 +30,7 @@ namespace RSP2
 
         protected readonly int attackHash = Animator.StringToHash("@Attack");
 
-        public AttackStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public BaseAttackStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             combatSystem = _player.CombatSystem;
         }
@@ -210,6 +209,7 @@ namespace RSP2
             if (isExit)
             {
                 animator.speed = 1;
+                return;
             }
         }
 
@@ -228,11 +228,6 @@ namespace RSP2
         }
 
 
-        protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
-        {
-            animator.SetBool(attackHash, isOn);
-        }
-
 
         protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {
@@ -242,7 +237,6 @@ namespace RSP2
                 {
                     momentumDampingMode = selfForces[forceIndex].MomentumDamping;
                     _momentumDampingMode = momentumDampingMode;
-                    //Debug.Log(momentumDampingMode);
                     AddForce(selfForces[forceIndex].Force);
                     isMomentumUpdateFrame = true;
                     forceIndex++;
@@ -295,6 +289,11 @@ namespace RSP2
         }
 
         protected virtual void AddForce(Vector3 delta) { horizontalMomentum += player.transform.TransformDirection(delta); }
+        protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
+        {
+            animator.SetBool(attackHash, isOn);
+        }
+
     }
 
 

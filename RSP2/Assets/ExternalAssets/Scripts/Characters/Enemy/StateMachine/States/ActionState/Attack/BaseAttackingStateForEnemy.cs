@@ -12,19 +12,26 @@ namespace RSP2
         private readonly int instantAttackHash = Animator.StringToHash("Attack.BaseAttack");
         //private readonly int isAttackingHash = Animator.StringToHash("isAttacking");
 
+        protected AttackData attackData;
+        protected CombatSystem combatSystem;
+        protected ForceWithTime[] selfForces;
+        protected int forceIndex;
+        protected int maxForceIndex;
+        protected MomentumDampingMode momentumDampingMode;
+        protected bool isAddingForce;
+        protected bool isMomentumUpdateFrame;
+
+        protected Vector3 horizontalMomentum;
         protected float normalizedPassedTime;
 
-        protected CombatSystem combatSystem;
-
+        protected bool isFirstFrame;
         protected bool isAnimationEnd;
 
-        protected AttackHitBox attackHitBox;
 
         public BaseAttackingStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
         {
             combatSystem = _enemy.CombatSystem;
-            attackHitBox = _enemy.AttackHitBox;
-
+            attackData = _enemy.AttackDataArray[0];
         }
 
         public override void Enter()
@@ -35,24 +42,34 @@ namespace RSP2
             SetAnimatorSelfStateParameter(true);
             SetAnimatorPlayingSpeed();
 
-            attackHitBox.Deactivate();
-            attackHitBox.EnterEvent += OnAttack;
-            stateMachine.BroadcastAttackingEvent(true);
+            selfForces = attackData.SelfForces;
+            isMomentumUpdateFrame = false;
+            switch (selfForces.Length)
+            {
+                case 0:
+                    {
+                        isAddingForce = false;
+                        momentumDampingMode = MomentumDampingMode.DefaultDamping;
+                        break;
+                    }
+                default:
+                    {
+                        isAddingForce = true;
+                        forceIndex = 0;
+                        maxForceIndex = selfForces.Length;
+                        break;
+                    }
+            }
 
-            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
-
+            isFirstFrame = true;
             isAnimationEnd = false;
 
-            SFXManager.PlayClip(enemy.attackSound, enemy.transform.position);
+            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
         }
 
         public override void Exit()
         {
             base.Exit();
-
-            attackHitBox.Activate();
-            attackHitBox.EnterEvent -= OnAttack;
-            stateMachine.BroadcastAttackingEvent(false);
 
             SetAnimatorIsAttackingParameter(false);
             //SetAnimatorSelfStateParameter(false);
@@ -63,9 +80,15 @@ namespace RSP2
 
         public override void CallUpdate()
         {
+
             base.CallUpdate();
 
             UpdateNormalizedPassedTime();
+            if (isFirstFrame)
+            {
+                normalizedPassedTime = 0;
+                isFirstFrame = false;
+            }
 
             if (isAnimationEnd)
             {
@@ -73,23 +96,57 @@ namespace RSP2
                 return;
             }
 
-            if (normalizedPassedTime > 0.8)
+            //if (normalizedPassedTime > 0.8)
+            //{
+            //    attackHitBox.Deactivate();
+            //    return;
+            //}
+            //else if (normalizedPassedTime > 0.3)
+            //{
+            //    attackHitBox.Activate();
+            //    return;
+            //}
+
+            CalculateThisUpdateMomentum(momentumDampingMode);
+
+            mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
+        }
+
+
+        private void EndAttackState()
+        {
+            //if (CheckIsSlope().y < -0.98) // No collider detected
+            //{
+            //    stateMachine.ChangeState(stateMachine.FallingState);
+            //    return;
+            //}
+
+            if (SearchForTaget())
             {
-                attackHitBox.Deactivate();
+                if (IsInAttackRange())
+                {
+                    stateMachine.ChangeToBasicAttackState();
+                    return;
+                }
+
+                stateMachine.ChangeState(stateMachine.ChasingState);
                 return;
             }
-            else if (normalizedPassedTime > 0.3)
+
+            stateMachine.ChangeState(stateMachine.IdlingState);
+            return;
+
+        }
+
+
+        protected virtual void SetAnimatorPlayingSpeed(bool isExit = false)
+        {
+            if (isExit)
             {
-                attackHitBox.Activate();
+                animator.speed = 1;
                 return;
             }
 
-
-            //horizontalMomentum = CalculateThisUpdateMomentum();
-
-            //runtimeData.HorizontalMovementVector = horizontalMomentum;
-
-            //mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
         }
 
         protected virtual void UpdateNormalizedPassedTime()
@@ -105,30 +162,62 @@ namespace RSP2
             }
         }
 
-        private void EndAttackState()
+
+        protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {
-            //if (CheckIsSlope().y < -0.98) // No collider detected
-            //{
-            //    stateMachine.ChangeState(stateMachine.FallingState);
-            //    return;
-            //}
-
-            if (SearchForTaget())
+            if (isAddingForce)
             {
-                if (IsInAttackRange())
+                if (normalizedPassedTime > selfForces[forceIndex].NormalizedTime)
                 {
-                    stateMachine.ChangeState(stateMachine.AttackingState);
-                    return;
+                    momentumDampingMode = selfForces[forceIndex].MomentumDamping;
+                    _momentumDampingMode = momentumDampingMode;
+                    AddForce(selfForces[forceIndex].Force);
+                    isMomentumUpdateFrame = true;
+                    forceIndex++;
+                    if (forceIndex >= maxForceIndex)
+                    {
+                        isAddingForce = false;
+                    }
                 }
-
-                stateMachine.ChangeState(stateMachine.ChasingState);
-                return;
             }
 
-            stateMachine.ChangeState(stateMachine.IdlingState);
-            return;
+            if (isMomentumUpdateFrame) { isMomentumUpdateFrame = false; return; }
 
+            switch (_momentumDampingMode)
+            {
+                case MomentumDampingMode.DefaultDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-5 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.SoftDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-2 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.HardDamping:
+                    {
+                        horizontalMomentum = Vector3.Lerp(horizontalMomentum, Vector3.zero, 1 - Mathf.Exp(-10 * Time.deltaTime));
+                        return;
+                    }
+                case MomentumDampingMode.InstantStop:
+                    {
+                        horizontalMomentum = Vector3.zero;
+                        return;
+                    }
+                case MomentumDampingMode.NoDamping:
+                    {
+                        return;
+                    }
+                default:
+                    {
+                        horizontalMomentum = Vector3.zero;
+                        return;
+                    }
+            }
         }
+
+        protected virtual void AddForce(Vector3 delta) { horizontalMomentum += enemy.transform.TransformDirection(delta); }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
@@ -144,64 +233,5 @@ namespace RSP2
             animator.SetBool(attackHash, isOn);
         }
 
-        protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
-        {
-            if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
-            {
-                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack,
-                    statHandler.EnemyCurrentStatistics.AttackDamageType);
-                Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
-                Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
-                VFXManager.PlayHitEffect(statHandler.EnemyBaseStatistics.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition- hitPosition).normalized);
-            }
-        }
-
-        protected virtual Vector3 CalculateThisUpdateMomentum() { return Vector3.zero; }
-
-        protected virtual void SetAnimatorPlayingSpeed(bool isExit = false)
-        {
-            if (isExit)
-            {
-                animator.speed = 1;
-                return;
-            }
-
-            animator.speed = enemy.StatHandler.CurrentStatistics.AttackSpeed / 5;
-            return;
-        }
-
-        protected virtual void SetHitBoxShape(bool isExit = false)
-        {
-            if (isExit)
-            {
-                // TODO:: Reset collider size;
-                return;
-            }
-            // TODO:: Add changing collider size logic
-
-            // TODO:: Add other shape collider case
-            //switch (attackData.DetectionType)
-            //{
-            //    case DetectionType.SphereCollider:
-            //        {
-            //            SphereCollider sphereCollider = attackHitBox.HitBoxCollider as SphereCollider;
-            //            sphereCollider.radius = attackData.ColliderSize.x * currentWeapon.WeaponData.RangeModifier;
-            //            sphereCollider.center = attackData.ColliderPosition;
-
-            //            break;
-            //        }
-
-            //    case DetectionType.BoxCollider:
-            //        {
-            //            BoxCollider sphereCollider = attackHitBox.HitBoxCollider as BoxCollider;
-            //            sphereCollider.size = attackData.ColliderSize;
-            //            sphereCollider.center = attackData.ColliderPosition;
-            //            break;
-            //        }
-
-            //    default:
-            //        break;
-            //}
-        }
     }
 }

@@ -21,7 +21,6 @@ namespace RSP2
         public float MPRegen;
         public float MaxStamina;
         public float StaminaRegen;
-        public DamageType AttackDamageType;
         public float Attack;
         public float Deffence;
         public float MovementSpeed;
@@ -45,7 +44,7 @@ namespace RSP2
             {
                 TableDict.Add(item.key, item);
             }
-            enemyStatTable = TableDict[2];
+            enemyStatTable = TableDict[0];
         }
 
         [Serializable]

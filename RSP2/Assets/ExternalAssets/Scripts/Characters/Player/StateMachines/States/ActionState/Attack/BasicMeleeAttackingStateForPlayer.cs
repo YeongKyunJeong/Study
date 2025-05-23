@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class BasicMeleeAttackingStateForPlayer : MeleeAttackingState
+    public class BasicMeleeAttackingStateForPlayer : MeleeAttackingStateForPlayer
     {
         //protected readonly int landAttackingHash = Animator.StringToHash("IsLandAttacking");
         private readonly int instantBasicMeleeAttackHash = Animator.StringToHash("Attack.BasicMeleeAttack");

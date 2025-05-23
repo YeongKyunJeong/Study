@@ -78,7 +78,7 @@ namespace RSP2
                     if (IsInSight()) 
                     {
                         SetAnimatorOnLandParameter(false);
-                        stateMachine.ChangeState(stateMachine.AttackingState);
+                        stateMachine.ChangeToBasicAttackState();
                         return;
                     }
                 }

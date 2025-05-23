@@ -9,7 +9,7 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 namespace RSP2
 {
-    public class MeleeAttackingState : AttackStateForPlayer
+    public class MeleeAttackingStateForPlayer : BaseAttackStateForPlayer
     {
         //protected Collider hitBoxCollider;
         //protected Transform hitBoxTransform;
@@ -35,7 +35,7 @@ namespace RSP2
 
         //protected Vector3 targetDirVector;
 
-        public MeleeAttackingState(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public MeleeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
             attackHitBox = _player.AttackHitBox;
             gizmosDrawer = player.GetComponent<GizmosDrawer>();
@@ -55,11 +55,6 @@ namespace RSP2
             isDisabled = false;
             isEnabled = false;
 
-            //animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackDataLibrary.BaseAttackData.AttackSpeed;
-            //minimumDuration = attackDataLibrary.BaseAttackData.AttackRecoveryTime;
-            //hitBoxEnableTime = attackDataLibrary.BaseAttackData.HitBoxActivationTime;
-            //hitBoxDisableTime = Mathf.Min(attackDataLibrary.BaseAttackData.HitBoxDeactivationTime, attackDataLibrary.BaseAttackData.AttackRecoveryTime);
-            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed;
             minimumDuration = attackData.AttackRecoveryTime;
             if (attackData.VFXName.Length > 0)
             {
@@ -67,16 +62,17 @@ namespace RSP2
                 vFXStarted = false;
             }
             else vFXStarted = true;
+
             hitBoxEnableTime = attackData.HitBoxActivationTime;
             hitBoxDisableTime = Mathf.Min(attackData.HitBoxDeactivationTime, attackData.AttackRecoveryTime);
         }
 
         public override void Exit()
         {
-            attackHitBox.EnterEvent -= OnAttack;
 
             base.Exit();
             attackHitBox.Deactivate();
+            attackHitBox.EnterEvent -= OnAttack;
             mover.SetKeepRotate(false);
 
         }
@@ -129,6 +125,7 @@ namespace RSP2
                             combatSystem.ChangeStamina(-attackData.StaminaCost);
                             combatSystem.ChangeMana(-attackData.MPCost);
                             isEnabled = true;
+                            attackHitBox.Activate();
                             return;
                         }
 
@@ -148,7 +145,7 @@ namespace RSP2
                 attackHitBox.StartRayCasting();
             }
 
-            attackSize = attackData.ColliderSize * currentWeapon.WeaponData.RangeModifier;
+            //attackSize = attackData.ColliderSize * currentWeapon.WeaponData.RangeModifier;
             switch (detectionType)
             {
                 case DetectionType.SphereRaycast:
@@ -181,7 +178,7 @@ namespace RSP2
                 Vector3 attackVector = attackPosition - hitPosition;
                 VFXManager.PlayHitEffect(currentWeapon.WeaponData.AttackDamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
                 attackVector.y = 0;
-                hitCombatSystem.TakeDamage(attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
+                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.AttackDamageType);
                 hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
             }
         }
@@ -197,30 +194,18 @@ namespace RSP2
             return false;
         }
 
-        protected override void SetAnimatorPlayingSpeed(bool isExit = false)
-        {
-            base.SetAnimatorPlayingSpeed(isExit);
-
-            if (isExit)
-            {
-                return;
-            }
-            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed;
-
-
-        }
 
         protected virtual void SetAttackDetectorShape()
         {
-            // TODO:: Add other shape collider case
             detectionType = attackData.DetectionType;
+            attackSize = attackData.ColliderSize * currentWeapon.WeaponData.RangeModifier;
             switch (detectionType)
             {
                 case DetectionType.SphereCollider:
                     {
                         useRaycast = false;
                         SphereCollider sphereCollider = attackHitBox.HitBoxCollider as SphereCollider;
-                        sphereCollider.radius = attackData.ColliderSize.x * currentWeapon.WeaponData.RangeModifier;
+                        sphereCollider.radius = attackSize.x * currentWeapon.WeaponData.RangeModifier;
                         sphereCollider.center = attackData.ColliderPosition;
 
                         player.RuntimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
@@ -231,7 +216,7 @@ namespace RSP2
                     {
                         useRaycast = false;
                         BoxCollider BoxCollider = attackHitBox.HitBoxCollider as BoxCollider;
-                        BoxCollider.size = attackData.ColliderSize;
+                        BoxCollider.size = attackSize;
                         BoxCollider.center = attackData.ColliderPosition;
 
                         player.RuntimeData.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
@@ -251,6 +236,16 @@ namespace RSP2
                         break;
                     }
             }
+        }
+        protected override void SetAnimatorPlayingSpeed(bool isExit = false)
+        {
+            base.SetAnimatorPlayingSpeed(isExit);
+
+            if (isExit)
+            {
+                return;
+            }
+            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
         }
 
 

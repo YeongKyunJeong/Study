@@ -5,14 +5,6 @@ using UnityEngine.UIElements;
 
 namespace RSP2
 {
-    public enum ChasingTargetTpye
-    {
-        PlayerOnly,
-        AllFaction,
-        NotMyFaction
-    }
-
-
     public class ActionStateForEnemy : IState
     {
         protected Enemy enemy;
