@@ -18,6 +18,9 @@ namespace RSP2
         public event Action WalkToggleEvent;
         public event Action DashEvent;
         public event Action AttackEvent;
+        public event Action AimEvent;
+        public event Action QSkillEvent;
+        public event Action ESkillEvent;
 
         //public PlayerInputReader(Player _player)
         //{
@@ -86,6 +89,24 @@ namespace RSP2
         public void OnAttack()
         {
             AttackEvent?.Invoke();
+        }
+
+        public void OnAim()
+        {
+            Debug.Log("Aim");
+            AimEvent?.Invoke();
+        }
+
+        public void OnSkillQ()
+        {
+            Debug.Log("Q");
+            QSkillEvent?.Invoke();
+        }
+
+        public void OnSkillE()
+        {
+            Debug.Log("E");
+            ESkillEvent?.Invoke();
         }
     }
 }
