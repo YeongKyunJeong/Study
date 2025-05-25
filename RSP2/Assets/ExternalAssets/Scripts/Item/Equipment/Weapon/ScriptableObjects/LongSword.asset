@@ -21,7 +21,7 @@ MonoBehaviour:
   EquipPrefab: {fileID: 1836944920593835934, guid: d676545c711e60140895b08e5875a80b, type: 3}
   attackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
   EquipmentType: 0
-  AttackDamageType: 1
+  DamageType: 0
   RangeModifier: 1
   SpeedModifier: 1
   DamageBonus: 5

@@ -9,17 +9,17 @@ namespace RSP2
     {
 
         [field: SerializeField] public AttackData BaseAttackData { get; private set; }
-        [field: SerializeField] public List<AttackData> AttackDataList { get; private set; }
+        [field: SerializeField] public List<AttackData> MeleeAttackDataList { get; private set; }
 
         public AttackData GetAttackInfo(int index)
         {
-            return AttackDataList.Count <= index ? null : AttackDataList[index];
+            return MeleeAttackDataList.Count <= index ? null : MeleeAttackDataList[index];
         }
 
         public void Initialize()
         {
             BaseAttackData.GenerateHash();
-            foreach (var attackInfo in AttackDataList)
+            foreach (var attackInfo in MeleeAttackDataList)
             {
                 attackInfo.GenerateHash();
             }

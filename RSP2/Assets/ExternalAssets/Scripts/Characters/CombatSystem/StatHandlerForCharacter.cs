@@ -6,9 +6,9 @@ namespace RSP2
 {
     public enum DamageType
     {
-        None,
         Slashing,
-        Blunging
+        Blunging,
+        ByWeapon
     }
 
     public class StatHandlerForCharacter : MonoBehaviour

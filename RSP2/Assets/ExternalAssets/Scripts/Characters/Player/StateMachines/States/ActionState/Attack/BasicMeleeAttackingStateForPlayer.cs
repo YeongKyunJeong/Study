@@ -28,7 +28,14 @@ namespace RSP2
                 animator.CrossFadeInFixedTime(instantBasicMeleeAttackHash, 0.25f);
             }
 
-            SFXManager.PlayClip(currentWeapon.WeaponData.attackSoundClip, player.transform.position);
+            if (attackData.DamageType == DamageType.ByWeapon)
+            {
+                SFXManager.PlayClip(currentWeapon.WeaponData.attackSoundClip, player.transform.position);
+            }
+            else
+            {
+                SFXManager.PlayClip(attackData.AttackSoundClip, player.transform.position);
+            }
         }
 
         #endregion
@@ -37,7 +44,7 @@ namespace RSP2
         {
             if (normalizedPassedTime >= minimumDuration)
             {
-                if (stateMachine.CheckAttackResources(attackDataLibrary.AttackDataList[0], combatSystem))
+                if (stateMachine.CheckAttackResources(attackDataLibrary.MeleeAttackDataList[0], combatSystem))
 
                     if (stateMachine.SkillMeleeAttackingStates[0].CheckAttackResources(AttackType.MeleeAttackSkill, 0))
                     {

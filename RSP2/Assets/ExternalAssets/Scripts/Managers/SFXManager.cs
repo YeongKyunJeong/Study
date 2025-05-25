@@ -52,7 +52,7 @@ namespace RSP2
 
             switch (damageType)
             {
-                case DamageType.None:
+                case DamageType.ByWeapon:
                     break;
                 case DamageType.Slashing:
                     {

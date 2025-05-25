@@ -32,11 +32,10 @@ namespace RSP2
 
         [Header("Statistics Data")]
         public EquipmentType EquipmentType;
-        public DamageType AttackDamageType;
+        public DamageType DamageType;
         public float RangeModifier;
         public float SpeedModifier;
         public float DamageBonus;
         public float IntensityBonus;
-        
     }
 }

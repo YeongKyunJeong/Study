@@ -157,7 +157,7 @@ namespace RSP2
                     }
                 case AttackType.MeleeAttackSkill:
                     {
-                        attackData = attackDataLibrary.AttackDataList[key];
+                        attackData = attackDataLibrary.MeleeAttackDataList[key];
                         break;
                     }
             }

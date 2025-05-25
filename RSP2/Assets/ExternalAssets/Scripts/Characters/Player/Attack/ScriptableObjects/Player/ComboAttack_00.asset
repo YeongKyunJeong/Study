@@ -20,6 +20,8 @@ MonoBehaviour:
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
+  AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
+  <DamageType>k__BackingField: 0
   <MPCost>k__BackingField: 5
   <StaminaCost>k__BackingField: 10
   <Damage>k__BackingField: 15

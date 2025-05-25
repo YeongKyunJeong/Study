@@ -38,7 +38,7 @@ namespace RSP2
             isDisabled = false;
             isEnabled = false;
 
-            SFXManager.PlayClip(attackData.attackSound, enemy.transform.position);
+            SFXManager.PlayClip(attackData.AttackSoundClip, enemy.transform.position);
             if (attackData.VFXName.Length > 0)
             {
                 vFXStartTime = attackData.VFXStartTime;

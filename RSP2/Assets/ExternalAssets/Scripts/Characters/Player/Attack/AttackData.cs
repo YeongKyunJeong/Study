@@ -51,7 +51,7 @@ namespace RSP2
         [field: SerializeField] public LayerMask TargetLayerMask { get; private set; } = 1 << 9;
         //1 << LayerMask.NameToLayer("Combat Unit"); 
         [field: Header("Reference Data")]
-        [field: SerializeField] public AudioClip attackSound;
+        [field: SerializeField] public AudioClip AttackSoundClip;
 
         [field: Header("General Parameter Data")]
         [field: SerializeField] public DamageType DamageType { get; private set; }
