@@ -1,7 +1,7 @@
 {
   "Items": [
     {
-        "key": 2,
+        "key": 0,
         "Name": "Enemy_00",
         "Exp": 500,
         "Faction": 2,
@@ -13,7 +13,6 @@
         "MPRegen": 1,
         "MaxStamina": 20,
         "StaminaRegen": 6,
-        "AttackDamageType": 1,
         "Attack": 5,
         "Defence": 3,
         "MovementSpeed": 4,

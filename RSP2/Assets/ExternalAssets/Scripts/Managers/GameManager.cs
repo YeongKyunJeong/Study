@@ -14,6 +14,7 @@ namespace RSP2
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
         public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
+        public ProjectileManager ProjectileManager { get; private set; }
 
         public Action<Enemy> EnemyDieEvent; 
 
@@ -24,6 +25,7 @@ namespace RSP2
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
 
             DataManager = DataManager.Instance;
+            ProjectileManager = ProjectileManager.Instance;
 
             CanvasUIManager.Initialize(this);
             DataManager.Initialize();
@@ -32,6 +34,11 @@ namespace RSP2
         private void Start()
         {
             LockCursor(true);
+        }
+
+        private void Update()
+        {
+            ProjectileManager.CallUpdate();
         }
 
         public void OnInventoryUIOpen(bool isOn)

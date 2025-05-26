@@ -1,5 +1,66 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &316307386365591469
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 113651225015206099}
+  - component: {fileID: 3628703989473257719}
+  - component: {fileID: 6424259596643130358}
+  m_Layer: 0
+  m_Name: BulletManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &113651225015206099
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316307386365591469}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4469978215258712696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3628703989473257719
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316307386365591469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5538fe0933a1b8a498d594a502e8a398, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6424259596643130358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 316307386365591469}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6a757420b739e4e9efb0ca4c18bb8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: 
+    prefab: {fileID: 0}
+    size: 0
 --- !u!1 &973242746073846171
 GameObject:
   m_ObjectHideFlags: 0
@@ -32,6 +93,7 @@ Transform:
   m_Children:
   - {fileID: 3569472222761025509}
   - {fileID: 3706481126580643283}
+  - {fileID: 113651225015206099}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8827929891110237300
@@ -93,9 +155,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundEffectVolume: 0.3
   soundEffectPitchVariance: 0.2
-  musicVolume: 0.2
+  musicVolume: 0.1
   musicClip: {fileID: 8300000, guid: 051168dd3f18b614cb273426a6521fb5, type: 3}
-  <SFXSOData>k__BackingField: {fileID: 0}
+  <SFXSOData>k__BackingField: {fileID: 11400000, guid: 7346214d75ca1514d81638568b8d2247, type: 2}
 --- !u!114 &6328002883443411950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -121,6 +183,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3706481126580643283}
+  - component: {fileID: 1399595939700166549}
+  - component: {fileID: 4420932194821581486}
   m_Layer: 0
   m_Name: VFXManager
   m_TagString: Untagged
@@ -143,3 +207,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4469978215258712696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1399595939700166549
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908762970492635199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eb9ba6d3c2481ce479af592ed1c5dcbf, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  HitEffectPitchVariance: 0.1
+  DefaultHitVFXTag: HitVFX_01
+  <VFXSOData>k__BackingField: {fileID: 11400000, guid: 4788bbc85e9c115469972a0411a5223c, type: 2}
+--- !u!114 &4420932194821581486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6908762970492635199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be6a757420b739e4e9efb0ca4c18bb8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools:
+  - tag: HitVFX_01
+    prefab: {fileID: 3789688698643211216, guid: 60bab04b20b72a04798b7ee71aa4eb30, type: 3}
+    size: 4
+  - tag: ComboVFX
+    prefab: {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}
+    size: 1

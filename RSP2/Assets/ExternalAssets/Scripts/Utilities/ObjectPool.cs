@@ -98,7 +98,7 @@ namespace RSP2
         public void ReturnToPool(string tag, GameObject obj)
         {
             if (!availablePoolDictionary.ContainsKey(tag))
-                return;
+                return ;
 
             if (inUsePoolDictionary[tag].Remove(obj))
             {
@@ -106,11 +106,13 @@ namespace RSP2
                 if (!availablePoolDictionary[tag].Contains(obj))
                 {
                     availablePoolDictionary[tag].Enqueue(obj);
-                    return;
+                    return ;
                 }
 
                 Debug.Log("Object pool return logic error : already existing object in availible pool");
             }
+
+            return ;
         }
 
     }

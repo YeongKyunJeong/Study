@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
 
@@ -22,6 +23,11 @@ namespace RSP2
         public void ReturnToPool()
         {
             myObjectPooler?.ReturnToPool(poolTag, gameObject);
+            if(myObjectPooler == null)
+            {
+                Debug.Log($"{name} was destroyed");
+                Destroy(gameObject);
+            }
         }
     }
 }
