@@ -223,16 +223,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 467d9f054b0673c4ab16a9ffd3483a2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  poolTag: 
+  poolTag: SkillProjectile01
   <Model>k__BackingField: {fileID: 8015575950433059375}
   <Collider>k__BackingField: {fileID: 8408657363370410410}
-  <Track>k__BackingField:
+  <data>k__BackingField:
+    <poolTag>k__BackingField: 
     ShootVelocity: {x: 0, y: 0, z: 0}
     ShootPosition: {x: 0, y: 0, z: 0}
     RangeType: 0
     ShootStartTime: 0
-    ShootDir: 0
-    ShootTime: 0
+    ShootDistanceLimit: 0
+    ShootTimelimit: 0
 --- !u!54 &8223879573179373914
 Rigidbody:
   m_ObjectHideFlags: 0

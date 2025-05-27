@@ -8,7 +8,7 @@ namespace RSP2
     {
         private ObjectPool objectPool;
         //public List<Projectile> projectileList;
-        private HashSet<Projectile> projectiles;
+        private static HashSet<Projectile> projectiles;
 
         private void Awake()
         {
@@ -30,9 +30,33 @@ namespace RSP2
             }
             foreach (Projectile projectile in projectiles)
             {
-                projectile.CallUpdate();
+                    projectile.CallUpdate();
             }
-            
+
         }
+
+        public static void ShootProjectile(CombatSystem combatSystem, ProjectileData projectileData, Vector3 shooterPosition, Vector3 shooterForward, float speedModifier = 1)
+        {
+            Projectile projectile = PoolProjectile(projectileData.poolTag, shooterPosition, shooterForward);
+
+            projectile.SetData(combatSystem, projectileData, speedModifier);
+            projectiles.Add(projectile);
+        }
+
+        private static Projectile PoolProjectile(string tag, Vector3 shootPosition, Vector3 shootDir)
+        {
+            GameObject go = Instance.objectPool.SpawnFromPool(tag);
+            go.SetActive(true);
+            go.transform.position = shootPosition;
+            go.transform.rotation = Quaternion.LookRotation(shootDir);
+            Projectile projectile = go.GetComponent<Projectile>();
+            return projectile;
+        }
+
+        //public static void DeHash(Projectile projectile)
+        //{
+        //    if (projectiles.Contains(projectile))
+        //        projectiles.Remove(projectile   );
+        //}
     }
 }

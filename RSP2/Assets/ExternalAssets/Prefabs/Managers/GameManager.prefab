@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3628703989473257719}
   - component: {fileID: 6424259596643130358}
   m_Layer: 0
-  m_Name: BulletManager
+  m_Name: ProjectileManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -58,9 +58,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: 
-    prefab: {fileID: 0}
-    size: 0
+  - tag: SkillProjectile01
+    prefab: {fileID: 6730409884013660981, guid: 639c535b472c9ad4faae5bd4d6c93b2f, type: 3}
+    size: 1
 --- !u!1 &973242746073846171
 GameObject:
   m_ObjectHideFlags: 0

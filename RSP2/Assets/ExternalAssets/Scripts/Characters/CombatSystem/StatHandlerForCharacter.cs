@@ -8,6 +8,7 @@ namespace RSP2
     {
         Slashing,
         Blunging,
+        Piercing,
         ByWeapon
     }
 

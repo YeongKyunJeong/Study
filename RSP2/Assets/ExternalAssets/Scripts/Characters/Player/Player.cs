@@ -134,6 +134,8 @@ namespace RSP2
             AddItem(SOData.ConsumableDataLibrary.ConsumableData[0], 4);
             //ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
             //EquipItem(startWeaponInstance);
+
+            ProjectileManager.ShootProjectile(CombatSystem ,SOData.AttackDataLibrary.RangeAttackDataList[0].Projectiles[0], transform.position, transform.forward);
         }
 
         private void Update()

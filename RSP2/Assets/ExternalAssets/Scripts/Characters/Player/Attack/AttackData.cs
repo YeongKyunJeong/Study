@@ -37,13 +37,14 @@ namespace RSP2
         public Vector3 Force;
     }
 
-    [CreateAssetMenu(fileName = "Attack", menuName = "Custom/New Attack or Skill")]
-
+    [CreateAssetMenu(fileName = "Attack", menuName = "Custom/New Attack Data")]
     public class AttackData : ScriptableObject
     {
         [field: Header("Basic Attack Data Setting")]
         [field: SerializeField] public int ID;
-        [field: SerializeField] public AttackType AttackType { get; private set; } = AttackType.Basic;
+
+        [field: SerializeField] private AttackType attackType = AttackType.Basic;
+        public AttackType AttackType { get => attackType; }
         [field: SerializeField] public string AttackName { get; private set; } = "BasicMeleeAttack";
         [field: SerializeField] public string VFXName { get; private set; }
         [field: SerializeField][Range(0, 1f)] public float VFXStartTime;
@@ -62,23 +63,38 @@ namespace RSP2
 
         [field: Header("Force Settings")]
         [field: SerializeField] public ForceWithTime[] SelfForces { get; private set; }
-        [field: SerializeField][field: Range(-10f, 10f)] public float PushForce { get; private set; }
+        [field: SerializeField][field: Range(-50f, 50f)] public float PushForce { get; private set; }
 
         [field: Header("Time Data Setting")]
         [field: SerializeField][Range(0.1f, 10f)] public float AttackSpeed = 1f;
-        [field: SerializeField][Range(0, 1f)] public float HitBoxActivationTime = 0.3f;
-        [field: SerializeField][Range(0, 1f)] public float HitBoxDeactivationTime = 0.7f;
-        [field: SerializeField][Range(0, 1f)] public float AttackRecoveryTime = 0.7f;
+
+        [field: SerializeField][Range(0, 1f)] private float hitBoxActivationTime = 0.3f;
+        [field: SerializeField][Range(0, 1f)] private float hitBoxDeactivationTime = 0.7f;
+        [field: SerializeField][Range(0, 1f)] private float attackRecoveryTime = 0.7f;
+
+        public float HitBoxActivationTime { get => hitBoxActivationTime; }
+        public float HitBoxDeactivationTime { get => hitBoxDeactivationTime; }
+        public float AttackRecoveryTime { get => attackRecoveryTime; }
+
 
         [field: Header("Detection Settings")]
-        [field: SerializeField] public DetectionType DetectionType { get; private set; } = DetectionType.SphereCollider;
-        [field: SerializeField] public Vector3 ColliderSize { get; private set; } = new Vector3(0.8f, 0.8f, 0.8f);
-        [field: SerializeField] public Vector3 ColliderPosition { get; private set; } = new Vector3(0, 1.2f, 1);
+        [field: SerializeField] private DetectionType detectionType = DetectionType.SphereCollider;
+        [field: SerializeField] private Vector3 colliderSize = new Vector3(0.8f, 0.8f, 0.8f);
+        [field: SerializeField] private Vector3 colliderPosition = new Vector3(0, 1.2f, 1);
 
-        public void GenerateHash()
-        {
-            AnimatorStateNameHash = Animator.StringToHash(AttackName);
-        }
+        public DetectionType DetectionType { get => detectionType; }
+        public Vector3 ColliderSize { get => colliderSize; }
+        public Vector3 ColliderPosition { get => colliderPosition; }
+
+
+        [field: Header("Projectiles")]
+        [field: SerializeField] private ProjectileData[] projectiles;
+
+        public ProjectileData[] Projectiles { get => projectiles; }
+        //public void GenerateHash()
+        //{
+        //    AnimatorStateNameHash = Animator.StringToHash(AttackName);
+        //}
     }
 
 

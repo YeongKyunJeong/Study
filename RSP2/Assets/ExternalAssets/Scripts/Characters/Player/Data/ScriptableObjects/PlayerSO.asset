@@ -35,6 +35,8 @@ MonoBehaviour:
     <BaseAttackData>k__BackingField: {fileID: 11400000, guid: 02b774a5704910c4d8b0da5d7b98b1af, type: 2}
     <MeleeAttackDataList>k__BackingField:
     - {fileID: 11400000, guid: 1bea0967eeed52b48ab56f9c576da9df, type: 2}
+    <RangeAttackDataList>k__BackingField:
+    - {fileID: 11400000, guid: 3157ed0254a74c946a4b108ba1264545, type: 2}
   <WeaponDataLibrary>k__BackingField:
     <WeaponData>k__BackingField:
     - {fileID: 11400000, guid: b3fb20e072a3fa4438c3794879a86461, type: 2}

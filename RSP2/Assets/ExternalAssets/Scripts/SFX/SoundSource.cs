@@ -27,8 +27,8 @@ namespace RSP2
 
         public void Disable()
         {
-            audioSource.Stop();
-            gameObject.SetActive(false);
+            audioSource?.Stop();
+            gameObject?.SetActive(false);
         }
     }
 }
