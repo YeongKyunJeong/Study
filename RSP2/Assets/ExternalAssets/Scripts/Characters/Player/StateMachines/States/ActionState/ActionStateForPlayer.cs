@@ -74,6 +74,10 @@ namespace RSP2
             inputReader.WalkToggleEvent += OnWalkToggleInput;
             inputReader.DashEvent += OnDashInput;
             inputReader.AttackEvent += OnAttackInput;
+            inputReader.AimEvent += OnAimInput;
+            inputReader.QSkillEvent += OnQSkillInput;
+            inputReader.ESkillEvent += OnESkillInput;
+
 
             moveInput = runtimeData.MoveInput;
         }
@@ -90,6 +94,9 @@ namespace RSP2
             inputReader.WalkToggleEvent -= OnWalkToggleInput;
             inputReader.DashEvent -= OnDashInput;
             inputReader.AttackEvent -= OnAttackInput;
+            inputReader.AimEvent -= OnAimInput;
+            inputReader.QSkillEvent -= OnQSkillInput;
+            inputReader.ESkillEvent -= OnESkillInput;
         }
 
         public virtual void CallUpdate()
@@ -140,6 +147,11 @@ namespace RSP2
         protected virtual void OnDashInput() { }
 
         protected virtual void OnAttackInput() { }
+
+        protected virtual void OnQSkillInput() { }
+
+        protected virtual void OnESkillInput() { }
+        protected virtual void OnAimInput() { }
 
         #endregion
 

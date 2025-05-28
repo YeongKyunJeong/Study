@@ -16,7 +16,7 @@ namespace RSP2
         public DataManager DataManager { get; private set; }
         public ProjectileManager ProjectileManager { get; private set; }
 
-        public Action<Enemy> EnemyDieEvent; 
+        public event Action<Enemy> EnemyDieEvent; 
 
         private void Awake()
         {

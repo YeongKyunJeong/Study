@@ -76,6 +76,25 @@ namespace RSP2
             }
         }
 
+        protected override void OnQSkillInput()
+        {
+            base.OnQSkillInput();
+
+            if (player.CurrentWeapon != null)
+            {
+
+                if (stateMachine.CheckAttackResources(attackDataLibrary.RangeAttackDataList[0], player.CombatSystem))
+                {
+                    SetAnimatorOnLandParameter(false);
+
+                    stateMachine.ChangeStateWithAttackData(stateMachine.RangeAttackingStates[0], 0);
+                    return;
+
+                }
+            }
+
+        }
+
         protected virtual void SetAnimatorOnLandParameter(bool isOn)
         {
             animator.SetBool(onLandHash, isOn);

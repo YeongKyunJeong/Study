@@ -58,7 +58,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   pools:
-  - tag: SkillProjectile01
+  - tag: SkillProjectile_01
     prefab: {fileID: 6730409884013660981, guid: 639c535b472c9ad4faae5bd4d6c93b2f, type: 3}
     size: 1
 --- !u!1 &973242746073846171
@@ -238,6 +238,6 @@ MonoBehaviour:
   - tag: HitVFX_01
     prefab: {fileID: 3789688698643211216, guid: 60bab04b20b72a04798b7ee71aa4eb30, type: 3}
     size: 4
-  - tag: ComboVFX
+  - tag: ComboVFX_01
     prefab: {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}
     size: 1

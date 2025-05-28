@@ -10,26 +10,29 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fefea066d67d6b4449fbc54a59ae573f, type: 3}
-  m_Name: BasicMeleeAttack
+  m_Name: RangeAttack_01
   m_EditorClassIdentifier: 
   ID: 0
-  attackType: 0
+  attackType: 2
   <Target>k__BackingField: 1
   <TargetNumberLimit>k__BackingField: 0
-  <AttackName>k__BackingField: BasicMeleeAttack
+  <AttackName>k__BackingField: RangeAttack_01
   <VFXName>k__BackingField: 
   VFXStartTime: 0
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
-    m_Bits: 256
-  AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
-  <DamageType>k__BackingField: 3
-  <MPCost>k__BackingField: 0
-  <StaminaCost>k__BackingField: 5
-  <Damage>k__BackingField: 3
+    m_Bits: 768
+  AttackSoundClip: {fileID: 0}
+  <DamageType>k__BackingField: 2
+  <MPCost>k__BackingField: 20
+  <StaminaCost>k__BackingField: 20
+  <Damage>k__BackingField: 15
   <Intensity>k__BackingField: 5
-  <SelfForces>k__BackingField: []
-  <PushForce>k__BackingField: 5
+  <SelfForces>k__BackingField:
+  - MomentumDamping: 0
+    NormalizedTime: 0.5
+    Force: {x: 0, y: 0, z: -3}
+  <PushForce>k__BackingField: 6
   AttackSpeed: 1
   hitBoxActivationTime: 0.3
   hitBoxDeactivationTime: 0.7
@@ -37,4 +40,11 @@ MonoBehaviour:
   detectionType: 0
   colliderSize: {x: 0.8, y: 0.8, z: 0.8}
   colliderPosition: {x: 0, y: 1.2, z: 1}
-  projectiles: []
+  projectiles:
+  - <poolTag>k__BackingField: SkillProjectile_01
+    ShootVelocity: {x: 0, y: 0, z: 10}
+    ShootPosition: {x: 0, y: 0, z: 0}
+    RangeType: 2
+    ShootStartTime: 0.5
+    ShootDistanceLimit: 10
+    ShootTimelimit: 0

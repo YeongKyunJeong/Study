@@ -1,16 +1,18 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RSP2
 {
+    [Flags]
     public enum Faction
     {
-        Null,   // Not assigned yet
-        Player,
-        Enemy,
-        Neutral,
-        None
+        Null = 0,   // Not assigned yet
+        Player = 1,
+        Enemy = 2,
+        Neutral = 4,
+        None = 8
     }
 
     public interface IStatForCharacter

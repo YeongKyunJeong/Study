@@ -9,6 +9,7 @@ namespace RSP2
     public enum ChasingTargetTpye
     {
         PlayerOnly,
+        EnemyOnly,
         AllFaction,
         NotMyFaction
     }

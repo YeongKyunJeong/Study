@@ -39,6 +39,7 @@ namespace RSP2
         public BasicMeleeAttackingStateForPlayer BasicMeleeAttackingState { get; private set; }
 
         public SkillMeleeAttackingStateForPlayer[] SkillMeleeAttackingStates { get; private set; }
+        public RangeAttackingStateForPlayer[] RangeAttackingStates { get; private set; }
         #endregion
 
         #endregion
@@ -71,10 +72,15 @@ namespace RSP2
             BasicMeleeAttackingState = new BasicMeleeAttackingStateForPlayer(_player, this);
 
             SkillMeleeAttackingStates = new SkillMeleeAttackingStateForPlayer[2];
+            RangeAttackingStates = new RangeAttackingStateForPlayer[2];
 
             for (int i = 0; i < SkillMeleeAttackingStates.Length; i++)
             {
                 SkillMeleeAttackingStates[i] = new SkillMeleeAttackingStateForPlayer(_player, this);
+            }
+            for (int i = 0; i < SkillMeleeAttackingStates.Length; i++)
+            {
+                RangeAttackingStates[i] = new RangeAttackingStateForPlayer(_player, this);
             }
 
             SetDefaultState();

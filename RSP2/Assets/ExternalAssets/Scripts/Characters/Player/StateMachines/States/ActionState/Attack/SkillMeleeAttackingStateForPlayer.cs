@@ -20,23 +20,13 @@ namespace RSP2
             base.CallUpdate();
         }
 
-        //public override void Enter()
-        //{
-        //    base.Enter();
-        //}
-
         public override void Enter(int dataKey)
         {
             attackData = attackDataLibrary.MeleeAttackDataList[dataKey];
             base.Enter();
-            SFXManager.PlayClip(currentWeapon.WeaponData.attackSoundClip, player.transform.position, speedMultipliyer: 0.7f);
-            // TODO :: Add resource using logic
+
         }
 
-        public override void Exit()
-        {
-            base.Exit();
-        }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {

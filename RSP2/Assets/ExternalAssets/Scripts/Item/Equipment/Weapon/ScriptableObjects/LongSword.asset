@@ -19,7 +19,7 @@ MonoBehaviour:
   maxStackAmount: 1
   usageSoundClip: {fileID: 8300000, guid: 34792f9c9ca6aa3499247edfde9d31db, type: 3}
   EquipPrefab: {fileID: 1836944920593835934, guid: d676545c711e60140895b08e5875a80b, type: 3}
-  attackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
+  AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
   EquipmentType: 0
   DamageType: 0
   RangeModifier: 1

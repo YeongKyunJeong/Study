@@ -21,7 +21,6 @@ namespace RSP2
                 hitBoxCollider = value;
             }
         }
-        protected HashSet<Collider> detectedTarget;
 
         protected Transform hitBoxTransform;
         public Transform HitBoxTransform
@@ -36,12 +35,14 @@ namespace RSP2
                 hitBoxTransform = value;
             }
         }
-
         public event Action<CombatSystem, Collider> EnterEvent;
-        protected CombatSystem hitCombatSystem;
+
 
         protected LayerMask targetLayerMask;
         public LayerMask TargetLayerMask { get { return targetLayerMask; } }
+
+        protected HashSet<Collider> detectedTarget;
+        protected CombatSystem hitCombatSystem;
         private Collider hitCollider;
 
         public bool IsEnabled { get { return hitBoxCollider.enabled; } }
@@ -50,7 +51,7 @@ namespace RSP2
 
         public virtual void Initialize(LayerMask _targetLayerMask)
         {
-            hitBoxCollider = GetComponent<Collider>();  
+            hitBoxCollider = GetComponent<Collider>();
             Deactivate();
             hitBoxTransform = transform;
             detectedTarget = new HashSet<Collider>();
@@ -80,7 +81,7 @@ namespace RSP2
 
             FindCombatSystemAndCallEvent(other);
             //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
-            }
+        }
 
         private void FindCombatSystemAndCallEvent(Collider other)
         {
@@ -101,16 +102,10 @@ namespace RSP2
             {
                 hitCollider = hit.collider;
                 FindCombatSystemAndCallEvent(hit.collider);
-                //if (detectedTarget.Contains(hitCollider)) continue;
-
-                //detectedTarget.Add(hitCollider);
-                //hitCombatSystem = hitCollider.GetComponent<CombatSystem>();
-
-                //if (hitCombatSystem == null) continue;
             }
         }
 
-         public void StartRayCasting()
+        public void StartRayCasting()
         {
             detectedTarget.Clear();
         }

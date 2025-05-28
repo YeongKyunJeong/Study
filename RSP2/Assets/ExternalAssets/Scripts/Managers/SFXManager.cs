@@ -42,6 +42,7 @@ namespace RSP2
 
         public static void PlayClip(AudioClip clip, Vector3 sourcePosition, float volumeMultiplier = 1.0f, float speedMultipliyer = 1.0f)
         {
+            if (clip == null) return;
             SoundSource soundSource = GetAndSetSoundSource(sourcePosition);
             soundSource.Play(clip, Instance.soundEffectVolume * volumeMultiplier, speedMultipliyer, Instance.soundEffectPitchVariance);
         }
@@ -52,7 +53,7 @@ namespace RSP2
 
             switch (damageType)
             {
-                case DamageType.ByWeapon:
+                case DamageType.ByMainWeapon:
                     break;
                 case DamageType.Slashing:
                     {

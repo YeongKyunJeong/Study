@@ -35,12 +35,14 @@ namespace RSP2
 
         }
 
-        public static void ShootProjectile(CombatSystem combatSystem, ProjectileData projectileData, Vector3 shooterPosition, Vector3 shooterForward, float speedModifier = 1)
+        public static Projectile ShootProjectile(CombatSystem combatSystem, ProjectileData projectileData, Vector3 shooterPosition, Vector3 shooterForward, float speedModifier = 1)
         {
             Projectile projectile = PoolProjectile(projectileData.poolTag, shooterPosition, shooterForward);
 
             projectile.SetData(combatSystem, projectileData, speedModifier);
             projectiles.Add(projectile);
+
+            return projectile;
         }
 
         private static Projectile PoolProjectile(string tag, Vector3 shootPosition, Vector3 shootDir)

@@ -11,6 +11,8 @@ namespace RSP2
 
         protected CombatSystem combatSystem;
         protected AttackData attackData;
+
+        protected int targetNumberLimit;
         protected ForceWithTime[] selfForces;
         protected int forceIndex;
         protected int maxForceIndex;
@@ -48,7 +50,10 @@ namespace RSP2
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
+            targetNumberLimit = attackData.TargetNumberLimit;
             selfForces = attackData.SelfForces;
+            minimumDuration = attackData.AttackRecoveryTime;
+            
             isMomentumUpdateFrame = false;
             switch (selfForces.Length)
             {
@@ -70,6 +75,8 @@ namespace RSP2
             isFirstFrame = true;
             isCancelable = false;
             isAnimationEnd = false;
+
+            PlaySFXbyDamageType();
         }
 
         public override void Exit()
@@ -201,6 +208,11 @@ namespace RSP2
 
         protected virtual bool CheckIsCancelable()
         {
+            if (normalizedPassedTime > minimumDuration)
+            {
+                return true;
+            }
+
             return false;
         }
 
@@ -227,7 +239,49 @@ namespace RSP2
             }
         }
 
+        protected virtual bool CheckTargetFaction(CombatSystem hitCombatSystem)
+        {
+            switch (attackData.Target)
+            {
+                case ChasingTargetTpye.PlayerOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Player) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.EnemyOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Enemy) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.AllFaction: return true;
+                case ChasingTargetTpye.NotMyFaction:
+                    {
+                        if (hitCombatSystem.MyFaction != combatSystem.MyFaction) { return true; }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
+            return false ;
+        }
+
+        protected virtual void PlaySFXbyDamageType()
+        {
+            switch (attackData.DamageType)
+            {
+                case DamageType.ByMainWeapon:
+                    {
+                        SFXManager.PlayClip(player.CurrentWeapon.WeaponData.AttackSoundClip, player.transform.position, speedMultipliyer: 0.7f);
+                        break;
+                    }
+                default:
+                    {
+                        SFXManager.PlayClip(attackData.AttackSoundClip, player.transform.position, speedMultipliyer: 1);
+                        break;
+                    }
+            }
+        }
 
         protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {

@@ -27,15 +27,6 @@ namespace RSP2
             {
                 animator.CrossFadeInFixedTime(instantBasicMeleeAttackHash, 0.25f);
             }
-
-            if (attackData.DamageType == DamageType.ByWeapon)
-            {
-                SFXManager.PlayClip(currentWeapon.WeaponData.attackSoundClip, player.transform.position);
-            }
-            else
-            {
-                SFXManager.PlayClip(attackData.AttackSoundClip, player.transform.position);
-            }
         }
 
         #endregion

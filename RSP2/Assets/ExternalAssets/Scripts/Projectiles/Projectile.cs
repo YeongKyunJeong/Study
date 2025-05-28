@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -30,11 +31,32 @@ namespace RSP2
     public class Projectile : PooledObject
     {
         [field: SerializeField] public GameObject Model { get; private set; }
-        [field: SerializeField] public Collider Collider { get; private set; }
-        [field: SerializeField] public ProjectileData data { get; private set; }
-        private CombatSystem shooterCombatSystem;
+        [field: SerializeField] private TrailRenderer trailRenderer;
+        [field: SerializeField] public ProjectileData Data { get; private set; }
+        protected Collider hitBoxCollider;
+        public Collider HitBoxCollider
+        {
+            get
+            {
+                return hitBoxCollider;
+            }
 
+            private set
+            {
+                hitBoxCollider = value;
+            }
+        }
         private Rigidbody rigidbd;
+
+        protected LayerMask targetLayerMask;
+        public LayerMask TargetLayerMask { get { return targetLayerMask; } }
+
+        public event Action<CombatSystem, Collider> EnterEvent;
+        protected CombatSystem hitCombatSystem;
+        private Collider hitCollider;
+
+        private Vector3 frontDir;
+        private Vector3 resultVelocity;
 
         private float flyingDistanceSqr;
         private float distanceLimit;
@@ -42,12 +64,16 @@ namespace RSP2
 
         private float startTime;
 
+        protected HashSet<Collider> detectedTarget;
+        private CombatSystem shooterCombatSystem;
         private float speedModifier;
 
         private void Awake()
         {
+            hitBoxCollider = GetComponent<Collider>();
             rigidbd = GetComponent<Rigidbody>();
-            
+            detectedTarget = new HashSet<Collider>();
+            targetLayerMask = 1 << LayerMask.NameToLayer("Combat Unit");
             if (transform.childCount == 0)
             {
                 Instantiate(Model, transform);
@@ -60,11 +86,13 @@ namespace RSP2
 
         public void SetData(CombatSystem newShooter, ProjectileData newTrack, float newSpeedModifier)
         {
-            data = newTrack;
             shooterCombatSystem = newShooter;
+            Data = newTrack;
+            resultVelocity = Data.ShootVelocity.x * transform.right + Data.ShootVelocity.y * transform.up + Data.ShootVelocity.z * transform.forward;
             speedModifier = newSpeedModifier;
+            EnterEvent = null;
 
-            switch (data.RangeType)
+            switch (Data.RangeType)
             {
                 case ProjectileRangeType.ByTime:
                     {
@@ -73,23 +101,24 @@ namespace RSP2
                     }
                 case ProjectileRangeType.ByDistance:
                     {
-                        speedSqr = data.ShootVelocity.sqrMagnitude;
-                        distanceLimit = data.ShootDistanceLimit * data.ShootDistanceLimit;
+                        speedSqr = Data.ShootVelocity.sqrMagnitude;
+                        distanceLimit = Data.ShootDistanceLimit * Data.ShootDistanceLimit;
                         flyingDistanceSqr = 0;
                         break;
                     }
             }
+            trailRenderer.Clear();
         }
 
         public void CallUpdate()
         {
-            rigidbd.position += speedModifier * Time.deltaTime * data.ShootVelocity;
+            rigidbd.position += speedModifier * Time.deltaTime * resultVelocity;
 
-            switch (data.RangeType)
+            switch (Data.RangeType)
             {
                 case ProjectileRangeType.ByTime:
                     {
-                        if (Time.time - startTime >= data.ShootTimelimit)
+                        if (Time.time - startTime >= Data.ShootTimelimit)
                         {
                             ReturnToPool();
                         }
@@ -106,6 +135,29 @@ namespace RSP2
                     }
             }
         }
+
+        protected virtual void OnTriggerEnter(Collider other)
+        {
+            if (((1 << other.gameObject.layer) & targetLayerMask.value) == 0) return;
+
+            Debug.Log($"{other.name} hit");
+            ;
+            FindCombatSystemAndCallEvent(other);
+        }
+
+        private void FindCombatSystemAndCallEvent(Collider other)
+        {
+            if (detectedTarget.Contains(other)) return;
+
+            detectedTarget.Add(other);
+            hitCombatSystem = other.GetComponent<CombatSystem>();
+
+            if (hitCombatSystem == null) return;
+
+            EnterEvent?.Invoke(hitCombatSystem, other);
+            return;
+        }
+
 
         //private void OnDisable()
         //{

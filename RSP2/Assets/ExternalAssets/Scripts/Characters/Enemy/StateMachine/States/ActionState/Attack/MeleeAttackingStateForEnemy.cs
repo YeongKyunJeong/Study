@@ -38,7 +38,6 @@ namespace RSP2
             isDisabled = false;
             isEnabled = false;
 
-            SFXManager.PlayClip(attackData.AttackSoundClip, enemy.transform.position);
             if (attackData.VFXName.Length > 0)
             {
                 vFXStartTime = attackData.VFXStartTime;
@@ -147,14 +146,14 @@ namespace RSP2
 
         protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
-            if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
-            {
-                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage,
+            if (!CheckTargetFaction(hitCombatSystem)) return;
+
+            hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage,
                     attackData.DamageType);
-                Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
-                Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
-                VFXManager.PlayHitEffect(attackData.DamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
-            }
+            Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
+            Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
+            VFXManager.PlayHitEffect(attackData.DamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
+
         }
 
 

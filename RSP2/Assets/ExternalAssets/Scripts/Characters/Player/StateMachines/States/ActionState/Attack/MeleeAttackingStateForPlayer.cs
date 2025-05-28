@@ -55,7 +55,6 @@ namespace RSP2
             isDisabled = false;
             isEnabled = false;
 
-            minimumDuration = attackData.AttackRecoveryTime;
             if (attackData.VFXName.Length > 0)
             {
                 vFXStartTime = attackData.VFXStartTime;
@@ -171,36 +170,25 @@ namespace RSP2
 
         protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
-            if (combatSystem.MyFaction != hitCombatSystem.MyFaction)
+            if (!CheckTargetFaction(hitCombatSystem)) return;
+
+            Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
+            Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
+            Vector3 attackVector = attackPosition - hitPosition;
+            VFXManager.PlayHitEffect(currentWeapon.WeaponData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
+            attackVector.y = 0;
+
+            if (attackData.DamageType == DamageType.ByMainWeapon)
             {
-                Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
-                Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
-                Vector3 attackVector = attackPosition - hitPosition;
-                VFXManager.PlayHitEffect(currentWeapon.WeaponData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
-                attackVector.y = 0;
+                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.DamageType);
 
-                if (attackData.DamageType == DamageType.ByWeapon)
-                {
-                    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.DamageType);
-
-                }
-                else
-                {
-                    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, attackData.DamageType);
-                }
-                hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
             }
-        }
-
-        protected override bool CheckIsCancelable()
-        {
-            //return base.CheckIsCancelable();
-            if (normalizedPassedTime > minimumDuration)
+            else
             {
-                return true;
+                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, attackData.DamageType);
             }
+            hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
 
-            return false;
         }
 
 

@@ -65,6 +65,8 @@ namespace RSP2
             isAnimationEnd = false;
 
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+
+            SFXManager.PlayClip(attackData.AttackSoundClip, enemy.transform.position);
         }
 
         public override void Exit()
@@ -162,7 +164,32 @@ namespace RSP2
             }
         }
 
+        protected virtual bool CheckTargetFaction(CombatSystem hitCombatSystem)
+        {
+            switch (attackData.Target)
+            {
+                case ChasingTargetTpye.PlayerOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Player) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.EnemyOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Enemy) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.AllFaction: return true;
+                case ChasingTargetTpye.NotMyFaction:
+                    {
+                        if (hitCombatSystem.MyFaction != combatSystem.MyFaction) { return true; }
+                    }
+                    break;
+                default:
+                    break;
+            }
 
+            return false;
+        }
         protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {
             if (isAddingForce)

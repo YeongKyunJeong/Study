@@ -9,7 +9,7 @@ namespace RSP2
         Slashing,
         Blunging,
         Piercing,
-        ByWeapon
+        ByMainWeapon
     }
 
     public class StatHandlerForCharacter : MonoBehaviour

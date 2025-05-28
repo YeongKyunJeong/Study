@@ -99,7 +99,6 @@ namespace RSP2
 
         public void OnSkillQ()
         {
-            Debug.Log("Q");
             QSkillEvent?.Invoke();
         }
 
