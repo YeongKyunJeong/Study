@@ -53,7 +53,7 @@ namespace RSP2
             targetNumberLimit = attackData.TargetNumberLimit;
             selfForces = attackData.SelfForces;
             minimumDuration = attackData.AttackRecoveryTime;
-            
+
             isMomentumUpdateFrame = false;
             switch (selfForces.Length)
             {
@@ -263,7 +263,7 @@ namespace RSP2
                     break;
             }
 
-            return false ;
+            return false;
         }
 
         protected virtual void PlaySFXbyDamageType()
@@ -283,6 +283,43 @@ namespace RSP2
             }
         }
 
+        protected virtual void PlayVFXbyDamageType(CombatUnit hitCombatUnit, Vector3 playPosition, Vector3 playDir)
+        {
+            switch (attackData.DamageType)
+            {
+                case DamageType.ByMainWeapon:
+                    {
+                        VFXManager.PlayHitEffect(player.CurrentWeapon.WeaponData.DamageType, hitCombatUnit, playPosition, playDir.normalized);
+                        break;
+                    }
+                default:
+                    {
+                        VFXManager.PlayHitEffect(attackData.DamageType, hitCombatUnit, playPosition, playDir.normalized);
+                        break;
+                    }
+            }
+        }
+
+        protected virtual void ApplyDamage(CombatSystem targetCombatSystem, Vector3 forceDir)
+        {
+            switch (attackData.DamageType)
+            {
+                case DamageType.ByMainWeapon:
+                    {
+                        // TO DO :: Add damage calculating logic with stat
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus, player.CurrentWeapon.WeaponData.DamageType);
+                        break;
+                    }
+                default:
+                    {
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus, attackData.DamageType);
+                        break;
+                    }
+            }
+
+            targetCombatSystem.TakeForce(forceDir.normalized * attackData.PushForce);
+        }
+
         protected virtual void CalculateThisUpdateMomentum(MomentumDampingMode _momentumDampingMode = MomentumDampingMode.InstantStop)
         {
             if (isAddingForce)
@@ -291,7 +328,8 @@ namespace RSP2
                 {
                     momentumDampingMode = selfForces[forceIndex].MomentumDamping;
                     _momentumDampingMode = momentumDampingMode;
-                    AddForce(selfForces[forceIndex].Force);
+                    forceReceiver.AddForce(player.transform.TransformDirection(selfForces[forceIndex].Force), momentumDampingMode);
+                    //AddForce(selfForces[forceIndex].Force);
                     isMomentumUpdateFrame = true;
                     forceIndex++;
                     if (forceIndex >= maxForceIndex)
@@ -342,7 +380,11 @@ namespace RSP2
             horizontalMomentum = player.transform.TransformDirection(delta);
         }
 
-        protected virtual void AddForce(Vector3 delta) { horizontalMomentum += player.transform.TransformDirection(delta); }
+        protected virtual void AddForce(Vector3 delta, MomentumDampingMode momentumDampingMode = MomentumDampingMode.DefaultDamping)
+        {
+            forceReceiver.AddForce(player.transform.TransformDirection(delta), momentumDampingMode);
+        }
+
         protected virtual void SetAnimatorIsAttackingParameter(bool isOn)
         {
             animator.SetBool(attackHash, isOn);

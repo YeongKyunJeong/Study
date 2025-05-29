@@ -84,31 +84,6 @@ namespace RSP2
             }
         }
 
-        public void SetData(CombatSystem newShooter, ProjectileData newTrack, float newSpeedModifier)
-        {
-            shooterCombatSystem = newShooter;
-            Data = newTrack;
-            resultVelocity = Data.ShootVelocity.x * transform.right + Data.ShootVelocity.y * transform.up + Data.ShootVelocity.z * transform.forward;
-            speedModifier = newSpeedModifier;
-            EnterEvent = null;
-
-            switch (Data.RangeType)
-            {
-                case ProjectileRangeType.ByTime:
-                    {
-                        startTime = Time.time;
-                        break;
-                    }
-                case ProjectileRangeType.ByDistance:
-                    {
-                        speedSqr = Data.ShootVelocity.sqrMagnitude;
-                        distanceLimit = Data.ShootDistanceLimit * Data.ShootDistanceLimit;
-                        flyingDistanceSqr = 0;
-                        break;
-                    }
-            }
-            trailRenderer.Clear();
-        }
 
         public void CallUpdate()
         {
@@ -134,6 +109,38 @@ namespace RSP2
                         break;
                     }
             }
+        }
+
+        public void SetData(CombatSystem newShooter, ProjectileData newTrack, float newSpeedModifier)
+        {
+            shooterCombatSystem = newShooter;
+            Data = newTrack;
+            transform.position += ConvertVectorByTransformSpace(Data.ShootPosition);
+            resultVelocity = ConvertVectorByTransformSpace(Data.ShootVelocity);
+            speedModifier = newSpeedModifier;
+            EnterEvent = null;
+
+            switch (Data.RangeType)
+            {
+                case ProjectileRangeType.ByTime:
+                    {
+                        startTime = Time.time;
+                        break;
+                    }
+                case ProjectileRangeType.ByDistance:
+                    {
+                        speedSqr = Data.ShootVelocity.sqrMagnitude;
+                        distanceLimit = Data.ShootDistanceLimit * Data.ShootDistanceLimit;
+                        flyingDistanceSqr = 0;
+                        break;
+                    }
+            }
+            trailRenderer.Clear();
+        }
+
+        private Vector3 ConvertVectorByTransformSpace(Vector3 vector)
+        {
+            return vector.x * transform.right + vector.y * transform.up + vector.z * transform.forward;
         }
 
         protected virtual void OnTriggerEnter(Collider other)

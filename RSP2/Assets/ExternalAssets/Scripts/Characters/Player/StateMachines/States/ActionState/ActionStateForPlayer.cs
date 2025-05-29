@@ -19,6 +19,7 @@ namespace RSP2
         protected StatHandlerForPlayer statHandler;
         protected PlayerInputReader inputReader;
         protected MoverForPlayer mover;
+        protected ForceReceiver forceReceiver;
         protected CharacterController controller;
         protected Animator animator;
 
@@ -49,6 +50,7 @@ namespace RSP2
             statHandler = _player.StatHandler;
             inputReader = player.InputReader;
             mover = player.Mover;
+            forceReceiver = player.ForceReceiver;
             controller = player.Controller;
             animator = player.Animator;
             //fixedDeltaTime = Time.fixedDeltaTime;
@@ -211,12 +213,9 @@ namespace RSP2
                 {
                     return true;
                 }
-
             }
-
             return false;
         }
-
     }
 
 

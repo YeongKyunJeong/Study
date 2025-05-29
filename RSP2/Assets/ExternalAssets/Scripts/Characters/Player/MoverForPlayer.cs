@@ -111,6 +111,16 @@ namespace RSP2
             }
         }
 
+        public void UpdateForceVector(Vector3 movementVector)
+        {
+            nextHorizontalMovementVector = movementVector;
+            if (movementVector != Vector3.zero)
+            {
+                nextRotationVector = movementVector;
+                nextRotationVector.y = 0;
+            }
+        }
+
         public void UpdateNextForceVector(Vector3 forceVector)
         {
             nextForceVector = forceVector;

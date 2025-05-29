@@ -6,26 +6,45 @@ namespace RSP2
 {
     public class RangeAttackingStateForPlayer : BaseAttackStateForPlayer
     {
-        Projectile skillProjectile;
+        private readonly int instantRangeSkillHash = Animator.StringToHash("Attack.RangeSkill");
+        private readonly int isRangeSkillHash = Animator.StringToHash("IsRangeSkill");
+
+        protected Projectile skillProjectile;
+        protected float ShootTime;
+        protected bool isShot;
 
         public RangeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 
-        public override void Enter()
-        {
-            base.Enter();
+        //public override void Enter()
+        //{
+        //    base.Enter();
 
-        }
+        //}
 
         public override void Enter(int dataKey)
         {
             attackData = attackDataLibrary.RangeAttackDataList[dataKey];
             base.Enter();
-            skillProjectile = ProjectileManager.ShootProjectile(combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
 
-            skillProjectile.EnterEvent += OnProjectileHit;
+
+            ShootTime = attackData.Projectiles[0].ShootStartTime;
+            isShot = false;
             // TODO :: Add resource using logic
+
+        }
+        public override void CallUpdate()
+        {
+            base.CallUpdate();
+            if (isShot) return; 
+        
+            if (normalizedPassedTime >= ShootTime)
+            {
+                skillProjectile = ProjectileManager.ShootProjectile(combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
+                skillProjectile.EnterEvent += OnProjectileHit;
+                isShot = true;
+            }
         }
 
         public override void Exit()
@@ -38,8 +57,20 @@ namespace RSP2
         {
             if (!CheckTargetFaction(combatSystem)) return;
 
+            // TO DO :: Add damgage applying logic
             Debug.Log($"{combatSystem.name} Hit");
         }
 
+        protected override void SetAnimatorSelfStateParameter(bool isOn)
+        {
+            if (isOn)
+            {
+                if (animator.IsInTransition(0))
+                {
+                    animator.CrossFadeInFixedTime(instantRangeSkillHash, 0.25f);
+                }
+            }
+            animator.SetBool(isRangeSkillHash, isOn);
+        }
     }
 }

@@ -9,6 +9,7 @@ namespace RSP2
     {
         private Player player;
         private MoverForPlayer mover;
+        private ForceReceiver forceReceiver;
         private Animator animator;
 
         private readonly int instantHitHash = Animator.StringToHash("Hit");
@@ -51,6 +52,8 @@ namespace RSP2
             player = _player;
 
             mover = player.Mover;
+
+            forceReceiver = player.ForceReceiver;
 
             animator = player.Animator;
 

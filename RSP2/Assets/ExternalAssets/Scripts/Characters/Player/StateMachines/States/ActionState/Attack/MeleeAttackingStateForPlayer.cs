@@ -39,7 +39,6 @@ namespace RSP2
         {
             attackHitBox = _player.AttackHitBox;
             gizmosDrawer = player.GetComponent<GizmosDrawer>();
-            //hitBoxCollider = _player.AttackHitBoxCollider;
         }
 
         #region IState Methods
@@ -80,7 +79,7 @@ namespace RSP2
         {
             base.CallUpdate();
 
-            if (isDisabled) { return; }
+            if (isDisabled) return;
 
             if (!vFXStarted)
             {
@@ -170,24 +169,38 @@ namespace RSP2
 
         protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
+            // TO DO :: Add emeny counting logic
+
             if (!CheckTargetFaction(hitCombatSystem)) return;
 
             Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
             Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
             Vector3 attackVector = attackPosition - hitPosition;
-            VFXManager.PlayHitEffect(currentWeapon.WeaponData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
+
+            PlayVFXbyDamageType(hitCombatSystem.MyUnit, hitPosition, attackVector);
+
+            //switch (attackData.DamageType)
+            //{
+            //    case DamageType.ByMainWeapon:
+            //        {
+            //            VFXManager.PlayHitEffect(currentWeapon.WeaponData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
+            //            break;
+            //        }
+            //}
             attackVector.y = 0;
 
-            if (attackData.DamageType == DamageType.ByMainWeapon)
-            {
-                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.DamageType);
+            ApplyDamage(hitCombatSystem, -attackVector);
 
-            }
-            else
-            {
-                hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, attackData.DamageType);
-            }
-            hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
+            //if (attackData.DamageType == DamageType.ByMainWeapon)
+            //{
+            //    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.DamageType);
+
+            //}
+            //else
+            //{
+            //    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, attackData.DamageType);
+            //}
+            //hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
 
         }
 
