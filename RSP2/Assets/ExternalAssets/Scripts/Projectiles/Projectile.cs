@@ -53,8 +53,13 @@ namespace RSP2
 
         public event Action<CombatSystem, Collider> EnterEvent;
         protected CombatSystem hitCombatSystem;
-        private Collider hitCollider;
+        //private Collider hitCollider;
 
+        private int hitNumberLimit;
+        private CombatSystem shooterCombatSystem;
+        private AttackData attackData;
+        private float shooterAttack;
+        private float weaponDamage;
         private Vector3 frontDir;
         private Vector3 resultVelocity;
 
@@ -65,7 +70,6 @@ namespace RSP2
         private float startTime;
 
         protected HashSet<Collider> detectedTarget;
-        private CombatSystem shooterCombatSystem;
         private float speedModifier;
 
         private void Awake()
@@ -95,7 +99,7 @@ namespace RSP2
                     {
                         if (Time.time - startTime >= Data.ShootTimelimit)
                         {
-                            ReturnToPool();
+                            EndProjectile();
                         }
                         break;
                     }
@@ -104,15 +108,19 @@ namespace RSP2
                         flyingDistanceSqr += speedSqr * Time.deltaTime;
                         if (flyingDistanceSqr >= distanceLimit)
                         {
-                            ReturnToPool();
+                            EndProjectile();
                         }
                         break;
                     }
             }
         }
 
-        public void SetData(CombatSystem newShooter, ProjectileData newTrack, float newSpeedModifier)
+        public void SetData(AttackData newAttackData, float newAttack, float newWeaponDamgage, CombatSystem newShooter, ProjectileData newTrack, float newSpeedModifier)
         {
+            attackData = newAttackData;
+            hitNumberLimit = attackData.hitNumberLimit == 0 ? 20 : attackData.hitNumberLimit;
+            shooterAttack = newAttack;
+            weaponDamage = newWeaponDamgage;
             shooterCombatSystem = newShooter;
             Data = newTrack;
             transform.position += ConvertVectorByTransformSpace(Data.ShootPosition);
@@ -149,22 +157,88 @@ namespace RSP2
 
             Debug.Log($"{other.name} hit");
             ;
-            FindCombatSystemAndCallEvent(other);
+            if (!FindAndSetCombatSystem(other)) return;
+
+            EnterEvent?.Invoke(hitCombatSystem, other);
+
+            if (!CheckTargetFaction(hitCombatSystem)) return;
+
+            hitNumberLimit--;
+
+            Vector3 attackPosition = transform.position;
+            Vector3 hitPosition = other.ClosestPoint(attackPosition);
+            Vector3 attackVector = attackPosition - hitPosition;
+
+
+            VFXManager.PlayHitEffect(attackData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
+
+            ApplyDamage(hitCombatSystem, -attackVector);
+
+            if(hitNumberLimit == 0)
+            {
+                // TO DO :: add other end logic;
+                EndProjectile();
+            }
         }
 
-        private void FindCombatSystemAndCallEvent(Collider other)
+
+        // TO DO :: Make attack logic class and move method to it
+
+
+        private bool FindAndSetCombatSystem(Collider other)
         {
-            if (detectedTarget.Contains(other)) return;
+            if (detectedTarget.Contains(other)) return false;
 
             detectedTarget.Add(other);
             hitCombatSystem = other.GetComponent<CombatSystem>();
 
-            if (hitCombatSystem == null) return;
+            if (hitCombatSystem == null) return false;
 
-            EnterEvent?.Invoke(hitCombatSystem, other);
-            return;
+            return true;
         }
 
+        protected virtual bool CheckTargetFaction(CombatSystem hitCombatSystem)
+        {
+            switch (attackData.Target)
+            {
+                case ChasingTargetTpye.PlayerOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Player) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.EnemyOnly:
+                    {
+                        if (hitCombatSystem.MyFaction == Faction.Enemy) { return true; }
+                    }
+                    break;
+                case ChasingTargetTpye.AllFaction: return true;
+                case ChasingTargetTpye.NotMyFaction:
+                    {
+                        if (hitCombatSystem.MyFaction != shooterCombatSystem.MyFaction) { return true; }
+                    }
+                    break;
+                default:
+                    break;
+            }
+
+            return false;
+        }
+
+        protected virtual void ApplyDamage(CombatSystem targetCombatSystem, Vector3 forceDir)
+        {
+            // TO DO :: Add damage calculating logic with stat
+            targetCombatSystem.TakeDamage(shooterAttack + attackData.Damage + weaponDamage, attackData.DamageType);
+
+
+            targetCombatSystem.TakeForce(forceDir.normalized * attackData.PushForce);
+        }
+
+        protected virtual void EndProjectile()
+        {
+            detectedTarget.Clear();
+            ReturnToPool();
+
+        }
 
         //private void OnDisable()
         //{

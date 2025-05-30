@@ -46,7 +46,7 @@ namespace RSP2
         [field: SerializeField] private AttackType attackType = AttackType.Basic;
         public AttackType AttackType { get => attackType; }
         [field: SerializeField] public ChasingTargetTpye Target { get; private set; }
-        [field: SerializeField] public int TargetNumberLimit { get; private set; }
+        [field: SerializeField] public int hitNumberLimit { get; private set; }
         [field: SerializeField] public string AttackName { get; private set; } = "BasicMeleeAttack";
         [field: SerializeField] public string VFXName { get; private set; }
         [field: SerializeField][Range(0, 1f)] public float VFXStartTime;

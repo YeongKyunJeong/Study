@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 0
   attackType: 2
   <Target>k__BackingField: 1
-  <TargetNumberLimit>k__BackingField: 0
+  <TargetNumberLimit>k__BackingField: 1
   <AttackName>k__BackingField: RangeAttack_01
   <VFXName>k__BackingField: 
   VFXStartTime: 0

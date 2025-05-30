@@ -41,21 +41,24 @@ namespace RSP2
         
             if (normalizedPassedTime >= ShootTime)
             {
-                skillProjectile = ProjectileManager.ShootProjectile(combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
-                skillProjectile.EnterEvent += OnProjectileHit;
+                combatSystem.ChangeStamina(-attackData.StaminaCost);
+                combatSystem.ChangeMana(-attackData.MPCost);
+                skillProjectile = ProjectileManager.ShootProjectile(attackData, statHandler.CurrentStatistics.Attack, player.CurrentWeapon.WeaponData.DamageBonus ,combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
+                //skillProjectile.EnterEvent += OnProjectileHit;
                 isShot = true;
             }
         }
 
         public override void Exit()
         {
-            skillProjectile.EnterEvent -= OnProjectileHit;
+            //skillProjectile.EnterEvent -= OnProjectileHit;
             base.Exit();
         }
 
         protected virtual void OnProjectileHit(CombatSystem combatSystem, Collider hitCollider)
         {
             if (!CheckTargetFaction(combatSystem)) return;
+
 
             // TO DO :: Add damgage applying logic
             Debug.Log($"{combatSystem.name} Hit");

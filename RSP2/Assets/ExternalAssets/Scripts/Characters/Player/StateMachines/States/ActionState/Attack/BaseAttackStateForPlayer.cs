@@ -50,7 +50,7 @@ namespace RSP2
 
             horizontalMomentum = runtimeData.HorizontalMovementVector;
 
-            targetNumberLimit = attackData.TargetNumberLimit;
+            targetNumberLimit = attackData.hitNumberLimit;
             selfForces = attackData.SelfForces;
             minimumDuration = attackData.AttackRecoveryTime;
 
