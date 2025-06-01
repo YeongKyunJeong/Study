@@ -4978,6 +4978,17 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1314251456}
   m_CullTransparentMesh: 1
+--- !u!114 &1397084918 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9221111292257590485, guid: b31af1353f22a704bb8984805207b298, type: 3}
+  m_PrefabInstance: {fileID: 215005155428977369}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a1c8c517e03ed60428e87e20d7ec223e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1435436856
 GameObject:
   m_ObjectHideFlags: 0
@@ -6222,7 +6233,7 @@ PrefabInstance:
     - target: {fileID: 2077602903505734473, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: <InteractionHitBox>k__BackingField
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1397084918}
     - target: {fileID: 2077602903505734473, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: <MainCameraTransform>k__BackingField
       value: 
