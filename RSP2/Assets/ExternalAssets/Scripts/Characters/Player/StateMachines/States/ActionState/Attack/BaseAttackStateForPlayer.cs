@@ -185,7 +185,7 @@ namespace RSP2
         {
             //SetAnimatorIsAttackingParameter(false);
 
-            if (CheckIsSlope().y < -0.98) // No collider detected
+            if (FallingCalculator.CheckIsSlope(player.transform).y < -0.98) // No collider detected
             {
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;
@@ -223,7 +223,17 @@ namespace RSP2
                 animator.speed = 1;
                 return;
             }
+            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
         }
+
+        //protected virtual void SetAnimatorPlayingSpeed(bool isExit = false)
+        //{
+        //    if (isExit)
+        //    {
+        //        animator.speed = 1;
+        //        return;
+        //    }
+        //}
 
         protected virtual void UpdateNormalizedPassedTime()
         {

@@ -59,14 +59,14 @@ namespace RSP2
         public override void CallUpdate()
         {
             base.CallUpdate();
-            // TODO::
+
             if (isDisabled) { return; }
 
             if (!vFXStarted)
             {
                 if (normalizedPassedTime >= vFXStartTime)
                 {
-                    VFXManager.PlayVFXEffect(attackData.VFXName, enemy.transform.position + enemy.AttackPositionModifier, enemy.transform.forward);
+                    VFXManager.PlayVFXEffect(attackData.VFXName, enemy.transform.position + runtimeData.AttackPositionModifier, enemy.transform.forward);
                     vFXStarted = true;
                 }
             }
@@ -150,7 +150,7 @@ namespace RSP2
 
             hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage,
                     attackData.DamageType);
-            Vector3 attackPosition = enemy.transform.position + enemy.AttackPositionModifier;
+            Vector3 attackPosition = enemy.transform.position + runtimeData.AttackPositionModifier;
             Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
             VFXManager.PlayHitEffect(attackData.DamageType, hitCombatSystem.MyUnit, hitPosition, (attackPosition - hitPosition).normalized);
 
@@ -169,7 +169,7 @@ namespace RSP2
                         sphereCollider.radius = attackData.ColliderSize.x;
                         sphereCollider.center = attackData.ColliderPosition;
 
-                        enemy.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
                         break;
                     }
 
@@ -180,20 +180,20 @@ namespace RSP2
                         BoxCollider.size = attackData.ColliderSize;
                         BoxCollider.center = attackData.ColliderPosition;
 
-                        enemy.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
                         break;
                     }
                 case DetectionType.SphereRaycast:
                     {
                         useRaycast = true;
-                        enemy.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
                         break;
                     }
 
                 default:
                     {
                         useRaycast = true;
-                        enemy.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
                         break;
                     }
             }

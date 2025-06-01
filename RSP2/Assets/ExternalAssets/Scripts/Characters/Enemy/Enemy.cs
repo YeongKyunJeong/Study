@@ -7,39 +7,35 @@ namespace RSP2
 {
     public class Enemy : CombatUnit
     {
-        private GameManager gameManager;
+        protected GameManager gameManager;
         [field: SerializeField] public MoverForEnemy Mover { get; private set; }
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
-        [field: SerializeField] public CharacterController Controller { get; private set; }
+        [field: SerializeField] public CharacterController Controller { get; protected set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatHandlerForEnemy StatHandler { get; private set; }
         [field: SerializeField] public CombatSystemForEnemy CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBoxForEnemy AttackHitBox { get; private set; }
 
-        public ActionStateMachineForEnemy ActionStateMachine { get; private set; }
+        public ActionStateMachineForEnemy ActionStateMachine { get; protected set; }
 
 
         // To do : Move these parameter to SO and RuntimeData
         public int EnemyKey;
-        [field: SerializeField] public AttackData[] AttackDataArray { get; private set; }
-        [field: SerializeField] public float SearchingDistance { get; private set; }
-        public float SearchingDistanceSqr { get; private set; }
-        [field: SerializeField] public LayerMask SearchingLayerMask { get; private set; }
-        [field: SerializeField] public float FieldOfView { get; private set; }
 
-        //[field: SerializeField][field: Range(0f, 25f)] public float ChasingSpeedModifier { get; private set; } = 4f;
-        [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; private set; } = 6;
-        public float AttackRange { get; set; }
-        public float AttackRangeSqr { get; private set; }
-        public ChasingTargetTpye ChasingTargetType = ChasingTargetTpye.PlayerOnly;
-
-        public Vector3 AttackPositionModifier { get; set; }
-
-        public CombatSystem Target { get; set; }
+        [field: SerializeField] public AttackData[] AttackDataArray { get; protected set; }
+        public RuntimeDataForEnemy RuntimeData { get; private set; }
+        [field: SerializeField] protected float searchingDistance { get; set; }
+        [field: SerializeField] public LayerMask SearchingLayerMask { get; protected set; }
+        [field: SerializeField] public float FieldOfView { get; protected set; }
 
 
-        private void Awake()
+        [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; protected set; } = 6;
+
+
+
+        protected virtual void Awake()
         {
+            RuntimeData = new RuntimeDataForEnemy();
             ActionStateMachine = new ActionStateMachineForEnemy(this);
 
             if (Mover == null)
@@ -78,10 +74,10 @@ namespace RSP2
                 throw new NotImplementedException("Player AttackHitBox Not Assigned");
             }
             AttackHitBox.Initialize(1 << LayerMask.NameToLayer("Combat Unit"));
-            AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
+            RuntimeData.AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
         }
 
-        private void Start()
+        protected virtual void Start()
         {
             if (gameManager == null)
             {
@@ -89,12 +85,15 @@ namespace RSP2
             }
 
             //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey( EnemyKey));
+            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
-            SearchingDistanceSqr = SearchingDistance * SearchingDistance;
+            RuntimeData.SearchingDistance = searchingDistance;
+            RuntimeData.SearchingDistanceSqr = searchingDistance * searchingDistance;
+
+            RuntimeData.IsHostile = true;
         }
 
         private void Update()
@@ -106,16 +105,16 @@ namespace RSP2
 
         public void SetAttackRange(float range)
         {
-            AttackRange = range;
-            AttackRangeSqr = range * range;
+            RuntimeData.AttackRange = range;
+            RuntimeData.AttackRangeSqr = range * range;
         }
 
-        private void OnHit()
+        protected void OnHit()
         {
             ActionStateMachine.OnHit();
         }
 
-        private void OnDie()
+        protected void OnDie()
         {
             ActionStateMachine.OnDie();
             gameManager.EnemyDie(this);

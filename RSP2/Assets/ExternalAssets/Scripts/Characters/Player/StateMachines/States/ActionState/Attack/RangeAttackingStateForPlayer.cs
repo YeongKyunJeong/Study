@@ -12,6 +12,8 @@ namespace RSP2
         protected Projectile skillProjectile;
         protected float ShootTime;
         protected bool isShot;
+        protected float vFXStartTime;
+        protected bool vFXStarted;
 
         public RangeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -28,8 +30,14 @@ namespace RSP2
             attackData = attackDataLibrary.RangeAttackDataList[dataKey];
             base.Enter();
 
-
             ShootTime = attackData.Projectiles[0].ShootStartTime;
+
+            if (attackData.VFXName.Length > 0)
+            {
+                vFXStartTime = attackData.VFXStartTime;
+                vFXStarted = false;
+            }
+            else vFXStarted = true;
             isShot = false;
             // TODO :: Add resource using logic
 
@@ -37,6 +45,16 @@ namespace RSP2
         public override void CallUpdate()
         {
             base.CallUpdate();
+            if (!vFXStarted)
+            {
+                if (normalizedPassedTime >= vFXStartTime)
+                {
+                    VFXManager.PlayVFXEffect(attackData.VFXName, player.transform.position + runtimeData.AttackPositionModifier, player.transform.forward);
+                    vFXStarted = true;
+                }
+            }
+
+
             if (isShot) return; 
         
             if (normalizedPassedTime >= ShootTime)
@@ -53,15 +71,6 @@ namespace RSP2
         {
             //skillProjectile.EnterEvent -= OnProjectileHit;
             base.Exit();
-        }
-
-        protected virtual void OnProjectileHit(CombatSystem combatSystem, Collider hitCollider)
-        {
-            if (!CheckTargetFaction(combatSystem)) return;
-
-
-            // TO DO :: Add damgage applying logic
-            Debug.Log($"{combatSystem.name} Hit");
         }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)

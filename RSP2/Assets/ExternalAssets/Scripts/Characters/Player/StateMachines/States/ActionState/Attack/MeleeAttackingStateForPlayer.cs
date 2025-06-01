@@ -15,9 +15,6 @@ namespace RSP2
         //protected Transform hitBoxTransform;
 
         protected AttackHitBox attackHitBox;
-        protected float vFXStartTime;
-        protected float hitBoxEnableTime;
-        protected float hitBoxDisableTime;
 
         protected Ray ray;
         RaycastHit[] hits;
@@ -26,9 +23,12 @@ namespace RSP2
         protected GizmosDrawer gizmosDrawer;
         protected Vector3 attackSize;
 
-        protected bool vFXStarted;
+        protected float hitBoxEnableTime;
+        protected float hitBoxDisableTime;
         protected bool isEnabled;
         protected bool isDisabled;
+        protected float vFXStartTime;
+        protected bool vFXStarted;
         protected Weapon currentWeapon;
 
 
@@ -85,7 +85,7 @@ namespace RSP2
             {
                 if (normalizedPassedTime >= vFXStartTime)
                 {
-                    VFXManager.PlayVFXEffect(attackData.VFXName, player.transform.position + player.RuntimeData.AttackPositionModifier, player.transform.forward);
+                    VFXManager.PlayVFXEffect(attackData.VFXName, player.transform.position + runtimeData.AttackPositionModifier, player.transform.forward);
                     vFXStarted = true;
                 }
             }
@@ -173,7 +173,7 @@ namespace RSP2
 
             if (!CheckTargetFaction(hitCombatSystem)) return;
 
-            Vector3 attackPosition = player.transform.position + player.RuntimeData.AttackPositionModifier;
+            Vector3 attackPosition = player.transform.position + runtimeData.AttackPositionModifier;
             Vector3 hitPosition = hitCollider.ClosestPoint(attackPosition);
             Vector3 attackVector = attackPosition - hitPosition;
 
@@ -218,7 +218,7 @@ namespace RSP2
                         sphereCollider.radius = attackSize.x * currentWeapon.WeaponData.RangeModifier;
                         sphereCollider.center = attackData.ColliderPosition;
 
-                        player.RuntimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
                         break;
                     }
 
@@ -229,34 +229,34 @@ namespace RSP2
                         BoxCollider.size = attackSize;
                         BoxCollider.center = attackData.ColliderPosition;
 
-                        player.RuntimeData.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, BoxCollider.center.y, 0);
                         break;
                     }
                 case DetectionType.SphereRaycast:
                     {
                         useRaycast = true;
-                        player.RuntimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
                         break;
                     }
 
                 default:
                     {
                         useRaycast = true;
-                        player.RuntimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
+                        runtimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
                         break;
                     }
             }
         }
-        protected override void SetAnimatorPlayingSpeed(bool isExit = false)
-        {
-            base.SetAnimatorPlayingSpeed(isExit);
+        //protected override void SetAnimatorPlayingSpeed(bool isExit = false)
+        //{
+        //    base.SetAnimatorPlayingSpeed(isExit);
 
-            if (isExit)
-            {
-                return;
-            }
-            animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
-        }
+        //    if (isExit)
+        //    {
+        //        return;
+        //    }
+        //    animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
+        //}
 
 
     }

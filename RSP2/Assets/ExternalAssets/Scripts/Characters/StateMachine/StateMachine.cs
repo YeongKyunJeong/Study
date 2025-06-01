@@ -9,7 +9,7 @@ namespace RSP2
     {
         protected IState currentState;
 
-        public void ChangeState(IState nextState)
+        public virtual void ChangeState(IState nextState)
         {
             currentState?.Exit();
 
@@ -19,7 +19,7 @@ namespace RSP2
             currentState.Enter();
         }
 
-        public void ChangeStateWithAttackData(IState nextAttackState, int dataKey)
+        public virtual void ChangeStateWithAttackData(IState nextAttackState, int dataKey)
         {
             currentState?.Exit();
 

@@ -11,6 +11,7 @@ namespace RSP2
         public ExpDataLoader ExpDataLoader { get; private set; }
 
         public StatLoaderForEnemy StatLoaderForEnemy { get; private set; }
+        public StatLoaderForNPC StatLoaderForNPC { get; private set; }
 
         public void Initialize()
         {
@@ -19,6 +20,7 @@ namespace RSP2
             ExpDataLoader = new ExpDataLoader();
 
             StatLoaderForEnemy = new StatLoaderForEnemy();
+            StatLoaderForNPC = new StatLoaderForNPC();
         }
     }
 

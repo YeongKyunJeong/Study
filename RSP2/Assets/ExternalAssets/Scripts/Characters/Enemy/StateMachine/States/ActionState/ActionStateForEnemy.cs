@@ -9,6 +9,8 @@ namespace RSP2
     {
         protected Enemy enemy;
 
+        protected RuntimeDataForEnemy runtimeData;
+
         protected ActionStateMachineForEnemy stateMachine;
         protected StatHandlerForEnemy statHandler;
         protected MoverForEnemy mover;
@@ -50,13 +52,13 @@ namespace RSP2
 
         private bool isTargetVectorThisFrame = false;
 
-        protected readonly int inAirHash = Animator.StringToHash("@InAir");
-
 
         public ActionStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine)
         {
             enemy = _enemy;
             stateMachine = _stateMachine;
+
+            runtimeData = enemy.RuntimeData;
 
             statHandler = _enemy.StatHandler;
             mover = enemy.Mover;
@@ -86,6 +88,12 @@ namespace RSP2
 
         public virtual void CallUpdate()
         {
+            if (!runtimeData.IsHostile)
+            {
+                stateMachine.SetDefaultState();
+                return;
+            }
+
             isTargetVectorThisFrame = false;
         }
 
@@ -126,7 +134,7 @@ namespace RSP2
 
         protected Vector3 GetAndSaveTargetVector()
         {
-            targetVector = enemy.Target.transform.position - enemy.transform.position;
+            targetVector = runtimeData.Target.transform.position - enemy.transform.position;
             targetDistanceSqr = targetVector.sqrMagnitude;
             isTargetVectorThisFrame = true;
             return targetVector;
@@ -137,7 +145,7 @@ namespace RSP2
             // To Do : Save result and return that if called more than once within one frame
 
             hitColliders = Physics.OverlapSphere(enemyTransform.position,
-                enemy.SearchingDistance, enemy.SearchingLayerMask);
+                runtimeData.SearchingDistance, enemy.SearchingLayerMask);
 
             foreach (Collider hit in hitColliders)
             {
@@ -147,13 +155,13 @@ namespace RSP2
                     && !detectedCombatSystem.IsDead
                     /*&& detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction*/)
                 {
-                    switch (enemy.ChasingTargetType)
+                    switch (runtimeData.ChasingTargetType)
                     {
                         case ChasingTargetTpye.PlayerOnly:
                             {
                                 if (detectedCombatSystem.MyFaction == Faction.Player)
                                 {
-                                    enemy.Target = detectedCombatSystem;
+                                    runtimeData.Target = detectedCombatSystem;
 
                                     //Debug.Log($"Target detected : {detectedCombatSystem.name}");
                                     return true;
@@ -165,7 +173,7 @@ namespace RSP2
                             }
                         case ChasingTargetTpye.AllFaction:
                             {
-                                enemy.Target = detectedCombatSystem;
+                                runtimeData.Target = detectedCombatSystem;
 
                                 return true;
 
@@ -174,7 +182,7 @@ namespace RSP2
                             {
                                 if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
                                 {
-                                    enemy.Target = detectedCombatSystem;
+                                    runtimeData.Target = detectedCombatSystem;
 
                                     return true;
                                 }
@@ -185,7 +193,7 @@ namespace RSP2
                             }
                         default:
                             {
-                                enemy.Target = null;
+                                runtimeData.Target = null;
                                 return false;
                             }
                     }
@@ -193,15 +201,15 @@ namespace RSP2
 
             }
 
-            enemy.Target = null;
+            runtimeData.Target = null;
             return false;
         }
 
         protected bool IsInAttackRange(bool useDistance = false)
         {
-            if (enemy.Target == null) return false;
+            if (runtimeData.Target == null) return false;
 
-            if (enemy.Target.IsDead) return false;
+            if (runtimeData.Target.IsDead) return false;
 
             //if (stateMachine.CurrentAttackInfo == null)
             //    SelectAttack();
@@ -210,7 +218,7 @@ namespace RSP2
             {
                 //float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
                 // TODO :: Compare with attack distance;
-                if (TargetDistanceSqr <= enemy.AttackRangeSqr)
+                if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
                 {
                     return true;
                 }
@@ -234,9 +242,9 @@ namespace RSP2
 
         protected virtual bool IsInSight()
         {
-            if (enemy.Target == null) return false;
+            if (runtimeData.Target == null) return false;
 
-            if (enemy.Target.IsDead) return false;
+            if (runtimeData.Target.IsDead) return false;
 
             //Vector3 directionToTarget = enemy.Target.transform.position - enemy.transform.position;
             Vector3 directionToTarget = TargetVector;

@@ -155,8 +155,8 @@ namespace RSP2
         {
             if (((1 << other.gameObject.layer) & targetLayerMask.value) == 0) return;
 
-            Debug.Log($"{other.name} hit");
-            ;
+            // TO DO :: Ad Damage UI
+           
             if (!FindAndSetCombatSystem(other)) return;
 
             EnterEvent?.Invoke(hitCombatSystem, other);
@@ -199,6 +199,8 @@ namespace RSP2
 
         protected virtual bool CheckTargetFaction(CombatSystem hitCombatSystem)
         {
+            if(!attackData) return false;
+
             switch (attackData.Target)
             {
                 case ChasingTargetTpye.PlayerOnly:

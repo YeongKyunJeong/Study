@@ -7,37 +7,31 @@ namespace RSP2
         private Player player;
         private PlayerScriptableObject sOData;
         private MovementStateDataForPlayer movementStateData;
-        private AttackDataLibrary attackData;
+        //private AttackDataLibrary attackData;
         private RuntimeDataForPlayer runtimeData;
-        private PlayerInputReader inputReader;
+        //private PlayerInputReader inputReader;
         private CharacterController controller;
 
         private Vector2 movementInputVector;
+        private Vector3 nextVerticalVelocityVector;
         private Vector3 nextHorizontalMovementVector;
         private Vector3 nextForceVector;
         private Vector3 nextRotationVector;
         private Transform mainCameraTransform;
-        private Vector3 nextVerticalVelocityVector;
         private bool keepRotation = false;
 
         private bool needToSetHeight = false;
         private Vector3 targetHeight;
 
-        //private float fixedDeltaTime;
-
-        //private bool isFirstJumpForceUpdate;
-
-        //private Vector3 gravity;
-
         public void Initialize(Player _player)
         {
             player = _player;
-            sOData = player.SOData;
+            sOData = _player.SOData;
             movementStateData = sOData.MovementStateData;
-            attackData = sOData.AttackDataLibrary;
-            runtimeData = player.RuntimeData;
-            inputReader = GetComponent<PlayerInputReader>();
-            controller = player.Controller;
+            //attackData = sOData.AttackDataLibrary;
+            runtimeData = _player.RuntimeData;
+            //inputReader = GetComponent<PlayerInputReader>();
+            controller = _player.Controller;
             mainCameraTransform = Camera.main.transform;
 
             nextVerticalVelocityVector = Vector3.zero;
@@ -60,7 +54,7 @@ namespace RSP2
         private void ApplyUpdatedMovement()
         {
 
-            controller.Move((nextHorizontalMovementVector + nextVerticalVelocityVector + nextForceVector) * Time.deltaTime);
+            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector +  nextForceVector) * Time.deltaTime);
             //if (needToSetHeight)
             //{
             //    needToSetHeight = false;

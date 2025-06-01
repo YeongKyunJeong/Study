@@ -6,8 +6,9 @@ namespace RSP2
 {
     public class OnLandStateForEnemy : ActionStateForEnemy
     {
-
         protected readonly int onLandHash = Animator.StringToHash("@OnLand");
+        protected Vector3 slopeNormalVector;
+
 
         public OnLandStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
         {
@@ -21,6 +22,13 @@ namespace RSP2
             base.Enter();
 
             SetAnimatorOnLandParameter(true);
+        }
+
+        public override void CallUpdate()
+        {
+            base.CallUpdate();
+
+            slopeNormalVector = FallingCalculator.CheckIsSlope(enemy.transform);
         }
 
         public override void Exit()

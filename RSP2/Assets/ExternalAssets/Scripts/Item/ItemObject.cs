@@ -6,8 +6,9 @@ namespace RSP2
 {
     public interface IInteractable
     {
-        string GetInteractMsg();
-        void OnInteract(Player player);
+        public string GetInteractMsg();
+        public void OnInteractEnter(Player player);
+        public void OnInteractExit(Player player);
     }
 
 
@@ -25,10 +26,16 @@ namespace RSP2
                 return string.Format("Pickup {0} {1}", itemData.displayName, amount);
         }
 
-        public void OnInteract(Player player)
+        public void OnInteractEnter(Player player)
         {
+            // TO DO :: Add item taking logic
             if (player.AddItem(itemData, amount))
                 Destroy(gameObject);
+        }
+
+        public void OnInteractExit(Player player)
+        {
+            // TO DO :: Exit logic
         }
     }
 }

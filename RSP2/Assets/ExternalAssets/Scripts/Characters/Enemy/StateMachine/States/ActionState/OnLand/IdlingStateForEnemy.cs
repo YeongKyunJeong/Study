@@ -30,26 +30,36 @@ namespace RSP2
         public override void Exit()
         {
             base.Exit();
-
-            SetAnimatorSelfStateParameter(false);
         }
 
         public override void CallUpdate()
         {
+            if (!runtimeData.IsHostile) return;
+
+            if (FallingCalculator.CheckFalling(new Vector3(0, controller.velocity.y, 0), Vector3.down, controller))
+            {
+                SetAnimatorOnLandParameter(false);
+                //stateMachine.ChangeState(stateMachine.FallingState); // TO DO :: Add fallingstate
+                return;
+            }
+
             if (IsInAttackRange())
             {
                 if (IsInSight())
                 {
                     stateMachine.ChangeToBasicAttackState();
+                    return;
                 }
                 else
                 {
                     base.CallUpdate();
+                    return;
                 }
             }
             else if (SearchForTaget())
             {
                 stateMachine.ChangeState(stateMachine.ChasingState);
+                return;
             }
         }
 

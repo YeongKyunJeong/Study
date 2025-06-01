@@ -46,7 +46,7 @@ namespace RSP2
 
             CheckIsFirstUpdate();
 
-            SendHorizontalMovementData();
+            SendMovementData();
 
             CheckIsGrounded();
         }
@@ -70,7 +70,7 @@ namespace RSP2
         {
             if (controller.isGrounded)
             {
-                runtimeData.VerticalVelocityVector = 5*Physics.gravity * Time.deltaTime;
+                runtimeData.VerticalVelocityVector = 5 * Physics.gravity * Time.deltaTime;
 
                 SetAnimatorInAirParameter(false);
 
@@ -86,14 +86,14 @@ namespace RSP2
                     stateMachine.ChangeState(stateMachine.WalkingState);
                     return;
                 }
-                stateMachine.ChangeState(stateMachine.RunnigState);
 
+                stateMachine.ChangeState(stateMachine.RunnigState);
                 return;
 
             }
         }
 
-        private void SendHorizontalMovementData()
+        private void SendMovementData()
         {
             runtimeData.VerticalVelocityVector = verticalVelocityVector;
 

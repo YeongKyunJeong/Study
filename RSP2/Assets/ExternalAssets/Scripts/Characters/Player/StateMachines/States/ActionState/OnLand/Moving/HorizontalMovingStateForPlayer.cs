@@ -31,11 +31,11 @@ namespace RSP2
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
             //Debug.Log(runtimeData.VerticalVelocityVector);
 
-            slopeNormalVector = CheckIsSlope();
+            //slopeNormalVector = CheckIsSlope();
+            slopeNormalVector = FallingCalculator.CheckIsSlope(player.transform);
 
             if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVector, controller))
             {
-
                 animator.SetBool(onLandHash, false);
 
                 stateMachine.ChangeState(stateMachine.FallingState);

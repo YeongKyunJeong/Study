@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.HID;
 
 namespace RSP2
 {
@@ -198,6 +199,11 @@ namespace RSP2
         private static Vector3 gravity = Physics2D.gravity;
         private static float fallingThreshold;
 
+        private static RaycastHit hit;
+        private static Vector3 slopeDetectingRayStart = new Vector3(0, 0.25f, 0);
+        private static float slopeDetectionRayDistance = 0.5f;
+        private static LayerMask groundLayer = 1 << LayerMask.NameToLayer("Environment");
+
         public static void ApplyFallingToVector(ref Vector3 velocityVector, float timeDelta)
         {
             velocityVector += timeDelta * gravity;
@@ -215,6 +221,18 @@ namespace RSP2
                 }
             }
             return false;
+        }
+
+        public static Vector3 CheckIsSlope(Transform transform, bool stickFloor = true)
+        {
+            if (Physics.Raycast(transform.position + slopeDetectingRayStart, Vector3.down, out hit, slopeDetectionRayDistance,
+                groundLayer))
+            {
+                return hit.normal;
+            }
+
+            return Vector3.down;
+
         }
     }
 

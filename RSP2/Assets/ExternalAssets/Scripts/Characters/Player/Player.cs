@@ -19,7 +19,7 @@ namespace RSP2
         [field: SerializeField] public StatHandlerForPlayer StatHandler { get; private set; }
         [field: SerializeField] public CombatSystemForPlayer CombatSystem { get; private set; }
         [field: SerializeField] public AttackHitBox AttackHitBox { get; private set; }
-        [field: SerializeField] public InteractionHitBox InteractionHitBox { get; private set; }
+        [field: SerializeField] public InteractionHitBoxForPlayer InteractionHitBox { get; private set; }
         [field: SerializeField] public Inventory Inventory { get; private set; }
 
 

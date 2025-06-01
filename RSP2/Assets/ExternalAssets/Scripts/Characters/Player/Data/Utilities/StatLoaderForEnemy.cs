@@ -25,8 +25,8 @@ namespace RSP2
         public float Deffence;
         public float MovementSpeed;
         public float AttackSpeed;
-
     }
+
     public class StatLoaderForEnemy
     {
 

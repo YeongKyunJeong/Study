@@ -31,7 +31,7 @@ namespace RSP2
         {
             key = -1;
 
-            Name = "Default";
+            Name = "Default Enemy";
 
             Exp = 300;
 

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace RSP2
 {
@@ -39,6 +40,8 @@ namespace RSP2
 
             animator = _enemy.Animator;
 
+            enemy.RuntimeData.isChasingStartEvent += SetDefaultState;
+
             IdlingState = new IdlingStateForEnemy(_enemy, this);
 
             ChasingState = new ChasingState(_enemy, this);
@@ -58,9 +61,16 @@ namespace RSP2
             SetDefaultState();
         }
 
+        public override void ChangeState(IState nextState)
+        {
+            if (!enemy.RuntimeData.IsHostile) return;
+
+            base.ChangeState(nextState);
+        }
+
         public override void SetDefaultState()
         {
-            ChangeState(IdlingState);
+            base.ChangeState(IdlingState);
             //IsInAttackingState = false;
         }
 

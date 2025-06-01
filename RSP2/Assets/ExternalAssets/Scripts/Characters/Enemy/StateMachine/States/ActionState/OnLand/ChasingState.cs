@@ -40,7 +40,7 @@ namespace RSP2
         public override void CallUpdate()
         {
             base.CallUpdate();
-
+            runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
             //if (IsInAttackRange())
             //{
             //    if (IsInSight())
@@ -50,7 +50,7 @@ namespace RSP2
             //    }
             //}
 
-            if (enemy.Target == null)
+            if (runtimeData.Target == null)
             {
                 if (!SearchForTaget())
                 {
@@ -62,18 +62,18 @@ namespace RSP2
             {
 
                 //float distance = Vector3.Distance(enemy.Target.transform.position, enemy.transform.position);
-                if (TargetDistanceSqr >= enemy.SearchingDistanceSqr * 1.2f)
+                if (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f)
                 //if (distance >= enemy.SearchingDistance * 1.2f)
                 {
                     SearchForTaget();
-                    if (enemy.Target == null)
+                    if (runtimeData.Target == null)
                     {
                         stateMachine.ChangeState(stateMachine.IdlingState);
                     }
                     return;
                 }
 
-                if(TargetDistanceSqr <= enemy.AttackRangeSqr)
+                if(TargetDistanceSqr <= runtimeData.AttackRangeSqr)
                 {
                     if (IsInSight()) 
                     {
@@ -89,6 +89,7 @@ namespace RSP2
                 moveDir.y = 0;
                 //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
                 moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
+                runtimeData.HorizontalMovementVector = moveDir;
                 mover.UpdateNextHorizontalMovementVector(moveDir);
             }
 

@@ -7,8 +7,10 @@ namespace RSP2
     public class MoverForEnemy : MonoBehaviour
     {
         private Enemy enemy;
+        private RuntimeDataForEnemy runtimeData;
         private CharacterController controller;
 
+        private Vector3 nextVerticalVelocityVector;
         private Vector3 nextHorizontalMovementVector;
         private Vector3 nextForceVector;
         private Vector3 nextRotationVector;
@@ -17,7 +19,8 @@ namespace RSP2
         public void Initialize(Enemy _enemy)
         {
             enemy = _enemy;
-            controller = enemy.Controller;
+            runtimeData = _enemy.RuntimeData;
+            controller = _enemy.Controller;
 
             nextHorizontalMovementVector = Vector3.zero;
             nextForceVector = Vector3.zero;
@@ -37,7 +40,7 @@ namespace RSP2
         private void ApplyUpdatedMovement()
         {
             // TODO:: Add falling logic
-            controller.Move((nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
+            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
 
 
             if (nextHorizontalMovementVector != Vector3.zero)
@@ -46,6 +49,11 @@ namespace RSP2
                 Rotate(nextHorizontalMovementVector);
             }
             nextForceVector = Vector3.zero;
+        }
+
+        public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
+        {
+            nextVerticalVelocityVector = velocityVector;
         }
 
         public void UpdateNextHorizontalMovementVector(Vector3 velocityVector)
