@@ -450,7 +450,7 @@ GameObject:
   - component: {fileID: 167361399}
   - component: {fileID: 167361398}
   m_Layer: 0
-  m_Name: Explain
+  m_Name: Explanation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1098,6 +1098,7 @@ MonoBehaviour:
   uiInputReader: {fileID: 383007663}
   inventoryUI: {fileID: 520186141}
   playerInfoUI: {fileID: 969734189}
+  interactionUI: {fileID: 1257225465}
 --- !u!114 &383007663
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1553,9 +1554,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 549373797}
+  - component: {fileID: 549373801}
   - component: {fileID: 549373800}
   - component: {fileID: 549373799}
-  - component: {fileID: 549373798}
   m_Layer: 0
   m_Name: Button
   m_TagString: Untagged
@@ -1584,50 +1585,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 20}
   m_SizeDelta: {x: 80, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &549373798
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 549373796}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_Navigation:
-    m_Mode: 3
-    m_WrapAround: 0
-    m_SelectOnUp: {fileID: 0}
-    m_SelectOnDown: {fileID: 0}
-    m_SelectOnLeft: {fileID: 0}
-    m_SelectOnRight: {fileID: 0}
-  m_Transition: 1
-  m_Colors:
-    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
-    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
-    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
-    m_ColorMultiplier: 1
-    m_FadeDuration: 0.1
-  m_SpriteState:
-    m_HighlightedSprite: {fileID: 0}
-    m_PressedSprite: {fileID: 0}
-    m_SelectedSprite: {fileID: 0}
-    m_DisabledSprite: {fileID: 0}
-  m_AnimationTriggers:
-    m_NormalTrigger: Normal
-    m_HighlightedTrigger: Highlighted
-    m_PressedTrigger: Pressed
-    m_SelectedTrigger: Selected
-    m_DisabledTrigger: Disabled
-  m_Interactable: 1
-  m_TargetGraphic: {fileID: 549373799}
-  m_OnClick:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!114 &549373799
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1666,6 +1623,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 549373796}
   m_CullTransparentMesh: 1
+--- !u!114 &549373801
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 549373796}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 59b3c613c81d76144bef4b218f29bb24, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <buttonKey>k__BackingField: {fileID: 1824862452}
+  <explanation>k__BackingField: {fileID: 167361398}
 --- !u!43 &583074587
 Mesh:
   m_ObjectHideFlags: 0
@@ -4815,6 +4786,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1257225464}
+  - component: {fileID: 1257225465}
   m_Layer: 0
   m_Name: InteractionUI
   m_TagString: Untagged
@@ -4842,6 +4814,18 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 130}
   m_SizeDelta: {x: 600, y: 140}
   m_Pivot: {x: 0.5, y: 0}
+--- !u!114 &1257225465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1257225463}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e5355d2daafe7a4b983da6842d805af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1314251456
 GameObject:
   m_ObjectHideFlags: 0
@@ -5616,7 +5600,7 @@ GameObject:
   - component: {fileID: 1824862453}
   - component: {fileID: 1824862452}
   m_Layer: 0
-  m_Name: ButtonKey
+  m_Name: ButtonKeyText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5688,8 +5672,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 40
-  m_fontSizeBase: 40
+  m_fontSize: 52
+  m_fontSizeBase: 52
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18

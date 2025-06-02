@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class CanvasUIManager : MonoBehaviour
+    public class CanvasUIManager : MonoSingleton<CanvasUIManager>
     {
         private GameManager gameManager;
         private Player player;
@@ -15,30 +15,43 @@ namespace RSP2
         public InventoryUI InventoryUI { get => inventoryUI; }
 
         [field: SerializeField] private PlayerInfoUI playerInfoUI;
+        public PlayerInfoUI PlayerInfoUI { get => playerInfoUI; }
+        [field: SerializeField] private InteractionUI interactionUI;
+        public InteractionUI InteractionUI { get => interactionUI; }
 
 
-        public void Initialize(GameManager _gameManage)
+        public void Initialize(GameManager _gameManager)
         {
-            gameManager = _gameManage;
-            player = gameManager.Player;
+            gameManager = _gameManager;
+            player = _gameManager.Player;
             combatSystem = player.CombatSystem;
 
             if (uiInputReader == null)
             {
+                Debug.Log("UI Input Reader Not Imported");
                 uiInputReader = GetComponent<UIInputReader>();
             }
             if (playerInfoUI == null)
             {
+                Debug.Log("Player Info UI Not Imported");
                 playerInfoUI = GetComponent<PlayerInfoUI>();
             }
             if (inventoryUI == null)
             {
+                Debug.Log("Inventory UI Not Imported");
                 inventoryUI = GetComponentInChildren<InventoryUI>();
+            }
+            if (interactionUI == null)
+            {
+                Debug.Log("interactionUI UI Not Imported");
+                interactionUI = GetComponentInChildren<InteractionUI>();
             }
 
             uiInputReader.Initialize(gameManager);
             uiInputReader.InventoryEvent += OpenInvetoryUI;
             inventoryUI.InitializeUI(gameManager, this);
+
+            interactionUI.Initialize(gameManager, this);
         }
 
         private void Start()
@@ -74,5 +87,15 @@ namespace RSP2
             playerInfoUI.UpdateStaminaUI(player.CombatSystem.CurrentStamina / player.CombatSystem.MaxStamina);
         }
 
+        public void AddInteractionButton(NPC npc,NPCInteraction newNPCInteraction)
+        {
+            interactionUI.AddNPCInteraction(npc, newNPCInteraction);
+        }
+
+        public void RemoveInteractionButton(NPC npc)
+        {
+            interactionUI.RemoveNPCInteraction(npc);
+
+        }
     }
 }

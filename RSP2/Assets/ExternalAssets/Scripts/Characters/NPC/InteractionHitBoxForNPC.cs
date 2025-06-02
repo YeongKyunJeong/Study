@@ -15,10 +15,20 @@ namespace RSP2
 
     public class InteractionHitBoxForNPC : MonoBehaviour, IInteractable
     {
-        NPCInteraction interaction;
+        [field: SerializeField] private NPCInteraction interaction;
+        [field: SerializeField] private NPC myNPC;
 
-        public void Initialize(bool[] initInteractions)
+        public void Initialize(NPC NPC, bool[] initInteractions)
         {
+            if (NPC == null)
+            {
+                NPC = transform.parent.GetComponent<NPC>();
+            }
+            else
+            {
+                myNPC = NPC;
+            }
+
             interaction = 0;
 
             int count = Enum.GetValues(typeof(NPCInteraction)).Length;
@@ -55,11 +65,20 @@ namespace RSP2
         public void OnInteractEnter(Player player)
         {
             // TO DO :: Add ui on logic
+            NPCInteraction[] newInteractions = (NPCInteraction[])Enum.GetValues(typeof(NPCInteraction));
+            foreach (var item in newInteractions)
+            {
+                if (interaction.HasFlag(item))
+                {
+                    CanvasUIManager.Instance.AddInteractionButton(myNPC, item);
+                }
+            }
         }
 
         public void OnInteractExit(Player player)
         {
             // TO DO :: Add ui off logic
+            CanvasUIManager.Instance.RemoveInteractionButton(myNPC);
         }
     }
 }
