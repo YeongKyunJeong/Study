@@ -2,34 +2,25 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 namespace RSP2
 {
-    public class InventorySlot : MonoBehaviour, IPointerClickHandler
+    public class InventorySlot : MonoBehaviour
     {
         private InventoryUI inventoryUI;
-        private ItemInstance itemInstance;
-        public ItemInstance ItemInstance { get { return itemInstance; } }
 
-        [SerializeField] private TextMeshProUGUI nameText;
-        [SerializeField] private TextMeshProUGUI amountText;
+        [field: SerializeField] public ItemInInventory ItemInSlot { get; set; }
 
-        public void Initialize(InventoryUI inventoryUI)
+        public void Initialize(InventoryUI _inventoryUI)
         {
-            this.inventoryUI = inventoryUI;
+            inventoryUI = _inventoryUI;
         }
 
-        public void SetUI(ItemInstance itemInstance)
+        public void SetItem(ItemInInventory item)
         {
-            this.itemInstance = itemInstance;
-            nameText.text = ItemInstance.ItemData.name;
-            amountText.text = ItemInstance.amount.ToString();
-        }
-
-        public void OnPointerClick(PointerEventData eventData)
-        {
-            inventoryUI.SelectItem(this);
+            ItemInSlot = item;
+            item.transform.parent = this.transform;
+            item.transform.localPosition = Vector3.zero;
         }
 
     }

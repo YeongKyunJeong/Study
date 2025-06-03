@@ -8,25 +8,28 @@ namespace RSP2
 {
     public class InventoryUI : MonoBehaviour
     {
+        private GameManager gameManager;
         private CanvasUIManager uIManager;
         private Player player;
 
-        List<InventorySlot> itemSlots = new List<InventorySlot>();
 
-        [SerializeField] private GameObject itemSlotPrefab;
-        [SerializeField] private Transform contentRoot;
+        [field: SerializeField] private GameObject itemSlotPrefab;
+        [field: SerializeField] private Transform contentRoot;
 
-        [SerializeField] private Button equipButton;
-        [SerializeField] private Button useButton;
-        [SerializeField] private Button dropButton;
+        private List<ItemInInventory> items = new List<ItemInInventory>();
+        [field: SerializeField] private InventorySlot[] inventorySlots;
+        [field: SerializeField] private ItemInInventory selectedItem;
 
-        private InventorySlot selectedItem;
+        [field: SerializeField] private Button equipButton;
+        [field: SerializeField] private Button useButton;
+        [field: SerializeField] private Button dropButton;
 
 
-        public void InitializeUI(GameManager gameManager, CanvasUIManager uIManager)
+        public void InitializeUI(GameManager _gameManager, CanvasUIManager _uIManager)
         {
-            this.uIManager = uIManager;
-            player = gameManager.Player;
+            gameManager = _gameManager;
+            uIManager = _uIManager;
+            player = _gameManager.Player;
 
             gameObject.SetActive(false);
 
@@ -45,23 +48,36 @@ namespace RSP2
         public void AddItemSlot(ItemInstance item)
         {
             GameObject go = Instantiate(itemSlotPrefab, contentRoot);
-            InventorySlot slot = go.GetComponent<InventorySlot>();
-            itemSlots.Add(slot);
+            // TO DO :: Add object pooling logic to add new item 
+            ItemInInventory itemInSlot = go.GetComponent<ItemInInventory>();
+            itemInSlot.Initialize(this);
+            itemInSlot.SetUI(item);
+            items.Add(itemInSlot);
 
-            slot.Initialize(this);
-            slot.SetUI(item);
+
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i].ItemInSlot == null)
+                {
+                    inventorySlots[i].SetItem(itemInSlot);
+                    break;
+                }
+            }
+
+            return;
+
         }
 
         public void UpdateItemSlot(ItemInstance item)
         {
-            InventorySlot slot = itemSlots.First(slot => slot.ItemInstance == item);
+            ItemInInventory slot = items.First(slot => slot.ItemInstance == item);
 
             if (slot == null) return;
 
             slot.SetUI(item);
         }
 
-        public void SelectItem(InventorySlot slot)
+        public void SelectItem(ItemInInventory slot)
         {
             selectedItem = slot;
             UpdateButtons(slot.ItemInstance);
@@ -77,7 +93,7 @@ namespace RSP2
                 return;
             }
 
-            switch (item.ItemData.type)
+            switch (item.ItemData.Type)
             {
                 case ItemType.Consumable:
                     useButton.interactable = true;
@@ -111,11 +127,11 @@ namespace RSP2
                 }
             }
 
-            SFXManager.PlayClip(ConsumableData.usageSoundClip, player.transform.position);
+            SFXManager.PlayClip(ConsumableData.UsageSoundClip, player.transform.position);
 
             if (selectedItem.ItemInstance.Use() == false)
             {
-                itemSlots.Remove(selectedItem);
+                items.Remove(selectedItem);
                 Destroy(selectedItem.gameObject);
                 selectedItem = null;
                 UpdateButtons(null);
@@ -131,7 +147,7 @@ namespace RSP2
             if (selectedItem == null) return;
 
             player.EquipItem(selectedItem.ItemInstance);
-            SFXManager.PlayClip(selectedItem.ItemInstance.ItemData.usageSoundClip, player.transform.position);
+            SFXManager.PlayClip(selectedItem.ItemInstance.ItemData.UsageSoundClip, player.transform.position);
         }
         public void OnDropButton()
         {
@@ -142,7 +158,7 @@ namespace RSP2
 
             Drop(selectedItem.ItemInstance);
 
-            itemSlots.Remove(selectedItem);
+            items.Remove(selectedItem);
             player.Inventory.RemoveItem(selectedItem.ItemInstance);
             Destroy(selectedItem.gameObject);
 
@@ -154,7 +170,7 @@ namespace RSP2
             ItemData itemData = itemInstance.ItemData;
             Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
 
-            GameObject go = Instantiate(itemData.dropPrefab, dropPosition, Quaternion.identity);
+            GameObject go = Instantiate(itemData.DropPrefab, dropPosition, Quaternion.identity);
             Rigidbody rigidbody = go.GetComponent<Rigidbody>();
             rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
 

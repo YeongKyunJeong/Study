@@ -23,7 +23,7 @@ namespace RSP2
             if (itemData == null)
                 return "Pickup Unknown";
             else
-                return string.Format("Pickup {0} {1}", itemData.displayName, amount);
+                return string.Format("Pickup {0} {1}", itemData.DisplayName, amount);
         }
 
         public void OnInteractEnter(Player player)

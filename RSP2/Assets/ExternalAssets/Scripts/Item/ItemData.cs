@@ -16,15 +16,16 @@ namespace RSP2
     public class ItemData : ScriptableObject
     {
         [Header("Info")]
-        public string displayName;
-        public ItemType type;
-        public GameObject dropPrefab;
+        public Sprite Sprite;
+        public string DisplayName;
+        public ItemType Type;
+        public GameObject DropPrefab;
 
         [Header("Stacking")]
-        public bool canStack;
-        public int maxStackAmount;
+        public bool CanStack;
+        public int MaxStackAmount;
 
-        public AudioClip usageSoundClip;
+        public AudioClip UsageSoundClip;
         //[Header("Consumable")]
         //public ItemDataForConsumable[] consumables;
 

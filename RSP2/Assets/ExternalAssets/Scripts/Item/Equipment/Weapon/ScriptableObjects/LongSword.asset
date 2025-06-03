@@ -12,17 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: LongSword
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:WeaponData
-  displayName: LongSword
-  type: 0
-  dropPrefab: {fileID: 8243482275800551301, guid: 99c032096fff03848a4b17c090e28482, type: 3}
-  canStack: 0
-  maxStackAmount: 1
-  usageSoundClip: {fileID: 8300000, guid: 34792f9c9ca6aa3499247edfde9d31db, type: 3}
+  Sprite: {fileID: 21300000, guid: 59be040fe11e354429063a3e9c92d3b7, type: 3}
+  DisplayName: LongSword
+  Type: 0
+  DropPrefab: {fileID: 8243482275800551301, guid: 99c032096fff03848a4b17c090e28482, type: 3}
+  CanStack: 0
+  MaxStackAmount: 1
+  UsageSoundClip: {fileID: 8300000, guid: 34792f9c9ca6aa3499247edfde9d31db, type: 3}
   EquipPrefab: {fileID: 1836944920593835934, guid: d676545c711e60140895b08e5875a80b, type: 3}
   AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
   EquipmentType: 0
   DamageType: 0
   RangeModifier: 1
   SpeedModifier: 1
-  DamageBonus: 5
-  IntensityBonus: 1
+  DamageBonus: 10
+  IntensityBonus: 5

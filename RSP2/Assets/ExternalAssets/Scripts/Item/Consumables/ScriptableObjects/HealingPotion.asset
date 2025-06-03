@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: HealingPotion
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:ConsumableData
-  displayName: HealingPotion
-  type: 1
-  dropPrefab: {fileID: 2197940631385660832, guid: ae15eb45aca3a2e4f87112b86c26d338, type: 3}
-  canStack: 1
-  maxStackAmount: 10
-  usageSoundClip: {fileID: 8300000, guid: ba39bf8baf6d13046889b2d64822381a, type: 3}
+  Sprite: {fileID: 21300000, guid: f7fe1a4741c02f24eab807ee82ed8d64, type: 3}
+  DisplayName: 
+  Type: 0
+  DropPrefab: {fileID: 2197940631385660832, guid: ae15eb45aca3a2e4f87112b86c26d338, type: 3}
+  CanStack: 1
+  MaxStackAmount: 10
+  UsageSoundClip: {fileID: 0}
   ConsumableEffects:
   - ConsumableType: 0
     effectValue: 30

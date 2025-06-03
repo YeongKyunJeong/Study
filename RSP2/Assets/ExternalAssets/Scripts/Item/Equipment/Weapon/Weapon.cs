@@ -22,20 +22,4 @@ namespace RSP2
             WeaponData = ItemInstance.ItemData as WeaponData;
         }
     }
-
-    [CreateAssetMenu(fileName = "Item", menuName = "Custom/New Weapon")]
-    public class WeaponData : ItemData
-    {
-        [Header("Equip Prefab")]
-        public GameObject EquipPrefab;
-        public AudioClip AttackSoundClip;
-
-        [Header("Statistics Data")]
-        public EquipmentType EquipmentType;
-        public DamageType DamageType;
-        public float RangeModifier;
-        public float SpeedModifier;
-        public float DamageBonus;
-        public float IntensityBonus;
-    }
 }

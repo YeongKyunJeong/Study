@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,6 +9,7 @@ namespace RSP2
     {
         public ItemData ItemData;
         public int amount;
+        public event Action<int> amountChangeEvent; 
         public bool equipped;
 
         public ItemInstance(ItemData itemData)
@@ -20,6 +22,7 @@ namespace RSP2
         public bool Use(int value = 1)
         {
             amount -= value;
+            amountChangeEvent?.Invoke(amount);
             return amount > 0;
         }
     }
@@ -49,9 +52,9 @@ namespace RSP2
             {
                 ItemInstance item = items[i];
 
-                if (item.ItemData == itemData && itemData.canStack && itemData.maxStackAmount > item.amount)
+                if (item.ItemData == itemData && itemData.CanStack && itemData.MaxStackAmount > item.amount)
                 {
-                    int diff = Mathf.Min(amount, itemData.maxStackAmount - item.amount);
+                    int diff = Mathf.Min(amount, itemData.MaxStackAmount - item.amount);
                     amount -= diff;
                     item.amount += diff;
 
@@ -64,7 +67,7 @@ namespace RSP2
 
             while (amount > 0)
             {
-                int diff = Mathf.Min(amount, itemData.maxStackAmount);
+                int diff = Mathf.Min(amount, itemData.MaxStackAmount);
                 if (diff <= 0) break;
 
                 ItemInstance newItem = new ItemInstance(itemData);
