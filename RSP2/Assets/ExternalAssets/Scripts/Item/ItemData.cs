@@ -16,7 +16,7 @@ namespace RSP2
     public class ItemData : ScriptableObject
     {
         [Header("Info")]
-        public Sprite Sprite;
+        public Sprite ItemSprite;
         public string DisplayName;
         public ItemType Type;
         public GameObject DropPrefab;

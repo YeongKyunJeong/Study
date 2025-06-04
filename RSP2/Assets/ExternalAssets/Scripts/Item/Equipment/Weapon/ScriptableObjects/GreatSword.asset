@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: GreatSword
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:WeaponData
-  Sprite: {fileID: 21300000, guid: 0a298c8900fe7ee438a9411ab4e15289, type: 3}
+  ItemSprite: {fileID: 21300000, guid: 0a298c8900fe7ee438a9411ab4e15289, type: 3}
   DisplayName: GreatSword
   Type: 0
   DropPrefab: {fileID: 8243482275800551301, guid: 99c032096fff03848a4b17c090e28482, type: 3}

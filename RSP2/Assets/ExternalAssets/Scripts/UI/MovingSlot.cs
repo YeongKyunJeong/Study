@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 namespace RSP2
 {
-    public class ItemInInventory : PooledObject, /*IPointerClickHandler,*/ IPointerDownHandler, IPointerUpHandler
+    public class MovingSlot : MonoBehaviour
     {
         private InventoryUI inventoryUI;
         private ItemInstance itemInstance;
@@ -30,41 +30,30 @@ namespace RSP2
                 Debug.Log("Amount TMP Not Assigned");
                 amountTMP = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             }
+            gameObject.SetActive(false);
         }
 
-        public void SetUI(ItemInstance _itemInstance)
+        public void CarryItem(ItemInstance newItem)
         {
-            itemInstance = _itemInstance;
-            itemImage.sprite = _itemInstance.ItemData.Sprite;
-            itemInstance.amountChangeEvent += AmountTextChange;
-            AmountTextChange(_itemInstance.amount);
+            gameObject.SetActive(true);
+            itemInstance = newItem;
+            itemImage.sprite = itemInstance.ItemData.ItemSprite;
 
-        }
-
-        public void AmountTextChange(int changedAmount)
-        {
-            if (changedAmount == 1)
+            if (newItem.amount <= 1)
             {
                 amountTMP.gameObject.SetActive(false);
                 return;
             }
 
-            amountTMP.text = changedAmount.ToString();
+            amountTMP.gameObject.SetActive(true);
+            amountTMP.text = newItem.amount.ToString();
         }
 
-        //public void OnPointerClick(PointerEventData eventData)
-        //{
-        //    inventoryUI.SelectItem(this);
-        //}
-
-        public void OnPointerDown(PointerEventData eventData)
+        public ItemInstance DropItem()
         {
-            //throw new System.NotImplementedException();
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
-        {
-            inventoryUI.SelectItem(this);
+            gameObject.SetActive(false);
+            itemInstance = null;
+            return itemInstance;
         }
     }
 }

@@ -10,15 +10,12 @@ namespace RSP2
         private GameManager gameManager;
         private Player player;
         private CombatSystemForPlayer combatSystem;
+
         [field: SerializeField] private UIInputReader uiInputReader;
-        [field: SerializeField] private InventoryUI inventoryUI;
-        public InventoryUI InventoryUI { get => inventoryUI; }
 
-        [field: SerializeField] private PlayerInfoUI playerInfoUI;
-        public PlayerInfoUI PlayerInfoUI { get => playerInfoUI; }
-        [field: SerializeField] private InteractionUI interactionUI;
-        public InteractionUI InteractionUI { get => interactionUI; }
-
+        [field: SerializeField] public FixedUI FixedUI { get; private set; }
+        [field: SerializeField] public PanelUI PanelUI { get; private set; }
+        [field: SerializeField] public PopUpUI PopUpUI { get; private set; }
 
         public void Initialize(GameManager _gameManager)
         {
@@ -31,27 +28,31 @@ namespace RSP2
                 Debug.Log("UI Input Reader Not Imported");
                 uiInputReader = GetComponent<UIInputReader>();
             }
-            if (playerInfoUI == null)
-            {
-                Debug.Log("Player Info UI Not Imported");
-                playerInfoUI = GetComponent<PlayerInfoUI>();
-            }
-            if (inventoryUI == null)
-            {
-                Debug.Log("Inventory UI Not Imported");
-                inventoryUI = GetComponentInChildren<InventoryUI>();
-            }
-            if (interactionUI == null)
-            {
-                Debug.Log("interactionUI UI Not Imported");
-                interactionUI = GetComponentInChildren<InteractionUI>();
-            }
-
             uiInputReader.Initialize(gameManager);
             uiInputReader.InventoryEvent += OpenInvetoryUI;
-            inventoryUI.InitializeUI(gameManager, this);
 
-            interactionUI.Initialize(gameManager, this);
+            if (FixedUI == null)
+            {
+                Debug.Log("Fixed UI Not Imported");
+                FixedUI = GetComponent<FixedUI>();
+            }
+            FixedUI.Initialize(gameManager, this);
+
+            if (PanelUI == null)
+            {
+                Debug.Log("Panel UI Not Imported");
+                PanelUI = GetComponent<PanelUI>();
+            }
+            PanelUI.Initialize(gameManager, this);
+
+            if (PopUpUI == null)
+            {
+                Debug.Log("Panel UI Not Imported");
+                PopUpUI = GetComponent<PopUpUI>();
+            }
+            PopUpUI.Initialize(gameManager, this);
+
+
         }
 
         private void Start()
@@ -64,38 +65,51 @@ namespace RSP2
             player.CombatSystem.StaminaSpendEvent += ChangeStaminaBar;
         }
 
-        public void OpenInvetoryUI()
-        {
-            inventoryUI.Open();
-
-            bool isActive = inventoryUI.gameObject.activeSelf;
-            gameManager.OnInventoryUIOpen(isActive);
-        }
+        #region Fixed UI Methods
 
         public void ChangeHPBar()
         {
-            playerInfoUI.UpdateHPUI(player.CombatSystem.CurrentHP / player.CombatSystem.MaxHP);
+            FixedUI.PlayerInfoUI.UpdateHPUI(player.CombatSystem.CurrentHP / player.CombatSystem.MaxHP);
         }
 
         public void ChangeMPBar()
         {
-            playerInfoUI.UpdateMPUI(player.CombatSystem.CurrentMP / player.CombatSystem.MaxMP);
+            FixedUI.PlayerInfoUI.UpdateMPUI(player.CombatSystem.CurrentMP / player.CombatSystem.MaxMP);
         }
 
         public void ChangeStaminaBar()
         {
-            playerInfoUI.UpdateStaminaUI(player.CombatSystem.CurrentStamina / player.CombatSystem.MaxStamina);
+            FixedUI.PlayerInfoUI.UpdateStaminaUI(player.CombatSystem.CurrentStamina / player.CombatSystem.MaxStamina);
+        }
+        #endregion
+
+
+        #region Panel UI Methods
+
+        public void OpenInvetoryUI()
+        {
+            PanelUI.OpenInventoryUI();
+
+            bool isActive = PanelUI.InventoryUI.gameObject.activeSelf;
+            gameManager.OnInventoryUIOpen(isActive);
         }
 
-        public void AddInteractionButton(NPC npc,NPCInteraction newNPCInteraction)
+
+        public void AddInteractionButton(NPC npc, NPCInteraction newNPCInteraction)
         {
-            interactionUI.AddNPCInteraction(npc, newNPCInteraction);
+            PanelUI.InteractionUI.AddNPCInteraction(npc, newNPCInteraction);
         }
 
         public void RemoveInteractionButton(NPC npc)
         {
-            interactionUI.RemoveNPCInteraction(npc);
+            PanelUI.InteractionUI.RemoveNPCInteraction(npc);
 
         }
+        #endregion
+
+
+        #region Pop Up UI Methods
+
+        #endregion
     }
 }

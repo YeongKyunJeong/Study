@@ -16,18 +16,17 @@ namespace RSP2
         [field: SerializeField] private GameObject itemSlotPrefab;
         [field: SerializeField] private Transform contentRoot;
 
-        private List<ItemInInventory> items = new List<ItemInInventory>();
+        //private List<MovingSlot> items = new List<MovingSlot>();
         [field: SerializeField] private InventorySlot[] inventorySlots;
-        [field: SerializeField] private ItemInInventory selectedItem;
+        [field: SerializeField] private InventorySlot selectedItemInSlot;
 
         [field: SerializeField] private Button equipButton;
         [field: SerializeField] private Button useButton;
         [field: SerializeField] private Button dropButton;
 
 
-        public void InitializeUI(GameManager _gameManager, CanvasUIManager _uIManager)
+        public void Initialize(GameManager _gameManager, CanvasUIManager _uIManager)
         {
-            gameManager = _gameManager;
             uIManager = _uIManager;
             player = _gameManager.Player;
 
@@ -36,30 +35,33 @@ namespace RSP2
             equipButton.onClick.AddListener(OnEquipButton);
             useButton.onClick.AddListener(OnUseButton);
             dropButton.onClick.AddListener(OnDropButton);
+
+            foreach (var slot in inventorySlots) 
+            {
+                slot.Initialize(this);
+            }
         }
 
         public void Open()
         {
-            selectedItem = null;
+            selectedItemInSlot = null;
             UpdateButtons(null);
             gameObject.SetActive(!gameObject.activeSelf);
         }
 
         public void AddItemSlot(ItemInstance item)
         {
-            GameObject go = Instantiate(itemSlotPrefab, contentRoot);
+            //GameObject go = Instantiate(itemSlotPrefab, contentRoot);
             // TO DO :: Add object pooling logic to add new item 
-            ItemInInventory itemInSlot = go.GetComponent<ItemInInventory>();
-            itemInSlot.Initialize(this);
-            itemInSlot.SetUI(item);
-            items.Add(itemInSlot);
-
+            //MovingSlot itemInSlot = go.GetComponent<MovingSlot>();
 
             for (int i = 0; i < inventorySlots.Length; i++)
             {
-                if (inventorySlots[i].ItemInSlot == null)
+                if (inventorySlots[i].ItemInstance == null)
                 {
-                    inventorySlots[i].SetItem(itemInSlot);
+                    InventorySlot slot = inventorySlots[i];
+                    slot.Initialize(this);
+                    slot.SetItem(item);
                     break;
                 }
             }
@@ -68,18 +70,18 @@ namespace RSP2
 
         }
 
-        public void UpdateItemSlot(ItemInstance item)
+        public void PutItemInSlot(ItemInstance item)
         {
-            ItemInInventory slot = items.First(slot => slot.ItemInstance == item);
+            InventorySlot slot = inventorySlots.First(slot => slot.ItemInstance == item);
 
             if (slot == null) return;
 
-            slot.SetUI(item);
+            slot.SetItem(item);
         }
 
-        public void SelectItem(ItemInInventory slot)
+        public void SelectItem(InventorySlot slot)
         {
-            selectedItem = slot;
+            selectedItemInSlot = slot;
             UpdateButtons(slot.ItemInstance);
         }
 
@@ -109,9 +111,9 @@ namespace RSP2
 
         public void OnUseButton()
         {
-            if (selectedItem == null) return;
+            if (selectedItemInSlot == null) return;
 
-            ConsumableData ConsumableData = selectedItem.ItemInstance.ItemData as ConsumableData;
+            ConsumableData ConsumableData = selectedItemInSlot.ItemInstance.ItemData as ConsumableData;
 
             if (ConsumableData == null) return;
 
@@ -129,38 +131,38 @@ namespace RSP2
 
             SFXManager.PlayClip(ConsumableData.UsageSoundClip, player.transform.position);
 
-            if (selectedItem.ItemInstance.Use() == false)
+            if (selectedItemInSlot.ItemInstance.Use() == false)
             {
-                items.Remove(selectedItem);
-                Destroy(selectedItem.gameObject);
-                selectedItem = null;
+                selectedItemInSlot.ClearSlot(true);
+                Destroy(selectedItemInSlot.gameObject);
+                selectedItemInSlot = null;
                 UpdateButtons(null);
             }
             else
             {
-                selectedItem.SetUI(selectedItem.ItemInstance);
+                selectedItemInSlot.SetItem(selectedItemInSlot.ItemInstance);
             }
         }
 
         public void OnEquipButton()
         {
-            if (selectedItem == null) return;
+            if (selectedItemInSlot == null) return;
 
-            player.EquipItem(selectedItem.ItemInstance);
-            SFXManager.PlayClip(selectedItem.ItemInstance.ItemData.UsageSoundClip, player.transform.position);
+            player.EquipItem(selectedItemInSlot.ItemInstance);
+            SFXManager.PlayClip(selectedItemInSlot.ItemInstance.ItemData.UsageSoundClip, player.transform.position);
         }
+
         public void OnDropButton()
         {
-            if (selectedItem == null) return;
+            if (selectedItemInSlot == null) return;
 
-            if (selectedItem.ItemInstance.equipped)
+            if (selectedItemInSlot.ItemInstance.equipped)
                 return;
 
-            Drop(selectedItem.ItemInstance);
+            Drop(selectedItemInSlot.ItemInstance);
 
-            items.Remove(selectedItem);
-            player.Inventory.RemoveItem(selectedItem.ItemInstance);
-            Destroy(selectedItem.gameObject);
+            selectedItemInSlot.ClearSlot(true);
+            player.Inventory.RemoveItem(selectedItemInSlot.ItemInstance);
 
             UpdateButtons(null);
         }

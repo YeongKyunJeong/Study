@@ -9,7 +9,7 @@ namespace RSP2
     {
         public ItemData ItemData;
         public int amount;
-        public event Action<int> amountChangeEvent; 
+        public event Action<int> AmountChangeEvent;
         public bool equipped;
 
         public ItemInstance(ItemData itemData)
@@ -22,7 +22,7 @@ namespace RSP2
         public bool Use(int value = 1)
         {
             amount -= value;
-            amountChangeEvent?.Invoke(amount);
+            AmountChangeEvent?.Invoke(amount);
             return amount > 0;
         }
     }
@@ -31,15 +31,15 @@ namespace RSP2
     {
         private GameManager gameManager;
         private CanvasUIManager canvasUIManager;
-        InventoryUI inventoryUI;
+        private InventoryUI inventoryUI;
 
-        List<ItemInstance> items = new List<ItemInstance>();
+        private List<ItemInstance> items = new List<ItemInstance>();
 
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
             canvasUIManager = gameManager.CanvasUIManager;
-            inventoryUI = canvasUIManager.InventoryUI;
+            inventoryUI = canvasUIManager.PanelUI.InventoryUI;
 
         }
 
@@ -58,7 +58,8 @@ namespace RSP2
                     amount -= diff;
                     item.amount += diff;
 
-                    inventoryUI.UpdateItemSlot(item);
+                    
+                    inventoryUI.PutItemInSlot(item);
 
                     if (amount <= 0)
                         return true;

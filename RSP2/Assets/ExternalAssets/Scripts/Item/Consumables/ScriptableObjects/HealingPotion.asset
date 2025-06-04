@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: HealingPotion
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:ConsumableData
-  Sprite: {fileID: 21300000, guid: f7fe1a4741c02f24eab807ee82ed8d64, type: 3}
-  DisplayName: 
+  ItemSprite: {fileID: 21300000, guid: f7fe1a4741c02f24eab807ee82ed8d64, type: 3}
+  DisplayName: HealthPotion
   Type: 0
   DropPrefab: {fileID: 2197940631385660832, guid: ae15eb45aca3a2e4f87112b86c26d338, type: 3}
   CanStack: 1
