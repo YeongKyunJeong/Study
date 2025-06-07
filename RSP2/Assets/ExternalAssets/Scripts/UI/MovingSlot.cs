@@ -33,20 +33,20 @@ namespace RSP2
             gameObject.SetActive(false);
         }
 
-        public void CarryItem(ItemInstance newItem)
+        public void CarryItem(InventorySlot DraggedItemSlot)
         {
             gameObject.SetActive(true);
-            itemInstance = newItem;
+            itemInstance = DraggedItemSlot.ItemInstance;
             itemImage.sprite = itemInstance.ItemData.ItemSprite;
 
-            if (newItem.amount <= 1)
+            if (itemInstance.amount <= 1)
             {
                 amountTMP.gameObject.SetActive(false);
                 return;
             }
 
             amountTMP.gameObject.SetActive(true);
-            amountTMP.text = newItem.amount.ToString();
+            amountTMP.text = itemInstance.amount.ToString();
         }
 
         public ItemInstance DropItem()

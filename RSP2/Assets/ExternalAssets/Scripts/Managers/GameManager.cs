@@ -3,24 +3,27 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RSP2
 {
     public class GameManager : MonoSingleton<GameManager>
     {
 
-        [SerializeField] private static GameObject gameManagerPrefab;
+        [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
         public Player Player { get; set; }
+        [field: SerializeField] private PlayerInput PlayerInput { get; set; }
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
         public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
         public ProjectileManager ProjectileManager { get; private set; }
 
-        public event Action<Enemy> EnemyDieEvent; 
+        public event Action<Enemy> EnemyDieEvent;
 
         private void Awake()
         {
             Player = FindObjectOfType<Player>();
+            PlayerInput = Player.GetComponent<PlayerInput>();
             CinemachineInputProvider = FindObjectOfType<CinemachineInputProvider>();
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
 

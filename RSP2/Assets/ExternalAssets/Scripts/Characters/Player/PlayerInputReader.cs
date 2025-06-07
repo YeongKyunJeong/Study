@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.UI;
 
 namespace RSP2
 {
@@ -11,8 +13,14 @@ namespace RSP2
         private Player player;
         private PlayerInput playerInputComponent;
 
+        #region Action Maps
+        private InputActionMap playerInputActionMap;
+        private InputActionMap uIInputActionMap;
+        #endregion
+
+
         public Vector2 MovementInput { get; private set; }
-        
+
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
         public event Action WalkToggleEvent;
@@ -21,6 +29,10 @@ namespace RSP2
         public event Action AimEvent;
         public event Action QSkillEvent;
         public event Action ESkillEvent;
+
+        #region UI Field
+        public event Action InventoryEvent;
+        #endregion
 
         //public PlayerInputReader(Player _player)
         //{
@@ -31,8 +43,36 @@ namespace RSP2
         {
             player = _player;
             playerInputComponent = GetComponent<PlayerInput>();
+
+            playerInputActionMap = playerInputComponent.actions.FindActionMap("Player");
+            uIInputActionMap = playerInputComponent.actions.FindActionMap("UI");
+
+            playerInputComponent.actions.FindActionMap("Global").Enable();
+            EnablePlayerInput(true);
+
+
+            var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            Debug.Log("Point: " + module.point.action?.activeControl?.path);
+            Debug.Log("LeftClick: " + module.leftClick.action?.activeControl?.path);
         }
 
+        //void Update()
+        //{
+        //    if (Mouse.current.leftButton.wasPressedThisFrame)
+        //    {
+        //        PointerEventData data = new PointerEventData(EventSystem.current);
+        //        data.position = Mouse.current.position.ReadValue();
+
+        //        List<RaycastResult> results = new List<RaycastResult>();
+        //        EventSystem.current.RaycastAll(data, results);
+
+        //        Debug.Log("Raycast 결과 수: " + results.Count);
+        //        foreach (var result in results)
+        //        {
+        //            Debug.Log("감지된 오브젝트: " + result.gameObject.name);
+        //        }
+        //    }
+        //}
         //private void OnDestroy()
         //{
         //    plyaerInputActions.Disable();
@@ -45,7 +85,17 @@ namespace RSP2
 
         public void EnablePlayerInput(bool isOn)
         {
-            playerInputComponent.enabled = isOn;
+            if (isOn)
+            {
+                playerInputActionMap.Enable();
+                uIInputActionMap.Disable();
+                return;
+            }
+
+            playerInputActionMap.Disable();
+            uIInputActionMap.Enable();
+            return;
+            //playerInputComponent.enabled = isOn;
         }
 
         public void OnMove(InputValue value)
@@ -107,5 +157,12 @@ namespace RSP2
             Debug.Log("E");
             ESkillEvent?.Invoke();
         }
+
+        #region UI
+        public void OnInventory()
+        {
+            InventoryEvent?.Invoke();
+        }
+        #endregion
     }
 }

@@ -258,15 +258,6 @@
             "id": "612bdb36-e657-42f7-914e-a2037f4dd106",
             "actions": [
                 {
-                    "name": "Inventory",
-                    "type": "Button",
-                    "id": "98262f18-c2f5-477a-a1bc-c4fc99ae7b53",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
                     "name": "TrackedDeviceOrientation",
                     "type": "PassThrough",
                     "id": "c0db9b65-c54e-4b4d-ad4f-6514e6b16838",
@@ -358,17 +349,6 @@
                 }
             ],
             "bindings": [
-                {
-                    "name": "",
-                    "id": "35095d2d-08f4-48fe-b84c-ae8e342e9036",
-                    "path": "<Keyboard>/i",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "Inventory",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
                 {
                     "name": "Gamepad",
                     "id": "3a75330e-2158-4bd2-9693-10c4bcb77b57",
@@ -784,6 +764,34 @@
                     "processors": "",
                     "groups": "",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Global",
+            "id": "9c1fc9e9-6fe6-47c7-b986-62d975b662bf",
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "0839f6cc-1fb3-4a1a-a2d0-f74f127abc45",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "ab7a71f0-d3b3-499d-b62b-110e7c8d603a",
+                    "path": "<Keyboard>/i",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

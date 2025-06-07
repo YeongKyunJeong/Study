@@ -11,7 +11,7 @@ namespace RSP2
         private Player player;
         private CombatSystemForPlayer combatSystem;
 
-        [field: SerializeField] private UIInputReader uiInputReader;
+        //[field: SerializeField] private UIInputReader uiInputReader;
 
         [field: SerializeField] public FixedUI FixedUI { get; private set; }
         [field: SerializeField] public PanelUI PanelUI { get; private set; }
@@ -23,13 +23,15 @@ namespace RSP2
             player = _gameManager.Player;
             combatSystem = player.CombatSystem;
 
-            if (uiInputReader == null)
-            {
-                Debug.Log("UI Input Reader Not Imported");
-                uiInputReader = GetComponent<UIInputReader>();
-            }
-            uiInputReader.Initialize(gameManager);
-            uiInputReader.InventoryEvent += OpenInvetoryUI;
+            //if (uiInputReader == null)
+            //{
+            //    Debug.Log("UI Input Reader Not Imported");
+            //    uiInputReader = GetComponent<UIInputReader>();
+            //}
+            //uiInputReader.Initialize(gameManager);
+            //uiInputReader.InventoryEvent += OpenInvetoryUI;
+            player.InputReader.InventoryEvent += OpenInvetoryUI;
+
 
             if (FixedUI == null)
             {

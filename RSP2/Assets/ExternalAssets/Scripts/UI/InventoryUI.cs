@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace RSP2
 {
-    public class InventoryUI : MonoBehaviour
+    public class InventoryUI : MonoBehaviour, IPointerUpHandler
     {
         private GameManager gameManager;
         private CanvasUIManager uIManager;
@@ -16,14 +17,16 @@ namespace RSP2
         [field: SerializeField] private GameObject itemSlotPrefab;
         [field: SerializeField] private Transform contentRoot;
 
-        //private List<MovingSlot> items = new List<MovingSlot>();
+
         [field: SerializeField] private InventorySlot[] inventorySlots;
         [field: SerializeField] private InventorySlot selectedItemInSlot;
+        [field: SerializeField] private MovingSlot movingSlot; 
 
         [field: SerializeField] private Button equipButton;
         [field: SerializeField] private Button useButton;
         [field: SerializeField] private Button dropButton;
 
+        private bool isDragging;
 
         public void Initialize(GameManager _gameManager, CanvasUIManager _uIManager)
         {
@@ -36,10 +39,16 @@ namespace RSP2
             useButton.onClick.AddListener(OnUseButton);
             dropButton.onClick.AddListener(OnDropButton);
 
-            foreach (var slot in inventorySlots) 
+            foreach (var slot in inventorySlots)
             {
                 slot.Initialize(this);
+                slot.DragBeginEvent += OnBeginSlotDrag;
+                slot.ClickEvent += OnSlotClick;
+                slot.PointerUpEvent += OnSlotPointerUp;
             }
+            movingSlot.Initialize(this);
+
+            isDragging = false;
         }
 
         public void Open()
@@ -180,6 +189,48 @@ namespace RSP2
             itemObject.amount = itemInstance.amount;
             if (itemObject.itemData == null)
                 itemObject.itemData = itemInstance.ItemData;
+        }
+
+        private void OnSlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
+        {
+            if (isSelectedBefore)
+            {
+                selectedItemInSlot = null;
+                UpdateButtons(null);
+                return;
+            }
+
+            selectedItemInSlot?.SetActiveOfSelectedFram(false);
+
+            selectedItemInSlot = clickedSlot;
+            UpdateButtons(selectedItemInSlot.ItemInstance);
+            return;
+        }
+
+        private void OnBeginSlotDrag(InventorySlot draggedSlot)
+        {
+            if(selectedItemInSlot != null)
+            {
+                selectedItemInSlot.SetActiveOfSelectedFram(false);
+            }
+            movingSlot.CarryItem(draggedSlot);
+            isDragging = true;
+        }
+
+        private void OnSlotPointerUp(InventorySlot targetSlot)
+        {
+            // TO DO ::
+        }
+
+        public void OnPointerUp(PointerEventData eventData)
+        {
+            if (isDragging)
+            {
+                // TO DO:: Add RayCastEvent
+                selectedItemInSlot = null;
+                isDragging = false;
+                movingSlot.DropItem();
+            }
         }
     }
 }

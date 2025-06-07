@@ -20,7 +20,12 @@ namespace RSP2
         public void OnInventory()
         {
             InventoryEvent?.Invoke();
-            //Debug.Log("Inventory");
+        }
+
+        public void OnClick()
+        {
+            // TO DO:: UI clicking logic
+            Debug.Log("Click");
         }
     }
 }
