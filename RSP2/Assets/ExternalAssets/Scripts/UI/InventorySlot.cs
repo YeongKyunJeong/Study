@@ -8,7 +8,7 @@ using UnityEngine.UI;
 
 namespace RSP2
 {
-    public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IPointerUpHandler
+    public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IDropHandler /*IPointerUpHandler*/
     {
         private InventoryUI inventoryUI;
         private ItemInstance itemInstance;
@@ -21,7 +21,7 @@ namespace RSP2
 
         public event Action<InventorySlot, bool> ClickEvent;
         public event Action<InventorySlot> DragBeginEvent;
-        public event Action<InventorySlot> PointerUpEvent;
+        public event Action<InventorySlot> PointerDropEvent;
 
         public void Initialize(InventoryUI _inventoryUI)
         {
@@ -52,6 +52,12 @@ namespace RSP2
 
         public void SetItem(ItemInstance newItem)
         {
+            if(newItem == null)
+            {
+                ClearSlot(true);
+                return;
+            }
+
             ItemInSlot.SetActive(true);
             itemInstance = newItem;
             itemImage.sprite = itemInstance.ItemData.ItemSprite;
@@ -63,12 +69,12 @@ namespace RSP2
         public void ClearSlot(bool isRemoving)
         {
             ItemInSlot.SetActive(false);
+            selectedFrame.SetActive(false);
             if (isRemoving)
             {
-                itemInstance = null;
                 amountTMP.text = string.Empty;
                 itemInstance.AmountChangeEvent -= AmountTMPChange;
-                selectedFrame.SetActive(false);
+                itemInstance = null;
             }
         }
 
@@ -91,6 +97,7 @@ namespace RSP2
 
         public void OnPointerClick(PointerEventData eventData)
         {
+            if (itemInstance == null) return;
 
             bool isSelectedBefore = selectedFrame.activeSelf;
             ClickEvent?.Invoke(this, isSelectedBefore);
@@ -102,6 +109,7 @@ namespace RSP2
         {
             if (itemInstance == null) return;
 
+            Debug.Log("Dragged");
             ClearSlot(false);
             DragBeginEvent?.Invoke(this);
         }
@@ -109,12 +117,26 @@ namespace RSP2
         public void SetActiveOfSelectedFram(bool isOn)
         {
             selectedFrame.SetActive(isOn);
+            if (isOn)
+            {
+                ItemInSlot.SetActive(true);
+            }
         }
 
-        public void OnPointerUp(PointerEventData eventData)
+        //public void OnPointerUp(PointerEventData eventData)
+        //{
+        //    PointerUpEvent?.Invoke(this);
+        //    // TO DO :: Drop Item
+        //}
+
+        public void OnDrag(PointerEventData eventData)
         {
-            PointerUpEvent?.Invoke(this);
-            // TO DO :: Drop Item
+            Debug.Log("Dragging");
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            PointerDropEvent?.Invoke(this);
         }
     }
 }

@@ -7,10 +7,11 @@ using UnityEngine.UI;
 
 namespace RSP2
 {
-    public class InventoryUI : MonoBehaviour, IPointerUpHandler
+    public class InventoryUI : MonoBehaviour, IDropHandler
     {
         private GameManager gameManager;
         private CanvasUIManager uIManager;
+        private PanelUI panelUI;
         private Player player;
 
 
@@ -20,7 +21,7 @@ namespace RSP2
 
         [field: SerializeField] private InventorySlot[] inventorySlots;
         [field: SerializeField] private InventorySlot selectedItemInSlot;
-        [field: SerializeField] private MovingSlot movingSlot; 
+        [field: SerializeField] private MovingSlot movingSlot;
 
         [field: SerializeField] private Button equipButton;
         [field: SerializeField] private Button useButton;
@@ -28,10 +29,12 @@ namespace RSP2
 
         private bool isDragging;
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _uIManager)
+        public void Initialize(GameManager _gameManager, CanvasUIManager _uIManager, PanelUI _panelUI)
         {
-            uIManager = _uIManager;
             player = _gameManager.Player;
+            uIManager = _uIManager;
+            panelUI = _panelUI;
+            panelUI.PointerDropEvent += OnBackGroundDrop;
 
             gameObject.SetActive(false);
 
@@ -44,7 +47,7 @@ namespace RSP2
                 slot.Initialize(this);
                 slot.DragBeginEvent += OnBeginSlotDrag;
                 slot.ClickEvent += OnSlotClick;
-                slot.PointerUpEvent += OnSlotPointerUp;
+                slot.PointerDropEvent += OnSlotPointerDrop;
             }
             movingSlot.Initialize(this);
 
@@ -58,7 +61,7 @@ namespace RSP2
             gameObject.SetActive(!gameObject.activeSelf);
         }
 
-        public void AddItemSlot(ItemInstance item)
+        public bool AddItemToSlot(ItemInstance item)
         {
             //GameObject go = Instantiate(itemSlotPrefab, contentRoot);
             // TO DO :: Add object pooling logic to add new item 
@@ -71,21 +74,22 @@ namespace RSP2
                     InventorySlot slot = inventorySlots[i];
                     slot.Initialize(this);
                     slot.SetItem(item);
-                    break;
+
+                    return true;
                 }
             }
 
-            return;
+            return false;
 
         }
 
         public void PutItemInSlot(ItemInstance item)
         {
-            InventorySlot slot = inventorySlots.First(slot => slot.ItemInstance == item);
+            InventorySlot emptySlot = inventorySlots.First(slot => slot.ItemInstance == item);
 
-            if (slot == null) return;
+            if (emptySlot == null) return;
 
-            slot.SetItem(item);
+            emptySlot.SetItem(item);
         }
 
         public void SelectItem(InventorySlot slot)
@@ -168,28 +172,28 @@ namespace RSP2
             if (selectedItemInSlot.ItemInstance.equipped)
                 return;
 
-            Drop(selectedItemInSlot.ItemInstance);
+            player.Inventory.Drop(selectedItemInSlot.ItemInstance);
 
-            selectedItemInSlot.ClearSlot(true);
             player.Inventory.RemoveItem(selectedItemInSlot.ItemInstance);
+            selectedItemInSlot.ClearSlot(true);
 
             UpdateButtons(null);
         }
 
-        void Drop(ItemInstance itemInstance)
-        {
-            ItemData itemData = itemInstance.ItemData;
-            Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
+        //public void Drop(ItemInstance itemInstance)
+        //{
+        //    ItemData itemData = itemInstance.ItemData;
+        //    Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
 
-            GameObject go = Instantiate(itemData.DropPrefab, dropPosition, Quaternion.identity);
-            Rigidbody rigidbody = go.GetComponent<Rigidbody>();
-            rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
+        //    GameObject go = Instantiate(itemData.DropPrefab, dropPosition, Quaternion.identity);
+        //    Rigidbody rigidbody = go.GetComponent<Rigidbody>();
+        //    rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
 
-            ItemObject itemObject = go.GetComponent<ItemObject>();
-            itemObject.amount = itemInstance.amount;
-            if (itemObject.itemData == null)
-                itemObject.itemData = itemInstance.ItemData;
-        }
+        //    ItemObject itemObject = go.GetComponent<ItemObject>();
+        //    itemObject.amount = itemInstance.amount;
+        //    if (itemObject.itemData == null)
+        //        itemObject.itemData = itemInstance.ItemData;
+        //}
 
         private void OnSlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
         {
@@ -209,27 +213,43 @@ namespace RSP2
 
         private void OnBeginSlotDrag(InventorySlot draggedSlot)
         {
-            if(selectedItemInSlot != null)
+            if (selectedItemInSlot != null && selectedItemInSlot != draggedSlot)
             {
                 selectedItemInSlot.SetActiveOfSelectedFram(false);
             }
+
+            selectedItemInSlot = draggedSlot;
             movingSlot.CarryItem(draggedSlot);
             isDragging = true;
         }
 
-        private void OnSlotPointerUp(InventorySlot targetSlot)
-        {
-            // TO DO ::
-        }
-
-        public void OnPointerUp(PointerEventData eventData)
+        private void OnSlotPointerDrop(InventorySlot targetSlot)
         {
             if (isDragging)
             {
-                // TO DO:: Add RayCastEvent
+                isDragging = false;
+
+                selectedItemInSlot.SetItem(targetSlot.ItemInstance);
+                targetSlot.SetItem(movingSlot.ItemInstance);
+                movingSlot.DropItem();
                 selectedItemInSlot = null;
+                UpdateButtons(null);
+            }
+        }
+        
+        private void OnBackGroundDrop()
+        {
+            OnDropButton();
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            if (isDragging)
+            {
                 isDragging = false;
                 movingSlot.DropItem();
+                selectedItemInSlot.SetActiveOfSelectedFram(true);
+                UpdateButtons(selectedItemInSlot.ItemInstance);
             }
         }
     }

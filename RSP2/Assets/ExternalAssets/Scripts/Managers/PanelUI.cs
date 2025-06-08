@@ -1,10 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 namespace RSP2
 {
-    public class PanelUI : MonoBehaviour
+    public class PanelUI : MonoBehaviour, IDropHandler
     {
         private GameManager gameManager;
         private CanvasUIManager canvasUIManager;
@@ -14,6 +16,8 @@ namespace RSP2
 
         [field: SerializeField] private InteractionUI interactionUI;
         public InteractionUI InteractionUI { get => interactionUI; }
+
+        public event Action PointerDropEvent;
 
         public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
@@ -31,13 +35,18 @@ namespace RSP2
                 interactionUI = GetComponentInChildren<InteractionUI>();
             }
 
-            inventoryUI.Initialize(gameManager, canvasUIManager);
+            inventoryUI.Initialize(gameManager, canvasUIManager, this);
             interactionUI.Initialize(gameManager, canvasUIManager);
         }
 
         public void OpenInventoryUI() 
         {
             inventoryUI.Open();
+        }
+
+        public void OnDrop(PointerEventData eventData)
+        {
+            PointerDropEvent?.Invoke();
         }
     }
 }

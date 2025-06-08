@@ -52,8 +52,8 @@ namespace RSP2
 
 
             var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
-            Debug.Log("Point: " + module.point.action?.activeControl?.path);
-            Debug.Log("LeftClick: " + module.leftClick.action?.activeControl?.path);
+            //Debug.Log("Point: " + module.point.action?.activeControl?.path);
+            //Debug.Log("LeftClick: " + module.leftClick.action?.activeControl?.path);
         }
 
         //void Update()

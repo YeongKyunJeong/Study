@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 namespace RSP2
@@ -15,6 +16,8 @@ namespace RSP2
 
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI amountTMP;
+
+        private bool isMoving;
 
 
         public void Initialize(InventoryUI _inventoryUI)
@@ -31,6 +34,15 @@ namespace RSP2
                 amountTMP = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             }
             gameObject.SetActive(false);
+            isMoving = false;
+        }
+
+        private void Update()
+        {
+            if (isMoving)
+            {
+                transform.position = Mouse.current.position.ReadValue();
+            }
         }
 
         public void CarryItem(InventorySlot DraggedItemSlot)
@@ -42,17 +54,22 @@ namespace RSP2
             if (itemInstance.amount <= 1)
             {
                 amountTMP.gameObject.SetActive(false);
-                return;
+            }
+            else
+            {
+                amountTMP.gameObject.SetActive(true);
             }
 
-            amountTMP.gameObject.SetActive(true);
+                amountTMP.gameObject.SetActive(true);
             amountTMP.text = itemInstance.amount.ToString();
+            isMoving = true;
         }
 
         public ItemInstance DropItem()
         {
             gameObject.SetActive(false);
             itemInstance = null;
+            isMoving = false;
             return itemInstance;
         }
     }

@@ -33,13 +33,15 @@ namespace RSP2
         private CanvasUIManager canvasUIManager;
         private InventoryUI inventoryUI;
 
-        private List<ItemInstance> items = new List<ItemInstance>();
+        private List<ItemInstance> items;
 
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
             canvasUIManager = gameManager.CanvasUIManager;
             inventoryUI = canvasUIManager.PanelUI.InventoryUI;
+
+            items = new List<ItemInstance>();
 
         }
 
@@ -58,7 +60,7 @@ namespace RSP2
                     amount -= diff;
                     item.amount += diff;
 
-                    
+
                     inventoryUI.PutItemInSlot(item);
 
                     if (amount <= 0)
@@ -75,13 +77,35 @@ namespace RSP2
                 newItem.amount = diff;
                 amount -= diff;
 
+                if (!inventoryUI.AddItemToSlot(newItem))
+                {
+                    newItem.amount += amount;
+                    Drop(newItem);
+                    return false;
+                }
+
                 items.Add(newItem);
-                inventoryUI.AddItemSlot(newItem);
+
 
                 if (amount <= 0) return true;
             }
 
             return false;
+        }
+
+        public void Drop(ItemInstance itemInstance)
+        {
+            ItemData itemData = itemInstance.ItemData;
+            Vector3 dropPosition = transform.position + transform.forward * 1.5f + transform.up * 1.5f;
+
+            GameObject go = Instantiate(itemData.DropPrefab, dropPosition, Quaternion.identity);
+            Rigidbody rigidbody = go.GetComponent<Rigidbody>();
+            rigidbody.AddForce(transform.forward * 2, ForceMode.Impulse);
+
+            ItemObject itemObject = go.GetComponent<ItemObject>();
+            itemObject.amount = itemInstance.amount;
+            if (itemObject.itemData == null)
+                itemObject.itemData = itemInstance.ItemData;
         }
 
         public void RemoveItem(ItemInstance itemInstance)
