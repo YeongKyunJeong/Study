@@ -56,10 +56,6 @@ namespace RSP2
         public string GetInteractMsg()
         {
             return string.Empty;
-            //if (itemData == null)
-            //    return "Pickup Unknown";
-            //else
-            //    return string.Format("Pickup {0} {1}", itemData.displayName, amount);
         }
 
         public void OnInteractEnter(Player player)
@@ -79,6 +75,26 @@ namespace RSP2
         {
             // TO DO :: Add ui off logic
             CanvasUIManager.Instance.RemoveInteractionButton(myNPC);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            Player _player = other.GetComponent<Player>();
+            if (_player != null)
+            {
+                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
+                OnInteractEnter(_player);
+            }
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            Player _player = other.GetComponent<Player>();
+            if (_player != null)
+            {
+                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
+                OnInteractExit(_player);
+            }
         }
     }
 }

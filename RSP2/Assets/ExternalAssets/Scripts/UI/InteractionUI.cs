@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.AI;
 
 namespace RSP2
 {
@@ -16,7 +17,8 @@ namespace RSP2
         {
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;
-
+            NPCInteractions = new Dictionary<NPC, NPCInteraction>();
+            interactionButtons = new List<KeyValuePair<NPC, InteractionButton>>();
             Deactivate();
         }
 

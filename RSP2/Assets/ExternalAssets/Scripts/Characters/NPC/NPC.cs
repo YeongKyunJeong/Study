@@ -8,12 +8,22 @@ namespace RSP2
     public class NPC : Enemy
     {
         public int NPCKey;
+
+        [field: SerializeField] public InteractionHitBoxForNPC InteractionHiyBox { get; private set; }
+
         protected override void Start()
         {
             if (gameManager == null)
             {
                 gameManager = GameManager.Instance;
             }
+
+
+            if (InteractionHiyBox == null)
+            {
+                throw new NotImplementedException("Enemy Mover Not Assigned");
+            }
+            InteractionHiyBox.Initialize(this, new bool[] { true, false });
 
             //StatisticsHandler.InitializeByDefault();
             StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));

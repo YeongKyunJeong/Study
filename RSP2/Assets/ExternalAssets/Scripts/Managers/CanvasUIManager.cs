@@ -23,13 +23,6 @@ namespace RSP2
             player = _gameManager.Player;
             combatSystem = player.CombatSystem;
 
-            //if (uiInputReader == null)
-            //{
-            //    Debug.Log("UI Input Reader Not Imported");
-            //    uiInputReader = GetComponent<UIInputReader>();
-            //}
-            //uiInputReader.Initialize(gameManager);
-            //uiInputReader.InventoryEvent += OpenInvetoryUI;
             player.InputReader.InventoryEvent += OpenInvetoryUI;
 
 
@@ -105,7 +98,6 @@ namespace RSP2
         public void RemoveInteractionButton(NPC npc)
         {
             PanelUI.InteractionUI.RemoveNPCInteraction(npc);
-
         }
         #endregion
 
