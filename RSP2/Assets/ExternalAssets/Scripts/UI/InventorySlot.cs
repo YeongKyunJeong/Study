@@ -85,7 +85,7 @@ namespace RSP2
                 amountTMP.gameObject.SetActive(false);
                 return;
             }
-
+            amountTMP.gameObject.SetActive(true);
             amountTMP.text = changedAmount.ToString();
         }
 
@@ -109,12 +109,11 @@ namespace RSP2
         {
             if (itemInstance == null) return;
 
-            Debug.Log("Dragged");
             ClearSlot(false);
             DragBeginEvent?.Invoke(this);
         }
 
-        public void SetActiveOfSelectedFram(bool isOn)
+        public void SetActiveOfSelectedFrame(bool isOn)
         {
             selectedFrame.SetActive(isOn);
             if (isOn)
@@ -131,7 +130,7 @@ namespace RSP2
 
         public void OnDrag(PointerEventData eventData)
         {
-            Debug.Log("Dragging");
+            //Debug.Log("Dragging");
         }
 
         public void OnDrop(PointerEventData eventData)

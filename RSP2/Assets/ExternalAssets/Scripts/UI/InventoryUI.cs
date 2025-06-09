@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -197,6 +198,16 @@ namespace RSP2
 
         private void OnSlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
         {
+            if (isDragging)
+            {
+                isDragging = false;
+                movingSlot.DropItem();
+                selectedItemInSlot?.SetActiveOfSelectedFrame(true);
+                selectedItemInSlot = clickedSlot;
+                UpdateButtons(clickedSlot.ItemInstance);
+                return;
+            }
+
             if (isSelectedBefore)
             {
                 selectedItemInSlot = null;
@@ -204,7 +215,7 @@ namespace RSP2
                 return;
             }
 
-            selectedItemInSlot?.SetActiveOfSelectedFram(false);
+            selectedItemInSlot?.SetActiveOfSelectedFrame(false);
 
             selectedItemInSlot = clickedSlot;
             UpdateButtons(selectedItemInSlot.ItemInstance);
@@ -215,7 +226,7 @@ namespace RSP2
         {
             if (selectedItemInSlot != null && selectedItemInSlot != draggedSlot)
             {
-                selectedItemInSlot.SetActiveOfSelectedFram(false);
+                selectedItemInSlot.SetActiveOfSelectedFrame(false);
             }
 
             selectedItemInSlot = draggedSlot;
@@ -248,7 +259,7 @@ namespace RSP2
             {
                 isDragging = false;
                 movingSlot.DropItem();
-                selectedItemInSlot.SetActiveOfSelectedFram(true);
+                selectedItemInSlot.SetActiveOfSelectedFrame(true);
                 UpdateButtons(selectedItemInSlot.ItemInstance);
             }
         }
