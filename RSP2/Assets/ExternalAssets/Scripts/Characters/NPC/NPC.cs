@@ -8,7 +8,7 @@ namespace RSP2
     public class NPC : Enemy
     {
         public int NPCKey;
-
+        [field: SerializeField] public NPCInteraction Interactions { get; private set; }
         [field: SerializeField] public InteractionHitBoxForNPC InteractionHiyBox { get; private set; }
 
         protected override void Start()

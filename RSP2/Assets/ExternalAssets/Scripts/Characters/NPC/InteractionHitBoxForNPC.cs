@@ -77,24 +77,23 @@ namespace RSP2
             CanvasUIManager.Instance.RemoveInteractionButton(myNPC);
         }
 
-        private void OnTriggerEnter(Collider other)
-        {
-            Player _player = other.GetComponent<Player>();
-            if (_player != null)
-            {
-                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
-                OnInteractEnter(_player);
-            }
-        }
+        //private void OnTriggerEnter(Collider other)
+        //{
+        //    Player _player = other.GetComponent<Player>();
+        //    if (_player != null)
+        //    {
 
-        private void OnTriggerExit(Collider other)
-        {
-            Player _player = other.GetComponent<Player>();
-            if (_player != null)
-            {
-                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
-                OnInteractExit(_player);
-            }
-        }
+        //        OnInteractEnter(_player);
+        //    }
+        //}
+
+        //private void OnTriggerExit(Collider other)
+        //{
+        //    Player _player = other.GetComponent<Player>();
+        //    if (_player != null)
+        //    {
+        //        OnInteractExit(_player);
+        //    }
+        //}
     }
 }

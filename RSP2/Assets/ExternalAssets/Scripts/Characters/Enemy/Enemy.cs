@@ -18,8 +18,7 @@ namespace RSP2
 
         public ActionStateMachineForEnemy ActionStateMachine { get; protected set; }
 
-
-        // To do : Move these parameter to SO and RuntimeData
+        public string Name;
         public int EnemyKey;
 
         [field: SerializeField] public AttackData[] AttackDataArray { get; protected set; }
