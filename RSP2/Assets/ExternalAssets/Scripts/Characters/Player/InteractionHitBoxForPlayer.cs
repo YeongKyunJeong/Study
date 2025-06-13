@@ -18,14 +18,17 @@ namespace RSP2
             IInteractable interactable = other.GetComponent<IInteractable>();
             if (interactable != null)
             {
-                //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
                 interactable?.OnInteractEnter(player);
             }
         }
 
         private void OnTriggerExit(Collider other)
         {
-            
+            IInteractable interactable = other.GetComponent<IInteractable>();
+            if (interactable != null)
+            {
+                interactable?.OnInteractExit(player);
+            }
         }
     }
 }

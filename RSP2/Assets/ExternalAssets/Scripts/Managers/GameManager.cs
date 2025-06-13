@@ -17,6 +17,7 @@ namespace RSP2
         public CanvasUIManager CanvasUIManager { get; private set; }
         public DataManager DataManager { get; private set; }
         public ProjectileManager ProjectileManager { get; private set; }
+        public InteractionManager InteractionManager { get; private set; }
 
         public event Action<Enemy> EnemyDieEvent;
 
@@ -29,9 +30,11 @@ namespace RSP2
 
             DataManager = DataManager.Instance;
             ProjectileManager = ProjectileManager.Instance;
+            InteractionManager = InteractionManager.Instance;
 
             CanvasUIManager.Initialize(this);
             DataManager.Initialize();
+            InteractionManager.Initialize(this);
         }
 
         private void Start()

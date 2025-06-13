@@ -66,15 +66,14 @@ namespace RSP2
             {
                 if (interaction.HasFlag(item))
                 {
-                    CanvasUIManager.Instance.AddInteractionButton(myNPC, item);
+                    InteractionManager.Instance.AddNPCInteraction(myNPC, item);
                 }
             }
         }
 
         public void OnInteractExit(Player player)
         {
-            // TO DO :: Add ui off logic
-            CanvasUIManager.Instance.RemoveInteractionButton(myNPC);
+            InteractionManager.Instance.RemoveNPCInteraction(myNPC);
         }
 
         //private void OnTriggerEnter(Collider other)

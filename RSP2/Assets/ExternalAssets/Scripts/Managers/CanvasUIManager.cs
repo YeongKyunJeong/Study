@@ -23,7 +23,7 @@ namespace RSP2
             player = _gameManager.Player;
             combatSystem = player.CombatSystem;
 
-            player.InputReader.InventoryEvent += OpenInvetoryUI;
+            player.InputReader.InventoryEvent += OpenInventoryUI;
 
 
             if (FixedUI == null)
@@ -81,7 +81,7 @@ namespace RSP2
 
         #region Panel UI Methods
 
-        public void OpenInvetoryUI()
+        public void OpenInventoryUI()
         {
             PanelUI.OpenInventoryUI();
 
@@ -90,15 +90,15 @@ namespace RSP2
         }
 
 
-        public void AddInteractionButton(NPC npc, NPCInteraction newNPCInteraction)
-        {
-            PanelUI.InteractionUI.AddNPCInteraction(npc, newNPCInteraction);
-        }
+        //public void AddInteractionButton(NPC npc, NPCInteraction newNPCInteraction)
+        //{
+        //    PanelUI.InteractionUI.AddNPCInteraction(npc, newNPCInteraction);
+        //}
 
-        public void RemoveInteractionButton(NPC npc)
-        {
-            PanelUI.InteractionUI.RemoveNPCInteraction(npc);
-        }
+        //public void RemoveInteractionButton(NPC npc)
+        //{
+        //    PanelUI.InteractionUI.RemoveNPCInteraction(npc);
+        //}
         #endregion
 
 

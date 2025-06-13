@@ -181,20 +181,6 @@ namespace RSP2
             UpdateButtons(null);
         }
 
-        //public void Drop(ItemInstance itemInstance)
-        //{
-        //    ItemData itemData = itemInstance.ItemData;
-        //    Vector3 dropPosition = player.transform.position + player.transform.forward * 1.5f + player.transform.up * 1.5f;
-
-        //    GameObject go = Instantiate(itemData.DropPrefab, dropPosition, Quaternion.identity);
-        //    Rigidbody rigidbody = go.GetComponent<Rigidbody>();
-        //    rigidbody.AddForce(player.transform.forward * 2, ForceMode.Impulse);
-
-        //    ItemObject itemObject = go.GetComponent<ItemObject>();
-        //    itemObject.amount = itemInstance.amount;
-        //    if (itemObject.itemData == null)
-        //        itemObject.itemData = itemInstance.ItemData;
-        //}
 
         private void OnSlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
         {
