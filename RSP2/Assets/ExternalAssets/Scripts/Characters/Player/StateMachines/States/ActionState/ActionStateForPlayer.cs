@@ -154,6 +154,7 @@ namespace RSP2
         protected virtual void OnQSkillInput() { }
 
         protected virtual void OnESkillInput() { }
+
         protected virtual void OnAimInput() { }
 
         #endregion

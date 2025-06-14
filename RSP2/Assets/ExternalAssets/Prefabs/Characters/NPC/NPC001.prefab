@@ -4331,6 +4331,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5662537996461586037}
+  - component: {fileID: 3621611837701582744}
   - component: {fileID: 670603429816345853}
   - component: {fileID: 6245971277584579702}
   m_Layer: 0
@@ -4356,6 +4357,19 @@ Transform:
   - {fileID: 5058887197242398886}
   m_Father: {fileID: 651382247913086392}
   m_LocalEulerAnglesHint: {x: 15, y: 180, z: 0}
+--- !u!114 &3621611837701582744
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5964659457445307243}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c532c62c775ae5f4da84613efe963729, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <virtualCamera>k__BackingField: {fileID: 670603429816345853}
 --- !u!114 &670603429816345853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6208,7 +6222,8 @@ MonoBehaviour:
   <RotationSpeedModifier>k__BackingField: 6
   NPCKey: 0
   <Interactions>k__BackingField: -1
-  <InteractionHiyBox>k__BackingField: {fileID: 8890437020281934083}
+  <InteractionHitBox>k__BackingField: {fileID: 8890437020281934083}
+  <nPCCamera>k__BackingField: {fileID: 3621611837701582744}
 --- !u!114 &5124438411032628179
 MonoBehaviour:
   m_ObjectHideFlags: 0

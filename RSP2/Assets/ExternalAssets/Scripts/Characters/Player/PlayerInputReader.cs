@@ -18,8 +18,9 @@ namespace RSP2
         private InputActionMap uIInputActionMap;
         #endregion
 
-
         public Vector2 MovementInput { get; private set; }
+
+        #region Action Events
 
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
@@ -29,10 +30,13 @@ namespace RSP2
         public event Action AimEvent;
         public event Action QSkillEvent;
         public event Action ESkillEvent;
+        #endregion
 
         #region UI Field
         public event Action InventoryEvent;
         #endregion
+
+        public event Action InteractionEvent;
 
         //public PlayerInputReader(Player _player)
         //{
@@ -52,36 +56,7 @@ namespace RSP2
 
 
             var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
-            //Debug.Log("Point: " + module.point.action?.activeControl?.path);
-            //Debug.Log("LeftClick: " + module.leftClick.action?.activeControl?.path);
         }
-
-        //void Update()
-        //{
-        //    if (Mouse.current.leftButton.wasPressedThisFrame)
-        //    {
-        //        PointerEventData data = new PointerEventData(EventSystem.current);
-        //        data.position = Mouse.current.position.ReadValue();
-
-        //        List<RaycastResult> results = new List<RaycastResult>();
-        //        EventSystem.current.RaycastAll(data, results);
-
-        //        Debug.Log("Raycast 결과 수: " + results.Count);
-        //        foreach (var result in results)
-        //        {
-        //            Debug.Log("감지된 오브젝트: " + result.gameObject.name);
-        //        }
-        //    }
-        //}
-        //private void OnDestroy()
-        //{
-        //    plyaerInputActions.Disable();
-        //}
-
-        //private void Awake()
-        //{
-        //    player = GetComponent<Player>();
-        //}
 
         public void EnablePlayerInput(bool isOn)
         {
@@ -98,7 +73,7 @@ namespace RSP2
             //playerInputComponent.enabled = isOn;
         }
 
-        public void OnMove(InputValue value)
+        private void OnMove(InputValue value)
         {
             //if (context.canceled)
             //{
@@ -110,59 +85,64 @@ namespace RSP2
             MoveEvent?.Invoke(MovementInput);
         }
 
-        public void OnJump()
+        private void OnJump()
         {
             JumpEvent?.Invoke();
         }
 
-        public void OnZoom(InputValue zoomDelta)
+        private void OnZoom(InputValue zoomDelta)
         {
             return;
             // TODO :: Use CameraZommer;
         }
 
-        public Vector2 GetMovementInput()
+        private Vector2 GetMovementInput()
         {
             return MovementInput;
         }
 
-        public void OnWalkToggle()
+        private void OnWalkToggle()
         {
             WalkToggleEvent?.Invoke();
         }
 
-        public void OnDash()
+        private void OnDash()
         {
             DashEvent?.Invoke();
         }
 
-        public void OnAttack()
+        private void OnAttack()
         {
             AttackEvent?.Invoke();
         }
 
-        public void OnAim()
+        private void OnAim()
         {
             Debug.Log("Aim");
             AimEvent?.Invoke();
         }
 
-        public void OnSkillQ()
+        private void OnSkillQ()
         {
             QSkillEvent?.Invoke();
         }
 
-        public void OnSkillE()
+        private void OnSkillE()
         {
             Debug.Log("E");
             ESkillEvent?.Invoke();
         }
 
         #region UI
-        public void OnInventory()
+        private void OnInventory()
         {
             InventoryEvent?.Invoke();
         }
         #endregion
+
+        private void OnInteraction()
+        {
+            InteractionEvent?.Invoke();
+        }
     }
 }

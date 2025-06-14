@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RSP2
@@ -7,11 +9,20 @@ namespace RSP2
     public class InteractionManager : MonoSingleton<InteractionManager>
     {
         private GameManager gameManager;
-        [field: SerializeField] private InteractionUI interactionUI;
+        private CameraManager cameraManager;
+        private Player player;
 
+        [field: SerializeField] private InteractionStringTable InteractionStringSO { get; set; }
+
+        [field: SerializeField] private InteractionUI interactionUI;
         [field: SerializeField] private InteractionDisplay interactionDisplay;
+
         //private Dictionary<NPC, NPCInteraction> NPCInteractions;
-        [field: SerializeField] private List<KeyValuePair<NPC, NPCInteraction>> CurrentInteractions;
+        [field: SerializeField] public bool isInteractable;
+        [field: SerializeField] public bool isInteracting;
+
+        [field: SerializeField] private List<KeyValuePair<NPC, NPCInteraction>> interactionPairList;
+        [field: SerializeField] private KeyValuePair<NPC, NPCInteraction> currentPair;
 
         public InteractionUI InteractionUI
         {
@@ -31,48 +42,94 @@ namespace RSP2
             }
         }
 
-        [field: SerializeField] private InteractionStringTable InteractionStringSO { get; set; }
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(GameManager _gameManager, CameraManager _cameraManager)
         {
             gameManager = _gameManager;
+            cameraManager = _cameraManager;
             //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
-            CurrentInteractions = new List<KeyValuePair<NPC, NPCInteraction>>();
+            interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
+        }
+
+        private void Start()
+        {
+            player = gameManager.Player;
+            player.InputReader.InteractionEvent += OnInteractionInput;
+
+            isInteractable = CheckIsInteractable();
+            isInteracting = false;
+        }
+
+        private bool CheckIsInteractable()
+        {
+            // TO DO :: Add checking logic whether is interactable
+            return true;
         }
 
         public void AddNPCInteraction(NPC nPC, NPCInteraction newNPCInteraction)
         {
             InteractionUI.Activate();
             //NPCInteractions.Add(nPC, newNPCInteraction);
-            CurrentInteractions.Add(new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction));
-            ChangeInteractionDisplay(nPC, newNPCInteraction);
+            KeyValuePair<NPC, NPCInteraction> newPair = new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction);
+            interactionPairList.Add(newPair);
+            ChangeCurrentInteraction(newPair);
             // TO DO :: Add other logic
         }
 
         public void RemoveNPCInteraction(NPC nPC)
         {
-            CurrentInteractions.RemoveAll(kvp => kvp.Key == nPC);
+            interactionPairList.RemoveAll(kvp => kvp.Key == nPC);
 
-            if (CurrentInteractions.Count == 0)
+            if (interactionPairList.Count == 0)
             {
                 InteractionUI.Deactivate();
+                currentPair = new KeyValuePair<NPC, NPCInteraction>();
             }
             else
             {
-                int index = CurrentInteractions.Count - 1;
-                ChangeInteractionDisplay(CurrentInteractions[index].Key, CurrentInteractions[index].Value);
+                if (interactionPairList.Contains(currentPair)) return;
+
+                int index = interactionPairList.Count - 1;
+                ChangeCurrentInteraction(interactionPairList[index]);
             }
             // TO DO :: Check there is other interaction left and deactivate if none
         }
 
-        public void ChangeInteractionDisplay(NPC nPC, NPCInteraction nPCInteraction)
+        public void ChangeCurrentInteraction(KeyValuePair<NPC, NPCInteraction> nextPair)
         {
-            interactionUI.ChangeInteractionDisplayTMP(nPC, GetInteractionName(nPCInteraction));
+            currentPair = nextPair;
+            interactionUI.ChangeInteractionDisplayTMP(nextPair.Key, GetInteractionName(nextPair.Value));
         }
+
 
         public string GetInteractionName(NPCInteraction nPCInteraction)
         {
             return InteractionStringSO.GetString(nPCInteraction);
+        }
+
+        private void OnInteractionInput()
+        {
+            if (isInteracting)
+            {
+                WhileInteraction();
+                return;
+            }
+
+            if (!isInteractable) return;
+
+            if (currentPair.Key == null) return;
+
+            // TO DO:: Start Interaction by interaction type
+            isInteracting = true;
+            cameraManager.CallCameraSwitching(currentPair.Key.nPCCamera.VirtualCamera);
+        }
+
+        private void WhileInteraction()
+        {
+            // TO DO :: Add interaction input logic while interaction 
+            // Temporary
+            isInteracting = false;
+            cameraManager.CallCameraSwitching(null);
         }
 
     }

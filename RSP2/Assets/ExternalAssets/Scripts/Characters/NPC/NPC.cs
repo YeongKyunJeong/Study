@@ -9,8 +9,9 @@ namespace RSP2
     {
         public int NPCKey;
         [field: SerializeField] public NPCInteraction Interactions { get; private set; }
-        [field: SerializeField] public InteractionHitBoxForNPC InteractionHiyBox { get; private set; }
-
+        [field: SerializeField] public InteractionHitBoxForNPC InteractionHitBox { get; private set; }
+        [field: SerializeField] public NPCCamera nPCCamera { get; private set; }
+        
         protected override void Start()
         {
             if (gameManager == null)
@@ -18,12 +19,18 @@ namespace RSP2
                 gameManager = GameManager.Instance;
             }
 
-
-            if (InteractionHiyBox == null)
+            if (InteractionHitBox == null)
             {
-                throw new NotImplementedException("Enemy Mover Not Assigned");
+                Debug.LogError("Interaction Hit Box Not Assigned");
+                //throw new NotImplementedException("Interaction Hit Box Not Assigned");
             }
-            InteractionHiyBox.Initialize(this, new bool[] { true, false });
+
+            if(nPCCamera != null)
+            {
+                CameraManager.Instance.AddCamera(nPCCamera.VirtualCamera);
+            }
+
+            InteractionHitBox.Initialize(this, new bool[] { true, false });
 
             //StatisticsHandler.InitializeByDefault();
             StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));

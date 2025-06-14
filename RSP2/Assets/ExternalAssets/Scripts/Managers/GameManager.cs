@@ -74,7 +74,7 @@ namespace RSP2
             CameraManager.Initialize(this);
             DataManager.Initialize();
             ProjectileManager.Initialize(this);
-            InteractionManager.Initialize(this);
+            InteractionManager.Initialize(this, CameraManager);
             VFXManager.Initialize();
             SFXManager.Initialize();
 
