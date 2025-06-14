@@ -84,7 +84,7 @@ namespace RSP2
             }
 
             //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
+            StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

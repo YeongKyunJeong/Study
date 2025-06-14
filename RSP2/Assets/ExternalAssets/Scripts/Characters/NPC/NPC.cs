@@ -26,7 +26,7 @@ namespace RSP2
             InteractionHiyBox.Initialize(this, new bool[] { true, false });
 
             //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
+            StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

@@ -118,10 +118,10 @@ namespace RSP2
                     throw new NotImplementedException("Player Inventory Not Assigned");
                 }
             }
-            Inventory.Initialize(gameManager);
+            Inventory.Initialize();
 
 
-            StatHandler.Initialize(gameManager.DataManager.TableDataLoader.BaseStatLoaderForPlayer.GetStat());
+            StatHandler.Initialize(DataManager.Instance.TableDataLoader.BaseStatLoaderForPlayer.GetStat());
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
@@ -189,15 +189,6 @@ namespace RSP2
             // TODO :: Add something to do On Dying;
         }
 
-        //private void OnTriggerEnter(Collider other)
-        //{
-        //    IInteractable interactable = other.GetComponent<IInteractable>();
-        //    if (interactable != null)
-        //    {
-        //        //floatingTextManager.CreateFloatingText(interactable.GetInteractMsg(), other.transform.position);
-        //        interactable?.OnInteract(this);
-        //    }
-        //}
     }
 
 }

@@ -35,10 +35,10 @@ namespace RSP2
 
         private List<ItemInstance> items;
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize()
         {
-            gameManager = _gameManager;
-            canvasUIManager = gameManager.CanvasUIManager;
+            gameManager = GameManager.Instance;
+            canvasUIManager = CanvasUIManager.Instance;
             inventoryUI = canvasUIManager.PanelUI.InventoryUI;
 
             items = new List<ItemInstance>();

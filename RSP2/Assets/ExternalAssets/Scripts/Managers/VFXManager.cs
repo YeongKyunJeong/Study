@@ -16,7 +16,12 @@ namespace RSP2
 
         [field: SerializeField] public VFXScriptableObject VFXSOData { get; private set; }
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    objectPool = GetComponent<ObjectPool>();
+        //}
+
+        public void Initialize()
         {
             objectPool = GetComponent<ObjectPool>();
         }
@@ -41,7 +46,7 @@ namespace RSP2
         }
 
         public static void PlayVFXEffect(string VFXName, Vector3 sourcePosition, Vector3 sourceDir, float scaleMultiplier = 1.0f, float speedMultipliyer = 1.0f)
-        {            
+        {
             ParticleSystem vFXParticleSystem = PoolVFX(VFXName, sourcePosition, sourceDir);
             var main = vFXParticleSystem.main;
             main.simulationSpeed = 1f + Random.Range(-Instance.HitEffectPitchVariance, Instance.HitEffectPitchVariance);

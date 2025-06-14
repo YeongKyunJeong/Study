@@ -6,15 +6,23 @@ namespace RSP2
 {
     public class ProjectileManager : MonoSingleton<ProjectileManager>
     {
+        private GameManager gameManager;
         private ObjectPool objectPool;
         //public List<Projectile> projectileList;
         private static HashSet<Projectile> projectiles;
 
-        private void Awake()
+        public void Initialize(GameManager _gameManager)
         {
+            gameManager = _gameManager;
             objectPool = GetComponent<ObjectPool>();
             projectiles = new HashSet<Projectile>();
         }
+        
+        //private void Awake()
+        //{
+        //    objectPool = GetComponent<ObjectPool>();
+        //    projectiles = new HashSet<Projectile>();
+        //}
 
         // Update is called once per frame
         public void CallUpdate()

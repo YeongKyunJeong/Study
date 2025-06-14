@@ -19,7 +19,16 @@ namespace RSP2
 
         [field: SerializeField] public SFXScriptableObject SFXSOData { get; private set; }
 
-        private void Awake()
+        //private void Awake()
+        //{
+        //    musicAudioSource = Camera.main.GetComponent<AudioSource>();
+        //    musicAudioSource.volume = musicVolume;
+        //    musicAudioSource.loop = true;
+
+        //    objectPool = GetComponent<ObjectPool>();
+        //}
+
+        public void Initialize()
         {
             musicAudioSource = Camera.main.GetComponent<AudioSource>();
             musicAudioSource.volume = musicVolume;
