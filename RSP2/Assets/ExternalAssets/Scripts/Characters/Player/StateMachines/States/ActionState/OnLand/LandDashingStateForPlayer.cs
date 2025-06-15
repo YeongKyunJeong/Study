@@ -100,7 +100,7 @@ namespace RSP2
         {
             if (FallingCalculator.CheckFalling(dampedFallingVelocity, Vector3.down, controller))
             {
-                SetAnimatorOnLandParameter(false);
+                SetOnLandParameter(false);
 
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Processors;
 
 namespace RSP2
 {
@@ -43,6 +44,11 @@ namespace RSP2
         public RangeAttackingStateForPlayer[] RangeAttackingStates { get; private set; }
         #endregion
 
+        #endregion
+
+        #region State Flag
+        public bool isOnLand { get; private set; }
+        public bool isDead { get; private set; }
         #endregion
 
 
@@ -116,10 +122,18 @@ namespace RSP2
 
         public void OnDie()
         {
+            isDead = true;
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
             mover.UpdateNextVerticalVelocityVector(Vector3.zero);
             animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
-            currentState = null; // TODO :: Add dyingState
+            currentState = null; 
+            // TODO :: Add Dead State
+        }
+
+        public void OnLand(bool _isOnLand)
+        {
+            isOnLand = _isOnLand;
+            // TODO :: Add on Land State
         }
     }
 

@@ -10,7 +10,9 @@ namespace RSP2
     {
         private GameManager gameManager;
         private CameraManager cameraManager;
+        private CanvasUIManager canvasUIManager;
         private Player player;
+        private ActionStateMachineForPlayer playerStateMachine;
 
         [field: SerializeField] private InteractionStringTable InteractionStringSO { get; set; }
 
@@ -43,10 +45,11 @@ namespace RSP2
         }
 
 
-        public void Initialize(GameManager _gameManager, CameraManager _cameraManager)
+        public void Initialize(GameManager _gameManager, CameraManager _cameraManager, CanvasUIManager _canvasUIManager)
         {
             gameManager = _gameManager;
             cameraManager = _cameraManager;
+            canvasUIManager = _canvasUIManager;
             //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
             interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
         }
@@ -54,15 +57,22 @@ namespace RSP2
         private void Start()
         {
             player = gameManager.Player;
+            playerStateMachine = player.ActionStateMachine;
             player.InputReader.InteractionEvent += OnInteractionInput;
 
-            isInteractable = CheckIsInteractable();
+            //isInteractable = CheckIsInteractable();
             isInteracting = false;
         }
 
         private bool CheckIsInteractable()
         {
             // TO DO :: Add checking logic whether is interactable
+            if (!playerStateMachine.isOnLand) return false;
+
+            if (canvasUIManager.IsInventoryOpened) return false;
+
+            if (playerStateMachine.isDead) return false;
+
             return true;
         }
 
@@ -115,13 +125,19 @@ namespace RSP2
                 return;
             }
 
-            if (!isInteractable) return;
+            if (!CheckIsInteractable()) return;
 
             if (currentPair.Key == null) return;
 
+            StartInteraction();
+        }
+
+        private void StartInteraction()
+        {
             // TO DO:: Start Interaction by interaction type
             isInteracting = true;
             cameraManager.CallCameraSwitching(currentPair.Key.nPCCamera.VirtualCamera);
+            gameManager.OnInteractionUIOpen(true);
         }
 
         private void WhileInteraction()

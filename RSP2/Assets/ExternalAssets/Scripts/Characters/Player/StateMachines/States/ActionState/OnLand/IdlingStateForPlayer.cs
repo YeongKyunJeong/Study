@@ -45,7 +45,7 @@ namespace RSP2
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
             if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, Vector3.down, controller))
             {
-                SetAnimatorOnLandParameter(false);
+                SetOnLandParameter(false);
                 stateMachine.ChangeState(stateMachine.FallingState);
                 return;
             }
@@ -75,7 +75,7 @@ namespace RSP2
         {
             base.OnJumpInput();
 
-            SetAnimatorOnLandParameter(false);
+            SetOnLandParameter(false);
         }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)

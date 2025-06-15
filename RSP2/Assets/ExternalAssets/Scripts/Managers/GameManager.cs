@@ -74,7 +74,7 @@ namespace RSP2
             CameraManager.Initialize(this);
             DataManager.Initialize();
             ProjectileManager.Initialize(this);
-            InteractionManager.Initialize(this, CameraManager);
+            InteractionManager.Initialize(this, CameraManager, CanvasUIManager);
             VFXManager.Initialize();
             SFXManager.Initialize();
 
@@ -97,6 +97,23 @@ namespace RSP2
             EnableCinemachinInput(!isOn);
             LockCursor(!isOn);
         }
+        
+        public void OnInteractionUIOpen(bool isOn)
+        {
+            EnablePlayerInput(!isOn);
+            EnableCinemachinInput(!isOn);
+        }
+
+        // TO DO :: Standardize by making using Action
+
+        //public bool CheckNowInteractable()
+        //{
+        //    if (Player.ActionStateMachine.isDead) return false;
+
+        //    if (!Player.ActionStateMachine.isOnLand) return false;
+
+        //    return true;
+        //}
 
         private void EnablePlayerInput(bool isOn)
         {
@@ -107,6 +124,7 @@ namespace RSP2
         {
             CinemachineInputProvider.enabled = isOn;
         }
+
 
         public void LockCursor(bool isLock)
         {

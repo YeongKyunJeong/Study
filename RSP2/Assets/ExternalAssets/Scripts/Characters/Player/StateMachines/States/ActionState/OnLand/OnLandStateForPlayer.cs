@@ -29,7 +29,7 @@ namespace RSP2
         {
             base.Enter();
 
-            SetAnimatorOnLandParameter(true);
+            SetOnLandParameter(true);
         }
 
         public override void Exit()
@@ -46,7 +46,7 @@ namespace RSP2
         {
             base.OnJumpInput();
 
-            SetAnimatorOnLandParameter(false);
+            SetOnLandParameter(false);
 
             stateMachine.ChangeState(stateMachine.JumpingState);
         }
@@ -67,7 +67,7 @@ namespace RSP2
 
                 if (stateMachine.CheckAttackResources(attackDataLibrary.BaseAttackData, player.CombatSystem))
                 {
-                    SetAnimatorOnLandParameter(false);
+                    SetOnLandParameter(false);
 
                     stateMachine.ChangeState(stateMachine.BasicMeleeAttackingState);
                     return;
@@ -85,7 +85,7 @@ namespace RSP2
 
                 if (stateMachine.CheckAttackResources(attackDataLibrary.RangeAttackDataList[0], player.CombatSystem))
                 {
-                    SetAnimatorOnLandParameter(false);
+                    SetOnLandParameter(false);
 
                     stateMachine.ChangeStateWithAttackData(stateMachine.RangeAttackingStates[0], 0);
                     return;
@@ -95,8 +95,9 @@ namespace RSP2
 
         }
 
-        protected virtual void SetAnimatorOnLandParameter(bool isOn)
+        protected virtual void SetOnLandParameter(bool isOn)
         {
+            stateMachine.OnLand(isOn);
             animator.SetBool(onLandHash, isOn);
         }
 

@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RSP2
@@ -16,6 +17,8 @@ namespace RSP2
         [field: SerializeField] public FixedUI FixedUI { get; private set; }
         [field: SerializeField] public PanelUI PanelUI { get; private set; }
         [field: SerializeField] public PopUpUI PopUpUI { get; private set; }
+
+        public bool IsInventoryOpened { get; private set; }
 
         public void Initialize(GameManager _gameManager)
         {
@@ -47,6 +50,7 @@ namespace RSP2
             }
             PopUpUI.Initialize(gameManager, this);
 
+            IsInventoryOpened = false;
 
         }
 
@@ -86,6 +90,7 @@ namespace RSP2
             PanelUI.OpenInventoryUI();
 
             bool isActive = PanelUI.InventoryUI.gameObject.activeSelf;
+            IsInventoryOpened = isActive;
             gameManager.OnInventoryUIOpen(isActive);
         }
 
