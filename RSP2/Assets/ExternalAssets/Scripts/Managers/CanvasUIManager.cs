@@ -6,6 +6,13 @@ using UnityEngine;
 
 namespace RSP2
 {
+    public enum PanelUIType
+    {
+        Inventory,
+        Interaction,
+        Dialogue
+    }
+
     public class CanvasUIManager : MonoSingleton<CanvasUIManager>
     {
         private GameManager gameManager;
@@ -64,6 +71,35 @@ namespace RSP2
             player.CombatSystem.StaminaSpendEvent += ChangeStaminaBar;
         }
 
+        public void SetPanelUIActive(PanelUIType uIType, bool isOn = true)
+        {
+            switch (uIType)
+            {
+                case PanelUIType.Inventory:
+                    {
+                        PanelUI.OpenInventoryUI();
+
+                        bool isActive = PanelUI.InventoryUI.gameObject.activeSelf;
+                        IsInventoryOpened = isActive;
+                        gameManager.OnInventoryUIOpen(isActive);
+                        break;
+                    }
+                case PanelUIType.Interaction:
+                    {
+                        if (isOn) PanelUI.InteractionUI.Activate();
+                        else PanelUI.InteractionUI.Deactivate();
+                        break;
+                    }
+                case PanelUIType.Dialogue:
+                    {
+                        if (isOn) PanelUI.InteractionUI.Activate();
+                        else PanelUI.InteractionUI.Deactivate();
+                        break;
+                    }
+            }
+
+        }
+
         #region Fixed UI Methods
 
         public void ChangeHPBar()
@@ -82,28 +118,12 @@ namespace RSP2
         }
         #endregion
 
-
         #region Panel UI Methods
 
-        public void OpenInventoryUI()
+        private void OpenInventoryUI()
         {
-            PanelUI.OpenInventoryUI();
-
-            bool isActive = PanelUI.InventoryUI.gameObject.activeSelf;
-            IsInventoryOpened = isActive;
-            gameManager.OnInventoryUIOpen(isActive);
+            SetPanelUIActive(PanelUIType.Inventory);
         }
-
-
-        //public void AddInteractionButton(NPC npc, NPCInteraction newNPCInteraction)
-        //{
-        //    PanelUI.InteractionUI.AddNPCInteraction(npc, newNPCInteraction);
-        //}
-
-        //public void RemoveInteractionButton(NPC npc)
-        //{
-        //    PanelUI.InteractionUI.RemoveNPCInteraction(npc);
-        //}
         #endregion
 
 

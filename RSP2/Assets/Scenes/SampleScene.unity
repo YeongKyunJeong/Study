@@ -1737,6 +1737,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 520186141}
   interactionUI: {fileID: 1257225465}
+  dialogueUI: {fileID: 125834512}
 --- !u!1001 &387325254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9814,6 +9815,10 @@ PrefabInstance:
     - target: {fileID: 310363256608967031, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: m_Name
       value: Player
+      objectReference: {fileID: 0}
+    - target: {fileID: 1082692146327613832, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: m_DefaultActionMap
+      value: a205a0bb-7793-4a38-b38f-db4e6d17c92a
       objectReference: {fileID: 0}
     - target: {fileID: 1294012425517350804, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: m_LocalPosition.x

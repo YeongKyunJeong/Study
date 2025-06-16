@@ -8,14 +8,23 @@ using UnityEngine.InputSystem.UI;
 
 namespace RSP2
 {
+    public enum ActionMap
+    {
+        Field,
+        UI,
+        Interaction,
+        Global
+    }
+
     public class PlayerInputReader : MonoBehaviour
     {
         private Player player;
         private PlayerInput playerInputComponent;
 
         #region Action Maps
-        private InputActionMap playerInputActionMap;
-        private InputActionMap uIInputActionMap;
+        private InputActionMap fieldActionMap;
+        private InputActionMap uIActionMap;
+        private InputActionMap InteractionActionMap;
         #endregion
 
         public Vector2 MovementInput { get; private set; }
@@ -48,29 +57,52 @@ namespace RSP2
             player = _player;
             playerInputComponent = GetComponent<PlayerInput>();
 
-            playerInputActionMap = playerInputComponent.actions.FindActionMap("Player");
-            uIInputActionMap = playerInputComponent.actions.FindActionMap("UI");
+            fieldActionMap = playerInputComponent.actions.FindActionMap("Field");
+            uIActionMap = playerInputComponent.actions.FindActionMap("UI");
+            InteractionActionMap = playerInputComponent.actions.FindActionMap("Interaction");
 
             playerInputComponent.actions.FindActionMap("Global").Enable();
-            EnablePlayerInput(true);
+
+            EnableFieldInput(true);
 
 
-            var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+            //var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
         }
 
-        public void EnablePlayerInput(bool isOn)
+        public void EnableFieldInput(bool fieldOnly = true)
         {
-            if (isOn)
-            {
-                playerInputActionMap.Enable();
-                uIInputActionMap.Disable();
-                return;
-            }
+            fieldActionMap.Enable();
 
-            playerInputActionMap.Disable();
-            uIInputActionMap.Enable();
+            if (fieldOnly)
+            {
+                uIActionMap.Disable();
+                InteractionActionMap.Disable();
+            }
             return;
-            //playerInputComponent.enabled = isOn;
+        }
+
+        public void EnableUIInput(bool uIOnly = true)
+        {
+            uIActionMap.Enable();
+
+            if (uIOnly)
+            {
+                fieldActionMap.Disable();
+                InteractionActionMap.Disable();
+            }
+            return;
+        }
+
+        public void EnableInteractionInput(bool interactionOnly = true)
+        {
+            InteractionActionMap.Enable();
+
+            if (interactionOnly)
+            {
+                fieldActionMap.Disable();
+                uIActionMap.Disable();
+            }
+            return;
         }
 
         private void OnMove(InputValue value)

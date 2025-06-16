@@ -78,7 +78,8 @@ namespace RSP2
 
         public void AddNPCInteraction(NPC nPC, NPCInteraction newNPCInteraction)
         {
-            InteractionUI.Activate();
+            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
+            //InteractionUI.Activate();
             //NPCInteractions.Add(nPC, newNPCInteraction);
             KeyValuePair<NPC, NPCInteraction> newPair = new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction);
             interactionPairList.Add(newPair);
@@ -92,7 +93,8 @@ namespace RSP2
 
             if (interactionPairList.Count == 0)
             {
-                InteractionUI.Deactivate();
+                canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
+                //InteractionUI.Deactivate();
                 currentPair = new KeyValuePair<NPC, NPCInteraction>();
             }
             else
@@ -137,6 +139,7 @@ namespace RSP2
             // TO DO:: Start Interaction by interaction type
             isInteracting = true;
             cameraManager.CallCameraSwitching(currentPair.Key.nPCCamera.VirtualCamera);
+            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
             gameManager.OnInteractionUIOpen(true);
         }
 
@@ -146,6 +149,8 @@ namespace RSP2
             // Temporary
             isInteracting = false;
             cameraManager.CallCameraSwitching(null);
+            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
+            gameManager.OnInteractionUIOpen(false);
         }
 
     }

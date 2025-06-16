@@ -17,6 +17,9 @@ namespace RSP2
         [field: SerializeField] private InteractionUI interactionUI;
         public InteractionUI InteractionUI { get => interactionUI; }
 
+        [field: SerializeField] private DialogueUI dialogueUI;
+        public DialogueUI DialogueUI { get => dialogueUI; }
+       
         public event Action PointerDropEvent;
 
         public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
@@ -34,9 +37,15 @@ namespace RSP2
                 Debug.Log("interactionUI UI Not Imported");
                 interactionUI = GetComponentInChildren<InteractionUI>();
             }
+            if (dialogueUI == null)
+            {
+                Debug.Log("dialogueUI UI Not Imported");
+                dialogueUI = GetComponentInChildren<DialogueUI>();
+            }
 
             inventoryUI.Initialize(gameManager, canvasUIManager, this);
             interactionUI.Initialize(gameManager, canvasUIManager);
+            dialogueUI.Initialize(gameManager);
         }
 
         public void OpenInventoryUI() 

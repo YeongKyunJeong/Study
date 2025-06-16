@@ -15,10 +15,10 @@ MonoBehaviour:
   ID: 0
   attackType: 0
   <Target>k__BackingField: 1
-  <TargetNumberLimit>k__BackingField: 0
+  <hitNumberLimit>k__BackingField: 0
   <AttackName>k__BackingField: ComboAttack_01
   <VFXName>k__BackingField: ComboVFX_01
-  VFXStartTime: 0.43
+  VFXStartTime: 0.45
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256

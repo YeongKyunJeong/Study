@@ -20,7 +20,7 @@ namespace RSP2
         [field: SerializeField] private VFXManager VFXManager { get; set; }
         [field: SerializeField] private SFXManager SFXManager { get; set; }
 
-        [field:Space]
+        [field: Space]
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
         public Player Player { get; set; }
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
@@ -93,14 +93,28 @@ namespace RSP2
 
         public void OnInventoryUIOpen(bool isOn)
         {
-            EnablePlayerInput(!isOn);
+            if (isOn)
+            {
+                EnableInputActionMap(ActionMap.UI);
+            }
+            else
+            {
+                EnableInputActionMap(ActionMap.Field);
+            }
             EnableCinemachinInput(!isOn);
             LockCursor(!isOn);
         }
-        
+
         public void OnInteractionUIOpen(bool isOn)
         {
-            EnablePlayerInput(!isOn);
+            if (isOn)
+            {
+                EnableInputActionMap(ActionMap.Interaction);
+            }
+            else
+            {
+                EnableInputActionMap(ActionMap.Field);
+            }
             EnableCinemachinInput(!isOn);
         }
 
@@ -115,9 +129,23 @@ namespace RSP2
         //    return true;
         //}
 
-        private void EnablePlayerInput(bool isOn)
+        private void EnableInputActionMap(ActionMap targetMap, bool isOnly = true)
         {
-            Player.InputReader.EnablePlayerInput(isOn);
+            switch (targetMap)
+            {
+                case ActionMap.Field:
+                    {
+                        Player?.InputReader.EnableFieldInput(isOnly); break;
+                    }
+                case ActionMap.UI:
+                    {
+                        Player?.InputReader.EnableUIInput(isOnly); break;
+                    }
+                case ActionMap.Interaction:
+                    {
+                        Player?.InputReader.EnableInteractionInput(isOnly); break;
+                    }
+            }
         }
 
         private void EnableCinemachinInput(bool isOn)
