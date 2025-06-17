@@ -10254,10 +10254,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 1082692146327613832, guid: b31af1353f22a704bb8984805207b298, type: 3}
-      propertyPath: m_DefaultActionMap
-      value: a205a0bb-7793-4a38-b38f-db4e6d17c92a
-      objectReference: {fileID: 0}
     - target: {fileID: 1294012425517350804, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -10836,6 +10832,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4920125670084467032, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
+      propertyPath: Name
+      value: Rodarin
+      objectReference: {fileID: 0}
     - target: {fileID: 8324792564673197009, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
       propertyPath: m_Name
       value: NPC001
@@ -10897,22 +10897,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameManager
       objectReference: {fileID: 0}
-    - target: {fileID: 1037927587348555406, guid: 59bc22016132aef4ba80137530ded473, type: 3}
-      propertyPath: <nPCCameraPriority>k__BackingField.y
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 1037927587348555406, guid: 59bc22016132aef4ba80137530ded473, type: 3}
-      propertyPath: <playerCameraPriority>k__BackingField
-      value: 10
-      objectReference: {fileID: 0}
     - target: {fileID: 1419440550005110463, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: interactionUI
       value: 
       objectReference: {fileID: 1257225465}
-    - target: {fileID: 1419440550005110463, guid: 59bc22016132aef4ba80137530ded473, type: 3}
-      propertyPath: interactionDisplay
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 4469978215258712696, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

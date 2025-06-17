@@ -2,7 +2,7 @@
   "Items": [
     {
         "key": 0,
-        "Name": "Enemy_00",
+        "Name": "Christo",
         "Exp": 500,
         "Faction": 2,
         "ChasingTargetType": 0,

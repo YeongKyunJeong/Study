@@ -51,17 +51,17 @@ namespace RSP2
 
         private void TalkOneScript(DialogueScript script)
         {
-            if (script.Random == 0)
+            if (script.IsRandom)
             {
-                if (script.Player == 0)
-                {
-
-                }
 
 
             }
             else
             {
+                if (script.IsPlayerScript)
+                {
+                    // TO DO:: Add Logic
+                }
                 // TO DO :: Add random talk logic
             }
 

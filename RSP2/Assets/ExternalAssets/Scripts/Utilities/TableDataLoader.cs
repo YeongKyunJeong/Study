@@ -12,6 +12,7 @@ namespace RSP2
 
         public StatLoaderForEnemy StatLoaderForEnemy { get; private set; }
         public StatLoaderForNPC StatLoaderForNPC { get; private set; }
+        
 
         public void Initialize()
         {
