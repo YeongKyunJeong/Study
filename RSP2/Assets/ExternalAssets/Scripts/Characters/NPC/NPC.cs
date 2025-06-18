@@ -11,7 +11,9 @@ namespace RSP2
         [field: SerializeField] public NPCInteraction Interactions { get; private set; }
         [field: SerializeField] public InteractionHitBoxForNPC InteractionHitBox { get; private set; }
         [field: SerializeField] public NPCCamera nPCCamera { get; private set; }
-        
+
+        [field: SerializeField] public bool hasDialogue { get; private set; }
+
         protected override void Start()
         {
             if (gameManager == null)
@@ -25,7 +27,7 @@ namespace RSP2
                 //throw new NotImplementedException("Interaction Hit Box Not Assigned");
             }
 
-            if(nPCCamera != null)
+            if (nPCCamera != null)
             {
                 CameraManager.Instance.AddCamera(nPCCamera.VirtualCamera);
             }
@@ -34,6 +36,14 @@ namespace RSP2
 
             //StatisticsHandler.InitializeByDefault();
             StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
+
+            // TO DO :: Add loading logic whether has dialogue
+            if (hasDialogue)
+            {
+                // TO DO :: Change to be done via DataManager
+                DataManager.Instance.CSVDataLoader.DialogueDataLoader.CallDialogueDataLoading(DialogueType.NPC, NPCKey, Name);
+            }
+
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

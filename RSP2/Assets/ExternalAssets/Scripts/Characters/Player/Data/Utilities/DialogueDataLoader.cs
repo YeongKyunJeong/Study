@@ -7,6 +7,7 @@ using System.IO;
 using System.Linq;
 using UnityEngine;
 using static UnityEditor.Experimental.GraphView.GraphView;
+using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 namespace RSP2
 {
@@ -25,15 +26,24 @@ namespace RSP2
 
     public struct DialogueScript
     {
+        //1.State(int) : 출력 상황
         public int State;
+        //2.Random(int) : 랜덤 출력 여부(0: 순차 출력, 1: 랜덤 출력)
         public bool IsRandom;
+        //3.Player(int) : Player의 대사 여부(0: NPC 대사, 1: Player 대사)
         public bool IsPlayerScript;
-        public string Name;
+        //4.Redirection(int) : 해당 대화 종료 시 해당 state로 변경
         public int Redirection;
+        //5.Name(string) : 출력 시 이름
+        public string Name;
+        //6.Content(string) : 출력 대사 내용
         public string Content;
 
+        //7.Button action 1, 2, 3(int) : 버튼 기능(0: redirection, 1: 거래)
         public int ButtonAction1;
+        //8.Button content1 ,2 ,3(string) : 버튼 위 출력 내용
         public string ButtonContent1;
+        //9.Button redirection 1, 2, 3(int) : 해당 버튼 클릭 시 해당 state로 변경
         public int ButtonRedirection1;
 
         public int ButtonAction2;
@@ -45,13 +55,23 @@ namespace RSP2
         public int ButtonRedirection3;
 
 
+
     }
 
     public class DialogueDataLoader : MonoBehaviour
     {
-        public DialogueDataLoader(DialogueType dialogueType, string name, string path = "CSV/Dialogue")
+        private Dictionary<int, DialogueData> nPCDialogueCallList;
+
+        public DialogueDataLoader()
+        {
+            nPCDialogueCallList = new Dictionary<int, DialogueData>();
+
+        }
+
+        public void CallDialogueDataLoading(DialogueType dialogueType, int key, string name, string path = "CSV/Dialogue")
         {
             string loadedCSVDataString = string.Empty;
+
             switch (dialogueType)
             {
                 case DialogueType.NPC:
@@ -71,46 +91,75 @@ namespace RSP2
                     BadDataFound = null
                 }))
                 {
-                    var records = csv.GetRecords<Dictionary<string, string>>();
+                    var rawCSVText = csv.GetRecords<Dictionary<string, string>>();
                     DialogueData result = new DialogueData();
-                    result.DialogueScripts = new DialogueScript[records.ToList().Count];
+                    result.DialogueScripts = new DialogueScript[rawCSVText.ToList().Count];
                     int ind = 0;
 
-                    foreach (var row in records)
+                    foreach (var row in rawCSVText)
                     {
                         DialogueScript oneScript = new DialogueScript();
 
+                        #region Base Dialogue
                         oneScript.State = int.Parse(row["State"]);
                         oneScript.IsRandom = int.Parse(row["Random"]) == 0 ? false : true;
                         oneScript.IsPlayerScript = int.Parse(row["Player"]) == 0 ? false : true;
                         oneScript.Redirection = string.IsNullOrWhiteSpace(row["Redirection"])
-                            ? -1 
-                            : int.TryParse(row["Redirection"], out int parsedValue)
-                                ? parsedValue : -1;
+                            ? -1
+                            : int.TryParse(row["Redirection"], out int redirection)
+                                ? redirection : -1;
                         oneScript.Name = string.IsNullOrWhiteSpace(row["Name"])
                             ? "?"
                             : row["Name"];
                         oneScript.Content = row["Content"];
-                        // TO DO:: End Parse
+                        #endregion
 
+                        #region Button 1
+                        oneScript.ButtonAction1 = string.IsNullOrWhiteSpace(row["Button action 1"])
+                            ? -1
+                            : int.TryParse(row["Button action 1"], out int action1)
+                                ? action1 : -1;
+                        oneScript.ButtonContent1 = row["Button content 1"];
+                        oneScript.ButtonRedirection1 = string.IsNullOrWhiteSpace(row["Button redirection 1"])
+                            ? -1
+                            : int.TryParse(row["Button redirection 1"], out int buttonRedirection1)
+                                ? buttonRedirection1 : -1;
+                        #endregion
+
+                        #region Button 2
+                        oneScript.ButtonAction2 = string.IsNullOrWhiteSpace(row["Button action 2"])
+                            ? -1
+                            : int.TryParse(row["Button action 2"], out int action2)
+                                ? action2 : -1;
+                        oneScript.ButtonContent2 = row["Button content 2"];
+                        oneScript.ButtonRedirection2 = string.IsNullOrWhiteSpace(row["Button redirection 2"])
+                            ? -1
+                            : int.TryParse(row["Button redirection 2"], out int buttonRedirection2)
+                                ? buttonRedirection2 : -1;
+                        #endregion
+
+                        #region Button 3
+                        oneScript.ButtonAction3 = string.IsNullOrWhiteSpace(row["Button action 3"])
+                            ? -1
+                            : int.TryParse(row["Button action 3"], out int action3)
+                                ? action3 : -1;
+                        oneScript.ButtonContent3 = row["Button content 3"];
+                        oneScript.ButtonRedirection3 = string.IsNullOrWhiteSpace(row["Button redirection 3"])
+                            ? -1
+                            : int.TryParse(row["Button redirection 3"], out int buttonRedirection3)
+                                ? buttonRedirection3 : -1;
+                        #endregion
+
+                        result.DialogueScripts[ind] = oneScript;
                         ind++;
                     }
 
-                    //7.Button content 1 ,2 ,3(string) : 버튼 위 내용
-                    //8.Button function 1, 2, 3(int) : 버튼 기능(0: redirection, 1: 거래)
-                    //9.Button redirection 1, 2, 3(int) : 해당 버튼 클릭 시 해당 state로 변경
+                    nPCDialogueCallList.Add(key, result);
                 }
-
-
-                //TableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
-                //TableDict = new Dictionary<int, ExpDataTable>();
-                //foreach (var item in TableList)
-                //{
-                //    TableDict.Add(item.key, item);
-                //}
-                //ExpDataTable = TableDict[1];
             }
 
         }
+
+
     }
 }
