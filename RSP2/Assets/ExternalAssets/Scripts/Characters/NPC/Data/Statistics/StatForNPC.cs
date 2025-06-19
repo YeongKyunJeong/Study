@@ -7,6 +7,8 @@ namespace RSP2
     public class StatForNPC : StatForEnemy
     {
         protected bool HasDialogue;
+        public int[] DialogueKeys;
+        public int DialogueStartKey;
         protected bool Tradable;
 
         public StatForNPC()
@@ -44,6 +46,10 @@ namespace RSP2
             AttackSpeed = 5;
 
             HasDialogue = false;
+
+            DialogueKeys = new int[0];
+
+            DialogueStartKey = -1;
 
             Tradable = false;
 
@@ -96,6 +102,10 @@ namespace RSP2
 
             HasDialogue = newDataTable.HasDialogue;
 
+            DialogueKeys = newDataTable.DialogueKeys;
+
+            DialogueStartKey = newDataTable.DialogueStartKey;
+
             Tradable = newDataTable.Tradable;
         }
 
@@ -134,6 +144,10 @@ namespace RSP2
             AttackSpeed = newData.AttackSpeed;
 
             HasDialogue = newData.HasDialogue;
+
+            DialogueKeys = newData.DialogueKeys;
+
+            DialogueStartKey = newData.DialogueStartKey;
 
             Tradable = newData.Tradable;
         }

@@ -27,7 +27,7 @@ namespace RSP2
             talkerNameTMP.text = name;
         }
 
-        public void SetScript(DialogueScript script, float letterPerSec = 20)
+        public void SetScript(DialogueScript_Legacy script, float letterPerSec = 20)
         {
             speechContentTMP.text = string.Empty;
             speechScript = script.Content;

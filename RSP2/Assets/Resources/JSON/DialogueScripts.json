@@ -1,0 +1,94 @@
+{
+  "Items": [
+    {
+      "Key": 0,
+      "Index": 0,
+      "Player": false,
+      "ScriptContent": "잠깐만요, 멈추세요! 공격하지 말아요!"
+    },
+    {
+      "Key": 1,
+      "Index": 1,
+      "Player": false,
+      "ScriptContent": "저는 당신을 공격할 생각이 없습니다! 잠시만 무기를 내리시고 제 얘기를 들어보세요!"
+    },
+    {
+      "Key": 2,
+      "Index": 0,
+      "Player": true,
+      "ScriptContent": "(무기를 들고 있지는 않아. 무슨 얘기를 하는지 들어나 보자.)"
+    },
+    {
+      "Key": 3,
+      "Index": 0,
+      "Player": false,
+      "ScriptContent": "제 얘기를 들어주시는 겁니까? 아, 정말 감사합니다. 아까 만난 분은 제 얘기를 전혀 들으려고 하시 않으셨거든요…."
+    },
+    {
+      "Key": 4,
+      "Index": 1,
+      "Player": false,
+      "ScriptContent": "저는 북쪽의 하얀 숲에서부터 남쪽으로 여행 중인 록이라고 합니다. 새로 정착할 곳을 찾고 있었죠."
+    },
+    {
+      "Key": 5,
+      "Index": 2,
+      "Player": false,
+      "ScriptContent": "그런데 이 근방을 지나다가 인간을 만났는데, 저를 보자마자 다짜고짜 무기를 뽑아들고선 저를 공격하더군요!"
+    },
+    {
+      "Key": 6,
+      "Index": 3,
+      "Player": false,
+      "ScriptContent": "저는 싸울 의사가 없다고 밝혔는데도, 제 말을 전혀 들으려하지 않았습니다."
+    },
+    {
+      "Key": 7,
+      "Index": 4,
+      "Player": false,
+      "ScriptContent": "제 말은… 마치 제 말은 전혀 들리지 않는 것처럼 행동했다는 말입니다! 사실, 그 분은 괴성을 지르는 것 말고는 말 한마디 하지 않았어요!"
+    },
+    {
+      "Key": 8,
+      "Index": 5,
+      "Player": false,
+      "ScriptContent": "그렇게 도망치다가 이 성 안까지 들어왔는데, 다행히도 여기까지 쫓아오진 않으시더군요. 저를 몬스터라고 착각하셨던 걸까요?"
+    },
+    {
+      "Key": 9,
+      "Index": 6,
+      "Player": false,
+      "ScriptContent": "아까 밖을 슬쩍 내다 봤는데, 아직도 그 분이 이 근처를 계속 돌아다니고 있더군요."
+    },
+    {
+      "Key": 10,
+      "Index": 7,
+      "Player": false,
+      "ScriptContent": "인간 분, 혹시 부탁을 하나 드려도 될까요? 저는 그 분과 싸우고 싶지 않습니다. 저는 싸움을 잘 하지도 못하구요."
+    },
+    {
+      "Key": 11,
+      "Index": 8,
+      "Player": false,
+      "ScriptContent": "그 분께서도 인간 분이 가시면 얘기를 들어주실지도 모릅니다."
+    },
+    {
+      "Key": 12,
+      "Index": 9,
+      "Player": false,
+      "ScriptContent": "그 분께 저는 싸움을 원치 않는다고, 혹시 제게 원하는 게 있으시냐고 전해주실 수 있으십니까?"
+    },
+    {
+      "Key": 13,
+      "Index": 0,
+      "Player": false,
+      "ScriptContent": "다른 지역 분들은 저희 타우들을 잘 모르신다고 듣긴 했지만, 그래도 제가 하는 말은 공용어였을 텐데… 어째서 대답도 하지 않으셨던 걸까요?"
+    },
+    {
+      "Key": 14,
+      "Index": 0,
+      "Player": false,
+      "ScriptContent": "사실, 저는 싸움을 할줄 모릅니다. 타우들은 힘이 강하다고들 하지만, 타우들 모두가 무기를 휘두르는 건 아니니까요."
+    }
+  ]
+}

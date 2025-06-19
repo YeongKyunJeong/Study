@@ -30,7 +30,7 @@ namespace RSP2
             EnemyCurrentStatistics = new StatForNPC(baseStatisticsTable);
 
             nPC.Name = EnemyBaseStatistics.Name;
-
+            nPC.DialogueKey = baseStatisticsTable.DialogueStartKey;
             bool[] interactions = new bool[2] { false, false};
 
             if (baseStatisticsTable.HasDialogue)

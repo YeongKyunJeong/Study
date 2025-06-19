@@ -13,7 +13,7 @@ namespace RSP2
         [field: SerializeField] public NPCCamera NPCCamera { get; private set; }
 
         [field: SerializeField] public bool HasDialogue { get; set; }
-        [field: SerializeField] public int DialogueState { get; set; }
+        [field: SerializeField] public int DialogueKey { get; set; }
 
         protected override void Start()
         {
@@ -39,7 +39,7 @@ namespace RSP2
             if (HasDialogue)
             {
                 // TO DO :: Add logic to save and load dialogue state
-                DataManager.Instance.CSVDataLoader.DialogueDataLoader.CallDialogueDataLoading(DialogueType.NPC, NPCKey, Name);
+                //DataManager.Instance.TableDataLoader.DialogueDataLoader.CallDialogueDataLoading(DialogueType.NPC, NPCKey, Name);
             }
 
 

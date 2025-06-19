@@ -9,6 +9,8 @@ namespace RSP2
     public class StatTableForNPC : StatTableForEnemy
     {
         public bool HasDialogue;
+        public int[] DialogueKeys;
+        public int DialogueStartKey;
         public bool Tradable;
     }
 

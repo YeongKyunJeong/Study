@@ -145,7 +145,7 @@ namespace RSP2
             switch (currentPair.Value)
             {
                 case NPCInteraction.Speakable:
-                    canvasUIManager.SendDialogueCall(DialogueType.NPC, currentPair.Key.NPCKey, currentPair.Key.DialogueState);
+                    canvasUIManager.SendDialogueCall(DialogueType.NPC, currentPair.Key.DialogueKey);
 
                     break;
                 case NPCInteraction.Tradable:
@@ -157,14 +157,16 @@ namespace RSP2
 
         private void WhileInteraction()
         {
-            // TO DO :: Add interaction input logic while interaction 
             /////////////////////////////////////////////////////////
+            // TO DO :: Add interaction input logic while interaction 
+            // TO DO :: Set Next Dialogue Key To NPC
             // Temporary
             isInteracting = false;
             cameraManager.CallCameraSwitching(null);
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
             gameManager.OnInteractionUIOpen(false);
-        }
 
+
+        }
     }
 }

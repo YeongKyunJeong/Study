@@ -12,10 +12,10 @@ namespace RSP2
         public void Initialize()
         {
             TableDataLoader = new TableDataLoader();
-            CSVDataLoader = new CSVDataLoader();
+            //CSVDataLoader = new CSVDataLoader();
 
             TableDataLoader.Initialize();
-            CSVDataLoader.Initialize();
+            //CSVDataLoader.Initialize();
         }
     }
 

@@ -13,6 +13,9 @@ namespace RSP2
         public StatLoaderForEnemy StatLoaderForEnemy { get; private set; }
         public StatLoaderForNPC StatLoaderForNPC { get; private set; }
 
+        public DialogueDataLoader DialogueDataLoader { get; private set; }
+        public DialogueScriptsLoader DialogueScriptsLoader { get; private set; }
+
 
         public void Initialize()
         {
@@ -22,6 +25,9 @@ namespace RSP2
 
             StatLoaderForEnemy = new StatLoaderForEnemy();
             StatLoaderForNPC = new StatLoaderForNPC();
+
+            DialogueDataLoader = new DialogueDataLoader();
+            DialogueScriptsLoader = new DialogueScriptsLoader();
         }
     }
 

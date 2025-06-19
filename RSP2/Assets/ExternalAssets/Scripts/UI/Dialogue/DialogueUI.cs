@@ -13,8 +13,7 @@ namespace RSP2
         [field: SerializeField] private DialogueDisplay otherDialogueDisplay { get; set; }
         [field: SerializeField] private DialogueDisplay playerDialogueDisplay { get; set; }
 
-        private DialogueData totalDialogueDataTable { get; set; }
-        private DialogueScript[] thisStateScript { get; set; }
+        private DialogueScript[] dialogueScriptSet { get; set; }
         private int scriptLength { get; set; }
         private int scriptIndex { get; set; }
 
@@ -24,46 +23,49 @@ namespace RSP2
             Deactivate();
         }
 
-        public void StartDialogue(DialogueType dialogueType, int key, int startState)
+        public void StartDialogue(DialogueType dialogueType, int key)
         {
-            totalDialogueDataTable =
-        DataManager.Instance.CSVDataLoader.DialogueDataLoader.GetDialogueData(dialogueType, key);
+            DialogueData data = DataManager.Instance.TableDataLoader.DialogueDataLoader.GetByKey(key);
 
-            thisStateScript = FindThisStateScripts(startState);
-            scriptLength = thisStateScript.Length;
+            switch (dialogueType)
+            {
+                case DialogueType.NPC:
+                    {
+                        dialogueScriptSet =
+                    DataManager.Instance.TableDataLoader.DialogueScriptsLoader.GetByMultipleKeys(data.ScriptKeys);
+                        break;
+                    }
+            }
+
+            scriptLength = dialogueScriptSet.Length;
             scriptIndex = 0;
 
-            TalkOneScript(thisStateScript[scriptIndex]);
+            TalkOneScript(dialogueScriptSet[scriptIndex]);
             /////////////////////////////////////////////////////////
 
         }
 
-        private DialogueScript[] FindThisStateScripts(int state)
-        {
-            return totalDialogueDataTable.DialogueScripts.Where(x => x.State == state).ToArray();
-        }
-
         private void TalkOneScript(DialogueScript script)
         {
-            if (script.IsRandom)
-            {
-                // TO DO :: Add random talk logic
+            //if (script.)
+            //{
+            //    // TO DO :: Add random talk logic
 
 
-            }
-            else
-            {
-                if (script.IsPlayerScript)
-                {
-                    playerDialogueDisplay.SetName(script.Name);
-                    playerDialogueDisplay.SetScript(script);
-                    return;
-                }
+            //}
+            //else
+            //{
+            //    if (script.IsPlayerScript)
+            //    {
+            //        playerDialogueDisplay.SetName(script.Name);
+            //        playerDialogueDisplay.SetScript(script);
+            //        return;
+            //    }
 
-                otherDialogueDisplay.SetName(script.Name);
-                otherDialogueDisplay.SetScript(script);
-                return;
-            }
+            //    otherDialogueDisplay.SetName(script.Name);
+            //    otherDialogueDisplay.SetScript(script);
+            //    return;
+            //}
 
         }
 

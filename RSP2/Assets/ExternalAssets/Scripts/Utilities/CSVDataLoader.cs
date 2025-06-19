@@ -6,12 +6,10 @@ namespace RSP2
 {
     public class CSVDataLoader
     {
-        public DialogueDataLoader DialogueDataLoader { get; private set; }
-
 
         public void Initialize()
         {
-            DialogueDataLoader = new DialogueDataLoader();
+
         }
     }
 }

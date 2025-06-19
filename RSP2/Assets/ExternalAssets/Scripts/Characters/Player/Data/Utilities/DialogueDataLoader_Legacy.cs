@@ -11,20 +11,13 @@ using static UnityEditor.Timeline.TimelinePlaybackControls;
 
 namespace RSP2
 {
-    public enum DialogueType
+    public class DialogueScriptSet
     {
-        None,
-        NPC,
-        Narration
-    }
-
-    public class DialogueData
-    {
-        public DialogueScript[] DialogueScripts;
+        public DialogueScript_Legacy[] DialogueScripts;
         public int Length;
     }
 
-    public struct DialogueScript
+    public struct DialogueScript_Legacy
     {
         //1.State(int) : 출력 상황
         public int State;
@@ -58,13 +51,13 @@ namespace RSP2
 
     }
 
-    public class DialogueDataLoader
+    public class DialogueDataLoader_Legacy
     {
-        private Dictionary<int, DialogueData> nPCDialogueDictionary;
+        private Dictionary<int, DialogueScriptSet> nPCDialogueDictionary;
 
-        public DialogueDataLoader()
+        public DialogueDataLoader_Legacy()
         {
-            nPCDialogueDictionary = new Dictionary<int, DialogueData>();
+            nPCDialogueDictionary = new Dictionary<int, DialogueScriptSet>();
 
         }
 
@@ -92,13 +85,13 @@ namespace RSP2
                 }))
                 {
                     var rawCSVText = csv.GetRecords<Dictionary<string, string>>();
-                    DialogueData result = new DialogueData();
-                    result.DialogueScripts = new DialogueScript[rawCSVText.ToList().Count];
+                    DialogueScriptSet result = new DialogueScriptSet();
+                    result.DialogueScripts = new DialogueScript_Legacy[rawCSVText.ToList().Count];
                     int ind = 0;
 
                     foreach (var row in rawCSVText)
                     {
-                        DialogueScript oneScript = new DialogueScript();
+                        DialogueScript_Legacy oneScript = new DialogueScript_Legacy();
 
                         #region Base Dialogue
                         oneScript.State = int.Parse(row["State"]);
@@ -174,7 +167,7 @@ namespace RSP2
 
         }
 
-        public DialogueData GetDialogueData(DialogueType dialogueType, int key)
+        public DialogueScriptSet GetDialogueData(DialogueType dialogueType, int key)
         {
             switch (dialogueType) 
             {
