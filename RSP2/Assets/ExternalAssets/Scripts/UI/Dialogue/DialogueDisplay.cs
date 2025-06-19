@@ -22,14 +22,17 @@ namespace RSP2
             stringBuilder = new StringBuilder();
         }
 
+        public void SetName(string name)
+        {
+            talkerNameTMP.text = name;
+        }
+
         public void SetScript(DialogueScript script, float letterPerSec = 20)
         {
             speechContentTMP.text = string.Empty;
-            //letterPerSec = script.Content.Replace(" ", "").Length;
             speechScript = script.Content;
 
             speechCoroutine = StartCoroutine(TalkTyping(letterPerSec));
-            //speechContentTMP.DOText(script.Content, script.Content.Length / letterPerSec,)
         }
 
         IEnumerator TalkTyping(float letterPerSec)

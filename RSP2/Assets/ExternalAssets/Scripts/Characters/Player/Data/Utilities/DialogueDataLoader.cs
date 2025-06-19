@@ -58,13 +58,13 @@ namespace RSP2
 
     }
 
-    public class DialogueDataLoader : MonoBehaviour
+    public class DialogueDataLoader
     {
-        private Dictionary<int, DialogueData> nPCDialogueCallList;
+        private Dictionary<int, DialogueData> nPCDialogueDictionary;
 
         public DialogueDataLoader()
         {
-            nPCDialogueCallList = new Dictionary<int, DialogueData>();
+            nPCDialogueDictionary = new Dictionary<int, DialogueData>();
 
         }
 
@@ -154,10 +154,38 @@ namespace RSP2
                         ind++;
                     }
 
-                    nPCDialogueCallList.Add(key, result);
+                    switch (dialogueType)
+                    {
+                        case DialogueType.NPC:
+                            {
+                                nPCDialogueDictionary.Add(key, result);
+
+                                break;
+                            }
+                        case DialogueType.Narration:
+                            {
+                                break;
+                            }
+                        default: break;
+                    }
+
                 }
             }
 
+        }
+
+        public DialogueData GetDialogueData(DialogueType dialogueType, int key)
+        {
+            switch (dialogueType) 
+            {
+                case DialogueType.NPC: 
+                    {
+                        return nPCDialogueDictionary[key];
+                    }
+            default : return null;
+            }
+
+            return null;
         }
 
 

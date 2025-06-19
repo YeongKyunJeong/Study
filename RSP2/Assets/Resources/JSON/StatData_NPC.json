@@ -2,7 +2,7 @@
   "Items": [
     {
         "key": 0,
-        "Name": "NPC_00",
+        "Name": "Rock",
         "Exp": 500,
         "Faction": 2,
         "ChasingTargetType": 0,
@@ -17,7 +17,8 @@
         "Defence": 3,
         "MovementSpeed": 4,
         "AttackSpeed": 5,
-        "Tradable":  true
+        "HasDialogue": true,
+        "Tradable": true
     }
   ]
 }

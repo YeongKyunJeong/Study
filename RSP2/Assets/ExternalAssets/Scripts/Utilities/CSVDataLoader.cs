@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class CSVDataLoader : MonoBehaviour
+    public class CSVDataLoader
     {
         public DialogueDataLoader DialogueDataLoader { get; private set; }
 

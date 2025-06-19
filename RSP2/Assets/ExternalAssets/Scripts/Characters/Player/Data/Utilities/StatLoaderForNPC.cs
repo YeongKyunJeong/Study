@@ -8,12 +8,12 @@ namespace RSP2
     [System.Serializable]
     public class StatTableForNPC : StatTableForEnemy
     {
+        public bool HasDialogue;
         public bool Tradable;
     }
 
     public class StatLoaderForNPC
     {
-
         public List<StatTableForNPC> TableList { get; private set; }
         public Dictionary<int, StatTableForNPC> TableDict { get; private set; }
         private StatTableForNPC nPCStatTable { get; set; }
@@ -50,6 +50,7 @@ namespace RSP2
             }
             return null;
         }
+
         public StatTableForNPC GetByIndex(int index)
         {
             if (index >= 0 && index < TableList.Count)

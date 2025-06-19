@@ -6,7 +6,7 @@ namespace RSP2
 {
     public class StatHandlerForEnemy : StatHandlerForCharacter
     {
-        public StatForEnemy EnemyBaseStatistics; 
+        public StatForEnemy EnemyBaseStatistics;
         public StatForEnemy EnemyCurrentStatistics;
 
         public void Initialize(StatTableForEnemy baseStatisticsTable)
@@ -14,6 +14,33 @@ namespace RSP2
             StatTableForEnemy OriginalLoadedDataTable = baseStatisticsTable;
             EnemyBaseStatistics = new StatForEnemy(baseStatisticsTable);
             EnemyCurrentStatistics = new StatForEnemy(baseStatisticsTable);
+
+            if (combatSystem == null)
+            {
+                combatSystem = GetComponent<CombatSystem>();
+            }
+
+            CalculateFinalStat();
+        }
+
+        public void Initialize(NPC nPC, StatTableForNPC baseStatisticsTable)
+        {
+            StatTableForNPC OriginalLoadedDataTable = baseStatisticsTable;
+            EnemyBaseStatistics = new StatForNPC(baseStatisticsTable);
+            EnemyCurrentStatistics = new StatForNPC(baseStatisticsTable);
+
+            nPC.Name = EnemyBaseStatistics.Name;
+
+            bool[] interactions = new bool[2] { false, false};
+
+            if (baseStatisticsTable.HasDialogue)
+            {
+                nPC.HasDialogue = true;
+                interactions[0] = true;
+
+            }
+            if (baseStatisticsTable.Tradable) interactions[1] = true;
+            nPC.InteractionHitBox.Initialize(nPC, interactions);
 
             if (combatSystem == null)
             {
@@ -41,6 +68,11 @@ namespace RSP2
             BaseStat = EnemyBaseStatistics as StatForCharacter;
             CurrentStatistics = EnemyCurrentStatistics as StatForCharacter;
             base.CalculateFinalStat();
+        }
+
+        private void SetNPCParameter()
+        {
+
         }
     }
 }

@@ -136,16 +136,29 @@ namespace RSP2
 
         private void StartInteraction()
         {
-            // TO DO:: Start Interaction by interaction type
             isInteracting = true;
-            cameraManager.CallCameraSwitching(currentPair.Key.nPCCamera.VirtualCamera);
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
+            cameraManager.CallCameraSwitching(currentPair.Key.NPCCamera.VirtualCamera);
             gameManager.OnInteractionUIOpen(true);
+
+
+            switch (currentPair.Value)
+            {
+                case NPCInteraction.Speakable:
+                    canvasUIManager.SendDialogueCall(DialogueType.NPC, currentPair.Key.NPCKey, currentPair.Key.DialogueState);
+
+                    break;
+                case NPCInteraction.Tradable:
+                    break;
+                default:
+                    break;
+            }
         }
 
         private void WhileInteraction()
         {
             // TO DO :: Add interaction input logic while interaction 
+            /////////////////////////////////////////////////////////
             // Temporary
             isInteracting = false;
             cameraManager.CallCameraSwitching(null);

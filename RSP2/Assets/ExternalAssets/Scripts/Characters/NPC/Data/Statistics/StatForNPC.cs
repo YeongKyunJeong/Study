@@ -6,7 +6,8 @@ namespace RSP2
 {
     public class StatForNPC : StatForEnemy
     {
-        protected bool Tradable = false;
+        protected bool HasDialogue;
+        protected bool Tradable;
 
         public StatForNPC()
         {
@@ -41,6 +42,8 @@ namespace RSP2
             MovementSpeed = 4;
 
             AttackSpeed = 5;
+
+            HasDialogue = false;
 
             Tradable = false;
 
@@ -90,7 +93,9 @@ namespace RSP2
             MovementSpeed = newDataTable.MovementSpeed;
 
             AttackSpeed = newDataTable.AttackSpeed;
-            
+
+            HasDialogue = newDataTable.HasDialogue;
+
             Tradable = newDataTable.Tradable;
         }
 
@@ -127,6 +132,8 @@ namespace RSP2
             MovementSpeed = newData.MovementSpeed;
 
             AttackSpeed = newData.AttackSpeed;
+
+            HasDialogue = newData.HasDialogue;
 
             Tradable = newData.Tradable;
         }

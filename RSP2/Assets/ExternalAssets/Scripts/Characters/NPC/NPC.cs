@@ -10,9 +10,10 @@ namespace RSP2
         public int NPCKey;
         [field: SerializeField] public NPCInteraction Interactions { get; private set; }
         [field: SerializeField] public InteractionHitBoxForNPC InteractionHitBox { get; private set; }
-        [field: SerializeField] public NPCCamera nPCCamera { get; private set; }
+        [field: SerializeField] public NPCCamera NPCCamera { get; private set; }
 
-        [field: SerializeField] public bool hasDialogue { get; private set; }
+        [field: SerializeField] public bool HasDialogue { get; set; }
+        [field: SerializeField] public int DialogueState { get; set; }
 
         protected override void Start()
         {
@@ -27,20 +28,17 @@ namespace RSP2
                 //throw new NotImplementedException("Interaction Hit Box Not Assigned");
             }
 
-            if (nPCCamera != null)
+            if (NPCCamera != null)
             {
-                CameraManager.Instance.AddCamera(nPCCamera.VirtualCamera);
+                CameraManager.Instance.AddCamera(NPCCamera.VirtualCamera);
             }
 
-            InteractionHitBox.Initialize(this, new bool[] { true, false });
 
-            //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
+            StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
 
-            // TO DO :: Add loading logic whether has dialogue
-            if (hasDialogue)
+            if (HasDialogue)
             {
-                // TO DO :: Change to be done via DataManager
+                // TO DO :: Add logic to save and load dialogue state
                 DataManager.Instance.CSVDataLoader.DialogueDataLoader.CallDialogueDataLoading(DialogueType.NPC, NPCKey, Name);
             }
 

@@ -19,7 +19,7 @@ namespace RSP2
 
         [field: SerializeField] private DialogueUI dialogueUI;
         public DialogueUI DialogueUI { get => dialogueUI; }
-       
+
         public event Action PointerDropEvent;
 
         public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
@@ -48,7 +48,7 @@ namespace RSP2
             dialogueUI.Initialize(gameManager);
         }
 
-        public void OpenInventoryUI() 
+        public void OpenInventoryUI()
         {
             inventoryUI.Open();
         }
@@ -57,5 +57,6 @@ namespace RSP2
         {
             PointerDropEvent?.Invoke();
         }
+
     }
 }

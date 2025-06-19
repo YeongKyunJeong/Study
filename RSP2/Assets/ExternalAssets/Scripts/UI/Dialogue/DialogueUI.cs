@@ -24,24 +24,18 @@ namespace RSP2
             Deactivate();
         }
 
-        // TO DO:: Add dialogue data CSV loading logic
-
-        public void CallDialogue(int npcKey, int startState)
+        public void StartDialogue(DialogueType dialogueType, int key, int startState)
         {
-            if (totalDialogueDataTable == null) totalDialogueDataTable = LoadTotalDialogueData();
+            totalDialogueDataTable =
+        DataManager.Instance.CSVDataLoader.DialogueDataLoader.GetDialogueData(dialogueType, key);
 
             thisStateScript = FindThisStateScripts(startState);
             scriptLength = thisStateScript.Length;
             scriptIndex = 0;
 
+            TalkOneScript(thisStateScript[scriptIndex]);
+            /////////////////////////////////////////////////////////
 
-            // TO DO:: 
-        }
-
-        private DialogueData LoadTotalDialogueData()
-        {
-            // TO DO:: CSV File path
-            return new DialogueData();
         }
 
         private DialogueScript[] FindThisStateScripts(int state)
@@ -53,6 +47,7 @@ namespace RSP2
         {
             if (script.IsRandom)
             {
+                // TO DO :: Add random talk logic
 
 
             }
@@ -60,9 +55,14 @@ namespace RSP2
             {
                 if (script.IsPlayerScript)
                 {
-                    // TO DO:: Add Logic
+                    playerDialogueDisplay.SetName(script.Name);
+                    playerDialogueDisplay.SetScript(script);
+                    return;
                 }
-                // TO DO :: Add random talk logic
+
+                otherDialogueDisplay.SetName(script.Name);
+                otherDialogueDisplay.SetScript(script);
+                return;
             }
 
         }

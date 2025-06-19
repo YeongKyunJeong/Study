@@ -120,6 +120,11 @@ namespace RSP2
 
         #region Panel UI Methods
 
+        public void SendDialogueCall(DialogueType dialogueType, int key, int startState)
+        {
+            PanelUI.DialogueUI.StartDialogue(dialogueType, key, startState);
+        }
+
         private void OpenInventoryUI()
         {
             SetPanelUIActive(PanelUIType.Inventory);
