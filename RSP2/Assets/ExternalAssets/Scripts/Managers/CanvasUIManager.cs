@@ -92,8 +92,8 @@ namespace RSP2
                     }
                 case PanelUIType.Dialogue:
                     {
-                        if (isOn) PanelUI.InteractionUI.Activate();
-                        else PanelUI.InteractionUI.Deactivate();
+                        if (isOn) PanelUI.DialogueUI.Activate();
+                        else PanelUI.DialogueUI.Deactivate();
                         break;
                     }
             }

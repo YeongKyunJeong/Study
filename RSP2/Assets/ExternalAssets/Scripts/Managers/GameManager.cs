@@ -23,6 +23,7 @@ namespace RSP2
         [field: Space]
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
         public Player Player { get; set; }
+
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
 
 

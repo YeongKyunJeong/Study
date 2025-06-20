@@ -138,6 +138,7 @@ namespace RSP2
         {
             isInteracting = true;
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
+            canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, true);
             cameraManager.CallCameraSwitching(currentPair.Key.NPCCamera.VirtualCamera);
             gameManager.OnInteractionUIOpen(true);
 
@@ -146,7 +147,6 @@ namespace RSP2
             {
                 case NPCInteraction.Speakable:
                     canvasUIManager.SendDialogueCall(DialogueType.NPC, currentPair.Key.DialogueKey);
-
                     break;
                 case NPCInteraction.Tradable:
                     break;
@@ -162,8 +162,9 @@ namespace RSP2
             // TO DO :: Set Next Dialogue Key To NPC
             // Temporary
             isInteracting = false;
-            cameraManager.CallCameraSwitching(null);
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
+            canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, false);
+            cameraManager.CallCameraSwitching(null);
             gameManager.OnInteractionUIOpen(false);
 
 

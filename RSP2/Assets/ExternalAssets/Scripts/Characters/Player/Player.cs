@@ -8,6 +8,7 @@ namespace RSP2
     public class Player : CombatUnit
     {
         private GameManager gameManager;
+        public string Name { get; set; }
 
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
         [field: SerializeField] public MoverForPlayer Mover { get; private set; }
@@ -36,7 +37,6 @@ namespace RSP2
 
         private void Awake()
         {
-
             RuntimeData = new RuntimeDataForPlayer();
             ActionStateMachine = new ActionStateMachineForPlayer(this);
 
@@ -100,6 +100,8 @@ namespace RSP2
             {
                 MainCameraTransform = Camera.main.transform;
             }
+
+            Name = "You";
         }
 
         private void Start()

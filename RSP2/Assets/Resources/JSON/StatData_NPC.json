@@ -18,7 +18,8 @@
         "MovementSpeed": 4,
         "AttackSpeed": 5,
         "HasDialogue": true,
-        "Tradable": true
+        "DialogueStartKey": 1,
+        "Tradable": false
     }
   ]
 }

@@ -20,6 +20,8 @@ namespace RSP2
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
+            otherDialogueDisplay.Initialize();
+            playerDialogueDisplay.Initialize();
             Deactivate();
         }
 
@@ -37,16 +39,37 @@ namespace RSP2
                     }
             }
 
+
             scriptLength = dialogueScriptSet.Length;
             scriptIndex = 0;
 
-            TalkOneScript(dialogueScriptSet[scriptIndex]);
+            if (data.Random)
+            {
+                scriptIndex = Random.Range(0, scriptLength);
+            }
+
+            TalkOneScript(data, dialogueScriptSet[scriptIndex]);
             /////////////////////////////////////////////////////////
 
         }
 
-        private void TalkOneScript(DialogueScript script)
+        private void TalkOneScript(DialogueData data, DialogueScript script)
         {
+
+            if (script.Player)
+            {
+                otherDialogueDisplay.Deactivate();
+                playerDialogueDisplay.Activate();
+                playerDialogueDisplay.SetName(gameManager.Player.Name);
+                playerDialogueDisplay.SetScript(script);
+            }
+            else
+            {
+                playerDialogueDisplay.Deactivate();
+                otherDialogueDisplay.Activate();
+                otherDialogueDisplay.SetName(data.Name);
+                otherDialogueDisplay.SetScript(script);
+            }
             //if (script.)
             //{
             //    // TO DO :: Add random talk logic

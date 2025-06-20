@@ -16,10 +16,13 @@ namespace RSP2
         private Coroutine speechCoroutine { get; set; }
         private WaitForSeconds waitingSecond;
         private StringBuilder stringBuilder;
+        ////////////////////////////////////////////////////
+
 
         public void Initialize()
         {
             stringBuilder = new StringBuilder();
+            Deactivate();
         }
 
         public void SetName(string name)
@@ -27,12 +30,19 @@ namespace RSP2
             talkerNameTMP.text = name;
         }
 
-        public void SetScript(DialogueScript_Legacy script, float letterPerSec = 20)
+        public void SetScript(DialogueScript script, float letterPerSec = 30)
         {
             speechContentTMP.text = string.Empty;
-            speechScript = script.Content;
+            speechScript = script.ScriptContent;
 
             speechCoroutine = StartCoroutine(TalkTyping(letterPerSec));
+        }
+
+        public void MakeScriptDone()
+        {
+            StopCoroutine(speechCoroutine);
+
+
         }
 
         IEnumerator TalkTyping(float letterPerSec)
@@ -52,6 +62,15 @@ namespace RSP2
 
             // TO DO:: End Logic
             yield return null;
+        }
+
+        public void Activate()
+        {
+            gameObject.SetActive(true);
+        }
+        public void Deactivate()
+        {
+            gameObject.SetActive(false);
         }
 
     }
