@@ -12,17 +12,19 @@ namespace RSP2
         [field: SerializeField] private TextMeshProUGUI talkerNameTMP { get; set; }
         [field: SerializeField] private TextMeshProUGUI speechContentTMP { get; set; }
         //[field: SerializeField] private TMP_Text speechContentTMP { get; set; }
-        private string speechScript { get; set; }
+        private string targetScript { get; set; }
         private Coroutine speechCoroutine { get; set; }
         private WaitForSeconds waitingSecond;
         private StringBuilder stringBuilder;
-        ////////////////////////////////////////////////////
+
+        public bool isPlaying { get; set; }
 
 
         public void Initialize()
         {
             stringBuilder = new StringBuilder();
             Deactivate();
+            isPlaying = false;
         }
 
         public void SetName(string name)
@@ -33,27 +35,28 @@ namespace RSP2
         public void SetScript(DialogueScript script, float letterPerSec = 30)
         {
             speechContentTMP.text = string.Empty;
-            speechScript = script.ScriptContent;
+            targetScript = script.ScriptContent;
 
             speechCoroutine = StartCoroutine(TalkTyping(letterPerSec));
         }
 
-        public void MakeScriptDone()
+        public void EndScript()
         {
             StopCoroutine(speechCoroutine);
-
-
+            speechContentTMP.text = targetScript;
+            isPlaying = false;
         }
 
         IEnumerator TalkTyping(float letterPerSec)
         {
+            isPlaying = true;
             stringBuilder.Clear();
             waitingSecond = new WaitForSeconds(1 / letterPerSec);
-            for (int i = 0; i < speechScript.Length; i++)
+            for (int i = 0; i < targetScript.Length; i++)
             {
-                stringBuilder.Append(speechScript[i]);
+                stringBuilder.Append(targetScript[i]);
                 speechContentTMP.text = stringBuilder.ToString();
-                if (speechScript[i] == ' ')
+                if (targetScript[i] == ' ')
                 {
                     yield return null;
                 }
@@ -61,6 +64,7 @@ namespace RSP2
             }
 
             // TO DO:: End Logic
+            isPlaying = false;
             yield return null;
         }
 
@@ -72,6 +76,7 @@ namespace RSP2
         {
             gameObject.SetActive(false);
         }
+
 
     }
 }

@@ -29,8 +29,7 @@ namespace RSP2
 
         public Vector2 MovementInput { get; private set; }
 
-        #region Action Events
-
+        #region Player Action Event Field
         public event Action<Vector2> MoveEvent;
         public event Action JumpEvent;
         public event Action WalkToggleEvent;
@@ -41,16 +40,15 @@ namespace RSP2
         public event Action ESkillEvent;
         #endregion
 
-        #region UI Field
+        #region UI Action Event Field
         public event Action InventoryEvent;
         #endregion
 
+        #region Interaction Action Event Field
         public event Action InteractionEvent;
+        public event Action ClickWhileInteractionEvent;
+        #endregion
 
-        //public PlayerInputReader(Player _player)
-        //{
-        //    player = _player;
-        //}
 
         public void Initialize(Player _player)
         {
@@ -60,13 +58,14 @@ namespace RSP2
             fieldActionMap = playerInputComponent.actions.FindActionMap("Field");
             uIActionMap = playerInputComponent.actions.FindActionMap("UI");
             InteractionActionMap = playerInputComponent.actions.FindActionMap("Interaction");
+            //var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
+        }
 
+        private void Start()
+        {
             playerInputComponent.actions.FindActionMap("Global").Enable();
 
             EnableFieldInput(true);
-
-
-            //var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
         }
 
         public void EnableFieldInput(bool fieldOnly = true)
@@ -105,12 +104,9 @@ namespace RSP2
             return;
         }
 
+        #region Player
         private void OnMove(InputValue value)
         {
-            //if (context.canceled)
-            //{
-            //    MovementInput = Vector2.zero;
-            //}
 
             MovementInput = value.Get<Vector2>();
 
@@ -125,7 +121,7 @@ namespace RSP2
         private void OnZoom(InputValue zoomDelta)
         {
             return;
-            // TODO :: Use CameraZommer;
+            // TODO :: Use CameraZoomer;
         }
 
         private Vector2 GetMovementInput()
@@ -164,6 +160,7 @@ namespace RSP2
             Debug.Log("E");
             ESkillEvent?.Invoke();
         }
+        #endregion
 
         #region UI
         private void OnInventory()
@@ -172,9 +169,16 @@ namespace RSP2
         }
         #endregion
 
+        #region Interaction
         private void OnInteraction()
         {
             InteractionEvent?.Invoke();
         }
+
+        private void OnInteractionClick()
+        {
+            ClickWhileInteractionEvent?.Invoke();
+        }
+        #endregion
     }
 }

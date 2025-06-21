@@ -66,10 +66,10 @@ namespace RSP2
             interactionDisplay.ChangeString(InteractionString, nPC.Name);
         }
 
-        public void ChangeInteractionDisplayTMP(NPC nPC, string interactionName)
+        public void ChangeInteractionDisplayTMP(string targetName, string interactionName)
         {
             Activate();
-            interactionDisplay.ChangeString(interactionName, nPC.Name);
+            interactionDisplay.ChangeString(interactionName, targetName);
         }
     }
 }

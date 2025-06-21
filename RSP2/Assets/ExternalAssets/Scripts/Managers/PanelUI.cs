@@ -48,6 +48,7 @@ namespace RSP2
             dialogueUI.Initialize(gameManager);
         }
 
+
         public void OpenInventoryUI()
         {
             inventoryUI.Open();

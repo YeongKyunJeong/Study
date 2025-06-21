@@ -4350,7 +4350,7 @@ Transform:
   m_GameObject: {fileID: 5964659457445307243}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0.9914449, z: -0.13052616, w: 0}
-  m_LocalPosition: {x: 0, y: 2, z: 2.75}
+  m_LocalPosition: {x: 0, y: 1.6, z: 2.75}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -5351,7 +5351,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   interaction: 0
-  myNPC: {fileID: 0}
+  myNPC: {fileID: 4920125670084467032}
 --- !u!54 &2867034688745810989
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -6210,7 +6210,7 @@ MonoBehaviour:
   <StatHandler>k__BackingField: {fileID: 5124438411032628179}
   <CombatSystem>k__BackingField: {fileID: 6929811309874009967}
   <AttackHitBox>k__BackingField: {fileID: 4629055644625007716}
-  Name: "\uC798\uB85C"
+  Name: Rock
   EnemyKey: -1
   <AttackDataArray>k__BackingField:
   - {fileID: 11400000, guid: 22c60f3aaf1144f4ea051103101dc2d9, type: 2}
@@ -6223,7 +6223,9 @@ MonoBehaviour:
   NPCKey: 0
   <Interactions>k__BackingField: -1
   <InteractionHitBox>k__BackingField: {fileID: 8890437020281934083}
-  <nPCCamera>k__BackingField: {fileID: 3621611837701582744}
+  <NPCCamera>k__BackingField: {fileID: 3621611837701582744}
+  <HasDialogue>k__BackingField: 0
+  <DialogueKey>k__BackingField: 0
 --- !u!114 &5124438411032628179
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -20,8 +20,7 @@ namespace RSP2
         [field: SerializeField] private InteractionDisplay interactionDisplay;
 
         //private Dictionary<NPC, NPCInteraction> NPCInteractions;
-        [field: SerializeField] public bool isInteractable;
-        [field: SerializeField] public bool isInteracting;
+        [field: SerializeField] private bool isInteracting;
 
         [field: SerializeField] private List<KeyValuePair<NPC, NPCInteraction>> interactionPairList;
         [field: SerializeField] private KeyValuePair<NPC, NPCInteraction> currentPair;
@@ -51,17 +50,20 @@ namespace RSP2
             cameraManager = _cameraManager;
             canvasUIManager = _canvasUIManager;
             //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
+            canvasUIManager.dialogueEndEvent += OnDialogueEnd;
             interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
+            isInteracting = false;
         }
 
         private void Start()
         {
+            //canvasUIManager.PanelUI.DialogueUI.
+
             player = gameManager.Player;
             playerStateMachine = player.ActionStateMachine;
             player.InputReader.InteractionEvent += OnInteractionInput;
 
             //isInteractable = CheckIsInteractable();
-            isInteracting = false;
         }
 
         private bool CheckIsInteractable()
@@ -79,8 +81,6 @@ namespace RSP2
         public void AddNPCInteraction(NPC nPC, NPCInteraction newNPCInteraction)
         {
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
-            //InteractionUI.Activate();
-            //NPCInteractions.Add(nPC, newNPCInteraction);
             KeyValuePair<NPC, NPCInteraction> newPair = new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction);
             interactionPairList.Add(newPair);
             ChangeCurrentInteraction(newPair);
@@ -94,7 +94,6 @@ namespace RSP2
             if (interactionPairList.Count == 0)
             {
                 canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
-                //InteractionUI.Deactivate();
                 currentPair = new KeyValuePair<NPC, NPCInteraction>();
             }
             else
@@ -110,7 +109,8 @@ namespace RSP2
         public void ChangeCurrentInteraction(KeyValuePair<NPC, NPCInteraction> nextPair)
         {
             currentPair = nextPair;
-            interactionUI.ChangeInteractionDisplayTMP(nextPair.Key, GetInteractionName(nextPair.Value));
+            canvasUIManager.SendInteractionUITMPChangeCall(nextPair.Key.Name, GetInteractionName(nextPair.Value));
+            //interactionUI.ChangeInteractionDisplayTMP(nextPair.Key, GetInteractionName(nextPair.Value));
         }
 
 
@@ -121,11 +121,7 @@ namespace RSP2
 
         private void OnInteractionInput()
         {
-            if (isInteracting)
-            {
-                WhileInteraction();
-                return;
-            }
+            if (isInteracting) return;
 
             if (!CheckIsInteractable()) return;
 
@@ -146,7 +142,7 @@ namespace RSP2
             switch (currentPair.Value)
             {
                 case NPCInteraction.Speakable:
-                    canvasUIManager.SendDialogueCall(DialogueType.NPC, currentPair.Key.DialogueKey);
+                    canvasUIManager.SendDialogueStartCall(DialogueType.NPC, currentPair.Key.DialogueKey);
                     break;
                 case NPCInteraction.Tradable:
                     break;
@@ -155,19 +151,28 @@ namespace RSP2
             }
         }
 
-        private void WhileInteraction()
+        private void EndCurrentInteraction()
         {
-            /////////////////////////////////////////////////////////
-            // TO DO :: Add interaction input logic while interaction 
-            // TO DO :: Set Next Dialogue Key To NPC
-            // Temporary
+            switch (currentPair.Value)
+            {
+                case NPCInteraction.Speakable:
+                    {
+                        canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
+                        canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, false);
+                        cameraManager.CallCameraSwitching(null);
+                        gameManager.OnInteractionUIOpen(false);
+
+                        break;
+                    }
+            }
+
             isInteracting = false;
-            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
-            canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, false);
-            cameraManager.CallCameraSwitching(null);
-            gameManager.OnInteractionUIOpen(false);
+        }
 
-
+        private void OnDialogueEnd(int redirection)
+        {
+            currentPair.Key.DialogueKey = redirection;
+            EndCurrentInteraction();
         }
     }
 }

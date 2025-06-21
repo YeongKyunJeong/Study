@@ -1,8 +1,10 @@
 using Cinemachine;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace RSP2
 {
@@ -16,8 +18,11 @@ namespace RSP2
     public class CanvasUIManager : MonoSingleton<CanvasUIManager>
     {
         private GameManager gameManager;
+        private InteractionManager interactionManager;
         private Player player;
         private CombatSystemForPlayer combatSystem;
+        private bool isOnDialogue { get; set; }
+        public event Action<int> dialogueEndEvent;
 
         //[field: SerializeField] private UIInputReader uiInputReader;
 
@@ -26,7 +31,7 @@ namespace RSP2
         [field: SerializeField] public PopUpUI PopUpUI { get; private set; }
 
         public bool IsInventoryOpened { get; private set; }
-
+         
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
@@ -63,6 +68,9 @@ namespace RSP2
 
         private void Start()
         {
+            gameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
+            //gameManager.Player.InputReader.On
+
             player.CombatSystem.DamageEvent += ChangeHPBar;
             player.CombatSystem.HealEvent += ChangeHPBar;
             player.CombatSystem.MPRecoveryEvent += ChangeMPBar;
@@ -120,9 +128,29 @@ namespace RSP2
 
         #region Panel UI Methods
 
-        public void SendDialogueCall(DialogueType dialogueType, int key)
+        public void SendDialogueStartCall(DialogueType dialogueType, int key)
         {
+            isOnDialogue = true;
             PanelUI.DialogueUI.StartDialogue(dialogueType, key);
+        }
+
+        public void SendInteractionUITMPChangeCall(string targetName, string interactionName)
+        {
+            PanelUI.InteractionUI.ChangeInteractionDisplayTMP(targetName, interactionName);
+        }
+
+        public void OnNextInput()
+        {
+            if (isOnDialogue)
+            {
+                int next = PanelUI.DialogueUI.Next();
+                if (next >= 0)
+                {
+                    PanelUI.DialogueUI.Deactivate();
+                    isOnDialogue = false;
+                    dialogueEndEvent?.Invoke(next);
+                }
+            }
         }
 
         private void OpenInventoryUI()
