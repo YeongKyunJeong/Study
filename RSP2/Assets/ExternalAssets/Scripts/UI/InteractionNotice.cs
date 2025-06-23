@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class InteractionDisplay : MonoBehaviour
+    public class InteractionNotice : MonoBehaviour
     {
         //[field: SerializeField] private TextMeshProUGUI buttonKey { get; set; }
         [field: SerializeField] private TextMeshProUGUI explanation { get; set; }

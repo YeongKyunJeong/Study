@@ -36,12 +36,6 @@ namespace RSP2
 
             StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(NPCKey));
 
-            if (HasDialogue)
-            {
-                // TO DO :: Add logic to save and load dialogue state
-                //DataManager.Instance.TableDataLoader.DialogueDataLoader.CallDialogueDataLoading(DialogueType.NPC, NPCKey, Name);
-            }
-
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

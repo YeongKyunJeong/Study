@@ -17,12 +17,13 @@ namespace RSP2
         [field: SerializeField] private InteractionStringTable InteractionStringSO { get; set; }
 
         [field: SerializeField] private InteractionUI interactionUI;
-        [field: SerializeField] private InteractionDisplay interactionDisplay;
+        [field: SerializeField] private InteractionNotice interactionDisplay;
 
         //private Dictionary<NPC, NPCInteraction> NPCInteractions;
         [field: SerializeField] private bool isInteracting;
 
         [field: SerializeField] private List<KeyValuePair<NPC, NPCInteraction>> interactionPairList;
+        private int currentIndex;
         [field: SerializeField] private KeyValuePair<NPC, NPCInteraction> currentPair;
 
         public InteractionUI InteractionUI
@@ -53,6 +54,7 @@ namespace RSP2
             canvasUIManager.dialogueEndEvent += OnDialogueEnd;
             interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
             isInteracting = false;
+            currentIndex = 0;
         }
 
         private void Start()
@@ -62,7 +64,7 @@ namespace RSP2
             player = gameManager.Player;
             playerStateMachine = player.ActionStateMachine;
             player.InputReader.InteractionEvent += OnInteractionInput;
-
+            player.InputReader.InteractionChangeEvent += OnNextInteractionInput;
             //isInteractable = CheckIsInteractable();
         }
 
@@ -80,9 +82,10 @@ namespace RSP2
 
         public void AddNPCInteraction(NPC nPC, NPCInteraction newNPCInteraction)
         {
-            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
             KeyValuePair<NPC, NPCInteraction> newPair = new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction);
             interactionPairList.Add(newPair);
+            currentIndex = interactionPairList.Count - 1;
+            canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true, currentIndex + 1);
             ChangeCurrentInteraction(newPair);
             // TO DO :: Add other logic
         }
@@ -93,15 +96,15 @@ namespace RSP2
 
             if (interactionPairList.Count == 0)
             {
-                canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
+                canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false, 0);
                 currentPair = new KeyValuePair<NPC, NPCInteraction>();
             }
             else
             {
                 if (interactionPairList.Contains(currentPair)) return;
 
-                int index = interactionPairList.Count - 1;
-                ChangeCurrentInteraction(interactionPairList[index]);
+                currentIndex = interactionPairList.Count - 1;
+                ChangeCurrentInteraction(interactionPairList[currentIndex]);
             }
             // TO DO :: Check there is other interaction left and deactivate if none
         }
@@ -109,10 +112,8 @@ namespace RSP2
         public void ChangeCurrentInteraction(KeyValuePair<NPC, NPCInteraction> nextPair)
         {
             currentPair = nextPair;
-            canvasUIManager.SendInteractionUITMPChangeCall(nextPair.Key.Name, GetInteractionName(nextPair.Value));
-            //interactionUI.ChangeInteractionDisplayTMP(nextPair.Key, GetInteractionName(nextPair.Value));
+            canvasUIManager.SendInteractionUITMPChangeCall(nextPair.Key.Name, GetInteractionName(nextPair.Value), interactionPairList.Count);
         }
-
 
         public string GetInteractionName(NPCInteraction nPCInteraction)
         {
@@ -128,6 +129,18 @@ namespace RSP2
             if (currentPair.Key == null) return;
 
             StartInteraction();
+        }
+
+        public void OnNextInteractionInput()
+        {
+            int totalCount = interactionPairList.Count;
+            if (totalCount <= 1)
+            {
+                return;
+            }
+            currentIndex++;
+            currentIndex = currentIndex < totalCount ? currentIndex : 0 ;
+            ChangeCurrentInteraction(interactionPairList[currentIndex]);
         }
 
         private void StartInteraction()

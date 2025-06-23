@@ -6211,7 +6211,7 @@ MonoBehaviour:
   <CombatSystem>k__BackingField: {fileID: 6929811309874009967}
   <AttackHitBox>k__BackingField: {fileID: 4629055644625007716}
   Name: Rock
-  EnemyKey: -1
+  EnemyKey: 0
   <AttackDataArray>k__BackingField:
   - {fileID: 11400000, guid: 22c60f3aaf1144f4ea051103101dc2d9, type: 2}
   <searchingDistance>k__BackingField: 8

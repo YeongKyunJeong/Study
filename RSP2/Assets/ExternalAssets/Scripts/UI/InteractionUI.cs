@@ -9,67 +9,52 @@ namespace RSP2
         private GameManager gameManager;
         private CanvasUIManager canvasUIManager;
 
-        [field: SerializeField] private InteractionDisplay interactionDisplay;
-        //private Dictionary<NPC, NPCInteraction> NPCInteractions;
-        //[field: SerializeField] private List<KeyValuePair<NPC, NPCInteraction>> CurrentInteractions;
+        [field: SerializeField] private InteractionNotice interactionNotice;
+        [field: SerializeField] private GameObject nextNotice;
 
         public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
 
-            if (interactionDisplay == null)
+            if (interactionNotice == null)
             {
                 Debug.LogError("Interaction Display Not Assigned");
             }
 
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;
-            //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
-            //CurrentInteractions = new List<KeyValuePair<NPC, NPCInteraction>>();
-            Deactivate();
+            Deactivate(0);
         }
 
-        public void Activate()
+        public void Activate(int count)
         {
             gameObject.SetActive(true);
+            SetNextNoticeActive(count);
         }
 
-        public void Deactivate()
+        public void Deactivate(int count)
         {
             gameObject.SetActive(false);
+            SetNextNoticeActive(count);
         }
 
-        //public void AddNPCInteraction(NPC nPC, NPCInteraction newNPCInteraction)
-        //{
-        //    Activate();
-        //    NPCInteractions.Add(nPC, newNPCInteraction);
-        //    CurrentInteractions.Add(new KeyValuePair<NPC, NPCInteraction>(nPC, newNPCInteraction));
-        //    ChangeInteractionDisplayTMP(nPC, newNPCInteraction);
-        //    // TO DO :: Add other logic
-        //}
-
-        //public void RemoveNPCInteraction(NPC nPC)
-        //{
-        //    NPCInteractions.Remove(nPC);
-        //    CurrentInteractions.RemoveAll(kvp => kvp.Key == nPC);
-
-        //    if (NPCInteractions.Count == 0)
-        //    {
-        //        Deactivate();
-        //    }
-        //    // TO DO :: Check there is other interaction left and deactivate if none
-        //}
-
-        public void ChangeInteractionDisplayTMP(NPC nPC, NPCInteraction nPCInteraction)
+        private void SetNextNoticeActive(int count)
         {
-            Activate();
+            if (count > 1) nextNotice.SetActive(true);
+            else nextNotice.SetActive(false);
+        }
+
+
+        public void ChangeInteractionDisplayTMP(NPC nPC, NPCInteraction nPCInteraction, int count)
+        {
+            Activate(count);
             string InteractionString = InteractionManager.Instance.GetInteractionName(nPCInteraction);
-            interactionDisplay.ChangeString(InteractionString, nPC.Name);
+            interactionNotice.ChangeString(InteractionString, nPC.Name);
         }
 
-        public void ChangeInteractionDisplayTMP(string targetName, string interactionName)
+        public void ChangeInteractionDisplayTMP(string targetName, string interactionName, int count)
         {
-            Activate();
-            interactionDisplay.ChangeString(interactionName, targetName);
+            Activate(count);
+            interactionNotice.ChangeString(interactionName, targetName);
         }
     }
 }

@@ -125,6 +125,15 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""NextInteraction"",
+                    ""type"": ""Button"",
+                    ""id"": ""6e87d36f-22be-4857-88ce-17c93741aed5"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -290,6 +299,17 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Inventory"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""92ff71cb-2f4c-412c-9a86-3c205324fb7c"",
+                    ""path"": ""<Keyboard>/f"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""NextInteraction"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -903,6 +923,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Field_SkillE = m_Field.FindAction("SkillE", throwIfNotFound: true);
         m_Field_Aim = m_Field.FindAction("Aim", throwIfNotFound: true);
         m_Field_Inventory = m_Field.FindAction("Inventory", throwIfNotFound: true);
+        m_Field_NextInteraction = m_Field.FindAction("NextInteraction", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
@@ -994,6 +1015,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Field_SkillE;
     private readonly InputAction m_Field_Aim;
     private readonly InputAction m_Field_Inventory;
+    private readonly InputAction m_Field_NextInteraction;
     public struct FieldActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -1009,6 +1031,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         public InputAction @SkillE => m_Wrapper.m_Field_SkillE;
         public InputAction @Aim => m_Wrapper.m_Field_Aim;
         public InputAction @Inventory => m_Wrapper.m_Field_Inventory;
+        public InputAction @NextInteraction => m_Wrapper.m_Field_NextInteraction;
         public InputActionMap Get() { return m_Wrapper.m_Field; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1051,6 +1074,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started += instance.OnInventory;
             @Inventory.performed += instance.OnInventory;
             @Inventory.canceled += instance.OnInventory;
+            @NextInteraction.started += instance.OnNextInteraction;
+            @NextInteraction.performed += instance.OnNextInteraction;
+            @NextInteraction.canceled += instance.OnNextInteraction;
         }
 
         private void UnregisterCallbacks(IFieldActions instance)
@@ -1088,6 +1114,9 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @Inventory.started -= instance.OnInventory;
             @Inventory.performed -= instance.OnInventory;
             @Inventory.canceled -= instance.OnInventory;
+            @NextInteraction.started -= instance.OnNextInteraction;
+            @NextInteraction.performed -= instance.OnNextInteraction;
+            @NextInteraction.canceled -= instance.OnNextInteraction;
         }
 
         public void RemoveCallbacks(IFieldActions instance)
@@ -1336,6 +1365,7 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         void OnSkillE(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
+        void OnNextInteraction(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

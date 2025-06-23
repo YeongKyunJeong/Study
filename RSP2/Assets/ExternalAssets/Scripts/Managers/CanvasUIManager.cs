@@ -31,7 +31,7 @@ namespace RSP2
         [field: SerializeField] public PopUpUI PopUpUI { get; private set; }
 
         public bool IsInventoryOpened { get; private set; }
-         
+
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
@@ -79,7 +79,7 @@ namespace RSP2
             player.CombatSystem.StaminaSpendEvent += ChangeStaminaBar;
         }
 
-        public void SetPanelUIActive(PanelUIType uIType, bool isOn = true)
+        public void SetPanelUIActive(PanelUIType uIType, bool isOn = true, int count = 1)
         {
             switch (uIType)
             {
@@ -94,8 +94,8 @@ namespace RSP2
                     }
                 case PanelUIType.Interaction:
                     {
-                        if (isOn) PanelUI.InteractionUI.Activate();
-                        else PanelUI.InteractionUI.Deactivate();
+                        if (isOn) PanelUI.InteractionUI.Activate(count);
+                        else PanelUI.InteractionUI.Deactivate(count);
                         break;
                     }
                 case PanelUIType.Dialogue:
@@ -134,9 +134,9 @@ namespace RSP2
             PanelUI.DialogueUI.StartDialogue(dialogueType, key);
         }
 
-        public void SendInteractionUITMPChangeCall(string targetName, string interactionName)
+        public void SendInteractionUITMPChangeCall(string targetName, string interactionName, int count)
         {
-            PanelUI.InteractionUI.ChangeInteractionDisplayTMP(targetName, interactionName);
+            PanelUI.InteractionUI.ChangeInteractionDisplayTMP(targetName, interactionName, count);
         }
 
         public void OnNextInput()

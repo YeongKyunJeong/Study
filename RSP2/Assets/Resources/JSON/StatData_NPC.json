@@ -20,6 +20,27 @@
         "HasDialogue": true,
         "DialogueStartKey": 1,
         "Tradable": false
+    },
+    {
+        "key": 1,
+        "Name": "Roll",
+        "Exp": 500,
+        "Faction": 2,
+        "ChasingTargetType": 0,
+        "SearchingDistance": 6,
+        "MaxHP": 60,
+        "HPRegen": 2,
+        "MaxMP": 10,
+        "MPRegen": 1,
+        "MaxStamina": 20,
+        "StaminaRegen": 6,
+        "Attack": 5,
+        "Defence": 3,
+        "MovementSpeed": 4,
+        "AttackSpeed": 5,
+        "HasDialogue": true,
+        "DialogueStartKey": 1,
+        "Tradable": true
     }
   ]
 }

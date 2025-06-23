@@ -42,6 +42,7 @@ namespace RSP2
 
         #region UI Action Event Field
         public event Action InventoryEvent;
+        public event Action InteractionChangeEvent;
         #endregion
 
         #region Interaction Action Event Field
@@ -159,6 +160,11 @@ namespace RSP2
         {
             Debug.Log("E");
             ESkillEvent?.Invoke();
+        }
+
+        private void OnNextInteraction()
+        {
+            InteractionChangeEvent?.Invoke();
         }
         #endregion
 
