@@ -6160,7 +6160,6 @@ GameObject:
   - component: {fileID: 4920125670084467032}
   - component: {fileID: 5124438411032628179}
   - component: {fileID: 6929811309874009967}
-  - component: {fileID: 539607644255725668}
   - component: {fileID: 2085562501106465237}
   - component: {fileID: 7805807699208632536}
   - component: {fileID: 5724183880730486531}
@@ -6255,18 +6254,6 @@ MonoBehaviour:
   isDead: 0
   StatHandlerForEnemy: {fileID: 5124438411032628179}
   GainExp: 0
---- !u!114 &539607644255725668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8324792564673197009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50c3bcb669e6b4e4589bcc72bf346a5a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &2085562501106465237
 MonoBehaviour:
   m_ObjectHideFlags: 0
