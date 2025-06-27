@@ -9,7 +9,7 @@ namespace RSP2
     {
         Weapon,
         Armor,
-        Aaccessory
+        Accessory
     }
 
     public class Weapon : Equipment

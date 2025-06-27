@@ -10,12 +10,12 @@ namespace RSP2
 {
     public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IDropHandler /*IPointerUpHandler*/
     {
-        private InventoryUI inventoryUI;
-        private ItemInstance itemInstance;
+        protected InventoryUI inventoryUI;
+        protected ItemInstance itemInstance;
         public ItemInstance ItemInstance { get => itemInstance; }
 
-        [field: SerializeField] private GameObject ItemInSlot { get; set; }
-        [field: SerializeField] private Image itemImage { get; set; }
+        [field: SerializeField] protected GameObject itemInSlot { get; set; }
+        [field: SerializeField] protected Image itemImage { get; set; }
         [field: SerializeField] private TextMeshProUGUI amountTMP { get; set; }
         [field: SerializeField] private GameObject selectedFrame { get; set; }
 
@@ -23,34 +23,34 @@ namespace RSP2
         public event Action<InventorySlot> DragBeginEvent;
         public event Action<InventorySlot> PointerDropEvent;
 
-        public void Initialize(InventoryUI _inventoryUI)
+        public virtual void Initialize(InventoryUI _inventoryUI)
         {
             inventoryUI = _inventoryUI;
-            if (ItemInSlot == null)
+            if (itemInSlot == null)
             {
                 Debug.Log("Item In Slot Not Assigned");
-                ItemInSlot = transform.GetChild(2).GetComponent<GameObject>();
+                itemInSlot = transform.GetChild(2).GetComponent<GameObject>();
             }
             if (itemImage == null)
             {
                 Debug.Log("Item Image Not Assigned");
-                itemImage = ItemInSlot.transform.GetChild(1).GetComponent<Image>();
+                itemImage = itemInSlot.transform.GetChild(1).GetComponent<Image>();
             }
             if (amountTMP == null)
             {
                 Debug.Log("Amount TMP Not Assigned");
-                amountTMP = ItemInSlot.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
+                amountTMP = itemInSlot.transform.GetChild(2).GetComponent<TextMeshProUGUI>();
             }
             if (selectedFrame == null)
             {
                 Debug.Log("Selected Not Assigned");
                 selectedFrame = transform.GetChild(1).GetComponent<GameObject>();
             }
-            ItemInSlot.SetActive(false);
+            itemInSlot.SetActive(false);
             selectedFrame.SetActive(false);
         }
 
-        public void SetItem(ItemInstance newItem)
+        public virtual void SetItem(ItemInstance newItem)
         {
             if(newItem == null)
             {
@@ -58,7 +58,7 @@ namespace RSP2
                 return;
             }
 
-            ItemInSlot.SetActive(true);
+            itemInSlot.SetActive(true);
             itemInstance = newItem;
             itemImage.sprite = itemInstance.ItemData.ItemSprite;
             AmountTMPChange(newItem.amount);
@@ -68,7 +68,7 @@ namespace RSP2
 
         public void ClearSlot(bool isRemoving)
         {
-            ItemInSlot.SetActive(false);
+            itemInSlot.SetActive(false);
             selectedFrame.SetActive(false);
             if (isRemoving)
             {
@@ -95,7 +95,7 @@ namespace RSP2
             // TO DO :: Add logic called when inventory closed
         }
 
-        public void OnPointerClick(PointerEventData eventData)
+        public virtual void OnPointerClick(PointerEventData eventData)
         {
             if (itemInstance == null) return;
 
@@ -105,7 +105,7 @@ namespace RSP2
             // TO DO :: SelectItem
         }
 
-        public void OnBeginDrag(PointerEventData eventData)
+        public virtual void OnBeginDrag(PointerEventData eventData)
         {
             if (itemInstance == null) return;
 
@@ -113,12 +113,12 @@ namespace RSP2
             DragBeginEvent?.Invoke(this);
         }
 
-        public void SetActiveOfSelectedFrame(bool isOn)
+        public virtual void SetActiveOfSelectedFrame(bool isOn)
         {
             selectedFrame.SetActive(isOn);
             if (isOn)
             {
-                ItemInSlot.SetActive(true);
+                itemInSlot.SetActive(true);
             }
         }
 
@@ -128,12 +128,12 @@ namespace RSP2
         //    // TO DO :: Drop Item
         //}
 
-        public void OnDrag(PointerEventData eventData)
+        public virtual void OnDrag(PointerEventData eventData)
         {
             //Debug.Log("Dragging");
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public virtual void OnDrop(PointerEventData eventData)
         {
             PointerDropEvent?.Invoke(this);
         }
