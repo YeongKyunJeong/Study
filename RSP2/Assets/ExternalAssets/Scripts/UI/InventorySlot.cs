@@ -23,7 +23,7 @@ namespace RSP2
         public event Action<InventorySlot> DragBeginEvent;
         public event Action<InventorySlot> PointerDropEvent;
 
-        public virtual void Initialize(InventoryUI _inventoryUI)
+        public void Initialize(InventoryUI _inventoryUI)
         {
             inventoryUI = _inventoryUI;
             if (itemInSlot == null)
@@ -50,7 +50,7 @@ namespace RSP2
             selectedFrame.SetActive(false);
         }
 
-        public virtual void SetItem(ItemInstance newItem)
+        public void SetItem(ItemInstance newItem)
         {
             if(newItem == null)
             {
@@ -102,7 +102,6 @@ namespace RSP2
             bool isSelectedBefore = selectedFrame.activeSelf;
             ClickEvent?.Invoke(this, isSelectedBefore);
             selectedFrame.SetActive(!isSelectedBefore);
-            // TO DO :: SelectItem
         }
 
         public virtual void OnBeginDrag(PointerEventData eventData)
@@ -113,7 +112,7 @@ namespace RSP2
             DragBeginEvent?.Invoke(this);
         }
 
-        public virtual void SetActiveOfSelectedFrame(bool isOn)
+        public void SetActiveOfSelectedFrame(bool isOn)
         {
             selectedFrame.SetActive(isOn);
             if (isOn)
@@ -122,18 +121,12 @@ namespace RSP2
             }
         }
 
-        //public void OnPointerUp(PointerEventData eventData)
-        //{
-        //    PointerUpEvent?.Invoke(this);
-        //    // TO DO :: Drop Item
-        //}
-
-        public virtual void OnDrag(PointerEventData eventData)
+        public void OnDrag(PointerEventData eventData)
         {
-            //Debug.Log("Dragging");
+            // To use DragBegin
         }
 
-        public virtual void OnDrop(PointerEventData eventData)
+        public void OnDrop(PointerEventData eventData)
         {
             PointerDropEvent?.Invoke(this);
         }

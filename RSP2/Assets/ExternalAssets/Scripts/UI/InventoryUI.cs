@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,6 +25,9 @@ namespace RSP2
         [field: SerializeField] private InventorySlot selectedItemInSlot;
         [field: SerializeField] private MovingSlot movingSlot;
 
+        [field: SerializeField] private EquipmentSlot[] equipmentSlots;
+
+
         [field: SerializeField] private Button equipButton;
         [field: SerializeField] private Button useButton;
         [field: SerializeField] private Button dropButton;
@@ -46,11 +50,18 @@ namespace RSP2
             foreach (var slot in inventorySlots)
             {
                 slot.Initialize(this);
-                slot.DragBeginEvent += OnBeginSlotDrag;
-                slot.ClickEvent += OnSlotClick;
-                slot.PointerDropEvent += OnSlotPointerDrop;
+                slot.DragBeginEvent += OnBeginInventorySlotDrag;
+                slot.ClickEvent += OnInventorySlotClick;
+                slot.PointerDropEvent += OnInventorySlotPointerDrop;
             }
             movingSlot.Initialize(this);
+            foreach (var slot in equipmentSlots)
+            {
+                slot.Initialize(this);
+                slot.DragBeginEvent += OnEquipmentBeginSlotDrag;
+                slot.PointerDropEvent += OnEquipmentSlotPointerDrop;
+
+            }
 
             isDragging = false;
         }
@@ -182,7 +193,19 @@ namespace RSP2
         }
 
 
-        private void OnSlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
+        private void OnBeginInventorySlotDrag(InventorySlot draggedSlot)
+        {
+            if (selectedItemInSlot != null && selectedItemInSlot != draggedSlot)
+            {
+                selectedItemInSlot.SetActiveOfSelectedFrame(false);
+            }
+
+            selectedItemInSlot = draggedSlot;
+            movingSlot.CarryItem(draggedSlot);
+            isDragging = true;
+        }
+
+        private void OnInventorySlotClick(InventorySlot clickedSlot, bool isSelectedBefore)
         {
             if (isDragging)
             {
@@ -208,19 +231,7 @@ namespace RSP2
             return;
         }
 
-        private void OnBeginSlotDrag(InventorySlot draggedSlot)
-        {
-            if (selectedItemInSlot != null && selectedItemInSlot != draggedSlot)
-            {
-                selectedItemInSlot.SetActiveOfSelectedFrame(false);
-            }
-
-            selectedItemInSlot = draggedSlot;
-            movingSlot.CarryItem(draggedSlot);
-            isDragging = true;
-        }
-
-        private void OnSlotPointerDrop(InventorySlot targetSlot)
+        private void OnInventorySlotPointerDrop(InventorySlot targetSlot)
         {
             if (isDragging)
             {
@@ -233,7 +244,25 @@ namespace RSP2
                 UpdateButtons(null);
             }
         }
-        
+
+        private void OnEquipmentBeginSlotDrag(EquipmentSlot draggedSlot)
+        {
+            if (selectedItemInSlot != null)
+            {
+                selectedItemInSlot.SetActiveOfSelectedFrame(false);
+                selectedItemInSlot = null;
+            }
+
+            movingSlot.CarryItem(draggedSlot);
+            isDragging = true;
+        }
+
+        private void OnEquipmentSlotPointerDrop(EquipmentSlot slot)
+        {
+            throw new NotImplementedException();
+        }
+
+
         private void OnBackGroundDrop()
         {
             OnDropButton();

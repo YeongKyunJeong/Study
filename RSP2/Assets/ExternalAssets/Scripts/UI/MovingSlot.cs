@@ -64,6 +64,20 @@ namespace RSP2
             gameObject.SetActive(true);
         }
 
+        public void CarryItem(EquipmentSlot DraggedSlot)
+        {
+            transform.position = Mouse.current.position.ReadValue();
+            itemInstance = DraggedSlot.ItemInstance;
+            itemImage.sprite = itemInstance.ItemData.ItemSprite;
+
+
+            amountTMP.gameObject.SetActive(false);
+
+            amountTMP.text = itemInstance.amount.ToString();
+            isMoving = true;
+            gameObject.SetActive(true);
+        }
+
         public ItemInstance DropItem()
         {
             gameObject.SetActive(false);
