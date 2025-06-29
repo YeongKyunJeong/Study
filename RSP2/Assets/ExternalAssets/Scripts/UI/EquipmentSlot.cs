@@ -35,7 +35,22 @@ namespace RSP2
                 Debug.Log("Item Image Not Assigned");
                 itemImage = itemInSlot.transform.GetChild(1).GetComponent<Image>();
             }
+            itemInSlot.SetActive(false);
         }
+
+        public void SetItem(ItemInstance newItem)
+        {
+            if (newItem == null)
+            {
+                ClearSlot(true);
+                return;
+            }
+
+            itemInSlot.SetActive(true);
+            itemInstance = newItem;
+            itemImage.sprite = itemInstance.ItemData.ItemSprite;
+        }
+
 
         public void ClearSlot(bool isRemoving)
         {

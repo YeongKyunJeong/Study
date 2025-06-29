@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace RSP2
 {
@@ -154,23 +155,54 @@ namespace RSP2
             Mover.CallPhysicsUpdate();
         }
 
-        public void EquipItem(ItemInstance item)
+        public void EquipItem(ItemInstance item, EquipmentData equipmentData)
         {
-            WeaponData weaponData = item.ItemData as WeaponData;
-            if (weaponData == null) return;
-
-            if (weaponData.EquipPrefab == null) return;
-
-            if (CurrentWeapon)
+            if (equipmentData == null)
             {
-                CurrentWeapon.ItemInstance.equipped = false;
-                Destroy(CurrentWeapon.gameObject);
+                equipmentData = item.ItemData as EquipmentData;
             }
 
-            GameObject nextWeaponGO = Instantiate(weaponData.EquipPrefab, WeaponHolder);
-            CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
-            CurrentWeapon?.Initialize(item);
-            item.equipped = true;
+            switch (equipmentData.EquipmentType)
+            {
+                case EquipmentType.Weapon:
+                    {
+                        WeaponData weaponData = item.ItemData as WeaponData;
+                        if (weaponData == null) return;
+
+                        if (weaponData.EquipPrefab == null) return;
+
+                        if (CurrentWeapon)
+                        {
+                            CurrentWeapon.ItemInstance.equipped = false;
+                            Destroy(CurrentWeapon.gameObject);
+                        }
+
+                        GameObject nextWeaponGO = Instantiate(weaponData.EquipPrefab, WeaponHolder);
+                        CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
+                        CurrentWeapon?.Initialize(item);
+                        item.equipped = true;
+
+                        break;
+                    }
+                    // TO DO :: Add other equipment logic
+            }
+        }
+
+        public void UnEquipItem(EquipmentType equipmentType)
+        {
+            switch (equipmentType)
+            {
+                case EquipmentType.Weapon:
+                    {
+                        if (CurrentWeapon)
+                        {
+                            CurrentWeapon.ItemInstance.equipped = false;
+                            Destroy(CurrentWeapon.gameObject);
+                        }
+                        break;
+                    }
+                    // TO DO :: Add other equipment logic
+            }
         }
 
         public bool AddItem(ItemData item, int amount = 1)

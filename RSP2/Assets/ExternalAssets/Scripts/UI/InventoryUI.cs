@@ -25,7 +25,10 @@ namespace RSP2
         [field: SerializeField] private InventorySlot selectedItemInSlot;
         [field: SerializeField] private MovingSlot movingSlot;
 
-        [field: SerializeField] private EquipmentSlot[] equipmentSlots;
+        [field: SerializeField] private InventorySlot weaponSlot;
+        [field: SerializeField] private InventorySlot armorSlot;
+        [field: SerializeField] private InventorySlot accessorySlot;
+        private InventorySlot[] equipmentSlots;
 
 
         [field: SerializeField] private Button equipButton;
@@ -55,12 +58,17 @@ namespace RSP2
                 slot.PointerDropEvent += OnInventorySlotPointerDrop;
             }
             movingSlot.Initialize(this);
+
+            equipmentSlots = new InventorySlot[3];
+            equipmentSlots[0] = weaponSlot;
+            equipmentSlots[1] = armorSlot;
+            equipmentSlots[2] = accessorySlot;
+
             foreach (var slot in equipmentSlots)
             {
                 slot.Initialize(this);
-                slot.DragBeginEvent += OnEquipmentBeginSlotDrag;
+                slot.DragBeginEvent += OnBeginInventorySlotDrag;
                 slot.PointerDropEvent += OnEquipmentSlotPointerDrop;
-
             }
 
             isDragging = false;
@@ -68,6 +76,10 @@ namespace RSP2
 
         public void Open()
         {
+            if (selectedItemInSlot != null)
+            {
+                selectedItemInSlot.SetActiveOfSelectedFrame(false);
+            }
             selectedItemInSlot = null;
             UpdateButtons(null);
             gameObject.SetActive(!gameObject.activeSelf);
@@ -75,10 +87,6 @@ namespace RSP2
 
         public bool AddItemToSlot(ItemInstance item)
         {
-            //GameObject go = Instantiate(itemSlotPrefab, contentRoot);
-            // TO DO :: Add object pooling logic to add new item 
-            //MovingSlot itemInSlot = go.GetComponent<MovingSlot>();
-
             for (int i = 0; i < inventorySlots.Length; i++)
             {
                 if (inventorySlots[i].ItemInstance == null)
@@ -173,8 +181,49 @@ namespace RSP2
         {
             if (selectedItemInSlot == null) return;
 
-            player.EquipItem(selectedItemInSlot.ItemInstance);
-            SFXManager.PlayClip(selectedItemInSlot.ItemInstance.ItemData.UsageSoundClip, player.transform.position);
+            EquipmentData equipmentData = selectedItemInSlot.ItemInstance.ItemData as EquipmentData;
+
+            if (equipmentData == null)
+            {
+                selectedItemInSlot.SetItem(movingSlot.ItemInstance);
+                movingSlot.DropItem();
+                selectedItemInSlot.SetActiveOfSelectedFrame(true);
+
+                UpdateButtons(selectedItemInSlot.ItemInstance);
+                return;
+            }
+
+            EquipItem(selectedItemInSlot, equipmentData);
+
+        }
+
+        private void EquipItem(InventorySlot startSlot, EquipmentData equipmentData)
+        {
+            player.EquipItem(startSlot.ItemInstance, equipmentData);
+            ItemInstance temporaryHolding = startSlot.ItemInstance;
+            switch (equipmentData.EquipmentType)
+            {
+                case EquipmentType.Weapon:
+                    {
+                        selectedItemInSlot.SetItem(weaponSlot.ItemInstance);
+                        weaponSlot.SetItem(temporaryHolding);
+                        break;
+                    }
+                case EquipmentType.Armor:
+                    {
+                        selectedItemInSlot.SetItem(armorSlot.ItemInstance);
+                        armorSlot.SetItem(temporaryHolding);
+                        break;
+                    }
+                case EquipmentType.Accessory:
+                    {
+                        selectedItemInSlot.SetItem(accessorySlot.ItemInstance);
+                        accessorySlot.SetItem(temporaryHolding);
+                        break;
+                    }
+            }
+
+            SFXManager.PlayClip(temporaryHolding.ItemData.UsageSoundClip, player.transform.position);
         }
 
         public void OnDropButton()
@@ -195,7 +244,7 @@ namespace RSP2
 
         private void OnBeginInventorySlotDrag(InventorySlot draggedSlot)
         {
-            if (selectedItemInSlot != null && selectedItemInSlot != draggedSlot)
+            if (selectedItemInSlot != null)
             {
                 selectedItemInSlot.SetActiveOfSelectedFrame(false);
             }
@@ -237,29 +286,64 @@ namespace RSP2
             {
                 isDragging = false;
 
-                selectedItemInSlot.SetItem(targetSlot.ItemInstance);
-                targetSlot.SetItem(movingSlot.ItemInstance);
+                if (selectedItemInSlot.SlotType == InventorySlotType.Inventory) // Inventory to Inventory
+                {
+                    selectedItemInSlot.SetItem(targetSlot.ItemInstance);
+                    targetSlot.SetItem(movingSlot.ItemInstance);
+                }
+                else // Equipment to Inventory
+                {
+                    if (targetSlot.ItemInstance == null) // Inventory without Item
+                    {
+                        player.UnEquipItem(selectedItemInSlot.EquipmentType);
+                        selectedItemInSlot.SetItem(null);
+                        targetSlot.SetItem(movingSlot.ItemInstance);
+                    }
+                    else
+                    {
+                        EquipmentData equipmentData = targetSlot.ItemInstance.ItemData as EquipmentData;
+
+                        // Inventory with correct equipment
+                        if (equipmentData != null && equipmentData.EquipmentType == selectedItemInSlot.EquipmentType)
+                        {
+                            EquipItem(targetSlot, equipmentData);
+                        }
+                        else
+                        {
+                            selectedItemInSlot.SetActiveItemOnly(true);
+                        }
+                    }
+
+
+                }
+
                 movingSlot.DropItem();
                 selectedItemInSlot = null;
                 UpdateButtons(null);
             }
         }
 
-        private void OnEquipmentBeginSlotDrag(EquipmentSlot draggedSlot)
+        private void OnEquipmentSlotPointerDrop(InventorySlot targetSlot)
         {
-            if (selectedItemInSlot != null)
+            if (!isDragging) return;
+
+            isDragging = false;
+
+            if (selectedItemInSlot.SlotType != InventorySlotType.Inventory)
             {
-                selectedItemInSlot.SetActiveOfSelectedFrame(false);
+                movingSlot.DropItem();
+                selectedItemInSlot.SetActiveItemOnly(true);
                 selectedItemInSlot = null;
+                UpdateButtons(null);
+                return;
             }
 
-            movingSlot.CarryItem(draggedSlot);
-            isDragging = true;
-        }
+            OnEquipButton();
 
-        private void OnEquipmentSlotPointerDrop(EquipmentSlot slot)
-        {
-            throw new NotImplementedException();
+            movingSlot.DropItem();
+            selectedItemInSlot = null;
+            UpdateButtons(null);
+
         }
 
 
@@ -270,13 +354,23 @@ namespace RSP2
 
         public void OnDrop(PointerEventData eventData)
         {
-            if (isDragging)
+            if (!isDragging) return;
+
+            isDragging = false;
+            movingSlot.DropItem();
+
+            if (selectedItemInSlot.SlotType == InventorySlotType.Inventory)
             {
-                isDragging = false;
-                movingSlot.DropItem();
                 selectedItemInSlot.SetActiveOfSelectedFrame(true);
                 UpdateButtons(selectedItemInSlot.ItemInstance);
             }
+            else
+            {
+                selectedItemInSlot.SetActiveItemOnly(true);
+                selectedItemInSlot = null;
+                UpdateButtons(null);
+            }
+
         }
     }
 }

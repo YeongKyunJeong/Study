@@ -8,14 +8,23 @@ using UnityEngine.UI;
 
 namespace RSP2
 {
+    public enum InventorySlotType
+    {
+        Inventory,
+        Equipment
+    }
+
     public class InventorySlot : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDragHandler, IDropHandler /*IPointerUpHandler*/
     {
-        protected InventoryUI inventoryUI;
-        protected ItemInstance itemInstance;
+        private InventoryUI inventoryUI;
+        private ItemInstance itemInstance;
         public ItemInstance ItemInstance { get => itemInstance; }
 
-        [field: SerializeField] protected GameObject itemInSlot { get; set; }
-        [field: SerializeField] protected Image itemImage { get; set; }
+        [field: SerializeField] public InventorySlotType SlotType { get; private set; }
+        [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
+
+        [field: SerializeField] private GameObject itemInSlot { get; set; }
+        [field: SerializeField] private Image itemImage { get; set; }
         [field: SerializeField] private TextMeshProUGUI amountTMP { get; set; }
         [field: SerializeField] private GameObject selectedFrame { get; set; }
 
@@ -46,13 +55,19 @@ namespace RSP2
                 Debug.Log("Selected Not Assigned");
                 selectedFrame = transform.GetChild(1).GetComponent<GameObject>();
             }
+
             itemInSlot.SetActive(false);
             selectedFrame.SetActive(false);
+
+            if (SlotType != InventorySlotType.Inventory)
+            {
+                amountTMP.text = string.Empty;
+            }
         }
 
         public void SetItem(ItemInstance newItem)
         {
-            if(newItem == null)
+            if (newItem == null)
             {
                 ClearSlot(true);
                 return;
@@ -61,20 +76,34 @@ namespace RSP2
             itemInSlot.SetActive(true);
             itemInstance = newItem;
             itemImage.sprite = itemInstance.ItemData.ItemSprite;
-            AmountTMPChange(newItem.amount);
-            amountTMP.text = newItem.amount.ToString();
-            itemInstance.AmountChangeEvent += AmountTMPChange;
+
+            if (SlotType == InventorySlotType.Inventory)
+            {
+                AmountTMPChange(newItem.amount);
+                amountTMP.text = newItem.amount.ToString();
+                itemInstance.AmountChangeEvent += AmountTMPChange;
+            }
         }
 
         public void ClearSlot(bool isRemoving)
         {
             itemInSlot.SetActive(false);
-            selectedFrame.SetActive(false);
+
+
+
             if (isRemoving)
             {
-                amountTMP.text = string.Empty;
-                itemInstance.AmountChangeEvent -= AmountTMPChange;
+                selectedFrame.SetActive(false);
+
+                if (SlotType == InventorySlotType.Inventory)
+                {
+                    amountTMP.text = string.Empty;
+                    itemInstance.AmountChangeEvent -= AmountTMPChange;
+                }
+
                 itemInstance = null;
+                return;
+
             }
         }
 
@@ -97,6 +126,8 @@ namespace RSP2
 
         public virtual void OnPointerClick(PointerEventData eventData)
         {
+            if (SlotType != InventorySlotType.Inventory) return;
+
             if (itemInstance == null) return;
 
             bool isSelectedBefore = selectedFrame.activeSelf;
@@ -119,6 +150,11 @@ namespace RSP2
             {
                 itemInSlot.SetActive(true);
             }
+        }
+
+        public void SetActiveItemOnly(bool isOn)
+        {
+            itemInSlot.SetActive(isOn);
         }
 
         public void OnDrag(PointerEventData eventData)
