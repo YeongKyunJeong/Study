@@ -1,9 +1,33 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 namespace RSP2
 {
+    public enum StatsToDisplay
+    {
+        //Level,
+
+        //NextExp,
+        CurrentExp,
+
+        //MaxHP,
+        //MaxMP,
+        //MaxStamina,
+
+        CurrentHP,
+        CurrentMP,
+        CurrentStamina,
+
+        //BaseAttack,
+        //WeaponAttack,
+        //ArmorDefense,
+        //BaseDefense,
+        //AttackSpeed,
+        //MovementSpeed
+    }
+
     public class StatHandlerForPlayer : StatHandlerForCharacter
     {
         public CombatSystemForPlayer combatSystemForPlayer;
@@ -11,6 +35,11 @@ namespace RSP2
         public StatForPlayer PlayerCurrentStatistics { get; private set; }
 
         public ExpDataTable NowLevelExpData { get; private set; }
+
+        public event Action<StatsToDisplay, float> BaseStatChangeEvent;
+
+        public event Action<int, int, int, StatForPlayer, CombatSystem, bool> LevelChangeEvent;
+
 
         public int CurrentLevel { get; private set; }
         public int CurrentExp { get; private set; }
@@ -56,6 +85,15 @@ namespace RSP2
                 combatSystem = GetComponent<CombatSystem>();
             }
 
+            combatSystem.DamageEvent += OnCurrentHPChange;
+            combatSystem.HealEvent += OnCurrentHPChange;
+
+            combatSystem.MPSpendEvent += OnCurrentMPChange;
+            combatSystem.MPRecoveryEvent += OnCurrentMPChange;
+
+            combatSystem.StaminaSpendEvent += OnCurrentStaminaChange;
+            combatSystem.StaminaRecoveryEvent += OnCurrentStaminaChange;
+
             gameManager.EnemyDieEvent += OnEnemyDie;
 
             CalculateFinalStat();
@@ -69,6 +107,7 @@ namespace RSP2
         public bool GainExperience(int amount)
         {
             CurrentExp += amount;
+            BaseStatChangeEvent(StatsToDisplay.CurrentExp, CurrentExp);
             bool isLevelUp = false;
 
             int limit = 0;
@@ -96,6 +135,13 @@ namespace RSP2
             BaseStat = PlayerBaseStatistics as StatForCharacter;
             CurrentStatistics = PlayerCurrentStatistics as StatForCharacter;
             base.CalculateFinalStat();
+
+            ExpDataTable nextLevelExpData = dataManager.TableDataLoader.ExpDataLoader.GetExpByKey(CurrentLevel);
+            if (nextLevelExpData != null)
+            {
+                LevelChangeEvent?.Invoke(CurrentLevel, nextLevelExpData.TotalExp, CurrentExp,
+                    PlayerCurrentStatistics, combatSystem, true);
+            }
         }
 
         private void LevelUp()
@@ -107,7 +153,7 @@ namespace RSP2
             }
 
             CurrentLevel++;
-            Debug.Log($"Player bacame Level {CurrentLevel}");
+            Debug.Log($"Player became Level {CurrentLevel}");
 
             ExpDataTable nextLevelExpData = dataManager.TableDataLoader.ExpDataLoader.GetExpByKey(CurrentLevel);
             if (nextLevelExpData != null)
@@ -117,7 +163,27 @@ namespace RSP2
                 combatSystemForPlayer.ChangeStatByLevelUp(levelStatTable);
                 PlayerBaseStatistics.SetStatByLevelTable(levelStatTable);
                 PlayerCurrentStatistics.SetStatByLevelTable(levelStatTable);
+
+                LevelChangeEvent?.Invoke(CurrentLevel, nextLevelExpData.TotalExp, CurrentExp, 
+                    PlayerCurrentStatistics, combatSystem, false);
             }
         }
+
+        private void OnCurrentHPChange()
+        {
+            BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, combatSystem.CurrentHP);
+        }
+
+        private void OnCurrentMPChange()
+        {
+            BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, combatSystem.CurrentMP);
+        }
+
+        private void OnCurrentStaminaChange()
+        {
+            BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, combatSystem.CurrentStamina);
+        }
+
+
     }
 }

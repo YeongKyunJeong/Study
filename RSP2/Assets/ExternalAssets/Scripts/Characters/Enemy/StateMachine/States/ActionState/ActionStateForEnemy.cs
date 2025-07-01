@@ -157,7 +157,7 @@ namespace RSP2
                 {
                     switch (runtimeData.ChasingTargetType)
                     {
-                        case ChasingTargetTpye.PlayerOnly:
+                        case ChasingTargetType.PlayerOnly:
                             {
                                 if (detectedCombatSystem.MyFaction == Faction.Player)
                                 {
@@ -171,14 +171,14 @@ namespace RSP2
                                     continue;
                                 }
                             }
-                        case ChasingTargetTpye.AllFaction:
+                        case ChasingTargetType.AllFaction:
                             {
                                 runtimeData.Target = detectedCombatSystem;
 
                                 return true;
 
                             }
-                        case ChasingTargetTpye.NotMyFaction:
+                        case ChasingTargetType.NotMyFaction:
                             {
                                 if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
                                 {

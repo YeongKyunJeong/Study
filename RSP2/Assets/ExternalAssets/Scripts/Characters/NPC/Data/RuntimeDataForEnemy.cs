@@ -21,7 +21,7 @@ namespace RSP2
         public float AttackRange { get; set; }
         public float AttackRangeSqr { get; set; }
 
-        public ChasingTargetTpye ChasingTargetType { get; set; }
+        public ChasingTargetType ChasingTargetType { get; set; }
 
 
         protected bool isHostile;
@@ -41,7 +41,7 @@ namespace RSP2
         public RuntimeDataForEnemy()
         {
             RotationSpeedModifier = 6;
-            ChasingTargetType = ChasingTargetTpye.PlayerOnly;
+            ChasingTargetType = ChasingTargetType.PlayerOnly;
         }
     }
 }

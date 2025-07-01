@@ -203,18 +203,18 @@ namespace RSP2
 
             switch (attackData.Target)
             {
-                case ChasingTargetTpye.PlayerOnly:
+                case ChasingTargetType.PlayerOnly:
                     {
                         if (hitCombatSystem.MyFaction == Faction.Player) { return true; }
                     }
                     break;
-                case ChasingTargetTpye.EnemyOnly:
+                case ChasingTargetType.EnemyOnly:
                     {
                         if (hitCombatSystem.MyFaction == Faction.Enemy) { return true; }
                     }
                     break;
-                case ChasingTargetTpye.AllFaction: return true;
-                case ChasingTargetTpye.NotMyFaction:
+                case ChasingTargetType.AllFaction: return true;
+                case ChasingTargetType.NotMyFaction:
                     {
                         if (hitCombatSystem.MyFaction != shooterCombatSystem.MyFaction) { return true; }
                     }

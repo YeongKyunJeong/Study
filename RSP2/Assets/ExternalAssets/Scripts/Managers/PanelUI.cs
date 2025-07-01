@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -10,6 +11,9 @@ namespace RSP2
     {
         private GameManager gameManager;
         private CanvasUIManager canvasUIManager;
+
+        [field: SerializeField] private EquipmentStatsDisplay statsDisplay;
+        public EquipmentStatsDisplay StatsDisplay { get => statsDisplay; }
 
         [field: SerializeField] private InventoryUI inventoryUI;
         public InventoryUI InventoryUI { get => inventoryUI; }
@@ -27,6 +31,11 @@ namespace RSP2
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;
 
+            if (statsDisplay == null)
+            {
+                Debug.Log("Stats Display Not Imported");
+                statsDisplay = GetComponentInChildren<EquipmentStatsDisplay>();
+            }
             if (inventoryUI == null)
             {
                 Debug.Log("Inventory UI Not Imported");
@@ -43,6 +52,7 @@ namespace RSP2
                 dialogueUI = GetComponentInChildren<DialogueUI>();
             }
 
+            statsDisplay.Initialize(gameManager, canvasUIManager);
             inventoryUI.Initialize(gameManager, canvasUIManager, this);
             interactionUI.Initialize(gameManager, canvasUIManager);
             dialogueUI.Initialize(gameManager);

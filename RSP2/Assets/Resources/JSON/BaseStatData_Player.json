@@ -12,7 +12,7 @@
         "MaxStamina": 30,
         "StaminaRegen": 10,
         "Attack": 10,
-        "Defence": 3,
+        "Defense": 3,
         "MovementSpeed": 5,
         "AttackSpeed": 5
     }

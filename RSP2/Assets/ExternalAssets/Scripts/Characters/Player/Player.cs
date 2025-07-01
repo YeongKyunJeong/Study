@@ -36,6 +36,9 @@ namespace RSP2
         public RuntimeDataForPlayer RuntimeData { get; private set; }
 
 
+        public event Action<EquipmentData, StatForPlayer> EquipmentChangeEvent;
+        public event Action<EquipmentType, StatForPlayer> UnequipmentEvent;
+
         private void Awake()
         {
             RuntimeData = new RuntimeDataForPlayer();
@@ -186,6 +189,7 @@ namespace RSP2
                     }
                     // TO DO :: Add other equipment logic
             }
+            EquipmentChangeEvent?.Invoke(equipmentData, StatHandler.PlayerCurrentStatistics);
         }
 
         public void UnEquipItem(EquipmentType equipmentType)
@@ -203,6 +207,7 @@ namespace RSP2
                     }
                     // TO DO :: Add other equipment logic
             }
+            UnequipmentEvent?.Invoke(equipmentType, StatHandler.PlayerCurrentStatistics);
         }
 
         public bool AddItem(ItemData item, int amount = 1)

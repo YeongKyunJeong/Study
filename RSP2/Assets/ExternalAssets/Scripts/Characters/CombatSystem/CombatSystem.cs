@@ -29,7 +29,7 @@ namespace RSP2
         public event Action DamageEvent;
         public event Action HealEvent;
         public event Action DieEvent;
-        public event Action InvicibilityEndEvent;
+        public event Action InvincibilityEndEvent;
         private Coroutine hPRegenCoroutine;
         private Coroutine hPRegenDelayCoroutine;
         private float hpRegenDelayTime = 5f;
@@ -123,7 +123,7 @@ namespace RSP2
                 timeSinceLastChange += Time.deltaTime;
                 if (timeSinceLastChange >= healthChangeDelay)
                 {
-                    InvicibilityEndEvent?.Invoke();
+                    InvincibilityEndEvent?.Invoke();
                 }
             }
         }
@@ -142,7 +142,7 @@ namespace RSP2
             if (applyDef)
             {
                 // HP & Def = 10 => 2HP & Def = 0 
-                reducedDamage = (10 / (10 + statHandler.CurrentStatistics.Defence)) * value;
+                reducedDamage = (10 / (10 + statHandler.CurrentStatistics.Defense)) * value;
                 reducedDamage = Mathf.Round(reducedDamage * 10f) / 10f;
             }
             else

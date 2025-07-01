@@ -19,7 +19,7 @@ namespace RSP2
         public float MaxStamina;
         public float StaminaRegen;
         public float Attack;
-        public float Deffence;
+        public float Defense;
         public float MovementSpeed;
         public float AttackSpeed;
     }

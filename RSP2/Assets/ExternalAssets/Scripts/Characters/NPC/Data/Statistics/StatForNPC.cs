@@ -21,7 +21,7 @@ namespace RSP2
 
             Faction = Faction.Enemy;
 
-            ChasingTargetTpye = ChasingTargetTpye.NotMyFaction;
+            ChasingTargetType = ChasingTargetType.NotMyFaction;
 
             SearchingDistance = 4;
 
@@ -39,7 +39,7 @@ namespace RSP2
 
             Attack = 3;
 
-            Defence = 3;
+            Defense = 3;
 
             MovementSpeed = 4;
 
@@ -76,7 +76,7 @@ namespace RSP2
 
             Faction = newDataTable.Faction;
 
-            ChasingTargetTpye = newDataTable.ChasingTargetTpye;
+            ChasingTargetType = newDataTable.ChasingTargetType;
 
             SearchingDistance = newDataTable.SearchingDistance;
 
@@ -94,7 +94,7 @@ namespace RSP2
 
             Attack = newDataTable.Attack;
 
-            Defence = newDataTable.Deffence;
+            Defense = newDataTable.Defense;
 
             MovementSpeed = newDataTable.MovementSpeed;
 
@@ -119,7 +119,7 @@ namespace RSP2
 
             Faction = newData.Faction;
 
-            ChasingTargetTpye = newData.ChasingTargetTpye;
+            ChasingTargetType = newData.ChasingTargetType;
 
             SearchingDistance = newData.SearchingDistance;
 
@@ -137,7 +137,7 @@ namespace RSP2
 
             Attack = newData.Attack;
 
-            Defence = newData.Defence;
+            Defense = newData.Defense;
 
             MovementSpeed = newData.MovementSpeed;
 

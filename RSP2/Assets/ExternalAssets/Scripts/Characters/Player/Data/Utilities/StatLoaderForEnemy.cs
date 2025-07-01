@@ -13,7 +13,7 @@ namespace RSP2
         public string Name;
         public int Exp;
         public Faction Faction;
-        public ChasingTargetTpye ChasingTargetTpye;
+        public ChasingTargetType ChasingTargetType;
         public float SearchingDistance;
         public float MaxHP;
         public float HPRegen;
@@ -22,7 +22,7 @@ namespace RSP2
         public float MaxStamina;
         public float StaminaRegen;
         public float Attack;
-        public float Deffence;
+        public float Defense;
         public float MovementSpeed;
         public float AttackSpeed;
     }

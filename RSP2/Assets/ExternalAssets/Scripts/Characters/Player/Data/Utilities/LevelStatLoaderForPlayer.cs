@@ -17,7 +17,7 @@ namespace RSP2
         public float MaxStamina;
         public float StaminaRegen;
         public float Attack;
-        public float Defence;
+        public float Defense;
     }
 
 
