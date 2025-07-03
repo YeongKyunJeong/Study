@@ -108,7 +108,7 @@ namespace RSP2
             RuntimeData.AttackRangeSqr = range * range;
         }
 
-        protected void OnHit()
+        protected void OnHit(float leftHP, float maxHP)
         {
             ActionStateMachine.OnHit();
         }

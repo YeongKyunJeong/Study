@@ -110,9 +110,9 @@ namespace RSP2
 
         #region Fixed UI Methods
 
-        public void ChangeHPBar()
+        public void ChangeHPBar(float leftHP, float maxHP)
         {
-            FixedUI.PlayerInfoUI.UpdateHPUI(player.CombatSystem.CurrentHP / player.CombatSystem.MaxHP);
+            FixedUI.PlayerInfoUI.UpdateHPUI(leftHP / maxHP);
         }
 
         public void ChangeMPBar()

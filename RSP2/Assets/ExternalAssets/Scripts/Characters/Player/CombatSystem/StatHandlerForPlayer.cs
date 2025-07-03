@@ -169,9 +169,9 @@ namespace RSP2
             }
         }
 
-        private void OnCurrentHPChange()
+        private void OnCurrentHPChange(float leftHP, float maxHP)
         {
-            BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, combatSystem.CurrentHP);
+            BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, leftHP);
         }
 
         private void OnCurrentMPChange()

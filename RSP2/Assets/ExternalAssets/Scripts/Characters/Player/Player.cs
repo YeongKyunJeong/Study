@@ -132,7 +132,6 @@ namespace RSP2
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
-
             // Temporary weapon equipment
 
             AddItem(SOData.WeaponDataLibrary.WeaponData[0]);
@@ -216,9 +215,14 @@ namespace RSP2
             // DOTO :: arrange item stack by left
         }
 
-        private void OnHit()
+        private void OnHit(float leftHP, float MaxHP)
         {
             ActionStateMachine.OnHit();
+            float cameraShakeIntensity = MaxHP > 0 ? 1 - (leftHP) / MaxHP : 0;
+            if(cameraShakeIntensity >= 0.5)
+            {
+                CameraManager.Instance.CallCameraShakeByHit(cameraShakeIntensity);
+            }
         }
 
         private void OnDie()

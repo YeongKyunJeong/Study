@@ -26,8 +26,8 @@ namespace RSP2
 
 
         protected AttackHitBox attackHitBox;
-        public event Action DamageEvent;
-        public event Action HealEvent;
+        public event Action<float, float> DamageEvent;
+        public event Action<float, float> HealEvent;
         public event Action DieEvent;
         public event Action InvincibilityEndEvent;
         private Coroutine hPRegenCoroutine;
@@ -177,11 +177,11 @@ namespace RSP2
 
             if (value > 0)
             {
-                HealEvent?.Invoke();
+                HealEvent?.Invoke(currentHP, MaxHP);
             }
             else
             {
-                DamageEvent?.Invoke();
+                DamageEvent?.Invoke(currentHP, MaxHP);
 
                 if (hPRegenCoroutine != null)
                 {
@@ -337,7 +337,7 @@ namespace RSP2
             {
                 CurrentHP += statHandler.CurrentStatistics.HPRegen / 4;
                 CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
-                HealEvent?.Invoke();
+                HealEvent?.Invoke(currentHP, MaxHP);
 
                 //Debug.Log($"{name} HP È¸º¹ Áß : {CurrentHP}/{MaxHP}");
 
