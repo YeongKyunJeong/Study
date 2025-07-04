@@ -19,9 +19,10 @@ namespace RSP2
         [field: SerializeField] private InteractionManager InteractionManager { get; set; }
         [field: SerializeField] private VFXManager VFXManager { get; set; }
         [field: SerializeField] private SFXManager SFXManager { get; set; }
-
-        [field: Space]
+        [field:SerializeField] private DayNightManager DayNightManager { get; set; }
+        
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
+
         public Player Player { get; set; }
 
         public CinemachineInputProvider CinemachineInputProvider { get; private set; }
@@ -66,11 +67,11 @@ namespace RSP2
                 Debug.Log("SFX Manager Not Assigned");
                 SFXManager = FindObjectOfType<SFXManager>();
             }
-
-            //DataManager = DataManager.Instance;
-
-            //ProjectileManager = ProjectileManager.Instance;
-            //InteractionManager = InteractionManager.Instance;
+            if (DayNightManager == null)
+            {
+                Debug.Log("Day Night Manager Not Assigned");
+                DayNightManager = FindObjectOfType<DayNightManager>();
+            }
 
             CameraManager.Initialize(this);
             DataManager.Initialize();
@@ -78,8 +79,10 @@ namespace RSP2
             InteractionManager.Initialize(this, CameraManager, CanvasUIManager);
             VFXManager.Initialize();
             SFXManager.Initialize();
+            DayNightManager.Initialize();
 
             CanvasUIManager.Initialize(this);
+
         }
 
         private void Start()
@@ -92,6 +95,11 @@ namespace RSP2
             ProjectileManager.CallUpdate();
         }
 
+        private void FixedUpdate()
+        {
+            DayNightManager.CallPhysicsUpdate();
+        }
+
         public void OnInventoryUIOpen(bool isOn)
         {
             if (isOn)
@@ -102,7 +110,7 @@ namespace RSP2
             {
                 EnableInputActionMap(ActionMap.Field);
             }
-            EnableCinemachinInput(!isOn);
+            EnableCinemachineInput(!isOn);
             LockCursor(!isOn);
         }
 
@@ -116,7 +124,7 @@ namespace RSP2
             {
                 EnableInputActionMap(ActionMap.Field);
             }
-            EnableCinemachinInput(!isOn);
+            EnableCinemachineInput(!isOn);
         }
 
         // TO DO :: Standardize by making using Action
@@ -149,7 +157,7 @@ namespace RSP2
             }
         }
 
-        private void EnableCinemachinInput(bool isOn)
+        private void EnableCinemachineInput(bool isOn)
         {
             CinemachineInputProvider.enabled = isOn;
         }
