@@ -42,9 +42,10 @@ namespace RSP2
     {
         [field: Header("Basic Attack Data Setting")]
         [field: SerializeField] public int ID;
-
+        [field: SerializeField] public int AnimationKey;
         [field: SerializeField] private AttackType attackType = AttackType.Basic;
         public AttackType AttackType { get => attackType; }
+        [field: SerializeField] public bool IsComboSkill;
         [field: SerializeField] public ChasingTargetType Target { get; private set; }
         [field: SerializeField] public int hitNumberLimit { get; private set; }
         [field: SerializeField] public string AttackName { get; private set; } = "BasicMeleeAttack";

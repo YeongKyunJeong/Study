@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: ComboAttack_01
   m_EditorClassIdentifier: 
   ID: 0
-  attackType: 0
+  AnimationKey: 0
+  attackType: 1
+  IsComboSkill: 1
   <Target>k__BackingField: 1
   <hitNumberLimit>k__BackingField: 0
   <AttackName>k__BackingField: ComboAttack_01

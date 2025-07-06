@@ -8,6 +8,7 @@ namespace RSP2
     {
         private readonly int instantRangeSkillHash = Animator.StringToHash("Attack.RangeSkill");
         private readonly int isRangeSkillHash = Animator.StringToHash("IsRangeSkill");
+        private readonly int rangeSkillIndexHash = Animator.StringToHash("RangeSkillIndex");
 
         protected Projectile skillProjectile;
         protected float ShootTime;
@@ -55,13 +56,13 @@ namespace RSP2
             }
 
 
-            if (isShot) return; 
-        
+            if (isShot) return;
+
             if (normalizedPassedTime >= ShootTime)
             {
                 combatSystem.ChangeStamina(-attackData.StaminaCost);
                 combatSystem.ChangeMana(-attackData.MPCost);
-                skillProjectile = ProjectileManager.ShootProjectile(attackData, statHandler.CurrentStatistics.Attack, player.CurrentWeapon.WeaponData.DamageBonus ,combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
+                skillProjectile = ProjectileManager.ShootProjectile(attackData, statHandler.CurrentStatistics.Attack, player.CurrentWeapon.WeaponData.DamageBonus, combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
                 //skillProjectile.EnterEvent += OnProjectileHit;
                 isShot = true;
             }
@@ -77,6 +78,7 @@ namespace RSP2
         {
             if (isOn)
             {
+                animator.SetFloat(rangeSkillIndexHash, attackData.AnimationKey);
                 if (animator.IsInTransition(0))
                 {
                     animator.CrossFadeInFixedTime(instantRangeSkillHash, 0.25f);

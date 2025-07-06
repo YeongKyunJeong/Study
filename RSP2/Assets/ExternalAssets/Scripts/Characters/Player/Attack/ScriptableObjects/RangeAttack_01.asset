@@ -13,7 +13,9 @@ MonoBehaviour:
   m_Name: RangeAttack_01
   m_EditorClassIdentifier: 
   ID: 0
+  AnimationKey: 0
   attackType: 2
+  isComboSkill: 0
   <Target>k__BackingField: 1
   <hitNumberLimit>k__BackingField: 0
   <AttackName>k__BackingField: RangeAttack_01
@@ -22,7 +24,7 @@ MonoBehaviour:
   <TargetLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 768
-  AttackSoundClip: {fileID: 0}
+  AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
   <DamageType>k__BackingField: 2
   <MPCost>k__BackingField: 10
   <StaminaCost>k__BackingField: 10

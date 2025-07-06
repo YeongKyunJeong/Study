@@ -13,9 +13,11 @@ MonoBehaviour:
   m_Name: EnemyAttack01
   m_EditorClassIdentifier: 
   ID: 0
-  attackType: 1
+  AnimationKey: 0
+  attackType: 0
+  isComboSkill: 0
   <Target>k__BackingField: 0
-  <TargetNumberLimit>k__BackingField: 0
+  <hitNumberLimit>k__BackingField: 0
   <AttackName>k__BackingField: EnemyMeleeAttack01
   <VFXName>k__BackingField: 
   VFXStartTime: 0

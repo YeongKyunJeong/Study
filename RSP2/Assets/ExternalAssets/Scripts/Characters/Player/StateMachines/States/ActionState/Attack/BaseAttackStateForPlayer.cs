@@ -8,7 +8,6 @@ namespace RSP2
     public class BaseAttackStateForPlayer : ActionStateForPlayer
     {
         protected string animatorAttackStateTag = "Attack State";
-
         protected CombatSystem combatSystem;
         protected AttackData attackData;
 
