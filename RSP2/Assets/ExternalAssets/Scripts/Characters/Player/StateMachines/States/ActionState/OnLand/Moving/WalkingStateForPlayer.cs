@@ -38,7 +38,7 @@ namespace RSP2
         {
             base.OnWalkToggleInput();
 
-            stateMachine.ChangeState(stateMachine.RunnigState);
+            stateMachine.ChangeState(stateMachine.RunningState);
         }
 
 

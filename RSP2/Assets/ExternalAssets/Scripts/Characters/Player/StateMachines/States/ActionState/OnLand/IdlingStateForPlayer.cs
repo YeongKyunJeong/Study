@@ -64,7 +64,7 @@ namespace RSP2
                 return;
             }
 
-            stateMachine.ChangeState(stateMachine.RunnigState);
+            stateMachine.ChangeState(stateMachine.RunningState);
             return;
         }
 

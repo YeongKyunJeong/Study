@@ -183,7 +183,8 @@ namespace RSP2
                         CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
                         CurrentWeapon?.Initialize(item);
                         item.equipped = true;
-
+                        ActionStateMachine.OnEquipWeapon(true);
+                        
                         break;
                     }
                     // TO DO :: Add other equipment logic
@@ -201,6 +202,7 @@ namespace RSP2
                         {
                             CurrentWeapon.ItemInstance.equipped = false;
                             Destroy(CurrentWeapon.gameObject);
+                            ActionStateMachine.OnEquipWeapon(false);
                         }
                         break;
                     }
@@ -219,7 +221,7 @@ namespace RSP2
         {
             ActionStateMachine.OnHit();
             float cameraShakeIntensity = MaxHP > 0 ? 1 - (leftHP) / MaxHP : 0;
-            if(cameraShakeIntensity >= 0.5)
+            if (cameraShakeIntensity >= 0.5)
             {
                 CameraManager.Instance.CallCameraShakeByHit(cameraShakeIntensity);
             }

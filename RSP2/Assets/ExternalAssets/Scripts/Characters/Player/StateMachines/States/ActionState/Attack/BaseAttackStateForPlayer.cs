@@ -202,7 +202,7 @@ namespace RSP2
                 stateMachine.ChangeState(stateMachine.WalkingState);
                 return;
             }
-            stateMachine.ChangeState(stateMachine.RunnigState);
+            stateMachine.ChangeState(stateMachine.RunningState);
             return;
         }
 

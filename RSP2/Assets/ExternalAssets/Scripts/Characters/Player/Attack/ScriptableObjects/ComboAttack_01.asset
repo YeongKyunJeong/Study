@@ -33,7 +33,7 @@ MonoBehaviour:
     NormalizedTime: 0
     Force: {x: 0, y: 0, z: 4}
   - MomentumDamping: 1
-    NormalizedTime: 0.3
+    NormalizedTime: 0.32
     Force: {x: 0, y: 0, z: 6}
   <PushForce>k__BackingField: 8
   AttackSpeed: 1

@@ -4,11 +4,11 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class RunnigStateForPlayer : HorizontalMovingStateForPlayer
+    public class RunningStateForPlayer : HorizontalMovingStateForPlayer
     {
         private readonly int instantRunnigHash = Animator.StringToHash("OnLand.Running");
 
-        public RunnigStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
+        public RunningStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
         }
 

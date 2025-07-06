@@ -14,7 +14,11 @@ namespace RSP2
         private Animator animator;
 
         private readonly int instantHitHash = Animator.StringToHash("Hit");
+        private readonly int rHandHoldingHash = Animator.StringToHash("OnRHandHold");
+        private readonly int rHandFreeHash = Animator.StringToHash("OnRHandFree");
         private readonly int instantDyingHash = Animator.StringToHash("Dying");
+
+        private readonly int rHandLayerIndex;
 
         #region Action States
 
@@ -22,7 +26,7 @@ namespace RSP2
 
         public IdlingStateForPlayer IdlingState { get; private set; }
         public WalkingStateForPlayer WalkingState { get; private set; }
-        public RunnigStateForPlayer RunnigState { get; private set; }
+        public RunningStateForPlayer RunningState { get; private set; }
         public LandDashingStateForPlayer LandDashingState { get; private set; }
 
         #endregion
@@ -68,7 +72,7 @@ namespace RSP2
 
             WalkingState = new WalkingStateForPlayer(_player, this);
 
-            RunnigState = new RunnigStateForPlayer(_player, this);
+            RunningState = new RunningStateForPlayer(_player, this);
 
             LandDashingState = new LandDashingStateForPlayer(_player, this);
 
@@ -91,6 +95,9 @@ namespace RSP2
             {
                 RangeAttackingStates[i] = new RangeAttackingStateForPlayer(_player, this);
             }
+
+            rHandLayerIndex = animator.GetLayerIndex("Override Layer_RHand");
+            animator.SetLayerWeight(rHandLayerIndex, 0);
 
             SetDefaultState();
         }
@@ -119,6 +126,22 @@ namespace RSP2
             return false;
         }
 
+        public void OnEquipWeapon(bool isEquip = true)
+        {
+            if (isEquip)
+            {
+                animator.SetTrigger(rHandHoldingHash);
+                animator.SetLayerWeight(rHandLayerIndex, 1);
+                return;
+            }
+            else
+            {
+                animator.SetTrigger(rHandFreeHash);
+                animator.SetLayerWeight(rHandLayerIndex, 0);
+                return;
+            }
+
+        }
 
         public void OnDie()
         {
@@ -126,7 +149,7 @@ namespace RSP2
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
             mover.UpdateNextVerticalVelocityVector(Vector3.zero);
             animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
-            currentState = null; 
+            currentState = null;
             // TODO :: Add Dead State
         }
 

@@ -15,7 +15,7 @@ MonoBehaviour:
   ID: 0
   attackType: 2
   <Target>k__BackingField: 1
-  <TargetNumberLimit>k__BackingField: 1
+  <hitNumberLimit>k__BackingField: 0
   <AttackName>k__BackingField: RangeAttack_01
   <VFXName>k__BackingField: 
   VFXStartTime: 0
@@ -24,8 +24,8 @@ MonoBehaviour:
     m_Bits: 768
   AttackSoundClip: {fileID: 0}
   <DamageType>k__BackingField: 2
-  <MPCost>k__BackingField: 20
-  <StaminaCost>k__BackingField: 20
+  <MPCost>k__BackingField: 10
+  <StaminaCost>k__BackingField: 10
   <Damage>k__BackingField: 15
   <Intensity>k__BackingField: 5
   <SelfForces>k__BackingField:
