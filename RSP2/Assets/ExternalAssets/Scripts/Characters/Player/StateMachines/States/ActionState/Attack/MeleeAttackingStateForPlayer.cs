@@ -169,7 +169,7 @@ namespace RSP2
 
         protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
-            // TO DO :: Add emeny counting logic
+            // TO DO :: Add enemy counting logic
 
             if (!CheckTargetFaction(hitCombatSystem)) return;
 

@@ -11,8 +11,9 @@ namespace RSP2
         Null = 0,   // Not assigned yet
         Player = 1,
         Enemy = 2,
-        Neutral = 4,
-        None = 8
+        Ally = 4,
+        Neutral = 8,
+        None = 16
     }
 
     public interface IStatForCharacter
