@@ -123,7 +123,7 @@ namespace RSP2
             //    return;
             //}
 
-            if (SearchForTaget())
+            if (SearchForTarget())
             {
                 if (IsInAttackRange())
                 {

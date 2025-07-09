@@ -13,6 +13,7 @@ namespace RSP2
         // TODO :: ADD tags string to call VFX by cases
 
         [SerializeField] private string DefaultHitVFXTag;
+        [SerializeField] private string DefaultLevelUpVFXTag;
 
         [field: SerializeField] public VFXScriptableObject VFXSOData { get; private set; }
 
@@ -45,12 +46,19 @@ namespace RSP2
             main.simulationSpeed *= speedMultipliyer;
         }
 
-        public static void PlayVFXEffect(string VFXName, Vector3 sourcePosition, Vector3 sourceDir, float scaleMultiplier = 1.0f, float speedMultipliyer = 1.0f)
+        public static void PlayVFXEffect(string VFXName, Vector3 sourcePosition, Vector3 sourceDir, float scaleMultiplier = 1.0f, float speedMultiplier = 1.0f)
         {
             ParticleSystem vFXParticleSystem = PoolVFX(VFXName, sourcePosition, sourceDir);
             var main = vFXParticleSystem.main;
             main.simulationSpeed = 1f + Random.Range(-Instance.HitEffectPitchVariance, Instance.HitEffectPitchVariance);
-            main.simulationSpeed *= speedMultipliyer;
+            main.simulationSpeed *= speedMultiplier;
+        }
+
+        public static void PlayLevelUpEffect(Vector3 sourcePosition)
+        {
+            ParticleSystem vFXParticleSystem = PoolVFX(Instance.DefaultLevelUpVFXTag, sourcePosition, Vector3.up);
+            var main = vFXParticleSystem.main;
+            main.simulationSpeed = 1f;
         }
 
         private static ParticleSystem PoolVFX(string tag, Vector3 sourcePosition, Vector3 sourceDir)

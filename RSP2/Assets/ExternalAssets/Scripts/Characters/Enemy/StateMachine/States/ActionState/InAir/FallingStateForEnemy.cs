@@ -72,7 +72,7 @@ namespace RSP2
 
                 SetAnimatorInAirParameter(false);
 
-                if (!SearchForTaget()) return;
+                if (!SearchForTarget()) return;
 
                 if (runtimeData.Target == null)
                 {

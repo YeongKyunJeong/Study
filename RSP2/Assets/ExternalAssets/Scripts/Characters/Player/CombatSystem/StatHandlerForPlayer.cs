@@ -164,6 +164,8 @@ namespace RSP2
                 PlayerBaseStatistics.SetStatByLevelTable(levelStatTable);
                 PlayerCurrentStatistics.SetStatByLevelTable(levelStatTable);
 
+                VFXManager.PlayLevelUpEffect(combatSystem.MyUnit.transform.position);
+
                 LevelChangeEvent?.Invoke(CurrentLevel, nextLevelExpData.TotalExp, CurrentExp, 
                     PlayerCurrentStatistics, combatSystem, false);
             }

@@ -9,6 +9,8 @@ namespace RSP2
     {
         [field: SerializeField] public List<GameObject> HitVFX { get; private set; }
 
+        [field: SerializeField] public List<GameObject> LevelUpVFX { get; private set; }
+
         // TODO :: Add other VFXs like lights
     }
 }

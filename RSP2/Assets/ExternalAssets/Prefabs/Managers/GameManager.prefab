@@ -407,6 +407,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   HitEffectPitchVariance: 0.1
   DefaultHitVFXTag: HitVFX_01
+  DefaultLevelUpVFXTag: LevelUpVFX
   <VFXSOData>k__BackingField: {fileID: 11400000, guid: 4788bbc85e9c115469972a0411a5223c, type: 2}
 --- !u!114 &4420932194821581486
 MonoBehaviour:
@@ -426,6 +427,9 @@ MonoBehaviour:
     size: 4
   - tag: ComboVFX_01
     prefab: {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}
+    size: 1
+  - tag: LevelUpVFX
+    prefab: {fileID: 0}
     size: 1
 --- !u!1 &7683747436555547892
 GameObject:

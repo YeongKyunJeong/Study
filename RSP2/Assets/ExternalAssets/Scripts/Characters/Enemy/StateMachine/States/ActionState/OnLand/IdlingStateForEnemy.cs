@@ -56,7 +56,7 @@ namespace RSP2
                     return;
                 }
             }
-            else if (SearchForTaget())
+            else if (SearchForTarget())
             {
                 stateMachine.ChangeState(stateMachine.ChasingState);
                 return;

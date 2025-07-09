@@ -140,7 +140,7 @@ namespace RSP2
             return targetVector;
         }
 
-        protected bool SearchForTaget()
+        protected bool SearchForTarget()
         {
             // To Do : Save result and return that if called more than once within one frame
 
@@ -255,10 +255,10 @@ namespace RSP2
             forward.y = 0;
             forward.Normalize();
 
-            float angleToTaget = Vector3.Angle(forward, directionToTarget);
+            float angleToTarget = Vector3.Angle(forward, directionToTarget);
 
 
-            if (angleToTaget <= enemy.FieldOfView / 2f)
+            if (angleToTarget <= enemy.FieldOfView / 2f)
             {
                 return true;
             }

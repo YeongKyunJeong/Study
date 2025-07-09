@@ -52,7 +52,7 @@ namespace RSP2
 
             if (runtimeData.Target == null)
             {
-                if (!SearchForTaget())
+                if (!SearchForTarget())
                 {
                     stateMachine.ChangeState(stateMachine.IdlingState);
                     return;
@@ -65,7 +65,7 @@ namespace RSP2
                 if (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f)
                 //if (distance >= enemy.SearchingDistance * 1.2f)
                 {
-                    SearchForTaget();
+                    SearchForTarget();
                     if (runtimeData.Target == null)
                     {
                         stateMachine.ChangeState(stateMachine.IdlingState);
