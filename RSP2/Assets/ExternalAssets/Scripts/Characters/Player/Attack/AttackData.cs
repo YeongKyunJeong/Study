@@ -58,6 +58,7 @@ namespace RSP2
         [field: SerializeField] public AudioClip AttackSoundClip;
 
         [field: Header("General Parameter Data")]
+        [field: SerializeField] public float CoolTime { get; private set; }
         [field: SerializeField] public DamageType DamageType { get; private set; }
         [field: SerializeField] public int MPCost { get; private set; }
         [field: SerializeField] public int StaminaCost { get; private set; }

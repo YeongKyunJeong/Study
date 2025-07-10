@@ -65,14 +65,14 @@ namespace RSP2
 
         protected virtual void CalculateFinalStat()
         {
-            if (combatSystem != null)
-            {
-                if (CurrentStatistics != null)
-                {
-                    combatSystem.MyFaction = CurrentStatistics.Faction;
+            //if (combatSystem != null)
+            //{
+            //    if (CurrentStatistics != null)
+            //    {
+            //        combatSystem.MyFaction = CurrentStatistics.Faction;
 
-                }
-            }
+            //    }
+            //}
             //    int health = baseStat.BaseHealth;
             //    float speed = baseStat.BaseSpeed;
             //    int attack = baseStat.BaseAttack;

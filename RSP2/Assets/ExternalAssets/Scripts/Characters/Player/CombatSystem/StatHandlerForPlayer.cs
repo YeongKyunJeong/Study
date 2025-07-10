@@ -48,10 +48,9 @@ namespace RSP2
 
         public void Initialize(BaseStatTableForPlayer baseStatisticsTable)
         {
-            BaseStatTableForPlayer OriginalLoadedDataTable = baseStatisticsTable;
+            //BaseStatTableForPlayer OriginalLoadedDataTable = baseStatisticsTable;
             PlayerBaseStatistics = new StatForPlayer(baseStatisticsTable);
             PlayerCurrentStatistics = new StatForPlayer(baseStatisticsTable);
-            combatSystemForPlayer = GetComponent<CombatSystemForPlayer>();
 
             SetStatAndCombatSystem();
         }
@@ -66,6 +65,7 @@ namespace RSP2
 
         private void SetStatAndCombatSystem()
         {
+            combatSystemForPlayer = GetComponent<CombatSystemForPlayer>();
             gameManager = GameManager.Instance;
             dataManager = DataManager.Instance;
 
@@ -84,6 +84,8 @@ namespace RSP2
             {
                 combatSystem = GetComponent<CombatSystem>();
             }
+
+            combatSystem.MyFaction = CurrentStatistics.Faction;
 
             combatSystem.DamageEvent += OnCurrentHPChange;
             combatSystem.HealEvent += OnCurrentHPChange;

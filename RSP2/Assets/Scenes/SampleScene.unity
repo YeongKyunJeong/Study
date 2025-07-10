@@ -14979,6 +14979,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: NPC002
       objectReference: {fileID: 0}
+    - target: {fileID: 8324792564673197009, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 539607644255725668, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
     m_RemovedGameObjects: []
@@ -15563,13 +15567,21 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 925772123658360438, guid: ced45c8e88134114690bbf11dce6a052, type: 3}
+      propertyPath: m_Radius
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 925772123658360438, guid: ced45c8e88134114690bbf11dce6a052, type: 3}
+      propertyPath: m_Center.z
+      value: 1.1
+      objectReference: {fileID: 0}
     - target: {fileID: 3195955462574004909, guid: ced45c8e88134114690bbf11dce6a052, type: 3}
       propertyPath: <FieldOfView>k__BackingField
       value: 120
       objectReference: {fileID: 0}
     - target: {fileID: 3195955462574004909, guid: ced45c8e88134114690bbf11dce6a052, type: 3}
       propertyPath: <searchingDistance>k__BackingField
-      value: 6
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7123104769300382178, guid: ced45c8e88134114690bbf11dce6a052, type: 3}
       propertyPath: m_LocalPosition.x
@@ -15762,6 +15774,10 @@ PrefabInstance:
     - target: {fileID: 8324792564673197009, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
       propertyPath: m_Name
       value: NPC001
+      objectReference: {fileID: 0}
+    - target: {fileID: 8324792564673197009, guid: 40aa4cfcc1dd20648ba24c4b5b3cc849, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

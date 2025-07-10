@@ -12,8 +12,14 @@ namespace RSP2
 
         private Vector3 nextVerticalVelocityVector;
         private Vector3 nextHorizontalMovementVector;
+
+        // No falling state for enemy 
+        private Vector3 fallingCalculatedVelocity;
+
         private Vector3 nextForceVector;
-        private Vector3 nextRotationVector;
+        //private Vector3 nextRotationVector;
+
+        private bool onlyRotateThisFrame;
 
         // Start is called before the first frame update
         public void Initialize(Enemy _enemy)
@@ -23,8 +29,11 @@ namespace RSP2
             controller = _enemy.Controller;
 
             nextHorizontalMovementVector = Vector3.zero;
+            nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
             nextForceVector = Vector3.zero;
-            nextRotationVector = transform.forward;
+            //nextRotationVector = transform.forward;
+
+            onlyRotateThisFrame = false;
         }
 
         public void CallFixedUpdate()
@@ -39,16 +48,37 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-            // TODO:: Add falling logic
-            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
-
 
             if (nextHorizontalMovementVector != Vector3.zero)
             {
-                nextHorizontalMovementVector.y = 0;
                 Rotate(nextHorizontalMovementVector);
             }
+
+            if (onlyRotateThisFrame)
+            {
+                onlyRotateThisFrame = false;
+                nextHorizontalMovementVector = Vector3.zero;
+            }
+
+            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
+
+            ApplyGravity();
+
             nextForceVector = Vector3.zero;
+        }
+
+        private void ApplyGravity()
+        {
+            if (controller.isGrounded) // Reset falling velocity
+            {
+                nextVerticalVelocityVector = 2 * Time.deltaTime * Physics.gravity;
+                fallingCalculatedVelocity = Vector3.zero;
+            }
+            else
+            {
+                fallingCalculatedVelocity += Time.deltaTime * Physics.gravity;
+                nextVerticalVelocityVector = fallingCalculatedVelocity;
+            }
         }
 
         public void UpdateNextVerticalVelocityVector(Vector3 velocityVector)
@@ -56,12 +86,15 @@ namespace RSP2
             nextVerticalVelocityVector = velocityVector;
         }
 
-        public void UpdateNextHorizontalMovementVector(Vector3 velocityVector)
+        public void UpdateNextHorizontalMovementVector(Vector3 movementVector)
         {
-            nextHorizontalMovementVector = velocityVector;
-            if (nextHorizontalMovementVector != Vector3.zero)
+            nextHorizontalMovementVector = movementVector;
+            if (movementVector != Vector3.zero)
             {
-                nextHorizontalMovementVector.y = 0;
+                nextHorizontalMovementVector.y = 0; // To safety
+
+                //nextRotationVector = movementVector;
+                //nextRotationVector.y = 0;
             }
         }
 
@@ -74,6 +107,11 @@ namespace RSP2
         {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(targetDir),
                 Time.deltaTime * enemy.RotationSpeedModifier);
+        }
+
+        public void SetOnlyRotateThisFrame(bool isKeep)
+        {
+            onlyRotateThisFrame = isKeep;
         }
     }
 }

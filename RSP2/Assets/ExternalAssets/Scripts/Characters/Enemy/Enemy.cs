@@ -84,15 +84,11 @@ namespace RSP2
             }
 
             //StatisticsHandler.InitializeByDefault();
-            StatHandler.Initialize(DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
+            StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
-            RuntimeData.SearchingDistance = searchingDistance;
-            RuntimeData.SearchingDistanceSqr = searchingDistance * searchingDistance;
-
-            RuntimeData.IsHostile = true;
         }
 
         private void Update()
@@ -100,12 +96,6 @@ namespace RSP2
             ActionStateMachine.CallUpdate();
             ForceReceiver.CallUpdate();
             Mover.CallUpdate();
-        }
-
-        public void SetAttackRange(float range)
-        {
-            RuntimeData.AttackRange = range;
-            RuntimeData.AttackRangeSqr = range * range;
         }
 
         protected void OnHit(float leftHP, float maxHP)

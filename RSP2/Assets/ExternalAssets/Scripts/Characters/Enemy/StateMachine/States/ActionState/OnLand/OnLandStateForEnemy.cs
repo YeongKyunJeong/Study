@@ -12,6 +12,8 @@ namespace RSP2
 
         public OnLandStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
         {
+            isOnLandState = true;
+            isAttackingState = false;
         }
 
 
@@ -44,6 +46,5 @@ namespace RSP2
         {
             animator.SetBool(onLandHash, isOn);
         }
-
     }
 }

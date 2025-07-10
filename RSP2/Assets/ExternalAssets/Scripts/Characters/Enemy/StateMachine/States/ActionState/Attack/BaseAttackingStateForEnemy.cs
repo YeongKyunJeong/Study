@@ -30,6 +30,8 @@ namespace RSP2
 
         public BaseAttackingStateForEnemy(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
         {
+            isOnLandState = false;
+            isAttackingState = true;
             combatSystem = _enemy.CombatSystem;
             attackData = _enemy.AttackDataArray[0];
         }
@@ -117,25 +119,26 @@ namespace RSP2
 
         private void EndAttackState()
         {
-            //if (CheckIsSlope().y < -0.98) // No collider detected
+            SearchForTarget();
+            if ((runtimeData.Target == null) || (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
+            {
+                    stateMachine.ChangeState(stateMachine.IdlingState);
+                    return;
+              }
+
+            //if (runtimeData.IsAttackReady)
             //{
-            //    stateMachine.ChangeState(stateMachine.FallingState);
-            //    return;
+            //    if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
+            //    {
+            //        if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
+            //        {
+            //            stateMachine.ChangeToBasicAttackState();
+            //            return;
+            //        }
+            //    }
             //}
 
-            if (SearchForTarget())
-            {
-                if (IsInAttackRange())
-                {
-                    stateMachine.ChangeToBasicAttackState();
-                    return;
-                }
-
-                stateMachine.ChangeState(stateMachine.ChasingState);
-                return;
-            }
-
-            stateMachine.ChangeState(stateMachine.IdlingState);
+            stateMachine.ChangeState(stateMachine.ChasingState);
             return;
 
         }

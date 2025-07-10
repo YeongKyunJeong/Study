@@ -149,6 +149,7 @@ namespace RSP2
             mover.UpdateNextHorizontalMovementVector(Vector3.zero);
             mover.UpdateNextVerticalVelocityVector(Vector3.zero);
             animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
+            currentState.Exit();
             currentState = null;
             // TODO :: Add Dead State
         }

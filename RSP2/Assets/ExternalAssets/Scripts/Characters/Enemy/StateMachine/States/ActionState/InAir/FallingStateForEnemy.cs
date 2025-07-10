@@ -6,7 +6,6 @@ namespace RSP2
 {
     public class FallingStateForEnemy : InAirStateForEnemy
     {
-
         //protected readonly int isJumpingHash = Animator.StringToHash("IsJumping");
         private readonly int instantFallingHash = Animator.StringToHash("InAir.Falling");
 
@@ -93,7 +92,7 @@ namespace RSP2
             runtimeData.VerticalVelocityVector = verticalVelocityVector;
 
             mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
-            //mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
+            mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
         }
 
 

@@ -41,68 +41,52 @@ namespace RSP2
         {
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
-            //if (IsInAttackRange())
-            //{
-            //    if (IsInSight())
-            //    {
-            //        stateMachine.ChangeState(stateMachine.BasicAttackingState);
-            //        return;
-            //    }
-            //}
 
-            if (runtimeData.Target == null)
+            SearchForTarget();
+            if ((runtimeData.Target == null) || (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
             {
-                if (!SearchForTarget())
-                {
                     stateMachine.ChangeState(stateMachine.IdlingState);
                     return;
-                }
             }
-            else
+
+            moveDir = TargetVector;
+            moveDir.y = 0;
+
+            if (runtimeData.IsAttackReady)
             {
-
-                //float distance = Vector3.Distance(enemy.Target.transform.position, enemy.transform.position);
-                if (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f)
-                //if (distance >= enemy.SearchingDistance * 1.2f)
+                if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
                 {
-                    SearchForTarget();
-                    if (runtimeData.Target == null)
-                    {
-                        stateMachine.ChangeState(stateMachine.IdlingState);
-                    }
-                    return;
-                }
-
-                if(TargetDistanceSqr <= runtimeData.AttackRangeSqr)
-                {
-                    if (IsInSight()) 
+                    if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
                     {
                         SetAnimatorOnLandParameter(false);
                         stateMachine.ChangeToBasicAttackState();
                         return;
                     }
                 }
-
-
-                //moveDir = (enemy.Target.transform.position - enemy.transform.position);
-                moveDir = TargetVector;
-                moveDir.y = 0;
-                //moveDir = moveDir.normalized * enemy.ChasingSpeedModifier;
-                moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
-                runtimeData.HorizontalMovementVector = moveDir;
-                mover.UpdateNextHorizontalMovementVector(moveDir);
             }
+
+            if (TargetDistanceSqr <= runtimeData.MinChasingDistanceSqr)
+            {
+                mover.SetOnlyRotateThisFrame(true);
+            }
+
+            moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
+            runtimeData.HorizontalMovementVector = moveDir;
+            mover.UpdateNextHorizontalMovementVector(moveDir);
+
+
+            return;
 
         }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
-            //base.SetAnimatorSelfStateParameter(isOn);
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantChasingHash, 0.25f);
             }
             animator.SetBool(isChasingHash, isOn);
         }
+
     }
 }

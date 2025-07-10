@@ -50,6 +50,8 @@ namespace RSP2
             }
         }
 
+        protected bool isAttackingState;
+        protected bool isOnLandState;
         private bool isTargetVectorThisFrame = false;
 
 
@@ -115,6 +117,7 @@ namespace RSP2
         }
 
         #endregion
+
 
         protected virtual void SetAnimatorSelfStateParameter(bool isOn) { }
 
@@ -240,13 +243,29 @@ namespace RSP2
             return false;
         }
 
+        protected virtual float CalculateAngleToPlayer()
+        {
+            if (runtimeData.Target == null) return 179f;
+
+            if (runtimeData.Target.IsDead) return 179f;
+
+            Vector3 directionToTarget = TargetVector;
+            directionToTarget.y = 0;
+            directionToTarget.Normalize();
+
+            Vector3 forward = enemy.transform.forward;
+            forward.y = 0;
+            forward.Normalize();
+
+           return Vector3.Angle(forward, directionToTarget);
+        }
+
         protected virtual bool IsInSight()
         {
             if (runtimeData.Target == null) return false;
 
             if (runtimeData.Target.IsDead) return false;
 
-            //Vector3 directionToTarget = enemy.Target.transform.position - enemy.transform.position;
             Vector3 directionToTarget = TargetVector;
             directionToTarget.y = 0;
             directionToTarget.Normalize();

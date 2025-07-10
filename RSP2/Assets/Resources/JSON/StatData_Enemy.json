@@ -6,7 +6,7 @@
         "Exp": 500,
         "Faction": 2,
         "ChasingTargetType": 0,
-        "SearchingDistance": 6,
+        "SearchingDistance": 7,
         "MaxHP": 60,
         "HPRegen": 2,
         "MaxMP": 10,

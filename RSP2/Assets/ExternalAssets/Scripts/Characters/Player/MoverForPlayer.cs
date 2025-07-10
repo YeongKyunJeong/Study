@@ -18,9 +18,9 @@ namespace RSP2
         private Vector3 nextForceVector;
         private Vector3 nextRotationVector;
         private Transform mainCameraTransform;
-        private bool keepRotation = false;
+        private bool keepRotation;
 
-        private bool needToSetHeight = false;
+        private bool needToSetHeight;
         private Vector3 targetHeight;
 
         public void Initialize(Player _player)
@@ -34,9 +34,11 @@ namespace RSP2
             controller = _player.Controller;
             mainCameraTransform = Camera.main.transform;
 
-            nextVerticalVelocityVector = Vector3.zero;
+            nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
             nextForceVector = Vector3.zero;
             nextRotationVector = transform.forward;
+            keepRotation = false;
+            needToSetHeight = false;
             //fixedDeltaTime = Time.fixedDeltaTime;
         }
 
@@ -54,39 +56,22 @@ namespace RSP2
         private void ApplyUpdatedMovement()
         {
 
-            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector +  nextForceVector) * Time.deltaTime);
-            //if (needToSetHeight)
-            //{
-            //    needToSetHeight = false;
-            //    this.enabled = false;
-            //    transform.position = targetHeight;
-            //    this.enabled = true;
+            controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
 
-            //}
-
-            //Debug.Log((nextHorizontalMovementVector + nextVerticalVelocityVector).y);
-
-            if (keepRotation)
+            if (nextHorizontalMovementVector != Vector3.zero)
             {
-                Rotate(nextRotationVector);
-            }
-            else
-            {
-                if (nextHorizontalMovementVector != Vector3.zero)
+                if (keepRotation)
                 {
-                    nextHorizontalMovementVector.y = 0;
-
+                    Rotate(nextRotationVector);
+                }
+                else
+                {
                     Rotate(nextHorizontalMovementVector);
                 }
-                //Debug.Log(nextHorizontalMovementVector);
             }
-            //if (nextHorizontalMovementVector == Vector3.zero)
-            //{
-            //    return;
-            //}
 
             nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
-            nextForceVector= Vector3.zero;
+            nextForceVector = Vector3.zero;
 
         }
 
@@ -100,16 +85,8 @@ namespace RSP2
             nextHorizontalMovementVector = movementVector;
             if (movementVector != Vector3.zero)
             {
-                nextRotationVector = movementVector;
-                nextRotationVector.y = 0;
-            }
-        }
+                nextHorizontalMovementVector.y = 0; // To safety
 
-        public void UpdateForceVector(Vector3 movementVector)
-        {
-            nextHorizontalMovementVector = movementVector;
-            if (movementVector != Vector3.zero)
-            {
                 nextRotationVector = movementVector;
                 nextRotationVector.y = 0;
             }
@@ -132,9 +109,9 @@ namespace RSP2
             targetHeight = targetHeightVector;
         }
 
-        public void SetKeepRotate(bool keep)
+        public void SetKeepRotate(bool isKeep)
         {
-            keepRotation = keep;
+            keepRotation = isKeep;
         }
     }
 }

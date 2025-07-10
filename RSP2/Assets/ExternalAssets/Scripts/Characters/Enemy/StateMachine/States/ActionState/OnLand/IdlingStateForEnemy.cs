@@ -36,17 +36,18 @@ namespace RSP2
         {
             if (!runtimeData.IsHostile) return;
 
-            if (FallingCalculator.CheckFalling(new Vector3(0, controller.velocity.y, 0), Vector3.down, controller))
-            {
-                SetAnimatorOnLandParameter(false);
-                //stateMachine.ChangeState(stateMachine.FallingState); // TO DO :: Add fallingstate
-                return;
-            }
+            //if (FallingCalculator.CheckFalling(new Vector3(0, controller.velocity.y, 0), Vector3.down, controller))
+            //{
+            //    SetAnimatorOnLandParameter(false);
+            //    stateMachine.ChangeState(stateMachine.FallingState); // TO DO :: Add fallingstate
+            //    return;
+            //}
 
             if (IsInAttackRange())
             {
                 if (IsInSight())
                 {
+                    SetAnimatorOnLandParameter(false);
                     stateMachine.ChangeToBasicAttackState();
                     return;
                 }

@@ -14,15 +14,20 @@ namespace RSP2
 
         public float SearchingDistance { get; set; }
         public float SearchingDistanceSqr { get; set; }
+        public float MinChasingDistance { get; set; }
+        public float MinChasingDistanceSqr { get; set; }
+        public float MaxAttackAngle { get; set; }
+
         public LayerMask SearchingLayerMask { get; set; }
         public float FieldOfView { get; set; }
+        public ChasingTargetType ChasingTargetType { get; set; }
 
         public float RotationSpeedModifier { get; set; }
         public float AttackRange { get; set; }
         public float AttackRangeSqr { get; set; }
 
-        public ChasingTargetType ChasingTargetType { get; set; }
 
+        public bool IsAttackReady { get; set; }
 
         protected bool isHostile;
         public bool IsHostile
@@ -34,14 +39,17 @@ namespace RSP2
                 isChasingStartEvent?.Invoke();
             }
         }
+        public CombatSystem Target { get; set; }
+
         public event Action isChasingStartEvent;
 
-        public CombatSystem Target { get; set; }
 
         public RuntimeDataForEnemy()
         {
             RotationSpeedModifier = 6;
-            ChasingTargetType = ChasingTargetType.PlayerOnly;
+            IsAttackReady = true;
         }
+
+
     }
 }

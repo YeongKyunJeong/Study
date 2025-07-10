@@ -205,6 +205,7 @@ namespace RSP2
 
             return true;
         }
+
         private void Die()
         {
             isDead = true;

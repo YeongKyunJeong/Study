@@ -25,6 +25,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
+  <CoolTime>k__BackingField: 2.5
   <DamageType>k__BackingField: 0
   <MPCost>k__BackingField: 0
   <StaminaCost>k__BackingField: 0
@@ -37,6 +38,6 @@ MonoBehaviour:
   hitBoxDeactivationTime: 0.7
   attackRecoveryTime: 0.7
   detectionType: 0
-  colliderSize: {x: 0.8, y: 0.8, z: 0.8}
-  colliderPosition: {x: 0, y: 1.2, z: 1}
+  colliderSize: {x: 1, y: 1, z: 1}
+  colliderPosition: {x: 0, y: 1.2, z: 1.2}
   projectiles: []
