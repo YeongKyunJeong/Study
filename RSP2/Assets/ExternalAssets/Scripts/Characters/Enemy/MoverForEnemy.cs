@@ -13,7 +13,7 @@ namespace RSP2
         private NavMeshAgent navimeshAgent;
 
         private Transform targetTransform;
-        private bool isChasing;
+        private bool doMoving;
         private float speed;
         private bool onlyRotateThisFrame;
         private bool isGroundedBeforeFrame;
@@ -36,11 +36,11 @@ namespace RSP2
             controller = _enemy.Controller;
             navimeshAgent = _enemy.NavMeshAgent;
 
-            navimeshAgent.enabled = false;
+            navimeshAgent.isStopped = true;
             navimeshAgent.updatePosition = false;
             navimeshAgent.speed = 10;
             targetTransform = null;
-            isChasing = false;
+            doMoving = false;
             speed = 0;
             onlyRotateThisFrame = false;
             isGroundedBeforeFrame = false;
@@ -65,38 +65,30 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-            if (isChasing)
+            if (doMoving)
             {
-                if (onlyRotateThisFrame)
-                {
-                    onlyRotateThisFrame = false;
-
-                    nextHorizontalMovementVector = targetTransform.position - transform.position;
-                    nextHorizontalMovementVector.y = 0;
-
-                    if (nextHorizontalMovementVector.sqrMagnitude < 0.001)
-                    {
-                        nextHorizontalMovementVector = transform.forward;
-                    }
-
-                    Rotate(nextHorizontalMovementVector);
-
-                    nextHorizontalMovementVector = Vector3.zero; ;
-                }
-                else
-                {
-                    //
-
-                    nextHorizontalMovementVector.y = 0;
-                    
-
-                }
-
                 if (isGroundedBeforeFrame)
                 {
-
+                    ////////////////////////////
                 }
             }
+            else if (onlyRotateThisFrame)
+            {
+                onlyRotateThisFrame = false;
+
+                nextHorizontalMovementVector = targetTransform.position - transform.position;
+                nextHorizontalMovementVector.y = 0;
+
+                if (nextHorizontalMovementVector.sqrMagnitude < 0.001)
+                {
+                    nextHorizontalMovementVector = transform.forward;
+                }
+
+                Rotate(nextHorizontalMovementVector);
+
+                nextHorizontalMovementVector = Vector3.zero;
+            }
+
 
 
             controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
@@ -104,9 +96,6 @@ namespace RSP2
             ApplyGravity();
 
             nextForceVector = Vector3.zero;
-
-            isGroundedBeforeFrame = controller.isGrounded;
-
             ArrangeNavimeshPosition();
         }
 
@@ -135,11 +124,13 @@ namespace RSP2
         {
             if (controller.isGrounded) // Reset falling velocity
             {
-                nextVerticalVelocityVector = 2 * Time.deltaTime * Physics.gravity;
+                isGroundedBeforeFrame = true;
+                nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
                 fallingCalculatedVelocity = Vector3.zero;
             }
             else
             {
+                isGroundedBeforeFrame = false;
                 fallingCalculatedVelocity += Time.deltaTime * Physics.gravity;
                 nextVerticalVelocityVector = fallingCalculatedVelocity;
             }
@@ -155,22 +146,18 @@ namespace RSP2
             targetTransform = newTargetTransform;
         }
 
-        public void StartChasing(float speed, bool isStart = true)
+        public void StartChasing(float speed)
         {
-            if (isStart)
-            {
-                isChasing = true;
-                navimeshAgent.enabled = true;
-                navimeshAgent.speed = speed;
-                return;
-            }
-            else
-            {
-                isChasing = false;
-                navimeshAgent.enabled = false;
-                return;
-            }
+            doMoving = true;
+            navimeshAgent.isStopped = false;
+            navimeshAgent.speed = speed > 0.5f ? speed : 0.5f;
+        }
 
+        public void StopChasing()
+        {
+            doMoving = false;
+            navimeshAgent.isStopped = true;
+            onlyRotateThisFrame = false;
         }
 
         public void ArrangeNavimeshPosition()
@@ -198,9 +185,9 @@ namespace RSP2
                 Time.deltaTime * enemy.RotationSpeedModifier);
         }
 
-        public void SetOnlyRotateThisFrame(bool isKeep)
+        public void SetOnlyRotateThisFrame()
         {
-            onlyRotateThisFrame = isKeep;
+            onlyRotateThisFrame = true;
         }
     }
 }

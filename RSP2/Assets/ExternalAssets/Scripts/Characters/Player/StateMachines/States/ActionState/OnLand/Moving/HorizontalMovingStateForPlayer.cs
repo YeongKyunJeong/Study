@@ -33,8 +33,6 @@ namespace RSP2
 
             //slopeNormalVector = CheckIsSlope();
             slopeNormalVector = FallingCalculator.CheckIsSlope(player.transform);
-            Debug.Log(slopeNormalVector);
-
 
             if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVector, controller))
             {

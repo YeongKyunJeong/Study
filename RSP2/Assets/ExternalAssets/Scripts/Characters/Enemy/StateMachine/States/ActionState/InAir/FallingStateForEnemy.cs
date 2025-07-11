@@ -67,7 +67,7 @@ namespace RSP2
         {
             if (controller.isGrounded)
             {
-                runtimeData.VerticalVelocityVector = 2 * Physics.gravity * Time.deltaTime;
+                runtimeData.VerticalVelocityVector = 5 * Physics.gravity * Time.deltaTime;
 
                 SetAnimatorInAirParameter(false);
 

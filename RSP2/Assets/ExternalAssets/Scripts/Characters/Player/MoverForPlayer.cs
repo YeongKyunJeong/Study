@@ -58,17 +58,12 @@ namespace RSP2
 
             controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
 
-            if (nextHorizontalMovementVector != Vector3.zero)
+            // keepRotation : Not moving, just rotation (nextHorizontalMovementVector == Vector3.Zero)
+            if (keepRotation || (nextHorizontalMovementVector != Vector3.zero))
             {
-                if (keepRotation)
-                {
-                    Rotate(nextRotationVector);
-                }
-                else
-                {
-                    Rotate(nextHorizontalMovementVector);
-                }
+                Rotate(nextRotationVector);
             }
+
 
             nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
             nextForceVector = Vector3.zero;
@@ -85,8 +80,6 @@ namespace RSP2
             nextHorizontalMovementVector = movementVector;
             if (movementVector != Vector3.zero)
             {
-                nextHorizontalMovementVector.y = 0; // To safety
-
                 nextRotationVector = movementVector;
                 nextRotationVector.y = 0;
             }

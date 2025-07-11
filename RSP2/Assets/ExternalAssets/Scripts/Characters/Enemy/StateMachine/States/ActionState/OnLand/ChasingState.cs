@@ -9,6 +9,7 @@ namespace RSP2
         private readonly int isChasingHash = Animator.StringToHash("IsChasing");
         private readonly int instantChasingHash = Animator.StringToHash("OnLand.Chasing");
 
+        private bool isMoving;
         private float distance;
 
         public ChasingState(Enemy _enemy, ActionStateMachineForEnemy _stateMachine) : base(_enemy, _stateMachine)
@@ -22,6 +23,10 @@ namespace RSP2
             SetAnimatorSelfStateParameter(true);
 
             moveDir = Vector3.zero;
+
+            isMoving = true;
+            mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
+
             //mover.UpdateNextHorizontalMovementVector(moveDir);
             if (animator.IsInTransition(0))
             {
@@ -29,10 +34,15 @@ namespace RSP2
             }
 
         }
+
         public override void Exit()
         {
             base.Exit();
-
+            if (isMoving)
+            {
+                isMoving = false;
+                mover.StopChasing();
+            }
             SetAnimatorSelfStateParameter(false);
         }
 
@@ -45,12 +55,9 @@ namespace RSP2
             SearchForTarget();
             if ((runtimeData.Target == null) || (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
             {
-                    stateMachine.ChangeState(stateMachine.IdlingState);
-                    return;
+                stateMachine.ChangeState(stateMachine.IdlingState);
+                return;
             }
-
-            moveDir = TargetVector;
-            moveDir.y = 0;
 
             if (runtimeData.IsAttackReady)
             {
@@ -67,11 +74,21 @@ namespace RSP2
 
             if (TargetDistanceSqr <= runtimeData.MinChasingDistanceSqr)
             {
-                mover.SetOnlyRotateThisFrame(true);
+                if (isMoving)
+                {
+                    isMoving = false;
+                    mover.StopChasing();
+                }
+
+                mover.SetOnlyRotateThisFrame();
             }
 
-            moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
-            runtimeData.HorizontalMovementVector = moveDir;
+            if (isMoving) return; // Already is chasing;
+
+            isMoving = true;
+            mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
+            //moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
+            //runtimeData.HorizontalMovementVector = moveDir;
             //mover.UpdateNextHorizontalMovementVector(moveDir);
 
 
