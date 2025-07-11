@@ -164,7 +164,7 @@ namespace RSP2
                             {
                                 if (detectedCombatSystem.MyFaction == Faction.Player)
                                 {
-                                    runtimeData.Target = detectedCombatSystem;
+                                    SetTargetData(detectedCombatSystem);
 
                                     //Debug.Log($"Target detected : {detectedCombatSystem.name}");
                                     return true;
@@ -176,7 +176,7 @@ namespace RSP2
                             }
                         case ChasingTargetType.AllFaction:
                             {
-                                runtimeData.Target = detectedCombatSystem;
+                                SetTargetData(detectedCombatSystem);
 
                                 return true;
 
@@ -185,7 +185,7 @@ namespace RSP2
                             {
                                 if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
                                 {
-                                    runtimeData.Target = detectedCombatSystem;
+                                    SetTargetData(detectedCombatSystem);
 
                                     return true;
                                 }
@@ -196,7 +196,7 @@ namespace RSP2
                             }
                         default:
                             {
-                                runtimeData.Target = null;
+                                SetTargetData(null, false);
                                 return false;
                             }
                     }
@@ -204,8 +204,24 @@ namespace RSP2
 
             }
 
-            runtimeData.Target = null;
+            SetTargetData(null, false);
             return false;
+        }
+
+        private void SetTargetData(CombatSystem target, bool isSuccess = true)
+        {
+            if (isSuccess)
+            {
+                runtimeData.Target = target;
+                mover.SetTarget(target.transform);
+                return;
+            }
+            else
+            {
+                runtimeData.Target = null;
+                mover.SetTarget(null);
+                return;
+            }
         }
 
         protected bool IsInAttackRange(bool useDistance = false)
@@ -257,7 +273,7 @@ namespace RSP2
             forward.y = 0;
             forward.Normalize();
 
-           return Vector3.Angle(forward, directionToTarget);
+            return Vector3.Angle(forward, directionToTarget);
         }
 
         protected virtual bool IsInSight()

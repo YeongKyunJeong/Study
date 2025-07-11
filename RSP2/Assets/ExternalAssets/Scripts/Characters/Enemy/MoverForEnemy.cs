@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RSP2
 {
@@ -9,6 +10,13 @@ namespace RSP2
         private Enemy enemy;
         private RuntimeDataForEnemy runtimeData;
         private CharacterController controller;
+        private NavMeshAgent navimeshAgent;
+
+        private Transform targetTransform;
+        private bool isChasing;
+        private float speed;
+        private bool onlyRotateThisFrame;
+        private bool isGroundedBeforeFrame;
 
         private Vector3 nextVerticalVelocityVector;
         private Vector3 nextHorizontalMovementVector;
@@ -19,7 +27,6 @@ namespace RSP2
         private Vector3 nextForceVector;
         //private Vector3 nextRotationVector;
 
-        private bool onlyRotateThisFrame;
 
         // Start is called before the first frame update
         public void Initialize(Enemy _enemy)
@@ -27,19 +34,29 @@ namespace RSP2
             enemy = _enemy;
             runtimeData = _enemy.RuntimeData;
             controller = _enemy.Controller;
+            navimeshAgent = _enemy.NavMeshAgent;
+
+            navimeshAgent.enabled = false;
+            navimeshAgent.updatePosition = false;
+            navimeshAgent.speed = 10;
+            targetTransform = null;
+            isChasing = false;
+            speed = 0;
+            onlyRotateThisFrame = false;
+            isGroundedBeforeFrame = false;
 
             nextHorizontalMovementVector = Vector3.zero;
             nextVerticalVelocityVector = 5 * Time.deltaTime * Physics.gravity;
             nextForceVector = Vector3.zero;
             //nextRotationVector = transform.forward;
 
-            onlyRotateThisFrame = false;
         }
 
         public void CallFixedUpdate()
         {
             return;
         }
+
         public void CallUpdate()
         {
             ApplyUpdatedMovement();
@@ -48,24 +65,71 @@ namespace RSP2
 
         private void ApplyUpdatedMovement()
         {
-
-            if (nextHorizontalMovementVector != Vector3.zero)
+            if (isChasing)
             {
-                Rotate(nextHorizontalMovementVector);
+                if (onlyRotateThisFrame)
+                {
+                    onlyRotateThisFrame = false;
+
+                    nextHorizontalMovementVector = targetTransform.position - transform.position;
+                    nextHorizontalMovementVector.y = 0;
+
+                    if (nextHorizontalMovementVector.sqrMagnitude < 0.001)
+                    {
+                        nextHorizontalMovementVector = transform.forward;
+                    }
+
+                    Rotate(nextHorizontalMovementVector);
+
+                    nextHorizontalMovementVector = Vector3.zero; ;
+                }
+                else
+                {
+                    //
+
+                    nextHorizontalMovementVector.y = 0;
+                    
+
+                }
+
+                if (isGroundedBeforeFrame)
+                {
+
+                }
             }
 
-            if (onlyRotateThisFrame)
-            {
-                onlyRotateThisFrame = false;
-                nextHorizontalMovementVector = Vector3.zero;
-            }
 
             controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
 
             ApplyGravity();
 
             nextForceVector = Vector3.zero;
+
+            isGroundedBeforeFrame = controller.isGrounded;
+
+            ArrangeNavimeshPosition();
         }
+
+        //private void ApplyUpdatedMovement()
+        //{
+
+        //    if (nextHorizontalMovementVector != Vector3.zero)
+        //    {
+        //        Rotate(nextHorizontalMovementVector);
+        //    }
+
+        //    if (onlyRotateThisFrame)
+        //    {
+        //        onlyRotateThisFrame = false;
+        //        nextHorizontalMovementVector = Vector3.zero;
+        //    }
+
+        //    controller.Move((nextVerticalVelocityVector + nextHorizontalMovementVector + nextForceVector) * Time.deltaTime);
+
+        //    ApplyGravity();
+
+        //    nextForceVector = Vector3.zero;
+        //}
 
         private void ApplyGravity()
         {
@@ -86,17 +150,42 @@ namespace RSP2
             nextVerticalVelocityVector = velocityVector;
         }
 
-        public void UpdateNextHorizontalMovementVector(Vector3 movementVector)
+        public void SetTarget(Transform newTargetTransform)
         {
-            nextHorizontalMovementVector = movementVector;
-            if (movementVector != Vector3.zero)
-            {
-                nextHorizontalMovementVector.y = 0; // To safety
-
-                //nextRotationVector = movementVector;
-                //nextRotationVector.y = 0;
-            }
+            targetTransform = newTargetTransform;
         }
+
+        public void StartChasing(float speed, bool isStart = true)
+        {
+            if (isStart)
+            {
+                isChasing = true;
+                navimeshAgent.enabled = true;
+                navimeshAgent.speed = speed;
+                return;
+            }
+            else
+            {
+                isChasing = false;
+                navimeshAgent.enabled = false;
+                return;
+            }
+
+        }
+
+        public void ArrangeNavimeshPosition()
+        {
+            navimeshAgent.nextPosition = transform.position;
+        }
+
+        //public void UpdateNextHorizontalMovementVector(Vector3 movementVector)
+        //{
+        //    nextHorizontalMovementVector = movementVector;
+        //    if (movementVector != Vector3.zero)
+        //    {
+        //        nextHorizontalMovementVector.y = 0; // To safety
+        //    }
+        //}
 
         public void UpdateNextForceVector(Vector3 forceVector)
         {

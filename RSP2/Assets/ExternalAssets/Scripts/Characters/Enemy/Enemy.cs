@@ -2,15 +2,17 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 namespace RSP2
 {
     public class Enemy : CombatUnit
     {
         protected GameManager gameManager;
-        [field: SerializeField] public MoverForEnemy Mover { get; private set; }
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
+        [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; protected set; }
+        [field: SerializeField] public MoverForEnemy Mover { get; private set; }
         [field: SerializeField] public Animator Animator { get; private set; }
         [field: SerializeField] public StatHandlerForEnemy StatHandler { get; private set; }
         [field: SerializeField] public CombatSystemForEnemy CombatSystem { get; private set; }
@@ -37,21 +39,27 @@ namespace RSP2
             RuntimeData = new RuntimeDataForEnemy();
             ActionStateMachine = new ActionStateMachineForEnemy(this);
 
-            if (Mover == null)
-            {
-                throw new NotImplementedException("Enemy Mover Not Assigned");
-            }
-            Mover.Initialize(this);
 
             if (ForceReceiver == null)
             {
                 throw new NotImplementedException("Enemy ForceReceiver Not Assigned");
             }
 
+            if (NavMeshAgent == null)
+            {
+                throw new NotImplementedException("Enemy Navimesh Agent Not Assigned");
+            }
+
             if (Controller == null)
             {
                 throw new NotImplementedException("Enemy Character Controller Not Assigned");
             }
+
+            if (Mover == null)
+            {
+                throw new NotImplementedException("Enemy Mover Not Assigned");
+            }
+            Mover.Initialize(this);
 
             if (Animator == null)
             {

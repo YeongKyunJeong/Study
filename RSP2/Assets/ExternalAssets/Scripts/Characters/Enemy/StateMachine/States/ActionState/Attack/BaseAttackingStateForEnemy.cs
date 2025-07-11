@@ -66,7 +66,7 @@ namespace RSP2
             isFirstFrame = true;
             isAnimationEnd = false;
 
-            mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+            //mover.UpdateNextHorizontalMovementVector(Vector3.zero);
 
             SFXManager.PlayClip(attackData.AttackSoundClip, enemy.transform.position);
         }
@@ -113,7 +113,7 @@ namespace RSP2
 
             CalculateThisUpdateMomentum(momentumDampingMode);
 
-            mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
+            //mover.UpdateNextHorizontalMovementVector(horizontalMomentum);
         }
 
 

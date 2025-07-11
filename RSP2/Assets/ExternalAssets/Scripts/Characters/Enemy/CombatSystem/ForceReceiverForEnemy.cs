@@ -8,12 +8,14 @@ namespace RSP2
     {
         private Enemy enemy;
         private MoverForEnemy mover;
+        
         protected override void Awake()
         {
             base.Awake();
             enemy = GetComponent<Enemy>();
             mover = GetComponent<MoverForEnemy>();
         }
+        
         public override void CallUpdate()
         {
             base.CallUpdate();

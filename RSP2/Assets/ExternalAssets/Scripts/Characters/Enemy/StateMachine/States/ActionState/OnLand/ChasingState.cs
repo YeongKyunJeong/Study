@@ -22,7 +22,7 @@ namespace RSP2
             SetAnimatorSelfStateParameter(true);
 
             moveDir = Vector3.zero;
-            mover.UpdateNextHorizontalMovementVector(moveDir);
+            //mover.UpdateNextHorizontalMovementVector(moveDir);
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantChasingHash, 0.25f);
@@ -72,7 +72,7 @@ namespace RSP2
 
             moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
             runtimeData.HorizontalMovementVector = moveDir;
-            mover.UpdateNextHorizontalMovementVector(moveDir);
+            //mover.UpdateNextHorizontalMovementVector(moveDir);
 
 
             return;

@@ -82,9 +82,10 @@ namespace RSP2
 
         public void OnDie()
         {
-            enemy.Mover.UpdateNextHorizontalMovementVector(Vector3.zero);
-            //enemy.Mover.UpdateNextVerticalVelocityVector(Vector3.zero);
+            //enemy.Mover.UpdateNextHorizontalMovementVector(Vector3.zero);
+            
             enemy.Animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
+            currentState.Exit();
             currentState = null; // TODO :: Add dyingState
         }
 

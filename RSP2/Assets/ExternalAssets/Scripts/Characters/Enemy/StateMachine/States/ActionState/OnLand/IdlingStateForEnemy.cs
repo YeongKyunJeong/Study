@@ -24,7 +24,7 @@ namespace RSP2
             SetAnimatorSelfStateParameter(true);
 
             moveDir = Vector3.zero;
-            mover.UpdateNextHorizontalMovementVector(moveDir);
+            //mover.UpdateNextHorizontalMovementVector(moveDir);
 
         }
         public override void Exit()
