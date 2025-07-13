@@ -4,11 +4,24 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 namespace RSP2
 {
+    public enum SceneType
+    {
+        None,
+        TitleScene,
+        GameScene
+    }
+
     public class GameManager : MonoSingleton<GameManager>
     {
+        [field: SerializeField] private SceneType currentSceneType { get; set; }
+        [field: SerializeField] public bool IsGameScene { get; private set; }
+        public const string TITLE_SCENE_NAME_STR = "TitleScene";
+        public const string GAME_SCENE_NAME_STR = "GameScene";
+
 
         [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
         [field: SerializeField] private PlayerInput PlayerInput { get; set; }
@@ -19,8 +32,8 @@ namespace RSP2
         [field: SerializeField] private InteractionManager InteractionManager { get; set; }
         [field: SerializeField] private VFXManager VFXManager { get; set; }
         [field: SerializeField] private SFXManager SFXManager { get; set; }
-        [field:SerializeField] private DayNightManager DayNightManager { get; set; }
-        
+        [field: SerializeField] private DayNightManager DayNightManager { get; set; }
+
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
         public Player Player { get; set; }
@@ -32,6 +45,12 @@ namespace RSP2
 
         private void Awake()
         {
+            DontDestroyOnLoad(gameObject);
+
+            CheckScene();
+            if (!IsGameScene) return;
+
+
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
             Player = FindObjectOfType<Player>();
             PlayerInput = Player.GetComponent<PlayerInput>();
@@ -77,8 +96,8 @@ namespace RSP2
             DataManager.Initialize();
             ProjectileManager.Initialize(this);
             InteractionManager.Initialize(this, CameraManager, CanvasUIManager);
-            VFXManager.Initialize();
-            SFXManager.Initialize();
+            VFXManager.Initialize(this);
+            SFXManager.Initialize(this);
             DayNightManager.Initialize();
 
             CanvasUIManager.Initialize(this);
@@ -87,16 +106,22 @@ namespace RSP2
 
         private void Start()
         {
+            if (!IsGameScene) return;
+
             LockCursor(true);
         }
 
         private void Update()
         {
+            if (!IsGameScene) return;
+
             ProjectileManager.CallUpdate();
         }
 
         private void FixedUpdate()
         {
+            if (!IsGameScene) return;
+
             DayNightManager.CallPhysicsUpdate();
         }
 
@@ -178,6 +203,58 @@ namespace RSP2
         public void EnemyDie(Enemy diedEnemy)
         {
             EnemyDieEvent?.Invoke(diedEnemy);
+        }
+
+        private void CheckScene()
+        {
+            string sceneName = SceneManager.GetActiveScene().name;
+            switch (sceneName)
+            {
+                case TITLE_SCENE_NAME_STR:
+                    {
+                        IsGameScene = false;
+                        break;
+                    }
+                default:
+                    {
+                        if (sceneName.Contains(GAME_SCENE_NAME_STR))
+                        {
+                            IsGameScene = true;
+                        }
+                        else
+                        {
+                            Debug.LogError("Scene Name Is Not Correct");
+                            IsGameScene = false;
+                        }
+                        break;
+                    }
+            }
+        }
+
+        public void TitleSceneContinueCall()
+        {
+
+        }
+
+        public void TitleSceneStartCall()
+        {
+
+        }
+
+        public void TitleSceneQuitCall()
+        {
+
+        }
+
+        public void QuitGame()
+        {
+            // TO DO:: Add Game Save Logic
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
     }
 }

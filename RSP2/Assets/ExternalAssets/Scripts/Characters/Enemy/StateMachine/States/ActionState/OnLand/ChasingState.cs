@@ -81,15 +81,14 @@ namespace RSP2
                 }
 
                 mover.SetOnlyRotateThisFrame();
+                return;
             }
 
             if (isMoving) return; // Already is chasing;
 
             isMoving = true;
             mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
-            //moveDir = moveDir.normalized * statHandler.CurrentStatistics.MovementSpeed;
-            //runtimeData.HorizontalMovementVector = moveDir;
-            //mover.UpdateNextHorizontalMovementVector(moveDir);
+
 
 
             return;

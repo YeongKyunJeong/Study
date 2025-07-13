@@ -29,9 +29,7 @@ namespace RSP2
         {
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
-            //Debug.Log(runtimeData.VerticalVelocityVector);
 
-            //slopeNormalVector = CheckIsSlope();
             slopeNormalVector = FallingCalculator.CheckIsSlope(player.transform);
 
             if (FallingCalculator.CheckFalling(runtimeData.VerticalVelocityVector, slopeNormalVector, controller))
@@ -45,12 +43,10 @@ namespace RSP2
             if (moveInput == Vector2.zero)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
-                //Debug.Log("No Input : Horizontal Moving State");
 
                 return;
             }
 
-            //slopeNormalVecor = CheckIsSlope();
             if (slopeNormalVector.y > 0.98f)
             {
                 horizontalMovementVector = ApplySpeedModifierToMovementVector() * InputToDirectionVectorConverter.ConvertInputToMovementDirectionVector(moveInput);

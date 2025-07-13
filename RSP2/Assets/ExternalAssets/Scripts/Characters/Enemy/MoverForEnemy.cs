@@ -67,10 +67,9 @@ namespace RSP2
         {
             if (doMoving)
             {
-                if (isGroundedBeforeFrame)
-                {
-                    ////////////////////////////
-                }
+                navimeshAgent.destination = targetTransform.position;
+
+                nextHorizontalMovementVector = navimeshAgent.desiredVelocity;
             }
             else if (onlyRotateThisFrame)
             {
@@ -86,6 +85,10 @@ namespace RSP2
 
                 Rotate(nextHorizontalMovementVector);
 
+                nextHorizontalMovementVector = Vector3.zero;
+            }
+            else
+            {
                 nextHorizontalMovementVector = Vector3.zero;
             }
 

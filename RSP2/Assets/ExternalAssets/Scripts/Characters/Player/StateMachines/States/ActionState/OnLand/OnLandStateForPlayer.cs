@@ -6,7 +6,6 @@ namespace RSP2
 {
     public class OnLandStateForPlayer : ActionStateForPlayer
     {
-        //protected int isFallingCount;
         protected int fallingThresholdCount = 5;
         protected float fallingThreshold;
         protected Vector3 slopeNormalVector;
@@ -17,9 +16,6 @@ namespace RSP2
 
         public OnLandStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
-            //isFallingCount = 0;
-            //fallingThreshold = Physics.gravity.y * movementStateData.FallingThreshoildMultiplier;
-
         }
 
 

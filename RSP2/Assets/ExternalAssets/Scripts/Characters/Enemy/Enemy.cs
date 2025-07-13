@@ -30,7 +30,7 @@ namespace RSP2
         [field: SerializeField] public float FieldOfView { get; protected set; }
 
 
-        [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; protected set; } = 6;
+        [field: SerializeField][field: Range(0f, 25f)] public float RotationSpeedModifier { get; protected set; } = 10;
 
 
 

@@ -6,10 +6,11 @@ namespace RSP2
 {
     public class SFXManager : MonoSingleton<SFXManager>
     {
+        private GameManager gameManager;
+
         [field: SerializeField][Range(0f, 1f)] private float soundEffectVolume;
         [field: SerializeField][Range(0f, 1f)] private float soundEffectPitchVariance;
         [field: SerializeField][Range(0f, 1f)] private float musicVolume;
-
 
         private ObjectPool objectPool;
 
@@ -28,8 +29,9 @@ namespace RSP2
         //    objectPool = GetComponent<ObjectPool>();
         //}
 
-        public void Initialize()
+        public void Initialize(GameManager _gameManager)
         {
+            gameManager = _gameManager;
             musicAudioSource = Camera.main.GetComponent<AudioSource>();
             musicAudioSource.volume = musicVolume;
             musicAudioSource.loop = true;
@@ -39,6 +41,10 @@ namespace RSP2
 
         private void Start()
         {
+            if (gameManager == null) return;
+
+            if (!gameManager.IsGameScene) return;
+
             ChangeBackGroundMusic(musicClip);
         }
 

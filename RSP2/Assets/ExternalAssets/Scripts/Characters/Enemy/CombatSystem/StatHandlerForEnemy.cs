@@ -88,14 +88,15 @@ namespace RSP2
 
             CalculateFinalStat();
         }
-        public void SetAttackRange(float range)
-        {
-            runtimeData.AttackRange = range;
-            runtimeData.AttackRangeSqr = range * range;
 
-            runtimeData.MinChasingDistance = runtimeData.AttackRange / 2;
-            runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqr / 4;
-        }
+        //public void SetAttackRange(float range)
+        //{
+        //    runtimeData.AttackRange = range;
+        //    runtimeData.AttackRangeSqr = range * range;
+
+        //    runtimeData.MinChasingDistance = runtimeData.AttackRange / 2;
+        //    runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqr / 4;
+        //}
 
         public void SetAttackRange()
         {
@@ -104,8 +105,8 @@ namespace RSP2
             runtimeData.AttackRange = range;
             runtimeData.AttackRangeSqr = range * range;
 
-            runtimeData.MinChasingDistance = runtimeData.AttackRange / 2;
-            runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqr / 4;
+            runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqr * 0.9f;
+            runtimeData.MinChasingDistance = runtimeData.AttackRange * 0.81f;
 
             runtimeData.MaxAttackAngle = Mathf.Atan2(enemy.AttackDataArray[0].ColliderSize.x, range) * Mathf.Rad2Deg;
         }

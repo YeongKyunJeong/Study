@@ -22,8 +22,10 @@ namespace RSP2
         public Dictionary<string, Queue<GameObject>> availablePoolDictionary;
         public Dictionary<string, HashSet<GameObject>> inUsePoolDictionary;
 
-        private void Awake()
+        private void Start()
         {
+            if (!GameManager.Instance.IsGameScene) return;
+
             availablePoolDictionary = new Dictionary<string, Queue<GameObject>>();
             inUsePoolDictionary = new Dictionary<string, HashSet<GameObject>>();
 

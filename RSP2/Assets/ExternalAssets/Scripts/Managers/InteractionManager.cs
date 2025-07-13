@@ -59,7 +59,9 @@ namespace RSP2
 
         private void Start()
         {
-            //canvasUIManager.PanelUI.DialogueUI.
+            if (gameManager == null) return;
+
+            if (!gameManager.IsGameScene) return;
 
             player = gameManager.Player;
             playerStateMachine = player.ActionStateMachine;
@@ -139,7 +141,7 @@ namespace RSP2
                 return;
             }
             currentIndex++;
-            currentIndex = currentIndex < totalCount ? currentIndex : 0 ;
+            currentIndex = currentIndex < totalCount ? currentIndex : 0;
             ChangeCurrentInteraction(interactionPairList[currentIndex]);
         }
 
