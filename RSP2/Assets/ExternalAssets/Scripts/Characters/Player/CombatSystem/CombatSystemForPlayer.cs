@@ -32,5 +32,12 @@ namespace RSP2
         {
             forceReceiver.AddForce(force);
         }
+
+        public void SetDataFromSave(PlayerSaveData saveData)
+        {
+            CurrentHP = saveData.HP;
+            CurrentMP = saveData.MP;
+            CurrentStamina = saveData.Stamina;
+        }
     }
 }

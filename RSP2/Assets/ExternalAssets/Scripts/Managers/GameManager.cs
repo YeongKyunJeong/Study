@@ -237,7 +237,7 @@ namespace RSP2
             }
         }
 
-        public PlayerSaveData GetSaveData()
+        public PlayerSaveData GetDataToSave()
         {
             PlayerSaveData newSaveData = new PlayerSaveData();
 
@@ -246,6 +246,15 @@ namespace RSP2
             // TO DO:: NPCs Data
 
             return newSaveData;
+        }
+
+        public void GetDataFromSave(int saveNumber = -1)
+        {
+            PlayerSaveData loadedSaveData = DataManager.CallLoad(saveNumber);
+
+            Player.SetPlayerDataFromSave(loadedSaveData);
+            QuestManager.SetQuestDataFromSave(loadedSaveData);
+            // TO DO:: NPCs Data
         }
 
         public void TitleSceneContinueCall()

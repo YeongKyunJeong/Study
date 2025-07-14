@@ -246,7 +246,11 @@ namespace RSP2
             //saveData.GameProgress = // TO DO:: Add logic after adding game progress system
 
             Inventory.GetInventoryDataForSave(saveData);
+        }
 
+        public void SetPlayerDataFromSave(PlayerSaveData saveData)
+        {
+            StatHandler.SetDataFromSave(saveData);
         }
     }
 

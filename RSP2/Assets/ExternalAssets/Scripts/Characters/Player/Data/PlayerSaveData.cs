@@ -65,7 +65,7 @@ namespace RSP2
     {
         public bool SavePlayerDataToJson(string path = "Json/Save")
         {
-            PlayerSaveData saveData = GameManager.Instance.GetSaveData();
+            PlayerSaveData saveData = GameManager.Instance.GetDataToSave();
 
             path = string.Concat(Application.persistentDataPath, "/", path);
 
@@ -82,7 +82,7 @@ namespace RSP2
                 if (index >= 1000)
                 {
                     index = 999;
-                    throw new InvalidOperationException("Save Failed : Save Data Is Fulled");
+                    throw new InvalidOperationException("Save Failed : Save Data Is Full of");
                 }
             }
 
@@ -107,6 +107,14 @@ namespace RSP2
 
         public PlayerSaveData LoadSaveData(int saveNumber, string path = "Json/Save")
         {
+            if(saveNumber< 0)
+            {
+
+
+
+
+
+            }
 
             path = string.Concat(Application.persistentDataPath, "/", path, saveNumber.ToString());
 

@@ -106,7 +106,7 @@ namespace RSP2
             GainExperience(enemy.CombatSystem.GainExp);
         }
 
-        public bool GainExperience(int amount)
+        public bool GainExperience(int amount, bool levelUpVFX = true)
         {
             CurrentExp += amount;
             BaseStatChangeEvent(StatsToDisplay.CurrentExp, CurrentExp);
@@ -116,7 +116,7 @@ namespace RSP2
 
             while (CurrentExp >= NowLevelExpData.TotalExp)
             {
-                LevelUp();
+                LevelUp(levelUpVFX);
                 isLevelUp = true;
                 limit++;
                 if (limit >= 100) break;
@@ -146,7 +146,7 @@ namespace RSP2
             }
         }
 
-        private void LevelUp()
+        private void LevelUp(bool levelUpVFX = true)
         {
             if (CurrentLevel >= maxLevel)
             {
@@ -168,7 +168,7 @@ namespace RSP2
 
                 VFXManager.PlayLevelUpEffect(combatSystem.MyUnit.transform.position);
 
-                LevelChangeEvent?.Invoke(CurrentLevel, nextLevelExpData.TotalExp, CurrentExp, 
+                LevelChangeEvent?.Invoke(CurrentLevel, nextLevelExpData.TotalExp, CurrentExp,
                     PlayerCurrentStatistics, combatSystem, false);
             }
         }
@@ -188,6 +188,10 @@ namespace RSP2
             BaseStatChangeEvent?.Invoke(StatsToDisplay.CurrentHP, combatSystem.CurrentStamina);
         }
 
-
+        public void SetDataFromSave(PlayerSaveData saveData)
+        {
+            GainExperience(saveData.Exp, false);
+            combatSystemForPlayer.SetDataFromSave(saveData);
+        }
     }
 }

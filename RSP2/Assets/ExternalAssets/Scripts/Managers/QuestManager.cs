@@ -21,6 +21,8 @@ namespace RSP2
 
         public List<QuestProgress> ActiveQuests = new List<QuestProgress>();
 
+        [field: SerializeField] public QuestDataLibrary QuestDataLibrary { get; private set; }
+
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
@@ -112,6 +114,23 @@ namespace RSP2
             }
 
             saveData.Quests = questSaveDataList;
+        }
+
+        public void SetQuestDataFromSave(PlayerSaveData saveData)
+        {
+            for (int i = 0; i < saveData.Quests.Count; i++)
+            {
+                QuestSaveData questSaveData = saveData.Quests[i];
+
+                StartQuest(QuestDataLibrary.GetQuestDataInfo(questSaveData.QuestKey));
+                ActiveQuests[i].QuestStatus = questSaveData.QuestStatus;
+                for (int j = 0; j < questSaveData.CurrentCounts.Count; j++)
+                {
+                    ActiveQuests[i].ObjectiveProgresses[j].CurrentCount = questSaveData.CurrentCounts[j];
+                }
+
+            }
+
         }
     }
 }
