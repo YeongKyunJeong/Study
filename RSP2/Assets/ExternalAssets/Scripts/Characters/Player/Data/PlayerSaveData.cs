@@ -101,4 +101,31 @@ namespace RSP2
         }
     }
 
+    public class SaveDataLoader
+    {
+        private PlayerSaveData playerSaveData { get; set; }
+
+        public PlayerSaveData LoadSaveData(int saveNumber, string path = "Json/Save")
+        {
+
+            path = string.Concat(Application.persistentDataPath, "/", path, saveNumber.ToString());
+
+            if (!File.Exists(path))
+            {
+                throw new InvalidOperationException("Save Failed : Save Data Not exists");
+            }
+
+            string loadedSaveDataString;
+            loadedSaveDataString = File.ReadAllText(path);
+            playerSaveData = JsonUtility.FromJson<PlayerSaveData>(loadedSaveDataString);
+
+            return playerSaveData;
+        }
+
+        public PlayerSaveData GetSaveData()
+        {
+            return playerSaveData == null ? null : playerSaveData;
+        }
+    }
+
 }

@@ -43,7 +43,7 @@ namespace RSP2
             playerStatTable = TableDict[1];
         }
 
-        [Serializable]
+        [System.Serializable]
         private class Wrapper
         {
             public List<BaseStatTableForPlayer> Items;
