@@ -215,7 +215,7 @@ namespace RSP2
         {
             if (slopeNormalVector.y < -0.98f)
             {
-                fallingThreshold = 7 * Physics.gravity.y * Time.deltaTime;
+                fallingThreshold = 3 * Physics.gravity.y * Time.deltaTime;
                 if (!controller.isGrounded && (fallingVelocityVector.y < fallingThreshold))
                 {
                     return true;
