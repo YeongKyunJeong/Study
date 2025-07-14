@@ -24,4 +24,5 @@ namespace RSP2
 
         public bool IsCompleted() => ObjectiveProgresses.All(x => x.IsComplete());
     }
+
 }

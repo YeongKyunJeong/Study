@@ -30,12 +30,13 @@ namespace RSP2
         public string ScriptContent;
     }
 
+
     public class DialogueScriptsLoader
     {
         public List<DialogueScript> ItemsList { get; private set; }
         public Dictionary<int, DialogueScript> ItemsDictByKey { get; private set; }
 
-        public DialogueScriptsLoader(string path = "JSON/DialogueScripts")
+        public DialogueScriptsLoader(string path = "JSON/Dialouge/DialogueScripts")
         {
             string jsonData;
             jsonData = Resources.Load<TextAsset>(path).text;
@@ -61,6 +62,7 @@ namespace RSP2
             }
             return null;
         }
+
         public DialogueScript GetByIndex(int index)
         {
             if (index >= 0 && index < ItemsList.Count)
@@ -69,6 +71,7 @@ namespace RSP2
             }
             return null;
         }
+
         public DialogueScript[] GetByMultipleKeys(List<int> keys)
         {
             return ItemsList.Where(x => keys.Contains(x.Key)).ToArray();

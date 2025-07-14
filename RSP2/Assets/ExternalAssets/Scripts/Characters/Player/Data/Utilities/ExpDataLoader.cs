@@ -20,7 +20,7 @@ namespace RSP2
         public Dictionary<int, ExpDataTable> TableDict { get; private set; }
         private ExpDataTable ExpDataTable { get; set; }
 
-        public ExpDataLoader(string path = "JSON/ExpData")
+        public ExpDataLoader(string path = "JSON/Statistics/ExpData")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

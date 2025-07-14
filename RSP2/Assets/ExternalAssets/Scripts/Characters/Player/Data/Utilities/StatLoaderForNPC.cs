@@ -20,7 +20,7 @@ namespace RSP2
         public Dictionary<int, StatTableForNPC> TableDict { get; private set; }
         private StatTableForNPC nPCStatTable { get; set; }
 
-        public StatLoaderForNPC(string path = "JSON/StatData_NPC")
+        public StatLoaderForNPC(string path = "JSON/Statistics/StatData_NPC")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

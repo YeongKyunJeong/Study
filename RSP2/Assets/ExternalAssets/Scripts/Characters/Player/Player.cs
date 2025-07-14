@@ -175,16 +175,16 @@ namespace RSP2
 
                         if (CurrentWeapon)
                         {
-                            CurrentWeapon.ItemInstance.equipped = false;
+                            CurrentWeapon.ItemInstance.isEquipped = false;
                             Destroy(CurrentWeapon.gameObject);
                         }
 
                         GameObject nextWeaponGO = Instantiate(weaponData.EquipPrefab, WeaponHolder);
                         CurrentWeapon = nextWeaponGO.GetComponent<Weapon>();
                         CurrentWeapon?.Initialize(item);
-                        item.equipped = true;
+                        item.isEquipped = true;
                         ActionStateMachine.OnEquipWeapon(true);
-                        
+
                         break;
                     }
                     // TO DO :: Add other equipment logic
@@ -200,7 +200,7 @@ namespace RSP2
                     {
                         if (CurrentWeapon)
                         {
-                            CurrentWeapon.ItemInstance.equipped = false;
+                            CurrentWeapon.ItemInstance.isEquipped = false;
                             Destroy(CurrentWeapon.gameObject);
                             ActionStateMachine.OnEquipWeapon(false);
                         }
@@ -234,6 +234,20 @@ namespace RSP2
             // TODO :: Add something to do On Dying;
         }
 
+        public void GetPlayerDataForSave(PlayerSaveData saveData)
+        {
+            saveData.Exp = StatHandler.CurrentExp;
+            //saveData.Gold = Inventory. // TO DO:: Add logic after adding gold system
+            saveData.HP = StatHandler.combatSystemForPlayer.CurrentHP;
+            saveData.MP = StatHandler.combatSystemForPlayer.CurrentMP;
+            saveData.Stamina = StatHandler.combatSystemForPlayer.CurrentStamina;
+
+            saveData.Position = transform.position;
+            //saveData.GameProgress = // TO DO:: Add logic after adding game progress system
+
+            Inventory.GetInventoryDataForSave(saveData);
+
+        }
     }
 
 }

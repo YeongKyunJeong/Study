@@ -70,6 +70,12 @@ namespace RSP2
                 navimeshAgent.destination = targetTransform.position;
 
                 nextHorizontalMovementVector = navimeshAgent.desiredVelocity;
+
+                //if (isGroundedBeforeFrame)
+                //{
+                //    // TO DO:: More Accurate Vertical Movement
+                //}
+
             }
             else if (onlyRotateThisFrame)
             {

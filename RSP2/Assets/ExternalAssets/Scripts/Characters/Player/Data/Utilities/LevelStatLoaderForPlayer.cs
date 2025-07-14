@@ -36,7 +36,7 @@ namespace RSP2
             }
         }
 
-        public LevelStatLoaderForPlayer(string path = "JSON/LevelStatData_Player")
+        public LevelStatLoaderForPlayer(string path = "JSON/Statistics/LevelStatData_Player")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

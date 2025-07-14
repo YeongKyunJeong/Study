@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RSP2
@@ -10,13 +11,13 @@ namespace RSP2
         public ItemData ItemData;
         public int amount;
         public event Action<int> AmountChangeEvent;
-        public bool equipped;
+        public bool isEquipped;
 
         public ItemInstance(ItemData itemData)
         {
             this.ItemData = itemData;
             amount = 1;
-            equipped = false;
+            isEquipped = false;
         }
 
         public bool Use(int value = 1)
@@ -112,6 +113,63 @@ namespace RSP2
         {
             if (items.Contains(itemInstance))
                 items.Remove(itemInstance);
+        }
+
+        public void GetInventoryDataForSave(PlayerSaveData saveData)
+        {
+            List<ItemSaveData> ItemSaveDataList = new List<ItemSaveData>();
+
+            InventorySlot[] inventorySlots = inventoryUI.GetInventorySlots;
+
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                InventorySlot slot = inventorySlots[i];
+
+                if (slot.ItemInstance == null) continue;
+
+                ItemSaveData itemSaveData = new ItemSaveData();
+                ItemInstance item = slot.ItemInstance;
+
+                itemSaveData.ItemType = item.ItemData.Type;
+
+                if (itemSaveData.ItemType == ItemType.Equipable)
+                {
+                    itemSaveData.EquipmentType = (item.ItemData as EquipmentData).EquipmentType;
+                    itemSaveData.IsEquipped = item.isEquipped; // Should be false;
+                }
+
+                itemSaveData.ItemKey = item.ItemData.Key;
+                itemSaveData.SlotPosition = i;
+                itemSaveData.Amount = item.amount;
+
+                ItemSaveDataList.Add(itemSaveData);
+            }
+
+
+            InventorySlot[] equipmentSlot = inventoryUI.GetEquipmentSlots;
+
+            for (int i = 0; i < equipmentSlot.Length; i++)
+            {
+                InventorySlot slot = equipmentSlot[i];
+
+                if (slot.ItemInstance == null) continue;
+
+                ItemSaveData itemSaveData = new ItemSaveData();
+
+                ItemInstance item = slot.ItemInstance;
+
+                itemSaveData.ItemType = ItemType.Equipable;
+                itemSaveData.EquipmentType = (item.ItemData as EquipmentData).EquipmentType;
+                itemSaveData.IsEquipped = true;
+
+                itemSaveData.ItemKey = item.ItemData.Key;
+                itemSaveData.SlotPosition = -i - 1;
+                itemSaveData.Amount = 1;
+
+                ItemSaveDataList.Add(itemSaveData);
+            }
+
+            saveData.InventoryData = ItemSaveDataList;
         }
 
     }

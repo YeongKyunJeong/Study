@@ -34,7 +34,7 @@ namespace RSP2
         public Dictionary<int, StatTableForEnemy> TableDict { get; private set; }
         private StatTableForEnemy enemyStatTable { get; set; }
 
-        public StatLoaderForEnemy(string path = "JSON/StatData_Enemy")
+        public StatLoaderForEnemy(string path = "JSON/Statistics/StatData_Enemy")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

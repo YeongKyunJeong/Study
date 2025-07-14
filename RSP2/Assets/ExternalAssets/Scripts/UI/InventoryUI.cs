@@ -22,6 +22,8 @@ namespace RSP2
 
 
         [field: SerializeField] private InventorySlot[] inventorySlots;
+        public InventorySlot[] GetInventorySlots {  get { return inventorySlots; } }
+
         [field: SerializeField] private InventorySlot selectedItemInSlot;
         [field: SerializeField] private MovingSlot movingSlot;
 
@@ -29,6 +31,7 @@ namespace RSP2
         [field: SerializeField] private InventorySlot armorSlot;
         [field: SerializeField] private InventorySlot accessorySlot;
         private InventorySlot[] equipmentSlots;
+        public InventorySlot[] GetEquipmentSlots { get { return equipmentSlots; } }
 
 
         [field: SerializeField] private Button equipButton;
@@ -230,7 +233,7 @@ namespace RSP2
         {
             if (selectedItemInSlot == null) return;
 
-            if (selectedItemInSlot.ItemInstance.equipped)
+            if (selectedItemInSlot.ItemInstance.isEquipped)
                 return;
 
             player.Inventory.Drop(selectedItemInSlot.ItemInstance);

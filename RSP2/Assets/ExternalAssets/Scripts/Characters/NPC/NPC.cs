@@ -39,11 +39,6 @@ namespace RSP2
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
-
-            //RuntimeData.SearchingDistance = searchingDistance;
-            //RuntimeData.SearchingDistanceSqr = searchingDistance * searchingDistance;
-
-            //RuntimeData.IsHostile = false;
         }
 
     }

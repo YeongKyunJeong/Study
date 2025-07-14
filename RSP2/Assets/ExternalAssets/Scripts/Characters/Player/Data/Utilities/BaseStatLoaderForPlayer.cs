@@ -30,7 +30,7 @@ namespace RSP2
         public Dictionary<int, BaseStatTableForPlayer> TableDict { get; private set; }
         private BaseStatTableForPlayer playerStatTable { get; set; }
 
-        public BaseStatLoaderForPlayer(string path = "JSON/BaseStatData_Player")
+        public BaseStatLoaderForPlayer(string path = "JSON/Statistics/BaseStatData_Player")
         {
             string loadedTableDataString;
             loadedTableDataString = Resources.Load<TextAsset>(path).text;

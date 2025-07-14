@@ -18,6 +18,7 @@ namespace RSP2
         [Header("Info")]
         public Sprite ItemSprite;
         public string DisplayName;
+        public int Key;
         public ItemType Type;
         public GameObject DropPrefab;
 

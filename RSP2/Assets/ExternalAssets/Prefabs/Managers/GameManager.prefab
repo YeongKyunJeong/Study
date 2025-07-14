@@ -177,6 +177,7 @@ Transform:
   - {fileID: 3706481126580643283}
   - {fileID: 6509129442076578261}
   - {fileID: 425635528395911420}
+  - {fileID: 4780345506640906248}
   - {fileID: 641656255093655494}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -193,6 +194,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <currentSceneType>k__BackingField: 0
+  <IsGameScene>k__BackingField: 0
   <PlayerInput>k__BackingField: {fileID: 0}
   <CameraManager>k__BackingField: {fileID: 1037927587348555406}
   <DataManager>k__BackingField: {fileID: 5206866354953486917}
@@ -201,7 +203,53 @@ MonoBehaviour:
   <VFXManager>k__BackingField: {fileID: 1399595939700166549}
   <SFXManager>k__BackingField: {fileID: 5209038590903662440}
   <DayNightManager>k__BackingField: {fileID: 8230294081969089530}
+  <QuestManager>k__BackingField: {fileID: 7847714224707017190}
   <CanvasUIManager>k__BackingField: {fileID: 0}
+--- !u!1 &1011631467461077392
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4780345506640906248}
+  - component: {fileID: 7847714224707017190}
+  m_Layer: 0
+  m_Name: QuestManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4780345506640906248
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011631467461077392}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4469978215258712696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7847714224707017190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1011631467461077392}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71aad05ae2369d64eb77a06a27a0b4cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ActiveQuests: []
 --- !u!1 &3093477284025189330
 GameObject:
   m_ObjectHideFlags: 0

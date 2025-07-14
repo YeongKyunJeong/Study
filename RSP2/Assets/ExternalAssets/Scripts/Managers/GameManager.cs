@@ -33,6 +33,7 @@ namespace RSP2
         [field: SerializeField] private VFXManager VFXManager { get; set; }
         [field: SerializeField] private SFXManager SFXManager { get; set; }
         [field: SerializeField] private DayNightManager DayNightManager { get; set; }
+        [field: SerializeField] private QuestManager QuestManager { get; set; }
 
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
@@ -90,6 +91,11 @@ namespace RSP2
             {
                 Debug.Log("Day Night Manager Not Assigned");
                 DayNightManager = FindObjectOfType<DayNightManager>();
+            }
+            if (QuestManager == null)
+            {
+                Debug.Log("Quest Manager Not Assigned");
+                QuestManager = FindObjectOfType<QuestManager>();
             }
 
             CameraManager.Initialize(this);
@@ -229,6 +235,17 @@ namespace RSP2
                         break;
                     }
             }
+        }
+
+        public PlayerSaveData GetSaveData()
+        {
+            PlayerSaveData newSaveData = new PlayerSaveData();
+
+            Player.GetPlayerDataForSave(newSaveData);
+            QuestManager.GetQuestDataForSave(newSaveData);
+            // TO DO:: NPCs Data
+
+            return newSaveData;
         }
 
         public void TitleSceneContinueCall()

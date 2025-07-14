@@ -14,14 +14,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp:RSP2:WeaponData
   ItemSprite: {fileID: 21300000, guid: 0a298c8900fe7ee438a9411ab4e15289, type: 3}
   DisplayName: GreatSword
+  Key: 1
   Type: 0
   DropPrefab: {fileID: 8243482275800551301, guid: 99c032096fff03848a4b17c090e28482, type: 3}
   CanStack: 0
   MaxStackAmount: 1
   UsageSoundClip: {fileID: 8300000, guid: 34792f9c9ca6aa3499247edfde9d31db, type: 3}
+  EquipmentType: 0
   EquipPrefab: {fileID: 8887224701790690321, guid: 3a078232abb58e049ac7e99e15aa5575, type: 3}
   AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
-  EquipmentType: 0
   DamageType: 0
   RangeModifier: 1.2
   SpeedModifier: 0.8

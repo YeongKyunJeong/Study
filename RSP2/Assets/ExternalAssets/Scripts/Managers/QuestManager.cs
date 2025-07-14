@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Pool;
 
 namespace RSP2
 {
@@ -12,9 +14,26 @@ namespace RSP2
         Completed,
         Failed
     }
+
     public class QuestManager : MonoSingleton<QuestManager>
     {
+        private GameManager gameManager;
+
         public List<QuestProgress> ActiveQuests = new List<QuestProgress>();
+
+        public void Initialize(GameManager _gameManager)
+        {
+            gameManager = _gameManager;
+        }
+
+        private void Start()
+        {
+            if (gameManager == null) return;
+
+            if (!gameManager.IsGameScene) return;
+
+            // TO DO :: Add Quest Data Loading Logic
+        }
 
         public void StartQuest(QuestDataScriptableObject newQuestDataSO)
         {
@@ -22,6 +41,7 @@ namespace RSP2
             ActiveQuests.Add(progress);
             RegisterObjectives(progress);
         }
+
         private void RegisterObjectives(QuestProgress questProgress)
         {
             foreach (var obj in questProgress.ObjectiveProgresses)
@@ -30,21 +50,22 @@ namespace RSP2
                 {
                     case ObjectiveType.CollectingItem:
                         {
-                            //EventBus.OnItemCollected += id => OnObjectiveEvent(obj, id, questProgress);
+                            EventBus.OnItemCollected += id => OnObjectiveEvent(obj, id, questProgress);
                         }
                         break;
                     case ObjectiveType.HuntingEnemy:
                         {
-                            //EventBus.OnMonsterKilled += id => OnObjectiveEvent(obj, id, questProgress);
+                            EventBus.OnEnemyHunted += id => OnObjectiveEvent(obj, id, questProgress);
                         }
                         break;
                     case ObjectiveType.TalkingToNPC:
                         {
-                            //EventBus.OnNPCInteracted += id => OnObjectiveEvent(obj, id, questProgress);
+                            EventBus.OnNPCTalked += id => OnObjectiveEvent(obj, id, questProgress);
                         }
                         break;
                     case ObjectiveType.ArrivingLocation:
                         {
+                            EventBus.OnLocationArrived += id => OnObjectiveEvent(obj, id, questProgress);
                             break;
                         }
                     case ObjectiveType.AccessUI:
@@ -58,6 +79,39 @@ namespace RSP2
                         break;
                 }
             }
+        }
+
+        private void OnObjectiveEvent(ObjectiveProgress obj, int targetId, QuestProgress quest)
+        {
+            obj.OnEventTriggered(targetId);
+            if (quest.IsCompleted())
+            {
+                quest.QuestStatus = QuestStatus.Completed;
+                Debug.Log($"Äù½ºÆ® ¿Ï·á: {quest.QuestDataSO.QuestName}");
+                EventBus.QuestCompleted?.Invoke(quest);
+            }
+        }
+
+        public void GetQuestDataForSave(PlayerSaveData saveData)
+        {
+            List<QuestSaveData> questSaveDataList = new List<QuestSaveData>();
+
+            foreach (QuestProgress questProgress in ActiveQuests)
+            {
+                QuestSaveData questSaveData = new QuestSaveData();
+
+                questSaveData.QuestKey = questProgress.QuestDataSO.QuestKey;
+                questSaveData.QuestStatus = questProgress.QuestStatus;
+
+                List<int> currentCounts = new List<int>();
+                foreach (ObjectiveProgress objectiveProgress in questProgress.ObjectiveProgresses)
+                {
+                    currentCounts.Add(objectiveProgress.CurrentCount);
+                }
+                questSaveData.CurrentCounts = currentCounts;
+            }
+
+            saveData.Quests = questSaveDataList;
         }
     }
 }
