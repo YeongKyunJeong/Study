@@ -11,7 +11,7 @@ namespace RSP2
 
         [field : SerializeField] public AttackDataLibrary AttackDataLibrary { get; private set; }
 
-        [field: SerializeField] public EquipmentDataLibrary WeaponDataLibrary { get; private set; }
+        [field: SerializeField] public EquipmentDataLibrary EquipmentDataLibrary { get; private set; }
 
         [field: SerializeField] public ConsumableDataLibrary ConsumableDataLibrary { get; private set; }
 

@@ -61,8 +61,7 @@ namespace RSP2
                     amount -= diff;
                     item.amount += diff;
 
-
-                    inventoryUI.PutItemInSlot(item);
+                    inventoryUI.StackItemToUsedSlot(item);
 
                     if (amount <= 0)
                         return true;
@@ -78,7 +77,7 @@ namespace RSP2
                 newItem.amount = diff;
                 amount -= diff;
 
-                if (!inventoryUI.AddItemToSlot(newItem))
+                if (!inventoryUI.AddItemToEmptySlot(newItem))
                 {
                     newItem.amount += amount;
                     Drop(newItem);
@@ -87,8 +86,23 @@ namespace RSP2
 
                 items.Add(newItem);
 
-
                 if (amount <= 0) return true;
+            }
+
+            return false;
+        }
+
+        public bool AddItemToSpecificSlot(int slotPosition, ItemData itemData, int amount = 1)
+        {
+            if (amount == 0) return false;
+
+            ItemInstance newItem = new ItemInstance(itemData);
+            newItem.amount = amount;
+
+            if (inventoryUI.AddItemToSpecificSlot(newItem, slotPosition))
+            {
+                items.Add(newItem);
+                return true;
             }
 
             return false;
@@ -171,6 +185,67 @@ namespace RSP2
 
             saveData.InventoryData = ItemSaveDataList;
         }
+
+        public void EquipBySaveData(EquipmentData equipmentData)
+        {
+            ItemInstance newEquipment = new ItemInstance(equipmentData);
+            items.Add(newEquipment);
+            inventoryUI.EquipItemBySave(newEquipment);
+        }
+
+        //public void SetItemsFromSave(PlayerSaveData saveData)
+        //{
+        //    InventorySlot[] inventorySlots = inventoryUI.GetInventorySlots;
+
+        //    foreach (ItemSaveData itemSaveData in saveData.InventoryData)
+        //    {
+        //        switch (itemSaveData.ItemType)
+        //        {
+        //            case ItemType.Equipable:
+        //                {
+        //                    switch (itemSaveData.EquipmentType)
+        //                    {
+
+        //                        case EquipmentType.Weapon:
+        //                            {
+        //                                WeaponData weaponData = GameManager.Instance.Player.SOData.WeaponDataLibrary.WeaponData[itemSaveData.ItemKey];
+        //                                if(itemSaveData.SlotPosition < 0)
+        //                                {
+        //                                    ItemInstance  
+        //                                    break;
+        //                                }
+
+        //                                AddItemToSpecificSlot(itemSaveData.SlotPosition, weaponData);
+        //                                break;
+        //                            }
+        //                        case EquipmentType.Armor:
+        //                            {
+        //                                // TO DO:: Add Logic After Adding Armor
+        //                                break;
+        //                            }
+        //                        case EquipmentType.Accessory:
+        //                            {
+        //                                // TO DO:: Add Logic After Adding Armor
+        //                                break;
+        //                            }
+        //                    }
+        //                    break;
+        //                }
+
+        //            case ItemType.Consumable:
+        //                {
+
+        //                    break;
+        //                }
+
+        //            default:
+        //                {
+
+        //                    break;
+        //                }
+        //        }
+        //    }
+        //}
 
     }
 }

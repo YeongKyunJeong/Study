@@ -6,6 +6,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using static UnityEditor.Progress;
 
 namespace RSP2
 {
@@ -22,7 +23,7 @@ namespace RSP2
 
 
         [field: SerializeField] private InventorySlot[] inventorySlots;
-        public InventorySlot[] GetInventorySlots {  get { return inventorySlots; } }
+        public InventorySlot[] GetInventorySlots { get { return inventorySlots; } }
 
         [field: SerializeField] private InventorySlot selectedItemInSlot;
         [field: SerializeField] private MovingSlot movingSlot;
@@ -88,7 +89,7 @@ namespace RSP2
             gameObject.SetActive(!gameObject.activeSelf);
         }
 
-        public bool AddItemToSlot(ItemInstance item)
+        public bool AddItemToEmptySlot(ItemInstance item)
         {
             for (int i = 0; i < inventorySlots.Length; i++)
             {
@@ -105,15 +106,29 @@ namespace RSP2
             return false;
 
         }
+        public bool AddItemToSpecificSlot(ItemInstance item, int slotPosition)
+        {
+            if (slotPosition > inventorySlots.Length) return false;
 
-        public void PutItemInSlot(ItemInstance item)
+            if (inventorySlots[slotPosition].ItemInstance == null)
+            {
+                inventorySlots[slotPosition].SetItem(item);
+                return true;
+            }
+
+            return false;
+        }
+
+        public bool StackItemToUsedSlot(ItemInstance item)
         {
             InventorySlot emptySlot = inventorySlots.First(slot => slot.ItemInstance == item);
 
-            if (emptySlot == null) return;
+            if (emptySlot == null) return false;
 
             emptySlot.SetItem(item);
+            return true;
         }
+
 
         public void SelectItem(InventorySlot slot)
         {
@@ -196,14 +211,16 @@ namespace RSP2
                 return;
             }
 
-            EquipItem(selectedItemInSlot, equipmentData);
+            EquipItemByUI(selectedItemInSlot, equipmentData);
 
         }
 
-        private void EquipItem(InventorySlot startSlot, EquipmentData equipmentData)
+        private void EquipItemByUI(InventorySlot startSlot, EquipmentData equipmentData)
         {
             player.EquipItem(startSlot.ItemInstance, equipmentData);
+
             ItemInstance temporaryHolding = startSlot.ItemInstance;
+
             switch (equipmentData.EquipmentType)
             {
                 case EquipmentType.Weapon:
@@ -227,6 +244,34 @@ namespace RSP2
             }
 
             SFXManager.PlayClip(temporaryHolding.ItemData.UsageSoundClip, player.transform.position);
+        }
+
+        public void EquipItemBySave(ItemInstance equipmentInstance)
+        {
+            EquipmentData equipmentData = equipmentInstance.ItemData as EquipmentData;
+
+            player.EquipItem(equipmentInstance, equipmentData);
+            
+            switch (equipmentData.EquipmentType)
+            {
+                case EquipmentType.Weapon:
+                    {
+                        weaponSlot.SetItem(equipmentInstance);
+                        break;
+                    }
+                case EquipmentType.Armor:
+                    {
+                        armorSlot.SetItem(equipmentInstance);
+                        break;
+                    }
+                case EquipmentType.Accessory:
+                    {
+                        accessorySlot.SetItem(equipmentInstance);
+                        break;
+                    }
+                default:
+                    break;
+            }
         }
 
         public void OnDropButton()
@@ -309,7 +354,7 @@ namespace RSP2
                         // Inventory with correct equipment
                         if (equipmentData != null && equipmentData.EquipmentType == selectedItemInSlot.EquipmentType)
                         {
-                            EquipItem(targetSlot, equipmentData);
+                            EquipItemByUI(targetSlot, equipmentData);
                         }
                         else
                         {

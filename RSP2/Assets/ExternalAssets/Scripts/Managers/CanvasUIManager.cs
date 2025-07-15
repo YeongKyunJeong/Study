@@ -128,6 +128,7 @@ namespace RSP2
 
         #region Panel UI Methods
 
+        #region Dialogue
         public void SendDialogueStartCall(DialogueType dialogueType, int key)
         {
             isOnDialogue = true;
@@ -152,6 +153,7 @@ namespace RSP2
                 }
             }
         }
+        #endregion
 
         private void OpenInventoryUI()
         {

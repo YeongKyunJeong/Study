@@ -134,9 +134,12 @@ namespace RSP2
 
             // Temporary weapon equipment
 
-            AddItem(SOData.WeaponDataLibrary.WeaponData[0]);
-            AddItem(SOData.WeaponDataLibrary.WeaponData[1]);
-            AddItem(SOData.ConsumableDataLibrary.ConsumableData[0], 4);
+            gameManager.GetDataFromSave();
+
+            //AddItem(SOData.EquipmentDataLibrary.WeaponData[0]);
+            //AddItem(SOData.EquipmentDataLibrary.WeaponData[1]);
+            //AddItem(SOData.ConsumableDataLibrary.ConsumableData[0], 4);
+
             //ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
             //EquipItem(startWeaponInstance);
 
@@ -214,7 +217,6 @@ namespace RSP2
         public bool AddItem(ItemData item, int amount = 1)
         {
             return Inventory.AddItem(item, amount);
-            // DOTO :: arrange item stack by left
         }
 
         private void OnHit(float leftHP, float MaxHP)
@@ -251,6 +253,83 @@ namespace RSP2
         public void SetPlayerDataFromSave(PlayerSaveData saveData)
         {
             StatHandler.SetDataFromSave(saveData);
+
+            transform.position = saveData.Position;
+
+            foreach (ItemSaveData itemSaveData in saveData.InventoryData)
+            {
+                if (itemSaveData.SlotPosition < 0)
+                {
+                    SetEqipmentFromSave(itemSaveData);
+                }
+                else
+                {
+                    SetItemFromSave(itemSaveData);
+                }
+            }
+        }
+
+
+        private void SetEqipmentFromSave(ItemSaveData itemSaveData)
+        {
+            switch (itemSaveData.EquipmentType)
+            {
+                case EquipmentType.Weapon:
+                    {
+                        Inventory.EquipBySaveData(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey]);
+                        break;
+                    }
+                case EquipmentType.Armor:
+                    {
+                        //Inventory.EquipBySaveData(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey]);
+                        break;
+                    }
+                case EquipmentType.Accessory:
+                    {
+                        //Inventory.EquipBySaveData(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey]);
+                        break;
+                    }
+                default:
+                    break;
+            }
+        }
+
+        private void SetItemFromSave(ItemSaveData itemSaveData)
+        {
+            switch (itemSaveData.ItemType)
+            {
+                case ItemType.Equipable:
+                    {
+                        switch (itemSaveData.EquipmentType)
+                        {
+                            case EquipmentType.Weapon:
+                                {
+                                    Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
+                                        SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey], 1);
+                                    break;
+                                }
+                            case EquipmentType.Armor:
+                                {
+                                    //Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
+                                    //    SOData.EquipmentDataLibrary.ArmorData[itemSaveData.ItemKey], 1);
+                                    break;
+                                }
+                            case EquipmentType.Accessory:
+                                {
+                                    //Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
+                                    //    SOData.EquipmentDataLibrary.AccessoryData[itemSaveData.ItemKey], 1);
+                                    break;
+                                }
+                        }
+                        break;
+                    }
+                case ItemType.Consumable:
+                    {
+                        Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
+                            SOData.ConsumableDataLibrary.ConsumableData[itemSaveData.ItemKey], itemSaveData.Amount);
+                        break;
+                    }
+            }
         }
     }
 
