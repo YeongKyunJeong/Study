@@ -237,7 +237,7 @@ namespace RSP2
             }
         }
 
-        public PlayerSaveData GetDataToSave()
+        public PlayerSaveData GetCurrentDataToSave()
         {
             PlayerSaveData newSaveData = new PlayerSaveData();
 
@@ -248,9 +248,9 @@ namespace RSP2
             return newSaveData;
         }
 
-        public void GetDataFromSave(int saveNumber = -1)
+        public void GetDataFromSave(int userNumber = 0,int saveNumber = -1)
         {
-            PlayerSaveData loadedSaveData = DataManager.CallLoad(saveNumber);
+            PlayerSaveData loadedSaveData = DataManager.CallLoadingSaveData(userNumber, saveNumber);
 
             Player.SetPlayerDataFromSave(loadedSaveData);
             QuestManager.SetQuestDataFromSave(loadedSaveData);

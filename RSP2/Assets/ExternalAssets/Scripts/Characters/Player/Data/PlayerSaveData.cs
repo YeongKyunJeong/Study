@@ -14,6 +14,13 @@ namespace RSP2
     [System.Serializable]
     public class PlayerSaveData
     {
+        public const int SAVE_DATA_NUMBERRING_LIMIT = 999;
+
+        [Header("Meta Data")]
+        public int UserID;
+        public int SaveKey;
+        public string SaveTime;
+
         [Header("Statistics")]
         public int Exp;
         public int Gold; // TO DO::
@@ -38,6 +45,10 @@ namespace RSP2
         public static PlayerSaveData InitialSaveData()
         {
             PlayerSaveData initialSaveData = new PlayerSaveData();
+
+            initialSaveData.SaveKey = 0;
+            initialSaveData.SaveTime = DateTime.Now.ToString();
+
             initialSaveData.Exp = 500;
             initialSaveData.Gold = 0;
             initialSaveData.HP = 140;
@@ -114,30 +125,20 @@ namespace RSP2
 
     public class SaveDataWriter
     {
-        public bool SavePlayerDataToJson(string path = "Json/Save")
-        {
-            PlayerSaveData saveData = GameManager.Instance.GetDataToSave();
 
-            path = string.Concat(Application.persistentDataPath, "/", path);
+
+        public bool SavePlayerDataToJson(int userID, string userName, int saveNumber, string path = "/Json/SaveData")
+        {
+            PlayerSaveData saveData = GameManager.Instance.GetCurrentDataToSave();
+
+            path = string.Concat(Application.persistentDataPath, path, "/", userName);
 
             if (!Directory.Exists(path))
                 Directory.CreateDirectory(path);
 
             string jsonData = JsonUtility.ToJson(saveData, true);
 
-            int index = 1;
-            while (File.Exists(string.Concat(path, $"_{index:D3}.json")))
-            {
-                index++;
-
-                if (index >= 1000)
-                {
-                    index = 999;
-                    throw new InvalidOperationException("Save Failed : Save Data Is Full of");
-                }
-            }
-
-            path = string.Concat(path, "/Save_", index.ToString("D3"));
+            path = string.Concat(path, "/Save_", saveNumber.ToString("D3"));
             try
             {
                 File.WriteAllText(path, jsonData);
@@ -156,20 +157,19 @@ namespace RSP2
     {
         private PlayerSaveData playerSaveData { get; set; }
 
-        public PlayerSaveData LoadSaveData(int saveNumber, string path = "Json/Save")
+        public PlayerSaveData LoadSaveData(string userName, int saveNumber, string path = "/Json/SaveData")
         {
             if (saveNumber == -1)
             {
-                path = string.Concat(Application.persistentDataPath, "/", path, "/AutoSave");
+                path = string.Concat(Application.persistentDataPath, path, "/", userName, "/AutoSave");
             }
             else
             {
-                path = string.Concat(Application.persistentDataPath, "/", path, "/Save_", saveNumber.ToString());
+                path = string.Concat(Application.persistentDataPath, path, "/", userName, "/Save_", saveNumber.ToString());
             }
 
             if (!File.Exists(path))
             {
-                //throw new InvalidOperationException("Save Failed : Save Data Not exists");
                 Debug.Log("No Save Exists");
                 playerSaveData = PlayerSaveData.InitialSaveData();
                 return playerSaveData;
