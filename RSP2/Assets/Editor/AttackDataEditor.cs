@@ -15,6 +15,8 @@ namespace RSP2
         private SerializedProperty hitBoxDeactivationTimeProp;
         private SerializedProperty attackRecoveryTimeProp;
 
+        private SerializedProperty isComboSkillProp;
+
         private SerializedProperty detectionTypeProp;
         private SerializedProperty colliderSizeProp;
         private SerializedProperty colliderPositionProp;
@@ -34,6 +36,8 @@ namespace RSP2
             hitBoxDeactivationTimeProp = serializedObject.FindProperty("hitBoxDeactivationTime");
             attackRecoveryTimeProp = serializedObject.FindProperty("attackRecoveryTime");
 
+            isComboSkillProp = serializedObject.FindProperty("IsComboSkill");
+
             detectionTypeProp = serializedObject.FindProperty("detectionType");
             colliderSizeProp = serializedObject.FindProperty("colliderSize");
             colliderPositionProp = serializedObject.FindProperty("colliderPosition");
@@ -49,7 +53,7 @@ namespace RSP2
 
             AttackType attackType = (AttackType)attackTypeProp.enumValueIndex;
 
-            DrawPropertiesExcluding(serializedObject, "attackType", "hitBoxActivationTime", "hitBoxDeactivationTime", "attackRecoveryTime", "detectionType", "colliderSize", "colliderPosition", "projectiles");
+            DrawPropertiesExcluding(serializedObject, "attackType", "IsComboSkill", "hitBoxActivationTime", "hitBoxDeactivationTime", "attackRecoveryTime", "detectionType", "colliderSize", "colliderPosition", "projectiles");
             switch (attackType)
             {
                 case AttackType.RangeAttackSkill:
@@ -62,6 +66,8 @@ namespace RSP2
                         EditorGUILayout.PropertyField(hitBoxActivationTimeProp);
                         EditorGUILayout.PropertyField(hitBoxDeactivationTimeProp);
                         EditorGUILayout.PropertyField(attackRecoveryTimeProp);
+
+                        EditorGUILayout.PropertyField(isComboSkillProp);
 
                         EditorGUILayout.PropertyField(detectionTypeProp);
                         EditorGUILayout.PropertyField(colliderSizeProp);
