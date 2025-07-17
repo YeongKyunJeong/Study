@@ -6,13 +6,13 @@ namespace RSP2
 {
     public class TitleScene : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
 
         private void Awake()
         {
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                gameManager = InGameManager.Instance;
             }
         }
 

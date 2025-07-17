@@ -17,7 +17,7 @@ namespace RSP2
 
     public class CanvasUIManager : MonoSingleton<CanvasUIManager>
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private InteractionManager interactionManager;
         private Player player;
         private CombatSystemForPlayer combatSystem;
@@ -32,7 +32,7 @@ namespace RSP2
 
         public bool IsInventoryOpened { get; private set; }
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
             player = _gameManager.Player;

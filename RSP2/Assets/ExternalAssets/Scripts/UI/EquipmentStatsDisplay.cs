@@ -7,7 +7,7 @@ namespace RSP2
 {
     public class EquipmentStatsDisplay : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
         private Player player;
 
@@ -31,7 +31,7 @@ namespace RSP2
         [field: SerializeField] private TextMeshProUGUI ArmorDefenseTMP;
         [field: SerializeField] private TextMeshProUGUI MovementSpeedTMP;
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;

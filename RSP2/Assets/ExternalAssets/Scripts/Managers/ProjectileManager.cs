@@ -6,12 +6,12 @@ namespace RSP2
 {
     public class ProjectileManager : MonoSingleton<ProjectileManager>
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private ObjectPool objectPool;
         //public List<Projectile> projectileList;
         private static HashSet<Projectile> projectiles;
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
             objectPool = GetComponent<ObjectPool>();

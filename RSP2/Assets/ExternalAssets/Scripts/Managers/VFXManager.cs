@@ -6,7 +6,7 @@ namespace RSP2
 {
     public class VFXManager : MonoSingleton<VFXManager>
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
 
         [field: SerializeField][Range(0f, 1f)] private float HitEffectPitchVariance;
 
@@ -24,7 +24,7 @@ namespace RSP2
         //    objectPool = GetComponent<ObjectPool>();
         //}
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
             objectPool = GetComponent<ObjectPool>();

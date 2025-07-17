@@ -2945,6 +2945,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cce6499f1e257854f8a0a74124907e5d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &404828691
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 404828693}
+  - component: {fileID: 404828692}
+  m_Layer: 0
+  m_Name: InGameInitializer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &404828692
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404828691}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4eb2af8e170b3f647904041786e8b9cb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <InGameManagerPrefab>k__BackingField: {fileID: 0}
+  <InGameManager>k__BackingField: {fileID: 8234391404714127024}
+  <CameraManager>k__BackingField: {fileID: 0}
+  <DataManager>k__BackingField: {fileID: 0}
+  <ProjectileManager>k__BackingField: {fileID: 0}
+  <InteractionManager>k__BackingField: {fileID: 0}
+  <VFXManager>k__BackingField: {fileID: 0}
+  <SFXManager>k__BackingField: {fileID: 0}
+  <DayNightManager>k__BackingField: {fileID: 0}
+  <QuestManager>k__BackingField: {fileID: 0}
+  <CanvasUIManager>k__BackingField: {fileID: 0}
+  <PlayerInput>k__BackingField: {fileID: 0}
+--- !u!4 &404828693
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 404828691}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &415566702
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -16280,7 +16336,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 973242746073846171, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: m_Name
-      value: GameManager
+      value: InGameManager
       objectReference: {fileID: 0}
     - target: {fileID: 1419440550005110463, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: interactionUI
@@ -16327,22 +16383,25 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8827929891110237300, guid: 59bc22016132aef4ba80137530ded473, type: 3}
-      propertyPath: <IsGameScene>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8827929891110237300, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: <PlayerInput>k__BackingField
       value: 
       objectReference: {fileID: 1642079219}
-    - target: {fileID: 8827929891110237300, guid: 59bc22016132aef4ba80137530ded473, type: 3}
-      propertyPath: <currentSceneType>k__BackingField
-      value: 2
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 59bc22016132aef4ba80137530ded473, type: 3}
+--- !u!114 &8234391404714127024 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8827929891110237300, guid: 59bc22016132aef4ba80137530ded473, type: 3}
+  m_PrefabInstance: {fileID: 8234391404714127023}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79e0b5f9010f9e74ebce55959276fe20, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8477361574798068122
 GameObject:
   m_ObjectHideFlags: 0
@@ -16464,3 +16523,4 @@ SceneRoots:
   - {fileID: 988459470}
   - {fileID: 6681478766172457631}
   - {fileID: 2132828352}
+  - {fileID: 404828693}

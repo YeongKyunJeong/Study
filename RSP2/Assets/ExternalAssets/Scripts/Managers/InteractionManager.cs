@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class InteractionManager : MonoSingleton<InteractionManager>
     {
-        private GameManager gameManager;
+        private InGameManager inGameManager;
         private CameraManager cameraManager;
         private CanvasUIManager canvasUIManager;
         private Player player;
@@ -45,9 +45,9 @@ namespace RSP2
         }
 
 
-        public void Initialize(GameManager _gameManager, CameraManager _cameraManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _gameManager, CameraManager _cameraManager, CanvasUIManager _canvasUIManager)
         {
-            gameManager = _gameManager;
+            inGameManager = _gameManager;
             cameraManager = _cameraManager;
             canvasUIManager = _canvasUIManager;
             //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
@@ -59,11 +59,9 @@ namespace RSP2
 
         private void Start()
         {
-            if (gameManager == null) return;
+            //if (inGameManager == null) return;
 
-            if (!gameManager.IsGameScene) return;
-
-            player = gameManager.Player;
+            player = inGameManager.Player;
             playerStateMachine = player.ActionStateMachine;
             player.InputReader.InteractionEvent += OnInteractionInput;
             player.InputReader.InteractionChangeEvent += OnNextInteractionInput;
@@ -151,7 +149,7 @@ namespace RSP2
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, false);
             canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, true);
             cameraManager.CallCameraSwitching(currentPair.Key.NPCCamera.VirtualCamera);
-            gameManager.OnInteractionUIOpen(true);
+            inGameManager.OnInteractionUIOpen(true);
 
 
             switch (currentPair.Value)
@@ -175,7 +173,7 @@ namespace RSP2
                         canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true);
                         canvasUIManager.SetPanelUIActive(PanelUIType.Dialogue, false);
                         cameraManager.CallCameraSwitching(null);
-                        gameManager.OnInteractionUIOpen(false);
+                        inGameManager.OnInteractionUIOpen(false);
 
                         break;
                     }

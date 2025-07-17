@@ -66,7 +66,7 @@ namespace RSP2
         private void SetStatAndCombatSystem()
         {
             combatSystemForPlayer = GetComponent<CombatSystemForPlayer>();
-            gameManager = GameManager.Instance;
+            gameManager = InGameManager.Instance;
             dataManager = DataManager.Instance;
 
             CurrentLevel = PlayerBaseStatistics.Level;

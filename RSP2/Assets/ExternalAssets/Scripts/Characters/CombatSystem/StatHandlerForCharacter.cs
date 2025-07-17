@@ -14,7 +14,7 @@ namespace RSP2
 
     public class StatHandlerForCharacter : MonoBehaviour
     {
-        protected GameManager gameManager;
+        protected InGameManager gameManager;
         protected DataManager dataManager;
 
         private StatForCharacter baseStat;

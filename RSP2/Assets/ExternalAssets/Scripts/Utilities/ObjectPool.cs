@@ -24,7 +24,7 @@ namespace RSP2
 
         private void Start()
         {
-            if (!GameManager.Instance.IsGameScene) return;
+            //if (!InGameManager.Instance.IsInitialized) return;
 
             availablePoolDictionary = new Dictionary<string, Queue<GameObject>>();
             inUsePoolDictionary = new Dictionary<string, HashSet<GameObject>>();

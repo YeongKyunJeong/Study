@@ -17,13 +17,13 @@ namespace RSP2
 
     public class QuestManager : MonoSingleton<QuestManager>
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
 
         public List<QuestProgress> ActiveQuests = new List<QuestProgress>();
 
         [field: SerializeField] public QuestDataLibrary QuestDataLibrary { get; private set; }
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
         }
@@ -31,8 +31,6 @@ namespace RSP2
         private void Start()
         {
             if (gameManager == null) return;
-
-            if (!gameManager.IsGameScene) return;
 
             // TO DO :: Add Quest Data Loading Logic
         }

@@ -6,13 +6,13 @@ namespace RSP2
 {
     public class FixedUI : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
 
         [field: SerializeField] private PlayerInfoUI playerInfoUI;
         public PlayerInfoUI PlayerInfoUI { get => playerInfoUI; }
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;

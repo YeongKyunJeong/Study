@@ -129,7 +129,7 @@ namespace RSP2
 
         public bool SavePlayerDataToJson(int userID, string userName, int saveNumber, string path = "/Json/SaveData")
         {
-            PlayerSaveData saveData = GameManager.Instance.GetCurrentDataToSave();
+            PlayerSaveData saveData = InGameManager.Instance.GetCurrentDataToSave();
 
             path = string.Concat(Application.persistentDataPath, path, "/", userName);
 

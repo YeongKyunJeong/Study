@@ -7,11 +7,11 @@ namespace RSP2
 {
     public class UIInputReader : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
         public event Action InventoryEvent;
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
             canvasUIManager = GetComponent<CanvasUIManager>();

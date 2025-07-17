@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class DialogueUI : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
 
         [field: SerializeField] private DialogueDisplay otherDialogueDisplay { get; set; }
         [field: SerializeField] private DialogueDisplay playerDialogueDisplay { get; set; }
@@ -19,7 +19,7 @@ namespace RSP2
         private int scriptLength { get; set; }
         private int scriptIndex { get; set; }
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
             otherDialogueDisplay.Initialize();

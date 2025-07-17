@@ -19,7 +19,7 @@ namespace RSP2
         {
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                gameManager = InGameManager.Instance;
             }
 
             if (InteractionHitBox == null)

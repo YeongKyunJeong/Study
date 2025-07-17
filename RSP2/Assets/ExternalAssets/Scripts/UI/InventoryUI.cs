@@ -12,7 +12,7 @@ namespace RSP2
 {
     public class InventoryUI : MonoBehaviour, IDropHandler
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager uIManager;
         private PanelUI panelUI;
         private Player player;
@@ -41,7 +41,7 @@ namespace RSP2
 
         private bool isDragging;
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _uIManager, PanelUI _panelUI)
+        public void Initialize(InGameManager _gameManager, CanvasUIManager _uIManager, PanelUI _panelUI)
         {
             player = _gameManager.Player;
             uIManager = _uIManager;

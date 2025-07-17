@@ -30,7 +30,7 @@ namespace RSP2
 
     public class Inventory : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
         private InventoryUI inventoryUI;
 
@@ -38,7 +38,7 @@ namespace RSP2
 
         public void Initialize()
         {
-            gameManager = GameManager.Instance;
+            gameManager = InGameManager.Instance;
             canvasUIManager = CanvasUIManager.Instance;
             inventoryUI = canvasUIManager.PanelUI.InventoryUI;
 

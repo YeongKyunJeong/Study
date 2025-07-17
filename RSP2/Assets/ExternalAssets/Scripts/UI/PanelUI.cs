@@ -9,7 +9,7 @@ namespace RSP2
 {
     public class PanelUI : MonoBehaviour, IDropHandler
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
 
         [field: SerializeField] private EquipmentStatsDisplay statsDisplay;
@@ -26,7 +26,7 @@ namespace RSP2
 
         public event Action PointerDropEvent;
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
             gameManager = _gameManager;
             canvasUIManager = _canvasUIManager;

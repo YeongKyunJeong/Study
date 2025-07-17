@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class Enemy : CombatUnit
     {
-        protected GameManager gameManager;
+        protected InGameManager gameManager;
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; protected set; }
@@ -88,7 +88,7 @@ namespace RSP2
         {
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                gameManager = InGameManager.Instance;
             }
 
             //StatisticsHandler.InitializeByDefault();

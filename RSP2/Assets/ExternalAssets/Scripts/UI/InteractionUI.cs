@@ -6,13 +6,13 @@ namespace RSP2
 {
     public class InteractionUI : MonoBehaviour
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private CanvasUIManager canvasUIManager;
 
         [field: SerializeField] private InteractionNotice interactionNotice;
         [field: SerializeField] private GameObject nextNotice;
 
-        public void Initialize(GameManager _gameManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _gameManager, CanvasUIManager _canvasUIManager)
         {
 
             if (interactionNotice == null)

@@ -7,7 +7,7 @@ namespace RSP2
 {
     public class CameraManager : MonoSingleton<CameraManager>
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         private Camera mainCamera;
         private CinemachineVirtualCamera playerCamera;
         private CinemachineBasicMultiChannelPerlin playerNoise;
@@ -23,7 +23,7 @@ namespace RSP2
         [field: SerializeField] private Vector2 maxShakingValue { get; set; }
         [field: SerializeField] private float maxShakingTime { get; set; }
 
-        public void Initialize(GameManager _gameManager)
+        public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
 

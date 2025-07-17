@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class Player : CombatUnit
     {
-        private GameManager gameManager;
+        private InGameManager gameManager;
         public string Name { get; set; }
 
         [field: SerializeField] public PlayerInputReader InputReader { get; private set; }
@@ -112,7 +112,7 @@ namespace RSP2
         {
             if (gameManager == null)
             {
-                gameManager = GameManager.Instance;
+                gameManager = InGameManager.Instance;
             }
 
 
