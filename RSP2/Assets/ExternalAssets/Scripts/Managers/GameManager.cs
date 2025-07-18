@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace RSP2
 {
@@ -8,7 +9,14 @@ namespace RSP2
     {
         [field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
 
+        //[field: SerializeField] private SceneInitializer sceneInitializer;
 
+        //public bool IsInitialized { get; private set; }
+
+        //[field: SerializeField] private SceneType currentSceneType { get; set; }
+
+        //public const string TITLE_SCENE_NAME_STR = "TitleScene";
+        //public const string GAME_SCENE_NAME_STR = "GameScene";
 
         private void Awake()
         {
@@ -17,7 +25,24 @@ namespace RSP2
             DontDestroyOnLoad(gameObject);
         }
 
-        // To Do :: Scene Change Logic
+        /// <param name="sceneName">로드할 씬 이름</param>
+        public void LoadScene(string sceneName)
+        {
+            StartCoroutine(LoadSceneAsync(sceneName));
+        }
+
+        private IEnumerator LoadSceneAsync(string sceneName)
+        {
+            // TO DO :: Add Loading Screen
+            AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            while (!asyncLoad.isDone)
+            {
+                yield return null;
+            }
+
+            InitializeScene();
+            yield return null;
+        }
 
         private void InitializeScene()
         {
@@ -32,6 +57,32 @@ namespace RSP2
                 Debug.LogWarning("No Scene Initializer Found in This Scene");
             }
 
+        }
+
+        public void TitleSceneContinueCall()
+        {
+
+        }
+
+        public void TitleSceneStartCall()
+        {
+
+        }
+
+        public void TitleSceneQuitCall()
+        {
+
+        }
+
+        public void QuitGame()
+        {
+            // TO DO:: Add Game Save Logic
+
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
         }
 
     }

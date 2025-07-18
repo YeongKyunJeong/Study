@@ -1,19 +1,14 @@
-using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace RSP2
 {
-    public class InGameInitializer : SceneInitializer
+    public class TitleInitializer : SceneInitializer
     {
         [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
-        [field: SerializeField] private GameObject inGameManagerPrefab { get; set; }
 
-        [field: SerializeField] private InGameManager inGameManager { get; set; }
-
-
+        [field: SerializeField] private TitleManager titleSceneManager;
 
         public override void Initialize()
         {
@@ -26,22 +21,22 @@ namespace RSP2
                 Instantiate(gameManagerPrefab);
             }
 
-            if (inGameManager == null)
+            if (titleSceneManager == null)
             {
-                Debug.Log("In Game Manager Not Assigned");
-                inGameManager = FindObjectOfType<InGameManager>();
+                Debug.Log("TitleScene Manager Not Assigned");
+                titleSceneManager = FindObjectOfType<TitleManager>();
 
-                if (inGameManager == null)
+                if (titleSceneManager == null)
                 {
                     Debug.LogWarning("In Game Manager Not Exists");
                     // TO DO :: Instantiate Prefab
                 }
 
-                inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
+                //inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
             }
 #endif
 
-            inGameManager.Initialize();
+            titleSceneManager.Initialize();
 
         }
     }

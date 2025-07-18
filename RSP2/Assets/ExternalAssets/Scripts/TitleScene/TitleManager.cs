@@ -4,16 +4,14 @@ using UnityEngine;
 
 namespace RSP2
 {
-    public class TitleScene : MonoBehaviour
+    public class TitleManager : MonoBehaviour
     {
-        private InGameManager gameManager;
+        private GameManager gameManager;
 
-        private void Awake()
+        public void Initialize()
         {
-            if (gameManager == null)
-            {
-                gameManager = InGameManager.Instance;
-            }
+            gameManager = GameManager.Instance;
+            // TO DO 
         }
 
         public void ContinueCall()

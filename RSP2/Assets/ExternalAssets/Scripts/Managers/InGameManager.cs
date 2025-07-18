@@ -17,14 +17,10 @@ namespace RSP2
 
     public class InGameManager : MonoSingleton<InGameManager>
     {
-        //[field: SerializeField] private SceneInitializer sceneInitializer;
+        private GameManager gameManager;
 
-        //public bool IsInitialized { get; private set; }
-
-        //[field: SerializeField] private SceneType currentSceneType { get; set; }
         [field: SerializeField] public bool IsInitialized { get; private set; }
-        //public const string TITLE_SCENE_NAME_STR = "TitleScene";
-        //public const string GAME_SCENE_NAME_STR = "GameScene";
+
 
         [field: SerializeField] private PlayerInput PlayerInput { get; set; }
 
@@ -49,6 +45,8 @@ namespace RSP2
         //private void Awake()
         public void Initialize()
         {
+            gameManager = GameManager.Instance;
+
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
             Player = FindObjectOfType<Player>();
             PlayerInput = Player.GetComponent<PlayerInput>();
@@ -250,30 +248,6 @@ namespace RSP2
             // TO DO:: NPCs Data
         }
 
-        public void TitleSceneContinueCall()
-        {
 
-        }
-
-        public void TitleSceneStartCall()
-        {
-
-        }
-
-        public void TitleSceneQuitCall()
-        {
-
-        }
-
-        public void QuitGame()
-        {
-            // TO DO:: Add Game Save Logic
-
-#if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-#else
-            Application.Quit();
-#endif
-        }
     }
 }

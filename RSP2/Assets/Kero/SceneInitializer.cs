@@ -4,11 +4,19 @@ using UnityEngine;
 
 namespace RSP2
 {
+
     public abstract class SceneInitializer : MonoBehaviour
     {
+        protected bool isInitialize = false;
+
         /// <summary>
         /// 씬 초기화 및 실행 메서드
         /// </summary>
         public abstract void Initialize();
+
+        protected void Awake()
+        {
+            if (!isInitialize) Initialize();
+        }
     }
 }
