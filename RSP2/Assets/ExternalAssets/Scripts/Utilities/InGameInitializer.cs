@@ -9,26 +9,10 @@ namespace RSP2
     public class InGameInitializer : SceneInitializer
     {
         private bool isInitialize = false;
-        [field: SerializeField] private static GameObject GameManagerPrefab { get; set; }
-        [field: SerializeField] private GameObject InGameManagerPrefab { get; set; }
+        [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
+        [field: SerializeField] private GameObject inGameManagerPrefab { get; set; }
 
-        [field: SerializeField] private InGameManager InGameManager { get; set; }
-
-
-        [field: SerializeField] private CameraManager CameraManager { get; set; }
-        [field: SerializeField] private DataManager DataManager { get; set; }
-        [field: SerializeField] private ProjectileManager ProjectileManager { get; set; }
-        [field: SerializeField] private InteractionManager InteractionManager { get; set; }
-        [field: SerializeField] private VFXManager VFXManager { get; set; }
-        [field: SerializeField] private SFXManager SFXManager { get; set; }
-        [field: SerializeField] private DayNightManager DayNightManager { get; set; }
-        [field: SerializeField] private QuestManager QuestManager { get; set; }
-        [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
-
-        [field: SerializeField] private PlayerInput PlayerInput { get; set; }
-        public Player Player { get; set; }
-        public CinemachineInputProvider CinemachineInputProvider { get; set; }
-
+        [field: SerializeField] private InGameManager inGameManager { get; set; }
 
         private void Awake()
         {
@@ -39,102 +23,28 @@ namespace RSP2
         {
             isInitialize = true;
 
-
 #if UNITY_EDITOR
-            if (InGameManager == null)
+            if (GameManager.Instance == null)
+            {
+                Instantiate(gameManagerPrefab);
+            }
+
+            if (inGameManager == null)
             {
                 Debug.Log("In Game Manager Not Assigned");
-                InGameManager = FindObjectOfType<InGameManager>();
+                inGameManager = FindObjectOfType<InGameManager>();
 
-                if (InGameManager != null)
+                if (inGameManager == null)
                 {
+                    Debug.LogWarning("In Game Manager Not Exists");
                     // TO DO :: Instantiate Prefab
                 }
-            }
 
-            if (CameraManager == null)
-            {
-                Debug.Log("Camera Manager Not Assigned");
-                CameraManager = FindObjectOfType<CameraManager>();
-            }
-            if (DataManager == null)
-            {
-                Debug.Log("Data Manager Not Assigned");
-                DataManager = FindObjectOfType<DataManager>();
-            }
-            if (ProjectileManager == null)
-            {
-                Debug.Log("Projectile Manager Not Assigned");
-                ProjectileManager = FindObjectOfType<ProjectileManager>();
-            }
-            if (InteractionManager == null)
-            {
-                Debug.Log("Interaction Manager Not Assigned");
-                InteractionManager = FindObjectOfType<InteractionManager>();
-            }
-            if (VFXManager == null)
-            {
-                Debug.Log("VFX Manager Not Assigned");
-                VFXManager = FindObjectOfType<VFXManager>();
-            }
-            if (SFXManager == null)
-            {
-                Debug.Log("SFX Manager Not Assigned");
-                SFXManager = FindObjectOfType<SFXManager>();
-            }
-            if (DayNightManager == null)
-            {
-                Debug.Log("Day Night Manager Not Assigned");
-                DayNightManager = FindObjectOfType<DayNightManager>();
-            }
-            if (QuestManager == null)
-            {
-                Debug.Log("Quest Manager Not Assigned");
-                QuestManager = FindObjectOfType<QuestManager>();
-            }
-            if (CanvasUIManager == null)
-            {
-                Debug.Log("Canvas UI Manager Not Assigned");
-                CanvasUIManager = FindObjectOfType<CanvasUIManager>();
-            }
-
-            if (Player == null)
-            {
-                Debug.Log("Player Not Assigned");
-                Player = FindObjectOfType<Player>();
-            }
-            if (PlayerInput == null)
-            {
-                Debug.Log("Player Input Not Assigned");
-                {
-                    PlayerInput = FindObjectOfType<PlayerInput>();
-                }
-            }
-            if (PlayerInput == null)
-            {
-                Debug.Log("Player Input Not Assigned");
-                {
-                    PlayerInput = FindObjectOfType<PlayerInput>();
-                }
-            }
-            if (CinemachineInputProvider == null)
-            {
-                Debug.Log("Cinemachine Input Provider Not Assigned");
-                CinemachineInputProvider= FindObjectOfType<CinemachineInputProvider>();
+                inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
             }
 #endif
 
-            CameraManager.Initialize(InGameManager);
-            DataManager.Initialize();
-            ProjectileManager.Initialize(InGameManager);
-            InteractionManager.Initialize(InGameManager, CameraManager, CanvasUIManager);
-            VFXManager.Initialize(InGameManager);
-            SFXManager.Initialize(InGameManager);
-            DayNightManager.Initialize();
-            QuestManager.Initialize(InGameManager);
-            CanvasUIManager.Initialize(InGameManager);
-
-
+            inGameManager.Initialize();
 
         }
     }

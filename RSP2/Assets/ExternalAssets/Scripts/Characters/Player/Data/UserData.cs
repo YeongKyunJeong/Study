@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RSP2
@@ -13,7 +14,7 @@ namespace RSP2
 
         public int UserID;
         public string UserName;
-        public List<int> SaveNumberList = new List<int>();
+        public List<int> SaveNumberingList = new List<int>();
 
         public static UserData InitialUserData(int userID = 0, string userName = "You")
         {
@@ -21,7 +22,7 @@ namespace RSP2
 
             userData.UserID = userID;
             userData.UserName = userName;
-            userData.SaveNumberList.Add(0);
+            userData.SaveNumberingList.Add(0);
 
             return userData;
         }
@@ -38,12 +39,41 @@ namespace RSP2
             saveDataWriter = _saveDataWriter;
         }
 
-        public void SaveCurrentUserData(string path = "/Json/UserData")
+        public void SaveCurrentData(bool restrictedSaveNumber = true, string userDataPath = "/Json/UserData", string saveDataPath = "/Json/SaveData")
         {
             if (userDataLoader.CurrentUserData == null) return;
 
-            SaveUserDataToJson(userDataLoader.CurrentUserData);
+            PlayerSaveData newSaveData = InGameManager.Instance.GetCurrentDataToSave();
+            UserData userData = userDataLoader.CurrentUserData;
+            // New Save Key = Last Save Key +1
+            int newSaveKey = userData.SaveNumberingList[userData.SaveNumberingList.Count - 1] + 1;
+            // Restrict Save Numbering from 0 to 999
+            newSaveKey = newSaveKey > PlayerSaveData.SAVE_DATA_NUMBERING_LIMIT ? 0 : newSaveKey;
+
+            newSaveData.SaveKey = newSaveKey;
+
+            userDataLoader.UpdateCurrentUserData(newSaveData);
+
+            if (SaveUserDataToJson(userData, userDataPath))
+            {
+                // Restrict Save Number in 8
+                if (restrictedSaveNumber)
+                {
+                    saveDataWriter.RemoveOtherSaveData(userData.SaveNumberingList, userData.UserName, saveDataPath);
+                }
+
+                saveDataWriter.SavePlayerDataToJson(newSaveData, userData.UserName, saveDataPath);
+
+                return;
+            }
         }
+
+        //public void SaveCurrentUserData(string path = "/Json/UserData")
+        //{
+        //    if (userDataLoader.CurrentUserData == null) return;
+
+        //    SaveUserDataToJson(userDataLoader.CurrentUserData);
+        //}
 
         public bool SaveUserDataToJson(UserData userData, string path = "/Json/UserData")
         {
@@ -63,7 +93,9 @@ namespace RSP2
             catch (Exception e)
             {
                 Debug.Log("Save Failed : " + e.Message);
+                return false;
             }
+
 
             return true;
         }
@@ -72,30 +104,33 @@ namespace RSP2
     public class UserDataLoader
     {
         private SaveDataLoader saveDataLoader;
+        private SaveDataWriter saveDataWriter;
 
         private UserData userData;
         public UserData CurrentUserData { get => userData; }
-        private List<SaveDataLoader> saveDataList;
+
+        private List<PlayerSaveData> saveDataList = new List<PlayerSaveData>();
+        public List<PlayerSaveData> CurrentSaveDataList { get => CurrentSaveDataList; }
 
         public void Initialize(SaveDataLoader _saveDataLoader, int userID = 0)
         {
             saveDataLoader = _saveDataLoader;
             LoadUserData(userID);
-            saveDataList = new List<SaveDataLoader>();
-            foreach (int saveNumber in userData.SaveNumberList)
-            {
-                saveDataLoader.LoadSaveData(userData.UserName, saveNumber);
-            }
+            ///////////////////////////////////////////////////////////////////////
         }
 
         public PlayerSaveData LoadLastSaveData(int userID, bool rememberUserData = true, string path = "/Json/UserData")
         {
             if ((userData != null) && (userData.UserID == userID))
-                return saveDataLoader.LoadSaveData(userData.UserName, userData.SaveNumberList[userData.SaveNumberList.Count - 1]);
+            {
+                if (saveDataList.Count > 0) return saveDataList[saveDataList.Count - 1];
+
+                //return saveDataLoader.LoadSaveData(userData.UserName, userData.SaveNumberList[userData.SaveNumberList.Count - 1]);
+            }
 
             UserData _userData = LoadUserData(userID, rememberUserData);
 
-            return saveDataLoader.LoadSaveData(_userData.UserName, _userData.SaveNumberList[_userData.SaveNumberList.Count - 1]);
+            return saveDataLoader.LoadSaveData(_userData.UserName, _userData.SaveNumberingList[_userData.SaveNumberingList.Count - 1]);
         }
 
         public UserData LoadUserData(int userID, bool rememberUserData = true, string path = "/Json/UserData")
@@ -108,6 +143,11 @@ namespace RSP2
             {
                 Debug.Log("No User Data Exists");
                 userData = UserData.InitialUserData();
+
+                PlayerSaveData initialSaveData = PlayerSaveData.InitialSaveData();
+                initialSaveData.UserID = userID;
+                saveDataList.Add(initialSaveData);
+
                 return userData;
             }
 
@@ -117,11 +157,38 @@ namespace RSP2
             if (rememberUserData)
             {
                 userData = JsonUtility.FromJson<UserData>(loadedUserDataString);
+                foreach (int numbering in userData.SaveNumberingList)
+                {
+                    PlayerSaveData saveData = saveDataLoader.LoadSaveData(userData.UserName, numbering);
+                    if (saveData != null)
+                        saveDataList.Add(saveData);
+                }
+
+                if (saveDataList.Count == 0)
+                {
+                    userData.SaveNumberingList.Clear();
+                    userData.SaveNumberingList.Add(0);
+                    saveDataList.Add(PlayerSaveData.InitialSaveData(userData.UserID));
+                }
+
                 return userData;
             }
 
             return JsonUtility.FromJson<UserData>(loadedUserDataString);
+        }
 
+        public void UpdateCurrentUserData(PlayerSaveData newSaveData)
+        {
+            if (saveDataList.Contains(newSaveData)) return;
+
+            if (saveDataList.Count >= UserData.SAVE_DATA_LIMIT)
+            {
+                saveDataList = saveDataList.GetRange(1, UserData.SAVE_DATA_LIMIT - 1);
+                userData.SaveNumberingList = userData.SaveNumberingList.GetRange(1, UserData.SAVE_DATA_LIMIT - 1);
+            }
+
+            saveDataList.Add(newSaveData);
+            userData.SaveNumberingList.Add(newSaveData.SaveKey);
         }
     }
 }

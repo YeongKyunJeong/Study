@@ -14,7 +14,7 @@ namespace RSP2
     [System.Serializable]
     public class PlayerSaveData
     {
-        public const int SAVE_DATA_NUMBERRING_LIMIT = 999;
+        public const int SAVE_DATA_NUMBERING_LIMIT = 999;
 
         [Header("Meta Data")]
         public int UserID;
@@ -42,10 +42,11 @@ namespace RSP2
         public List<QuestSaveData> Quests = new List<QuestSaveData>();
         public List<NPCSaveData> NPCs = new List<NPCSaveData>();
 
-        public static PlayerSaveData InitialSaveData()
+        public static PlayerSaveData InitialSaveData(int initialUserID = 0)
         {
             PlayerSaveData initialSaveData = new PlayerSaveData();
 
+            initialSaveData.UserID = initialUserID;
             initialSaveData.SaveKey = 0;
             initialSaveData.SaveTime = DateTime.Now.ToString();
 
@@ -125,12 +126,33 @@ namespace RSP2
 
     public class SaveDataWriter
     {
+        //public bool SavePlayerDataToJson(int userID, string userName, int saveNumber, string path = "/Json/SaveData")
+        //{
+        //    PlayerSaveData saveData = InGameManager.Instance.GetCurrentDataToSave();
 
+        //    path = string.Concat(Application.persistentDataPath, path, "/", userName);
 
-        public bool SavePlayerDataToJson(int userID, string userName, int saveNumber, string path = "/Json/SaveData")
+        //    if (!Directory.Exists(path))
+        //        Directory.CreateDirectory(path);
+
+        //    string jsonData = JsonUtility.ToJson(saveData, true);
+
+        //    path = string.Concat(path, "/Save_", saveNumber.ToString("D3"));
+        //    try
+        //    {
+        //        File.WriteAllText(path, jsonData);
+        //        Debug.Log("File Was Saved At" + path);
+        //    }
+        //    catch (Exception e)
+        //    {
+        //        Debug.Log("Save Failed : " + e.Message);
+        //    }
+
+        //    return true;
+        //}
+
+        public bool SavePlayerDataToJson(PlayerSaveData saveData, string userName, string path = "/Json/SaveData")
         {
-            PlayerSaveData saveData = InGameManager.Instance.GetCurrentDataToSave();
-
             path = string.Concat(Application.persistentDataPath, path, "/", userName);
 
             if (!Directory.Exists(path))
@@ -138,7 +160,7 @@ namespace RSP2
 
             string jsonData = JsonUtility.ToJson(saveData, true);
 
-            path = string.Concat(path, "/Save_", saveNumber.ToString("D3"));
+            path = string.Concat(path, "/Save_", saveData.SaveKey.ToString("D3"));
             try
             {
                 File.WriteAllText(path, jsonData);
@@ -150,6 +172,12 @@ namespace RSP2
             }
 
             return true;
+        }
+
+        public void RemoveOtherSaveData(List<int> saveNumberings, string userName, string path = "/Json/SaveData")
+        {
+            // TO DO :: Remove Other Save
+            return;
         }
     }
 
@@ -171,8 +199,9 @@ namespace RSP2
             if (!File.Exists(path))
             {
                 Debug.Log("No Save Exists");
-                playerSaveData = PlayerSaveData.InitialSaveData();
-                return playerSaveData;
+                //playerSaveData = PlayerSaveData.InitialSaveData();
+                //return playerSaveData;
+                return null;
             }
 
             string loadedSaveDataString;

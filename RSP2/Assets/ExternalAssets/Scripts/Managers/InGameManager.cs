@@ -46,7 +46,8 @@ namespace RSP2
 
         public event Action<Enemy> EnemyDieEvent;
 
-        private void Awake()
+        //private void Awake()
+        public void Initialize()
         {
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
             Player = FindObjectOfType<Player>();
@@ -240,9 +241,9 @@ namespace RSP2
             return newSaveData;
         }
 
-        public void GetDataFromSave(int userNumber = 0, int saveNumber = -1)
+        public void GetDataFromSave(int userID = 0, int saveNumber = -1)
         {
-            PlayerSaveData loadedSaveData = DataManager.CallLoadingSaveData(userNumber, saveNumber);
+            PlayerSaveData loadedSaveData = DataManager.CallLoadingSaveData(userID, saveNumber);
 
             Player.SetPlayerDataFromSave(loadedSaveData);
             QuestManager.SetQuestDataFromSave(loadedSaveData);
