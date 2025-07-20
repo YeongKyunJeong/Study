@@ -33,7 +33,7 @@ namespace RSP2
             //SaveDataWriter.SavePlayerDataToJson();
         }
 
-        public PlayerSaveData CallLoadingSaveData(int useID, int saveNumber = -1)
+        public PlayerSaveData LoadSaveData(int useID, int saveNumber = -1)
         {
             if (saveNumber == -1) 
             {

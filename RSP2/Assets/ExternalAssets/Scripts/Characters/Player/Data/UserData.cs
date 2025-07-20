@@ -110,7 +110,7 @@ namespace RSP2
         public UserData CurrentUserData { get => userData; }
 
         private List<PlayerSaveData> saveDataList = new List<PlayerSaveData>();
-        public List<PlayerSaveData> CurrentSaveDataList { get => CurrentSaveDataList; }
+        public List<PlayerSaveData> CurrentSaveDataList { get => saveDataList; }
 
         public void Initialize(SaveDataLoader _saveDataLoader, int userID = 0)
         {

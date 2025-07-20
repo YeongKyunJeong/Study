@@ -7,23 +7,60 @@ namespace RSP2
 {
     public class GameManager : MonoSingleton<GameManager>
     {
-        [field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
+        [field: SerializeField] private DataManager DataManager { get; set; }
 
-        [field: SerializeField] private SceneInitializer sceneInitializer;
+        //[field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
 
-        public bool IsInitialized { get; private set; }
+        //[field: SerializeField] private SceneInitializer sceneInitializer;
+
 
         [field: SerializeField] private SceneType currentSceneType { get; set; }
+        public UserData CurrentUserData { get; private set; }
+
 
         public const string TITLE_SCENE_NAME_STR = "TitleScene";
         public const string IN_GAME_SCENE_NAME_STR = "InGameScene_";
+
 
         private void Awake()
         {
             if (Instance == null) { }// Always false by MonoSingleton
 
+            if (DataManager == null)
+            {
+                Debug.Log("Data Manager Not Assigned");
+                DataManager = FindObjectOfType<DataManager>();
+            }
+
+            DataManager.Initialize();
+
+            CurrentUserData = DataManager.UserDataLoader.LoadUserData(0);
+
+            currentSceneType = GetCurrentSceneType();
+
             DontDestroyOnLoad(gameObject);
         }
+
+        private SceneType GetCurrentSceneType(string sceneName = "")
+        {
+            if (sceneName.Length == 0)
+            {
+                sceneName = SceneManager.GetActiveScene().name;
+            }
+
+            if (sceneName.Contains(TITLE_SCENE_NAME_STR))
+            {
+                return SceneType.TitleScene;
+            }
+            else if (sceneName.Contains(IN_GAME_SCENE_NAME_STR))
+            {
+                return SceneType.InGameScene;
+            }
+            // TO DO :: Add if Other sceneType is Add
+
+            return SceneType.InGameScene;
+        }
+
 
         /// <param name="sceneName">로드할 씬 이름</param>
         public void LoadScene(string sceneName)
@@ -40,7 +77,9 @@ namespace RSP2
                 yield return null;
             }
 
+            currentSceneType = GetCurrentSceneType(sceneName);
             InitializeScene();
+
             yield return null;
         }
 
@@ -57,11 +96,21 @@ namespace RSP2
                 Debug.LogWarning("No Scene Initializer Found in This Scene");
             }
 
+
         }
 
         public void TitleSceneContinueCall(/*string sceneSubName*/)
         {
-            //LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, sceneSubName));
+            PlayerSaveData lastSaveData = DataManager.UserDataLoader.CurrentSaveDataList[DataManager.UserDataLoader.CurrentSaveDataList.Count-1];
+            if (lastSaveData.SceneNumber == 0)
+            {
+                // TO DO :: Add Each Scene Name Finding by SceneNumber Logic
+                LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, "TestRoom"));
+                return;
+            }
+
+            LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, lastSaveData.SceneNumber.ToString("D2")));
+            return;
         }
 
         public void TitleSceneStartCall(string sceneSubName)
@@ -73,6 +122,12 @@ namespace RSP2
         {
             QuitGame();
         }
+
+        public PlayerSaveData CallSaveDataLoading(int userID = 0, int saveNumber = -1)
+        {
+            return DataManager.LoadSaveData(userID, saveNumber);
+        }
+
 
         public void QuitGame()
         {

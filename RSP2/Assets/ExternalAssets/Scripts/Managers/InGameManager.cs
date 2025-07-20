@@ -12,20 +12,19 @@ namespace RSP2
     {
         None,
         TitleScene,
-        GameScene
+        InGameScene
     }
 
     public class InGameManager : MonoSingleton<InGameManager>
     {
         private GameManager gameManager;
 
+        [field:SerializeField] private int sceneNumber { get; set; }
         [field: SerializeField] public bool IsInitialized { get; private set; }
-
 
         [field: SerializeField] private PlayerInput PlayerInput { get; set; }
 
         [field: SerializeField] private CameraManager CameraManager { get; set; }
-        [field: SerializeField] private DataManager DataManager { get; set; }
         [field: SerializeField] private ProjectileManager ProjectileManager { get; set; }
         [field: SerializeField] private InteractionManager InteractionManager { get; set; }
         [field: SerializeField] private VFXManager VFXManager { get; set; }
@@ -36,11 +35,11 @@ namespace RSP2
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
         public Player Player { get; set; }
-
         public CinemachineInputProvider CinemachineInputProvider { get; set; }
 
-
+        public PlayerSaveData CurrentSaveData { get; private set; }
         public event Action<Enemy> EnemyDieEvent;
+
 
         //private void Awake()
         public void Initialize()
@@ -57,11 +56,7 @@ namespace RSP2
                 Debug.Log("Camera Manager Not Assigned");
                 CameraManager = FindObjectOfType<CameraManager>();
             }
-            if (DataManager == null)
-            {
-                Debug.Log("Data Manager Not Assigned");
-                DataManager = FindObjectOfType<DataManager>();
-            }
+
             if (ProjectileManager == null)
             {
                 Debug.Log("Projectile Manager Not Assigned");
@@ -94,7 +89,7 @@ namespace RSP2
             }
 
             CameraManager.Initialize(this);
-            DataManager.Initialize();
+
             ProjectileManager.Initialize(this);
             InteractionManager.Initialize(this, CameraManager, CanvasUIManager);
             VFXManager.Initialize(this);
@@ -103,6 +98,7 @@ namespace RSP2
 
             CanvasUIManager.Initialize(this);
 
+            CurrentSaveData = gameManager.CallSaveDataLoading(gameManager.CurrentUserData.UserID);
         }
 
         private void Start()
@@ -232,6 +228,8 @@ namespace RSP2
         {
             PlayerSaveData newSaveData = new PlayerSaveData();
 
+            newSaveData.SceneNumber = sceneNumber;
+
             Player.GetPlayerDataForSave(newSaveData);
             QuestManager.GetQuestDataForSave(newSaveData);
             // TO DO:: NPCs Data
@@ -241,7 +239,7 @@ namespace RSP2
 
         public void GetDataFromSave(int userID = 0, int saveNumber = -1)
         {
-            PlayerSaveData loadedSaveData = DataManager.CallLoadingSaveData(userID, saveNumber);
+            PlayerSaveData loadedSaveData = gameManager.CallSaveDataLoading(userID, saveNumber);
 
             Player.SetPlayerDataFromSave(loadedSaveData);
             QuestManager.SetQuestDataFromSave(loadedSaveData);
