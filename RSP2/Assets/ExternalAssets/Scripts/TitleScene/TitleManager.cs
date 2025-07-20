@@ -19,9 +19,9 @@ namespace RSP2
             gameManager.TitleSceneContinueCall();
         }
 
-        public void StartCall()
+        public void StartCall(string sceneSubName)
         {
-            gameManager.TitleSceneStartCall();
+            gameManager.TitleSceneStartCall(sceneSubName);
         }
         public void OptionCall()
         {

@@ -8,7 +8,7 @@ namespace RSP2
 {
     public class InGameInitializer : SceneInitializer
     {
-        [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
+        [field: SerializeField] private GameObject gameManagerPrefab { get; set; }
         [field: SerializeField] private GameObject inGameManagerPrefab { get; set; }
 
         [field: SerializeField] private InGameManager inGameManager { get; set; }
@@ -17,6 +17,8 @@ namespace RSP2
 
         public override void Initialize()
         {
+            if (isInitialize) return;
+            
             isInitialize = true;
 
 #if UNITY_EDITOR

@@ -9,14 +9,14 @@ namespace RSP2
     {
         [field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
 
-        //[field: SerializeField] private SceneInitializer sceneInitializer;
+        [field: SerializeField] private SceneInitializer sceneInitializer;
 
-        //public bool IsInitialized { get; private set; }
+        public bool IsInitialized { get; private set; }
 
-        //[field: SerializeField] private SceneType currentSceneType { get; set; }
+        [field: SerializeField] private SceneType currentSceneType { get; set; }
 
-        //public const string TITLE_SCENE_NAME_STR = "TitleScene";
-        //public const string GAME_SCENE_NAME_STR = "GameScene";
+        public const string TITLE_SCENE_NAME_STR = "TitleScene";
+        public const string IN_GAME_SCENE_NAME_STR = "InGameScene_";
 
         private void Awake()
         {
@@ -59,19 +59,19 @@ namespace RSP2
 
         }
 
-        public void TitleSceneContinueCall()
+        public void TitleSceneContinueCall(/*string sceneSubName*/)
         {
-
+            //LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, sceneSubName));
         }
 
-        public void TitleSceneStartCall()
+        public void TitleSceneStartCall(string sceneSubName)
         {
-
+            LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, sceneSubName));
         }
 
         public void TitleSceneQuitCall()
         {
-
+            QuitGame();
         }
 
         public void QuitGame()

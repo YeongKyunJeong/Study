@@ -37,65 +37,21 @@ namespace RSP2
         public AnimationCurve ReflectionIntensityCurve;
 
         private Material skyBoxMaterial;
+        private bool isInitialized;
 
         public void Initialize()
         {
-            SunAndMoon sunAndMoon = FindObjectOfType<SunAndMoon>();
-            if (sunAndMoon == null)
-            {
-                Debug.LogError("Sun and Moon not found");
-                return;
-            }
-
-            skyBoxMaterial = new Material(RenderSettings.skybox);
-            RenderSettings.skybox = skyBoxMaterial;
-
-            sun = sunAndMoon.Sun;
-            if (dayLength < 1)
-            {
-                Debug.LogError("Day length is 0");
-                return;
-            }
-            dayTimeRate = 1f / dayLength;
-
-            if (isSunOnly)
-            {
-                RenderSettings.sun = sun;
-                
-                if (RenderSettings.skybox.HasProperty("_Exposure"))
-                {
-                    RenderSettings.skybox.SetFloat("_Exposure", 1.3f);
-                }
-
-                if (RenderSettings.skybox.HasProperty("_AtmosphereThickness"))
-                {
-                    RenderSettings.skybox.SetFloat("_AtmosphereThickness", 1f);
-                }
-
-            }
-            else
-            {
-                moon = sunAndMoon.Moon;
-                if (nightLength < 1)
-                {
-                    Debug.LogError("Night length is 0");
-                    return;
-                }
-            }
-
-            nightTimeRate = 1f / nightLength;
-            TimeCycle = isDayTime ? StartTime / dayLength : StartTime / nightLength;
-
-            if (TimeCycle != 0) isDayNightChanged = false;
-            else isDayNightChanged = true;
-
-
-            UpdateSkyLightReference();
-            UpdateSkyboxExposure();
+            isInitialized = false;
+            StartCoroutine(DelayedInitialize());
+            //Debug.Log(RenderSettings.reflectionIntensity);
+            //UpdateSkyLightReference(true);
+            //UpdateSkyboxExposure(true);
         }
 
         public void CallPhysicsUpdate()
         {
+            if (!isInitialized) return;
+
             UpdateTime();
             UpdateSkyLightReference();
 
@@ -117,6 +73,68 @@ namespace RSP2
 
             UpdateSkyboxExposure();
             UpdateEnvironmentLighting();
+        }
+
+        private IEnumerator DelayedInitialize()
+        {
+            yield return new WaitForSeconds(0.5f);
+
+            SunAndMoon sunAndMoon = FindObjectOfType<SunAndMoon>();
+            if (sunAndMoon == null)
+            {
+                Debug.LogError("Sun and Moon not found");
+                yield return null;
+            }
+
+            skyBoxMaterial = new Material(RenderSettings.skybox);
+            RenderSettings.skybox = skyBoxMaterial;
+
+            sun = sunAndMoon.Sun;
+            if (dayLength < 1)
+            {
+                Debug.LogError("Day length is 0");
+                yield return null;
+            }
+            dayTimeRate = 1f / dayLength;
+
+            if (isSunOnly)
+            {
+                RenderSettings.sun = sun;
+
+                if (RenderSettings.skybox.HasProperty("_Exposure"))
+                {
+                    RenderSettings.skybox.SetFloat("_Exposure", 1.3f);
+                }
+
+                if (RenderSettings.skybox.HasProperty("_AtmosphereThickness"))
+                {
+                    RenderSettings.skybox.SetFloat("_AtmosphereThickness", 1f);
+                }
+
+            }
+            else
+            {
+                moon = sunAndMoon.Moon;
+                if (nightLength < 1)
+                {
+                    Debug.LogError("Night length is 0");
+                    yield return null;
+                }
+                //UpdateEnvironmentLighting(true);
+
+            }
+
+            nightTimeRate = 1f / nightLength;
+            TimeCycle = isDayTime ? StartTime / dayLength : StartTime / nightLength;
+
+
+            if (TimeCycle != 0) isDayNightChanged = false;
+            else isDayNightChanged = true;
+            UpdateTime();
+            UpdateSkyLightReference(true);
+            UpdateSkyboxExposure(true);
+            UpdateEnvironmentLighting(true);
+            isInitialized = true;
         }
 
         private void UpdateTime()
@@ -162,15 +180,15 @@ namespace RSP2
         }
 
 
-        private void UpdateSkyLightReference()
+        private void UpdateSkyLightReference(bool isInitializing = false)
         {
             if (isSunOnly) return;
 
-            if (!isDayNightChanged) return;
+            if (!isDayNightChanged && !isInitializing) return;
 
 
             if (isDayTime)
-            {
+                {
                 RenderSettings.sun = sun;
                 sun.gameObject.SetActive(true);
                 //moon.gameObject.SetActive(false);
@@ -181,16 +199,15 @@ namespace RSP2
                 //moon.gameObject.SetActive(false);
                 sun.gameObject.SetActive(false);
             }
-
-
-
         }
 
-        private void UpdateSkyboxExposure()
+        private void UpdateSkyboxExposure(bool isInitializing = false)
         {
-            if (isSunOnly) 
-            
+            if (isSunOnly) return;
+
             if (RenderSettings.skybox == null) return;
+
+            if (!isDayNightChanged && !isInitializing) return;
 
             if (RenderSettings.skybox.HasProperty("_Exposure"))
             {
@@ -205,16 +222,17 @@ namespace RSP2
             }
         }
 
-        private void UpdateEnvironmentLighting()
+        private void UpdateEnvironmentLighting(bool isInitializing = false)
         {
             if (isDayTime)
             {
                 RenderSettings.ambientIntensity = AmbientIntensityCurve.Evaluate(TimeCycle);
                 RenderSettings.reflectionIntensity = ReflectionIntensityCurve.Evaluate(TimeCycle);
+
                 return;
             }
 
-            if (isDayNightChanged)
+            if (isDayNightChanged || isInitializing)
             {
                 RenderSettings.ambientIntensity = AmbientIntensityCurve.Evaluate(0);
                 RenderSettings.reflectionIntensity = ReflectionIntensityCurve.Evaluate(0);
