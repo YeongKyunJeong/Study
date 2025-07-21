@@ -99,9 +99,10 @@ namespace RSP2
 
         }
 
+        #region Title Scene
         public void TitleSceneContinueCall(/*string sceneSubName*/)
         {
-            PlayerSaveData lastSaveData = DataManager.UserDataLoader.CurrentSaveDataList[DataManager.UserDataLoader.CurrentSaveDataList.Count-1];
+            PlayerSaveData lastSaveData = DataManager.UserDataLoader.CurrentSaveDataList[DataManager.UserDataLoader.CurrentSaveDataList.Count - 1];
             if (lastSaveData.SceneNumber == 0)
             {
                 // TO DO :: Add Each Scene Name Finding by SceneNumber Logic
@@ -128,7 +129,6 @@ namespace RSP2
             return DataManager.LoadSaveData(userID, saveNumber);
         }
 
-
         public void QuitGame()
         {
             // TO DO:: Add Game Save Logic
@@ -139,6 +139,29 @@ namespace RSP2
             Application.Quit();
 #endif
         }
+        #endregion
 
+        #region In Game Scene
+        public void InGameSceneSaveCall()
+        {
+            DataManager.UserDataWriter.SaveCurrentData();
+        }
+
+        public void InGameSceneLoadCall(int saveNumber)
+        {
+            PlayerSaveData targetSaveData = DataManager.LoadSaveData(CurrentUserData.UserID, saveNumber);
+
+            if (targetSaveData == null) return;
+
+            LoadScene(string.Concat(IN_GAME_SCENE_NAME_STR, targetSaveData.SceneNumber.ToString("D2")));
+            return;
+        }
+
+        public void InGameSceneTitleCall()
+        {
+            LoadScene(string.Concat(TITLE_SCENE_NAME_STR));
+        }
+
+        #endregion
     }
 }

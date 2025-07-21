@@ -41,9 +41,6 @@ namespace RSP2
 
         public void Initialize()
         {
-            //isInitialized = false;
-            //StartCoroutine(DelayedInitialize());
-
             SunAndMoon sunAndMoon = FindObjectOfType<SunAndMoon>();
             if (sunAndMoon == null)
             {
@@ -128,68 +125,6 @@ namespace RSP2
             UpdateSkyboxExposure();
             UpdateEnvironmentLighting();
         }
-
-        //private IEnumerator DelayedInitialize()
-        //{
-        //    yield return new WaitForSeconds(0.5f);
-
-        //    SunAndMoon sunAndMoon = FindObjectOfType<SunAndMoon>();
-        //    if (sunAndMoon == null)
-        //    {
-        //        Debug.LogError("Sun and Moon not found");
-        //        yield return null;
-        //    }
-
-        //    skyBoxMaterial = new Material(RenderSettings.skybox);
-        //    RenderSettings.skybox = skyBoxMaterial;
-
-        //    sun = sunAndMoon.Sun;
-        //    if (dayLength < 1)
-        //    {
-        //        Debug.LogError("Day length is 0");
-        //        yield return null;
-        //    }
-        //    dayTimeRate = 1f / dayLength;
-
-        //    if (isSunOnly)
-        //    {
-        //        RenderSettings.sun = sun;
-
-        //        if (RenderSettings.skybox.HasProperty("_Exposure"))
-        //        {
-        //            RenderSettings.skybox.SetFloat("_Exposure", 1.3f);
-        //        }
-
-        //        if (RenderSettings.skybox.HasProperty("_AtmosphereThickness"))
-        //        {
-        //            RenderSettings.skybox.SetFloat("_AtmosphereThickness", 1f);
-        //        }
-
-        //    }
-        //    else
-        //    {
-        //        moon = sunAndMoon.Moon;
-        //        if (nightLength < 1)
-        //        {
-        //            Debug.LogError("Night length is 0");
-        //            yield return null;
-        //        }
-        //        //UpdateEnvironmentLighting(true);
-
-        //    }
-
-        //    nightTimeRate = 1f / nightLength;
-        //    TimeCycle = isDayTime ? StartTime / dayLength : StartTime / nightLength;
-
-
-        //    if (TimeCycle != 0) isDayNightChanged = false;
-        //    else isDayNightChanged = true;
-        //    UpdateTime();
-        //    UpdateSkyLightReference(true);
-        //    UpdateSkyboxExposure(true);
-        //    UpdateEnvironmentLighting(true);
-        //    isInitialized = true;
-        //}
 
         private void UpdateTime()
         {

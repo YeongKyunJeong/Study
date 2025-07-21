@@ -2,8 +2,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.UIElements.UxmlAttributeDescription;
 
 namespace RSP2
 {
@@ -119,19 +121,6 @@ namespace RSP2
             ///////////////////////////////////////////////////////////////////////
         }
 
-        public PlayerSaveData LoadLastSaveData(int userID, bool rememberUserData = true, string path = "/Json/UserData")
-        {
-            if ((userData != null) && (userData.UserID == userID))
-            {
-                if (saveDataList.Count > 0) return saveDataList[saveDataList.Count - 1];
-
-                //return saveDataLoader.LoadSaveData(userData.UserName, userData.SaveNumberList[userData.SaveNumberList.Count - 1]);
-            }
-
-            UserData _userData = LoadUserData(userID, rememberUserData);
-
-            return saveDataLoader.LoadSaveData(_userData.UserName, _userData.SaveNumberingList[_userData.SaveNumberingList.Count - 1]);
-        }
 
         public UserData LoadUserData(int userID, bool rememberUserData = true, string path = "/Json/UserData")
         {
@@ -189,6 +178,38 @@ namespace RSP2
 
             saveDataList.Add(newSaveData);
             userData.SaveNumberingList.Add(newSaveData.SaveKey);
+        }
+
+        public PlayerSaveData LoadLastSaveData(int userID, bool rememberUserData = true, string path = "/Json/UserData")
+        {
+            if ((userData != null) && (userData.UserID == userID))
+            {
+                if (saveDataList.Count > 0) return saveDataList[saveDataList.Count - 1];
+
+                //return saveDataLoader.LoadSaveData(userData.UserName, userData.SaveNumberList[userData.SaveNumberList.Count - 1]);
+            }
+
+            UserData _userData = LoadUserData(userID, rememberUserData);
+
+            return saveDataLoader.LoadSaveData(_userData.UserName, _userData.SaveNumberingList[_userData.SaveNumberingList.Count - 1]);
+        }
+
+        public PlayerSaveData LoadUserAndSaveData(int userID, int saveNumber, bool rememberUserData = true, string path = "/Json/UserData")
+        {
+            if (userID != userData.UserID)
+            {
+                LoadUserData(userID, rememberUserData);
+            }
+
+            if (userData.SaveNumberingList.Contains(saveNumber))
+            {
+                return saveDataList.Where(x => x.SaveKey == saveNumber).First();
+            }
+            else
+            {
+                Debug.LogWarning("Save Data Not Exists");
+                return null;
+            }
         }
     }
 }

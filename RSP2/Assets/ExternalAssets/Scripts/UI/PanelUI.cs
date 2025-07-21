@@ -9,7 +9,7 @@ namespace RSP2
 {
     public class PanelUI : MonoBehaviour, IDropHandler
     {
-        private InGameManager gameManager;
+        private InGameManager inGameManager;
         private CanvasUIManager canvasUIManager;
 
         [field: SerializeField] private EquipmentStatsDisplay statsDisplay;
@@ -24,11 +24,13 @@ namespace RSP2
         [field: SerializeField] private DialogueUI dialogueUI;
         public DialogueUI DialogueUI { get => dialogueUI; }
 
+        [field: SerializeField] private MenuUI menuUI;
+        public MenuUI MenuUI { get => menuUI; }
         public event Action PointerDropEvent;
 
-        public void Initialize(InGameManager _gameManager, CanvasUIManager _canvasUIManager)
+        public void Initialize(InGameManager _inGameManager, CanvasUIManager _canvasUIManager)
         {
-            gameManager = _gameManager;
+            inGameManager = _inGameManager;
             canvasUIManager = _canvasUIManager;
 
             if (statsDisplay == null)
@@ -51,11 +53,17 @@ namespace RSP2
                 Debug.Log("dialogueUI UI Not Imported");
                 dialogueUI = GetComponentInChildren<DialogueUI>();
             }
+            if(menuUI == null)
+            {
+                Debug.Log("menuUI UI Not Imported");
+                menuUI = GetComponentInChildren<MenuUI>();
+            }
 
-            statsDisplay.Initialize(gameManager, canvasUIManager);
-            inventoryUI.Initialize(gameManager, canvasUIManager, this);
-            interactionUI.Initialize(gameManager, canvasUIManager);
-            dialogueUI.Initialize(gameManager);
+            statsDisplay.Initialize(inGameManager, canvasUIManager);
+            inventoryUI.Initialize(inGameManager, canvasUIManager, this);
+            interactionUI.Initialize(inGameManager, canvasUIManager);
+            dialogueUI.Initialize(inGameManager);
+            menuUI.Initialize(inGameManager);
         }
 
 

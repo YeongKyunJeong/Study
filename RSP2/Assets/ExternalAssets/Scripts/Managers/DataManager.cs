@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RSP2
@@ -35,12 +36,19 @@ namespace RSP2
 
         public PlayerSaveData LoadSaveData(int useID, int saveNumber = -1)
         {
-            if (saveNumber == -1) 
+            if (saveNumber == -1)
             {
                 return UserDataLoader.LoadLastSaveData(useID);
             }
 
-            return SaveDataLoader.LoadSaveData(UserDataLoader.LoadUserData(useID).UserName, saveNumber);
+            return UserDataLoader.LoadUserAndSaveData(useID, saveNumber);
+
+            //if (UserDataLoader.CurrentUserData.UserID == useID && UserDataLoader.CurrentUserData.SaveNumberingList.Contains(saveNumber))
+            //{
+            //    return UserDataLoader.CurrentSaveDataList.Where(x => x.SaveKey == saveNumber).ToList()[0];
+            //}
+
+            //return SaveDataLoader.LoadSaveData(UserDataLoader.LoadUserData(useID).UserName, saveNumber);
         }
     }
 
