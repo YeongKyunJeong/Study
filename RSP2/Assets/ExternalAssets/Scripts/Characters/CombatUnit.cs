@@ -5,8 +5,10 @@ using UnityEngine;
 namespace RSP2
 {
     [RequireComponent(typeof(CombatSystem))]
-    public class CombatUnit : MonoBehaviour
+    public abstract class CombatUnit : MonoBehaviour
     {
+
+        protected abstract void OnDie();
 
     }
 }

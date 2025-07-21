@@ -8,6 +8,7 @@ namespace RSP2
     public class NPC : Enemy
     {
         public int NPCKey;
+
         [field: SerializeField] public NPCInteraction Interactions { get; private set; }
         [field: SerializeField] public InteractionHitBoxForNPC InteractionHitBox { get; private set; }
         [field: SerializeField] public NPCCamera NPCCamera { get; private set; }
@@ -39,6 +40,17 @@ namespace RSP2
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
+        }
+
+        protected override void OnDie()
+        {
+            EventBus.TriggerEnemyHunted(NPCKey + NPC_KEY_CONST);
+
+            //gameManager.EnemyDie(this);
+            ActionStateMachine.OnDie();
+            this.enabled = false;
+            Controller.enabled = false;
+            AttackHitBox.Deactivate();
         }
 
     }

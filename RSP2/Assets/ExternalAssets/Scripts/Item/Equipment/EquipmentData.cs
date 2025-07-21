@@ -6,6 +6,10 @@ namespace RSP2
 {
     public class EquipmentData : ItemData
     {
+        public const int WEAPON_KEY_CONTS = 1000;
+        public const int ARMOR_KEY_CONTS = 2000;
+        public const int ACCESSORY_KEY_CONTS = 3000;
+
         public EquipmentType EquipmentType;
     }
 }

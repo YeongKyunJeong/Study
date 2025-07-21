@@ -229,7 +229,7 @@ namespace RSP2
             }
         }
 
-        private void OnDie()
+        protected override void OnDie()
         {
             ActionStateMachine.OnDie();
             InputReader.enabled = false;

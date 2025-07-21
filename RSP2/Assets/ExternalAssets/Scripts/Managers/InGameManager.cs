@@ -193,10 +193,10 @@ namespace RSP2
             }
         }
 
-        public void EnemyDie(Enemy diedEnemy)
-        {
-            EnemyDieEvent?.Invoke(diedEnemy);
-        }
+        //public void EnemyDie(Enemy diedEnemy)
+        //{
+        //    EnemyDieEvent?.Invoke(diedEnemy);
+        //}
 
         //private void CheckScene()
         //{

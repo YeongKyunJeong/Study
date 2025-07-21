@@ -15,6 +15,9 @@ namespace RSP2
     [CreateAssetMenu(fileName = "Item", menuName = "Custom/New Item")]
     public class ItemData : ScriptableObject
     {
+        public const int EQUIPMENT_KEY_CONST = 10000;
+        public const int CONSUMABLE_KEY_CONST = 20000;
+
         [Header("Info")]
         public Sprite ItemSprite;
         public string DisplayName;

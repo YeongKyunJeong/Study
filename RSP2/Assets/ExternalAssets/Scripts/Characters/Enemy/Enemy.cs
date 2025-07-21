@@ -8,6 +8,8 @@ namespace RSP2
 {
     public class Enemy : CombatUnit
     {
+        public const int NPC_KEY_CONST = 10000;
+
         protected InGameManager gameManager;
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
@@ -111,14 +113,15 @@ namespace RSP2
             ActionStateMachine.OnHit();
         }
 
-        protected void OnDie()
+        protected override void OnDie()
         {
+            EventBus.TriggerEnemyHunted(EnemyKey);
+
+            //gameManager.EnemyDie(this);
             ActionStateMachine.OnDie();
-            gameManager.EnemyDie(this);
             this.enabled = false;
             Controller.enabled = false;
             AttackHitBox.Deactivate();
         }
-
     }
 }

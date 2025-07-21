@@ -66,7 +66,7 @@ namespace RSP2
         private void SetStatAndCombatSystem()
         {
             combatSystemForPlayer = GetComponent<CombatSystemForPlayer>();
-            gameManager = InGameManager.Instance;
+            inGameManager = InGameManager.Instance;
             dataManager = DataManager.Instance;
 
             CurrentLevel = PlayerBaseStatistics.Level;
@@ -96,7 +96,8 @@ namespace RSP2
             combatSystem.StaminaSpendEvent += OnCurrentStaminaChange;
             combatSystem.StaminaRecoveryEvent += OnCurrentStaminaChange;
 
-            gameManager.EnemyDieEvent += OnEnemyDie;
+            //gameManager.EnemyDieEvent += OnEnemyDie;
+            EventBus.OnEnemyHunted += OnEnemyDie;
 
             CalculateFinalStat();
         }
@@ -104,6 +105,17 @@ namespace RSP2
         public void OnEnemyDie(Enemy enemy)
         {
             GainExperience(enemy.CombatSystem.GainExp);
+        }
+
+        public void OnEnemyDie(int iD)
+        {
+            if (iD >= NPC.NPC_KEY_CONST)
+            {
+                GainExperience(DataManager.Instance.TableDataLoader.StatLoaderForNPC.GetByKey(iD - NPC.NPC_KEY_CONST).Exp);
+                return;
+            }
+
+            GainExperience(DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(iD).Exp);
         }
 
         public bool GainExperience(int amount, bool levelUpVFX = true)

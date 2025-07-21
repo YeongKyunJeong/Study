@@ -61,84 +61,6 @@ MonoBehaviour:
   - tag: SkillProjectile_01
     prefab: {fileID: 6730409884013660981, guid: 639c535b472c9ad4faae5bd4d6c93b2f, type: 3}
     size: 1
---- !u!1 &481939536547670832
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 641656255093655494}
-  - component: {fileID: 7457804006289927311}
-  - component: {fileID: 3693324135976558306}
-  m_Layer: 0
-  m_Name: EventSystem
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &641656255093655494
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481939536547670832}
-  serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 4469978215258712696}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7457804006289927311
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481939536547670832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_FirstSelected: {fileID: 0}
-  m_sendNavigationEvents: 1
-  m_DragThreshold: 10
---- !u!114 &3693324135976558306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 481939536547670832}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 01614664b831546d2ae94a42149d80ac, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_SendPointerHoverToParent: 1
-  m_MoveRepeatDelay: 0.5
-  m_MoveRepeatRate: 0.1
-  m_XRTrackingOrigin: {fileID: 0}
-  m_ActionsAsset: {fileID: -944628639613478452, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_PointAction: {fileID: -2773517746247527605, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_MoveAction: {fileID: -3064041338967405981, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_SubmitAction: {fileID: 2935008009284694806, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_CancelAction: {fileID: -8121885829804673438, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_LeftClickAction: {fileID: -997673474176280992, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_MiddleClickAction: {fileID: 4341433572147297323, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_RightClickAction: {fileID: -8026363658895988244, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_ScrollWheelAction: {fileID: -4625333440529829589, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_TrackedDevicePositionAction: {fileID: 1607837004195821152, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_TrackedDeviceOrientationAction: {fileID: 6472797993107881220, guid: aef16b49f1979894d8f4fc20542bd399, type: 3}
-  m_DeselectOnBackgroundClick: 1
-  m_PointerBehavior: 0
-  m_CursorLockBehavior: 0
 --- !u!1 &973242746073846171
 GameObject:
   m_ObjectHideFlags: 0
@@ -177,7 +99,6 @@ Transform:
   - {fileID: 6509129442076578261}
   - {fileID: 425635528395911420}
   - {fileID: 4780345506640906248}
-  - {fileID: 641656255093655494}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8827929891110237300
@@ -192,6 +113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 79e0b5f9010f9e74ebce55959276fe20, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  <sceneNumber>k__BackingField: 0
   <IsInitialized>k__BackingField: 0
   <PlayerInput>k__BackingField: {fileID: 0}
   <CameraManager>k__BackingField: {fileID: 1037927587348555406}
@@ -559,9 +481,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeCycle: 0
   <isDayTime>k__BackingField: 1
-  <StartTime>k__BackingField: 90
+  <StartTime>k__BackingField: 10
   <isSunOnly>k__BackingField: 0
-  dayLength: 180
+  dayLength: 30
   sunGradient:
     serializedVersion: 2
     key0: {r: 0.23529413, g: 0.23529413, b: 0.23529413, a: 1}
