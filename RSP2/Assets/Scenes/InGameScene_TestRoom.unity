@@ -2769,7 +2769,7 @@ MonoBehaviour:
   inventoryUI: {fileID: 520186141}
   interactionUI: {fileID: 1257225465}
   dialogueUI: {fileID: 125834512}
-  menuUI: {fileID: 0}
+  menuUI: {fileID: 615365821}
 --- !u!1001 &387325254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4161,6 +4161,7 @@ GameObject:
   - component: {fileID: 615365818}
   - component: {fileID: 615365820}
   - component: {fileID: 615365819}
+  - component: {fileID: 615365821}
   m_Layer: 0
   m_Name: MenuUI
   m_TagString: Untagged
@@ -4229,6 +4230,18 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 615365817}
   m_CullTransparentMesh: 1
+--- !u!114 &615365821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 615365817}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 42b7c52906aa4294ebe04785591b38ac, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &629243931
 GameObject:
   m_ObjectHideFlags: 0
@@ -4730,7 +4743,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 728948931}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 615365821}
+        m_TargetAssemblyTypeName: RSP2.MenuUI, Assembly-CSharp
+        m_MethodName: LoadCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &728948931
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5773,7 +5798,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 838222608}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 615365821}
+        m_TargetAssemblyTypeName: RSP2.MenuUI, Assembly-CSharp
+        m_MethodName: SaveCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &838222608
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9837,7 +9874,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1122325626}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 615365817}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1122325626
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14547,7 +14596,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1931406307}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 615365821}
+        m_TargetAssemblyTypeName: RSP2.MenuUI, Assembly-CSharp
+        m_MethodName: TitleCall
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1931406307
 MonoBehaviour:
   m_ObjectHideFlags: 0

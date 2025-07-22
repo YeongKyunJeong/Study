@@ -45,10 +45,19 @@ namespace RSP2
             }
         }
 
-        protected virtual void OnDestroy()
+        protected virtual void Awake()
         {
-            applicationIsQuitting = true;
+            if (Instance != null && Instance != this)
+            {
+                Destroy(gameObject);
+                return;
+            }
         }
+
+        //protected virtual void OnDestroy()
+        //{
+        //    applicationIsQuitting = true;
+        //}
     }
 
 }

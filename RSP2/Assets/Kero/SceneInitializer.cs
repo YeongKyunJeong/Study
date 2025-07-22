@@ -16,7 +16,7 @@ namespace RSP2
 
         protected void Awake()
         {
-            if (!isInitialize) Initialize();
+            Initialize();
         }
     }
 }

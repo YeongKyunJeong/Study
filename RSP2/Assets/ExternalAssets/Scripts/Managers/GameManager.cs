@@ -22,8 +22,10 @@ namespace RSP2
         public const string IN_GAME_SCENE_NAME_STR = "InGameScene_";
 
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             if (Instance == null) { }// Always false by MonoSingleton
 
             if (DataManager == null)

@@ -10,15 +10,23 @@ namespace RSP2
         private GameManager gameManager;
         private InGameManager inGameManager;
 
+        private bool isLoading;
+        private Coroutine loadingCoroutine;
+
         public void Initialize(InGameManager _inGameManager)
         {
             inGameManager = _inGameManager;
             gameManager = GameManager.Instance;
+            isLoading = false;
         }
 
         public void SaveCall()
         {
+            if (isLoading) return;
+
             gameManager.InGameSceneSaveCall();
+            loadingCoroutine = StartCoroutine(LoadingCoroutine());
+
         }
 
         public void LoadCall()
@@ -28,7 +36,20 @@ namespace RSP2
 
         public void TitleCall()
         {
+            if (isLoading) return;
 
+            isLoading = true;
+            gameManager.InGameSceneTitleCall();
+        }
+
+        private IEnumerator LoadingCoroutine()
+        {
+            isLoading = true;
+            yield return new WaitForSeconds(2);
+
+            isLoading = false;
+            loadingCoroutine = null;
+            yield return null;
         }
 
     }

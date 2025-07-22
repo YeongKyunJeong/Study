@@ -18,7 +18,7 @@ namespace RSP2
         public override void Initialize()
         {
             if (isInitialize) return;
-            
+
             isInitialize = true;
 
 #if UNITY_EDITOR
