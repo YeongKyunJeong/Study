@@ -41,6 +41,9 @@ namespace RSP2
 
         private bool isDragging;
 
+
+        public bool IsActive { get => GetIsOpened(); }
+
         public void Initialize(InGameManager _gameManager, CanvasUIManager _uIManager, PanelUI _panelUI)
         {
             player = _gameManager.Player;
@@ -76,6 +79,11 @@ namespace RSP2
             }
 
             isDragging = false;
+        }
+
+        private bool GetIsOpened()
+        {
+            return gameObject.activeSelf;
         }
 
         public void Open()
@@ -251,7 +259,7 @@ namespace RSP2
             EquipmentData equipmentData = equipmentInstance.ItemData as EquipmentData;
 
             player.EquipItem(equipmentInstance, equipmentData);
-            
+
             switch (equipmentData.EquipmentType)
             {
                 case EquipmentType.Weapon:

@@ -53,7 +53,7 @@ namespace RSP2
                 Debug.Log("dialogueUI UI Not Imported");
                 dialogueUI = GetComponentInChildren<DialogueUI>();
             }
-            if(menuUI == null)
+            if (menuUI == null)
             {
                 Debug.Log("menuUI UI Not Imported");
                 menuUI = GetComponentInChildren<MenuUI>();
@@ -64,12 +64,6 @@ namespace RSP2
             interactionUI.Initialize(inGameManager, canvasUIManager);
             dialogueUI.Initialize(inGameManager);
             menuUI.Initialize(inGameManager);
-        }
-
-
-        public void OpenInventoryUI()
-        {
-            inventoryUI.Open();
         }
 
         public void OnDrop(PointerEventData eventData)

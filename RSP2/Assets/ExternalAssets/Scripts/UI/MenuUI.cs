@@ -13,11 +13,27 @@ namespace RSP2
         private bool isLoading;
         private Coroutine loadingCoroutine;
 
+
+        public bool IsActive { get => GetIsOpened(); }
+
+
         public void Initialize(InGameManager _inGameManager)
         {
             inGameManager = _inGameManager;
             gameManager = GameManager.Instance;
             isLoading = false;
+
+            gameObject.SetActive(false);
+        }
+
+        private bool GetIsOpened()
+        {
+            return gameObject.activeSelf;
+        }
+
+        public void Open()
+        {
+            gameObject.SetActive(!gameObject.activeSelf);
         }
 
         public void SaveCall()

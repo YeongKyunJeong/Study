@@ -195,7 +195,7 @@ namespace RSP2
             }
             else
             {
-                path = string.Concat(Application.persistentDataPath, path, "/", userName, "/Save_", saveNumber.ToString());
+                path = string.Concat(Application.persistentDataPath, path, "/", userName, "/Save_", saveNumber.ToString("D3"));
             }
 
             if (!File.Exists(path))

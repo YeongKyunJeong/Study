@@ -26,7 +26,7 @@ namespace RSP2
             UserDataWriter = new UserDataWriter();
             UserDataLoader = new UserDataLoader();
             UserDataWriter.Initialize(UserDataLoader, SaveDataWriter);
-            UserDataLoader.Initialize(SaveDataLoader);
+            UserDataLoader.Initialize(UserDataWriter, SaveDataWriter, SaveDataLoader);
         }
 
         public void CallSave()

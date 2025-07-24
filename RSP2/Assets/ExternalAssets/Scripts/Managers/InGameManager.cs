@@ -118,7 +118,7 @@ namespace RSP2
             DayNightManager.CallPhysicsUpdate();
         }
 
-        public void OnInventoryUIOpen(bool isOn)
+        public void OnPanelUIOpen(bool isOn)
         {
             if (isOn)
             {

@@ -12,12 +12,13 @@ namespace RSP2
     {
         Inventory,
         Interaction,
-        Dialogue
+        Dialogue,
+        Menu
     }
 
     public class CanvasUIManager : MonoSingleton<CanvasUIManager>
     {
-        private InGameManager gameManager;
+        private InGameManager inGameManager;
         private InteractionManager interactionManager;
         private Player player;
         private CombatSystemForPlayer combatSystem;
@@ -31,36 +32,37 @@ namespace RSP2
         [field: SerializeField] public PopUpUI PopUpUI { get; private set; }
 
         public bool IsInventoryOpened { get; private set; }
+        public bool IsMenuOpened { get; private set; }
 
         public void Initialize(InGameManager _gameManager)
         {
-            gameManager = _gameManager;
+            inGameManager = _gameManager;
             player = _gameManager.Player;
             combatSystem = player.CombatSystem;
 
             player.InputReader.InventoryEvent += OpenInventoryUI;
-
+            player.InputReader.MenuEvent += OpenMenuUI;
 
             if (FixedUI == null)
             {
                 Debug.Log("Fixed UI Not Imported");
                 FixedUI = GetComponent<FixedUI>();
             }
-            FixedUI.Initialize(gameManager, this);
+            FixedUI.Initialize(inGameManager, this);
 
             if (PanelUI == null)
             {
                 Debug.Log("Panel UI Not Imported");
                 PanelUI = GetComponent<PanelUI>();
             }
-            PanelUI.Initialize(gameManager, this);
+            PanelUI.Initialize(inGameManager, this);
 
             if (PopUpUI == null)
             {
                 Debug.Log("Panel UI Not Imported");
                 PopUpUI = GetComponent<PopUpUI>();
             }
-            PopUpUI.Initialize(gameManager, this);
+            PopUpUI.Initialize(inGameManager, this);
 
             IsInventoryOpened = false;
 
@@ -68,7 +70,7 @@ namespace RSP2
 
         private void Start()
         {
-            gameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
+            inGameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
             //gameManager.Player.InputReader.On
 
             player.CombatSystem.DamageEvent += ChangeHPBar;
@@ -85,11 +87,11 @@ namespace RSP2
             {
                 case PanelUIType.Inventory:
                     {
-                        PanelUI.OpenInventoryUI();
+                        PanelUI.InventoryUI.Open();
 
-                        bool isActive = PanelUI.InventoryUI.gameObject.activeSelf;
-                        IsInventoryOpened = isActive;
-                        gameManager.OnInventoryUIOpen(isActive);
+                        //bool isActive = PanelUI.InventoryUI.IsActive;
+                        IsInventoryOpened = PanelUI.InventoryUI.IsActive;
+                        inGameManager.OnPanelUIOpen(IsInventoryOpened);
                         break;
                     }
                 case PanelUIType.Interaction:
@@ -103,6 +105,15 @@ namespace RSP2
                         if (isOn) PanelUI.DialogueUI.Activate();
                         else PanelUI.DialogueUI.Deactivate();
                         break;
+                    }
+                case PanelUIType.Menu:
+                    {
+                        PanelUI.MenuUI.Open();
+
+                        IsMenuOpened = PanelUI.MenuUI.IsActive;
+                        inGameManager.OnPanelUIOpen(IsMenuOpened);
+                        break;
+
                     }
             }
 
@@ -157,10 +168,26 @@ namespace RSP2
 
         private void OpenInventoryUI()
         {
+            // TO DO :: Check Other UI is Opened
+            if (PanelUI.MenuUI.IsActive) return;
+
+            // Open Inventory Only When Menu UI is Not Opened
             SetPanelUIActive(PanelUIType.Inventory);
+
         }
         #endregion
 
+        private void OpenMenuUI()
+        {
+            // TO DO :: Check Other UI is Opened
+            if (PanelUI.InventoryUI.IsActive)
+            {
+                SetPanelUIActive(PanelUIType.Inventory);
+                return;
+            }
+
+            SetPanelUIActive(PanelUIType.Menu);
+        }
 
         #region Pop Up UI Methods
 

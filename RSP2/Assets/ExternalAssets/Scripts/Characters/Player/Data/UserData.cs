@@ -70,6 +70,8 @@ namespace RSP2
             }
         }
 
+
+
         //public void SaveCurrentUserData(string path = "/Json/UserData")
         //{
         //    if (userDataLoader.CurrentUserData == null) return;
@@ -105,6 +107,8 @@ namespace RSP2
 
     public class UserDataLoader
     {
+        private UserDataWriter userDataWriter;
+
         private SaveDataLoader saveDataLoader;
         private SaveDataWriter saveDataWriter;
 
@@ -114,8 +118,10 @@ namespace RSP2
         private List<PlayerSaveData> saveDataList = new List<PlayerSaveData>();
         public List<PlayerSaveData> CurrentSaveDataList { get => saveDataList; }
 
-        public void Initialize(SaveDataLoader _saveDataLoader, int userID = 0)
+        public void Initialize(UserDataWriter _userDataWriter, SaveDataWriter _saveDataWriter, SaveDataLoader _saveDataLoader, int userID = 0)
         {
+            userDataWriter = _userDataWriter;
+            saveDataWriter = _saveDataWriter;
             saveDataLoader = _saveDataLoader;
             LoadUserData(userID);
             ///////////////////////////////////////////////////////////////////////
@@ -136,6 +142,11 @@ namespace RSP2
                 PlayerSaveData initialSaveData = PlayerSaveData.InitialSaveData();
                 initialSaveData.UserID = userID;
                 saveDataList.Add(initialSaveData);
+
+                if (userDataWriter.SaveUserDataToJson(userData))
+                {
+                    saveDataWriter.SavePlayerDataToJson(initialSaveData, userData.UserName);
+                }
 
                 return userData;
             }
@@ -158,6 +169,8 @@ namespace RSP2
                     userData.SaveNumberingList.Clear();
                     userData.SaveNumberingList.Add(0);
                     saveDataList.Add(PlayerSaveData.InitialSaveData(userData.UserID));
+
+                    saveDataWriter.SavePlayerDataToJson(saveDataList[0], userData.UserName);
                 }
 
                 return userData;

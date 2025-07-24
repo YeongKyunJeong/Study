@@ -42,6 +42,7 @@ namespace RSP2
 
         #region UI Action Event Field
         public event Action InventoryEvent;
+        public event Action MenuEvent;
         public event Action InteractionChangeEvent;
         #endregion
 
@@ -174,6 +175,11 @@ namespace RSP2
             InventoryEvent?.Invoke();
         }
         #endregion
+
+        private void OnEscape()
+        {
+            MenuEvent?.Invoke();
+        }
 
         #region Interaction
         private void OnInteraction()
