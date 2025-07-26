@@ -15,7 +15,7 @@ namespace RSP2
         public DamageType DamageType;
         public float RangeModifier;
         public float SpeedModifier;
-        public float DamageBonus;
+        public float[] DamageBonus;
         public float IntensityBonus;
     }
 }

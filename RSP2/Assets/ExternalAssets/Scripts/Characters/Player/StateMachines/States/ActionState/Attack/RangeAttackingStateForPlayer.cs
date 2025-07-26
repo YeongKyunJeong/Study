@@ -62,7 +62,7 @@ namespace RSP2
             {
                 combatSystem.ChangeStamina(-attackData.StaminaCost);
                 combatSystem.ChangeMana(-attackData.MPCost);
-                skillProjectile = ProjectileManager.ShootProjectile(attackData, statHandler.CurrentStatistics.Attack, player.CurrentWeapon.WeaponData.DamageBonus, combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
+                skillProjectile = ProjectileManager.ShootProjectile(attackData, statHandler.CurrentStatistics.Attack, player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade], combatSystem, attackData.Projectiles[0], player.transform.position, player.transform.forward);
                 //skillProjectile.EnterEvent += OnProjectileHit;
                 isShot = true;
             }

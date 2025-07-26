@@ -9,22 +9,23 @@ namespace RSP2
     public class ItemInstance
     {
         public ItemData ItemData;
-        public int amount;
+        public int Upgrade;
+        public int Amount;
         public event Action<int> AmountChangeEvent;
         public bool isEquipped;
 
         public ItemInstance(ItemData itemData)
         {
             this.ItemData = itemData;
-            amount = 1;
+            Amount = 1;
             isEquipped = false;
         }
 
         public bool Use(int value = 1)
         {
-            amount -= value;
-            AmountChangeEvent?.Invoke(amount);
-            return amount > 0;
+            Amount -= value;
+            AmountChangeEvent?.Invoke(Amount);
+            return Amount > 0;
         }
     }
 
@@ -55,11 +56,11 @@ namespace RSP2
             {
                 ItemInstance item = items[i];
 
-                if (item.ItemData == itemData && itemData.CanStack && itemData.MaxStackAmount > item.amount)
+                if (item.ItemData == itemData && itemData.CanStack && itemData.MaxStackAmount > item.Amount)
                 {
-                    int diff = Mathf.Min(amount, itemData.MaxStackAmount - item.amount);
+                    int diff = Mathf.Min(amount, itemData.MaxStackAmount - item.Amount);
                     amount -= diff;
-                    item.amount += diff;
+                    item.Amount += diff;
 
                     inventoryUI.StackItemToUsedSlot(item);
 
@@ -74,12 +75,12 @@ namespace RSP2
                 if (diff <= 0) break;
 
                 ItemInstance newItem = new ItemInstance(itemData);
-                newItem.amount = diff;
+                newItem.Amount = diff;
                 amount -= diff;
 
                 if (!inventoryUI.AddItemToEmptySlot(newItem))
                 {
-                    newItem.amount += amount;
+                    newItem.Amount += amount;
                     Drop(newItem);
                     return false;
                 }
@@ -92,12 +93,12 @@ namespace RSP2
             return false;
         }
 
-        public bool AddItemToSpecificSlot(int slotPosition, ItemData itemData, int amount = 1)
+        public bool AddItemToSpecificSlot(int slotPosition, ItemData itemData, int upgrade = 0, int amount = 1)
         {
             if (amount == 0) return false;
 
             ItemInstance newItem = new ItemInstance(itemData);
-            newItem.amount = amount;
+            newItem.Amount = amount;
 
             if (inventoryUI.AddItemToSpecificSlot(newItem, slotPosition))
             {
@@ -118,7 +119,7 @@ namespace RSP2
             rigidbody.AddForce(transform.forward * 2, ForceMode.Impulse);
 
             ItemObject itemObject = go.GetComponent<ItemObject>();
-            itemObject.amount = itemInstance.amount;
+            itemObject.Amount = itemInstance.Amount;
             if (itemObject.itemData == null)
                 itemObject.itemData = itemInstance.ItemData;
         }
@@ -148,13 +149,15 @@ namespace RSP2
 
                 if (itemSaveData.ItemType == ItemType.Equipable)
                 {
-                    itemSaveData.EquipmentType = (item.ItemData as EquipmentData).EquipmentType;
+                    EquipmentData equipmentData = item.ItemData as EquipmentData;
+                    itemSaveData.EquipmentType = equipmentData.EquipmentType;
+                    itemSaveData.ItemUpgrade = equipmentData.Upgrade;
                     itemSaveData.IsEquipped = item.isEquipped; // Should be false;
                 }
 
                 itemSaveData.ItemKey = item.ItemData.Key;
                 itemSaveData.SlotPosition = i;
-                itemSaveData.Amount = item.amount;
+                itemSaveData.Amount = item.Amount;
 
                 ItemSaveDataList.Add(itemSaveData);
             }
@@ -173,7 +176,9 @@ namespace RSP2
                 ItemInstance item = slot.ItemInstance;
 
                 itemSaveData.ItemType = ItemType.Equipable;
-                itemSaveData.EquipmentType = (item.ItemData as EquipmentData).EquipmentType;
+                EquipmentData equipmentData = item.ItemData as EquipmentData;
+                itemSaveData.EquipmentType = equipmentData.EquipmentType;
+                itemSaveData.ItemUpgrade = equipmentData.Upgrade;
                 itemSaveData.IsEquipped = true;
 
                 itemSaveData.ItemKey = item.ItemData.Key;
@@ -189,6 +194,10 @@ namespace RSP2
         public void EquipBySaveData(EquipmentData equipmentData)
         {
             ItemInstance newEquipment = new ItemInstance(equipmentData);
+
+            ////////////
+            //(newEquipment.ItemData as EquipmentData).Upgrade = upgrade;
+
             items.Add(newEquipment);
             inventoryUI.EquipItemBySave(newEquipment);
         }

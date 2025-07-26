@@ -49,7 +49,7 @@ namespace RSP2
 
             initialSaveData.UserID = initialUserID;
             initialSaveData.SaveKey = 0;
-            initialSaveData.SaveTime = DateTime.Now.ToString();
+            //initialSaveData.SaveTime = DateTime.Now.ToString();
 
             initialSaveData.Exp = 500;
             initialSaveData.Gold = 0;
@@ -65,17 +65,17 @@ namespace RSP2
                                                     new ItemSaveData(
                                                         ItemType.Equipable,
                                                         EquipmentType.Weapon,
-                                                        1,false, 1, 1
+                                                        1, 0,false, 1, 1
                                                         ),
                                                     new ItemSaveData(
                                                         ItemType.Consumable,
                                                         EquipmentType.Weapon,
-                                                        0,false, 2, 4
+                                                        0, 0,false, 2, 4
                                                         ),
                                                     new ItemSaveData(
                                                         ItemType.Equipable,
                                                         EquipmentType.Weapon,
-                                                        0,true, -1, 1
+                                                        0, 1,true, -1, 1
                                                         ),
                                                 };
 
@@ -89,6 +89,7 @@ namespace RSP2
         public ItemType ItemType;
         public EquipmentType EquipmentType;
         public int ItemKey;
+        public int ItemUpgrade;
         public bool IsEquipped;
         public int SlotPosition;
         public int Amount;
@@ -97,6 +98,7 @@ namespace RSP2
             ItemType itemType = ItemType.Equipable,
             EquipmentType equipmentType = EquipmentType.Weapon,
             int itemKey = 0,
+            int itemUpgrade = 0,
             bool isEquipped = false,
             int slotPosition = 0,
             int amount = 1)
@@ -104,6 +106,7 @@ namespace RSP2
             ItemType = itemType;
             EquipmentType = equipmentType;
             ItemKey = itemKey;
+            ItemUpgrade = itemUpgrade;
             IsEquipped = isEquipped;
             SlotPosition = slotPosition;
             Amount = amount;

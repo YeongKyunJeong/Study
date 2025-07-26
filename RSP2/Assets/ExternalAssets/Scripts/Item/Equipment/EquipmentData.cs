@@ -11,5 +11,6 @@ namespace RSP2
         public const int ACCESSORY_KEY_CONTS = 3000;
 
         public EquipmentType EquipmentType;
+        public int Upgrade = 0;
     }
 }

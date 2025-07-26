@@ -260,7 +260,7 @@ namespace RSP2
             {
                 if (itemSaveData.SlotPosition < 0)
                 {
-                    SetEqipmentFromSave(itemSaveData);
+                    SetEquipmentFromSave(itemSaveData);
                 }
                 else
                 {
@@ -270,13 +270,16 @@ namespace RSP2
         }
 
 
-        private void SetEqipmentFromSave(ItemSaveData itemSaveData)
+        private void SetEquipmentFromSave(ItemSaveData itemSaveData)
         {
             switch (itemSaveData.EquipmentType)
             {
                 case EquipmentType.Weapon:
                     {
-                        Inventory.EquipBySaveData(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey]);
+                        WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
+                        weaponData.Upgrade = itemSaveData.ItemUpgrade;
+
+                        Inventory.EquipBySaveData(weaponData);
                         break;
                     }
                 case EquipmentType.Armor:
@@ -304,8 +307,13 @@ namespace RSP2
                         {
                             case EquipmentType.Weapon:
                                 {
+                                    //WeaponData weaponData = SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey];
+
+                                    WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
+                                    weaponData.Upgrade = itemSaveData.ItemUpgrade;
+
                                     Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
-                                        SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey], 1);
+                                        weaponData, 1);
                                     break;
                                 }
                             case EquipmentType.Armor:
@@ -325,8 +333,10 @@ namespace RSP2
                     }
                 case ItemType.Consumable:
                     {
+                        ConsumableData consumableData = SOData.ConsumableDataLibrary.GetConsumableDataCopy(itemSaveData.ItemKey);
+
                         Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
-                            SOData.ConsumableDataLibrary.ConsumableData[itemSaveData.ItemKey], itemSaveData.Amount);
+                            consumableData, amount: itemSaveData.Amount);
                         break;
                     }
             }

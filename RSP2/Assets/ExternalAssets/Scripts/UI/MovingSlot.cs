@@ -51,7 +51,7 @@ namespace RSP2
             itemInstance = DraggedItemSlot.ItemInstance;
             itemImage.sprite = itemInstance.ItemData.ItemSprite;
 
-            if (itemInstance.amount <= 1)
+            if (itemInstance.Amount <= 1)
             {
                 amountTMP.gameObject.SetActive(false);
             }
@@ -59,7 +59,7 @@ namespace RSP2
             {
                 amountTMP.gameObject.SetActive(true);
             }
-            amountTMP.text = itemInstance.amount.ToString();
+            amountTMP.text = itemInstance.Amount.ToString();
             isMoving = true;
             gameObject.SetActive(true);
         }
@@ -73,7 +73,7 @@ namespace RSP2
 
             amountTMP.gameObject.SetActive(false);
 
-            amountTMP.text = itemInstance.amount.ToString();
+            amountTMP.text = itemInstance.Amount.ToString();
             isMoving = true;
             gameObject.SetActive(true);
         }

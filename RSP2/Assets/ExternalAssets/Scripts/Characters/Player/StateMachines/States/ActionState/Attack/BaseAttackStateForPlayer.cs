@@ -281,7 +281,7 @@ namespace RSP2
             {
                 case DamageType.ByMainWeapon:
                     {
-                        SFXManager.PlayClip(player.CurrentWeapon.WeaponData.AttackSoundClip, player.transform.position, speedMultipliyer: 0.7f);
+                        SFXManager.PlayClip(player.CurrentWeapon.WeaponData.AttackSoundClip, player.transform.position, speedMultipliyer: 0.8f);
                         break;
                     }
                 default:
@@ -316,12 +316,12 @@ namespace RSP2
                 case DamageType.ByMainWeapon:
                     {
                         // TO DO :: Add damage calculating logic with stat
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus, player.CurrentWeapon.WeaponData.DamageType);
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade], player.CurrentWeapon.WeaponData.DamageType);
                         break;
                     }
                 default:
                     {
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus, attackData.DamageType);
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade], attackData.DamageType);
                         break;
                     }
             }

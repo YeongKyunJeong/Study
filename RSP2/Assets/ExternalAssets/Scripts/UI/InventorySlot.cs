@@ -79,8 +79,8 @@ namespace RSP2
 
             if (SlotType == InventorySlotType.Inventory)
             {
-                AmountTMPChange(newItem.amount);
-                amountTMP.text = newItem.amount.ToString();
+                AmountTMPChange(newItem.Amount);
+                amountTMP.text = newItem.Amount.ToString();
                 itemInstance.AmountChangeEvent += AmountTMPChange;
             }
         }

@@ -39,8 +39,8 @@ MonoBehaviour:
     - {fileID: 11400000, guid: 3157ed0254a74c946a4b108ba1264545, type: 2}
   <EquipmentDataLibrary>k__BackingField:
     <WeaponData>k__BackingField:
-    - {fileID: 11400000, guid: b3fb20e072a3fa4438c3794879a86461, type: 2}
-    - {fileID: 11400000, guid: ecfcd6db6500213438a532476adcbcd1, type: 2}
+    - {fileID: 11400000, guid: 11cb066429fc33949aafd73c65ed072a, type: 2}
+    - {fileID: 11400000, guid: d8afadcb50c7c95498177ae2ecfc6e81, type: 2}
   <ConsumableDataLibrary>k__BackingField:
     <ConsumableData>k__BackingField:
     - {fileID: 11400000, guid: 336cef2ec79aae247998da974e330e50, type: 2}

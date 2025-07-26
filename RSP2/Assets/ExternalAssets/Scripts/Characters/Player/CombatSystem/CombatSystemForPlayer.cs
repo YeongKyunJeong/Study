@@ -24,8 +24,8 @@ namespace RSP2
         public void ChangeStatByLevelUp(LevelStatTable nextLevelData)
         {
             CurrentHP += nextLevelData.MaxHP - MaxHP;
-            CurrentMP += nextLevelData.MaxHP - MaxHP;
-            CurrentStamina += nextLevelData.MaxHP - MaxHP;
+            CurrentMP += nextLevelData.MaxMP - MaxMP;
+            CurrentStamina += nextLevelData.MaxStamina - MaxStamina;
         }
 
         public override void TakeForce(Vector3 force)

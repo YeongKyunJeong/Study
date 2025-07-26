@@ -16,20 +16,20 @@ namespace RSP2
     public class ItemObject : MonoBehaviour, IInteractable
     {
         public ItemData itemData;
-        public int amount = 1;
+        public int Amount = 1;
 
         public string GetInteractMsg()
         {
             if (itemData == null)
                 return "Pickup Unknown";
             else
-                return string.Format("Pickup {0} {1}", itemData.DisplayName, amount);
+                return string.Format("Pickup {0} {1}", itemData.DisplayName, Amount);
         }
 
         public void OnInteractEnter(Player player)
         {
             // TO DO :: Add item taking logic
-            if (player.AddItem(itemData, amount))
+            if (player.AddItem(itemData, Amount))
                 Destroy(gameObject);
         }
 
