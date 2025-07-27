@@ -19,7 +19,7 @@ namespace RSP2
             {
                 if (applicationIsQuitting)
                 {
-                    Debug.LogWarning($"싱글턴 인스턴스 '{typeof(T)}'가 이미 삭제되었습니다. null을 반환합니다.");
+                    Debug.LogWarning($"Singleton Instance '{typeof(T)}' was Deleted. null was Returned");
                     return null;
                 }
 
@@ -29,7 +29,7 @@ namespace RSP2
 
                     if (FindObjectsOfType(typeof(T)).Length > 1)
                     {
-                        Debug.LogError($"문제 발생 - 싱글턴 인스턴스가 1개 이상일 수 없습니다.");
+                        Debug.LogError($"Other Singleton Instance was Detected");
                         return instance;
                     }
 

@@ -7,6 +7,7 @@ namespace RSP2
     public class TitleInitializer : SceneInitializer
     {
         [field: SerializeField] private static GameObject gameManagerPrefab { get; set; }
+        [field: SerializeField] private GameObject TitleSceneManagerPrefab { get; set; }
 
         [field: SerializeField] private TitleManager titleSceneManager;
 
@@ -31,13 +32,10 @@ namespace RSP2
                 if (titleSceneManager == null)
                 {
                     Debug.LogWarning("In Game Manager Not Exists");
-                    // TO DO :: Instantiate Prefab
+                    titleSceneManager = Instantiate(TitleSceneManagerPrefab).GetComponent<TitleManager>();
                 }
-
-                //inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
             }
 #endif
-
             titleSceneManager.Initialize();
 
         }

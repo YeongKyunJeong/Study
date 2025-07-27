@@ -36,13 +36,10 @@ namespace RSP2
                 if (inGameManager == null)
                 {
                     Debug.LogWarning("In Game Manager Not Exists");
-                    // TO DO :: Instantiate Prefab
+                    inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
                 }
-
-                inGameManager = Instantiate(inGameManagerPrefab).GetComponent<InGameManager>();
             }
 #endif
-
             inGameManager.Initialize();
 
         }
