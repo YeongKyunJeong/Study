@@ -24,8 +24,6 @@ namespace RSP2
 
         private void Start()
         {
-            //if (!InGameManager.Instance.IsInitialized) return;
-
             availablePoolDictionary = new Dictionary<string, Queue<GameObject>>();
             inUsePoolDictionary = new Dictionary<string, HashSet<GameObject>>();
 
@@ -70,7 +68,6 @@ namespace RSP2
                 return availableObj;
             }
 
-
             Pool pool = pools.Find(p => p.tag == poolTag);
 
             GameObject newObj = Instantiate(pool.prefab);
@@ -79,8 +76,6 @@ namespace RSP2
             pool.size++;
 
             return newObj;
-
-
         }
 
         public void ResetPoolDictionary()
