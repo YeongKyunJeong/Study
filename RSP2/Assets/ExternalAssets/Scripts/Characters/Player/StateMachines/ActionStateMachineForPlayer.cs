@@ -69,18 +69,12 @@ namespace RSP2
 
 
             IdlingState = new IdlingStateForPlayer(_player, this);
-
             WalkingState = new WalkingStateForPlayer(_player, this);
-
             RunningState = new RunningStateForPlayer(_player, this);
-
             LandDashingState = new LandDashingStateForPlayer(_player, this);
 
-
             JumpingState = new JumpingStateForPlayer(_player, this);
-
             FallingState = new FallingStateForPlayer(_player, this);
-
 
             BasicMeleeAttackingState = new BasicMeleeAttackingStateForPlayer(_player, this);
 

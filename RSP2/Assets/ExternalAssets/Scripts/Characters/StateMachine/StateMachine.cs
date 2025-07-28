@@ -12,27 +12,16 @@ namespace RSP2
         public virtual void ChangeState(IState nextState)
         {
             currentState?.Exit();
-
             currentState = nextState;
-            //Debug.Log(currentState.ToString());
-
             currentState.Enter();
         }
 
         public virtual void ChangeStateWithAttackData(IState nextAttackState, int dataKey)
         {
             currentState?.Exit();
-
             currentState = nextAttackState;
-            //Debug.Log(currentState.ToString());
-
             currentState.Enter(dataKey);
         }
-
-        //public void DeliverInput()
-        //{
-        //    currentState?.HandleInput();
-        //}
 
         public void CallUpdate()
         {
@@ -64,6 +53,6 @@ namespace RSP2
         {
 
         }
-        
+
     }
 }
