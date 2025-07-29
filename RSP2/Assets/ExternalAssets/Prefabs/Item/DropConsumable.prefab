@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7509203113789829338}
   - component: {fileID: -4136999181481572825}
   m_Layer: 0
-  m_Name: DoubleDiamond
+  m_Name: DropConsumable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

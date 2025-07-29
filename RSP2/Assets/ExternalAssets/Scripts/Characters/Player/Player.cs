@@ -36,7 +36,7 @@ namespace RSP2
         public RuntimeDataForPlayer RuntimeData { get; private set; }
 
 
-        public event Action<EquipmentData, StatForPlayer> EquipmentChangeEvent;
+        public event Action<ItemInstance, StatForPlayer> EquipmentChangeEvent;
         public event Action<EquipmentType, StatForPlayer> UnequipmentEvent;
 
         private void Awake()
@@ -192,7 +192,7 @@ namespace RSP2
                     }
                     // TO DO :: Add other equipment logic
             }
-            EquipmentChangeEvent?.Invoke(equipmentData, StatHandler.PlayerCurrentStatistics);
+            EquipmentChangeEvent?.Invoke(item, StatHandler.PlayerCurrentStatistics);
         }
 
         public void UnEquipItem(EquipmentType equipmentType)
@@ -214,9 +214,9 @@ namespace RSP2
             UnequipmentEvent?.Invoke(equipmentType, StatHandler.PlayerCurrentStatistics);
         }
 
-        public bool AddItem(ItemData item, int amount = 1)
+        public bool AddItem(ItemData item, int amount = 1, int upgrade = 0)
         {
-            return Inventory.AddItem(item, amount);
+            return Inventory.AddItem(item, amount, upgrade);
         }
 
         private void OnHit(float leftHP, float MaxHP)
@@ -276,10 +276,13 @@ namespace RSP2
             {
                 case EquipmentType.Weapon:
                     {
-                        WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
-                        weaponData.Upgrade = itemSaveData.ItemUpgrade;
+                        //WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
+                        //weaponData.Upgrade = itemSaveData.ItemUpgrade;
 
-                        Inventory.EquipBySaveData(weaponData);
+                        ItemInstance newEquipment = new ItemInstance(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey],
+                                                            itemSaveData.Amount, itemSaveData.ItemUpgrade);
+
+                        Inventory.EquipBySaveData(newEquipment);
                         break;
                     }
                 case EquipmentType.Armor:
@@ -309,11 +312,13 @@ namespace RSP2
                                 {
                                     //WeaponData weaponData = SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey];
 
-                                    WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
-                                    weaponData.Upgrade = itemSaveData.ItemUpgrade;
+                                    //WeaponData weaponData = SOData.EquipmentDataLibrary.GetWeaponDataCopy(itemSaveData.ItemKey);
+                                    //weaponData.Upgrade = itemSaveData.ItemUpgrade;
 
-                                    Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
-                                        weaponData, 1);
+                                    ItemInstance newEquipment = new ItemInstance(SOData.EquipmentDataLibrary.WeaponData[itemSaveData.ItemKey],
+                                                                           itemSaveData.Amount, itemSaveData.ItemUpgrade);
+
+                                    Inventory.AddItemToSpecificSlot(newEquipment, itemSaveData.SlotPosition);
                                     break;
                                 }
                             case EquipmentType.Armor:
@@ -333,10 +338,12 @@ namespace RSP2
                     }
                 case ItemType.Consumable:
                     {
-                        ConsumableData consumableData = SOData.ConsumableDataLibrary.GetConsumableDataCopy(itemSaveData.ItemKey);
+                        //ConsumableData consumableData = SOData.ConsumableDataLibrary.GetConsumableDataCopy(itemSaveData.ItemKey);
 
-                        Inventory.AddItemToSpecificSlot(itemSaveData.SlotPosition,
-                            consumableData, amount: itemSaveData.Amount);
+                        ItemInstance newConsumable = new ItemInstance(SOData.ConsumableDataLibrary.ConsumableData[itemSaveData.ItemKey],
+                                                          itemSaveData.Amount, itemSaveData.ItemUpgrade);
+
+                        Inventory.AddItemToSpecificSlot(newConsumable, itemSaveData.SlotPosition);
                         break;
                     }
             }

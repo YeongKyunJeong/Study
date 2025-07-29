@@ -16,6 +16,7 @@ namespace RSP2
     public class ItemObject : MonoBehaviour, IInteractable
     {
         public ItemData itemData;
+        public int Upgrade = 0;
         public int Amount = 1;
 
         public string GetInteractMsg()
@@ -29,7 +30,7 @@ namespace RSP2
         public void OnInteractEnter(Player player)
         {
             // TO DO :: Add item taking logic
-            if (player.AddItem(itemData, Amount))
+            if (player.AddItem(itemData, Amount, Upgrade))
                 Destroy(gameObject);
         }
 

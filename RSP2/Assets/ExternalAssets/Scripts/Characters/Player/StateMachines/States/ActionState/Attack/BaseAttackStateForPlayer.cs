@@ -316,12 +316,16 @@ namespace RSP2
                 case DamageType.ByMainWeapon:
                     {
                         // TO DO :: Add damage calculating logic with stat
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade], player.CurrentWeapon.WeaponData.DamageType);
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage 
+                                                        + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.ItemInstance.Upgrade],
+                                                        player.CurrentWeapon.WeaponData.DamageType);
                         break;
                     }
                 default:
                     {
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade], attackData.DamageType);
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage 
+                                                        + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.ItemInstance.Upgrade],
+                                                        attackData.DamageType);
                         break;
                     }
             }

@@ -7,15 +7,13 @@ namespace RSP2
     [CreateAssetMenu(fileName = "Item", menuName = "Custom/New Weapon")]
     public class WeaponData : EquipmentData
     {
-        [Header("Equip Prefab")]
-        public GameObject EquipPrefab;
-        public AudioClip AttackSoundClip;
+        [field: SerializeField] public GameObject EquipPrefab { get; private set; }
+        [field: SerializeField] public AudioClip AttackSoundClip { get; private set; }
 
-        [Header("Statistics Data")]
-        public DamageType DamageType;
-        public float RangeModifier;
-        public float SpeedModifier;
-        public float[] DamageBonus;
-        public float IntensityBonus;
+        [field: SerializeField] public DamageType DamageType { get; private set; }
+        [field: SerializeField] public float RangeModifier { get; private set; }
+        [field: SerializeField] public float SpeedModifier { get; private set; }
+        [field: SerializeField] public float[] DamageBonus { get; private set; }
+        [field: SerializeField] public float IntensityBonus { get; private set; }
     }
 }

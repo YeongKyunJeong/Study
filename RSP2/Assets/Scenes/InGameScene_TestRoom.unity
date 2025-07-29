@@ -16992,6 +16992,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8230294081969089530, guid: 59bc22016132aef4ba80137530ded473, type: 3}
+      propertyPath: dayLength
+      value: 120
+      objectReference: {fileID: 0}
+    - target: {fileID: 8230294081969089530, guid: 59bc22016132aef4ba80137530ded473, type: 3}
+      propertyPath: <StartTime>k__BackingField
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8827929891110237300, guid: 59bc22016132aef4ba80137530ded473, type: 3}
       propertyPath: <PlayerInput>k__BackingField
       value: 

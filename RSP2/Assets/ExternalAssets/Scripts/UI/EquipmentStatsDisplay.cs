@@ -96,7 +96,7 @@ namespace RSP2
             {
                 if (player.CurrentWeapon != null)
                 {
-                    WeaponAttackTMP.text = player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.WeaponData.Upgrade].ToString("0.0");
+                    WeaponAttackTMP.text = player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.ItemInstance.Upgrade].ToString("0.0");
                     AttackSpeedTMP.text =
                         (Mathf.Round(player.CurrentWeapon.WeaponData.SpeedModifier * statData.AttackSpeed * 10) / 10).ToString("0.0");
                 }
@@ -114,13 +114,17 @@ namespace RSP2
 
         }
 
-        public void OnEquipmentChange(EquipmentData equipmentData, StatForPlayer statData)
+        public void OnEquipmentChange(ItemInstance equipment, StatForPlayer statData)
         {
+            EquipmentData equipmentData = equipment.ItemData as EquipmentData;
+
+            if (equipmentData == null) return; // Should Not be Called
+
             switch (equipmentData)
             {
                 case WeaponData weaponData:
                     {
-                        WeaponAttackTMP.text = (Mathf.Round(weaponData.DamageBonus[weaponData.Upgrade] * 10) / 10).ToString("0.0");
+                        WeaponAttackTMP.text = (Mathf.Round(weaponData.DamageBonus[equipment.Upgrade] * 10) / 10).ToString("0.0");
                         AttackSpeedTMP.text =
                             (Mathf.Round(weaponData.SpeedModifier * statData.AttackSpeed * 10) / 10).ToString("0.0");
                         // TO DO :: Add other special effect logic

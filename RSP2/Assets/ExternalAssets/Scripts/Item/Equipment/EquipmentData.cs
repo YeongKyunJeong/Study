@@ -10,7 +10,7 @@ namespace RSP2
         public const int ARMOR_KEY_CONTS = 2000;
         public const int ACCESSORY_KEY_CONTS = 3000;
 
-        public EquipmentType EquipmentType;
-        public int Upgrade = 0;
+        [field: SerializeField] public EquipmentType EquipmentType { get; private set; }
+        //[field: SerializeField] public int Upgrade { get; private set; } = 0;
     }
 }
