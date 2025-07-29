@@ -7,7 +7,7 @@ using UnityEngine.EventSystems;
 
 namespace RSP2
 {
-    public class PanelUI : MonoBehaviour, IDropHandler
+    public class PanelUI : MonoBehaviour, IDropHandler, IPointerClickHandler
     {
         private InGameManager inGameManager;
         private CanvasUIManager canvasUIManager;
@@ -71,5 +71,9 @@ namespace RSP2
             PointerDropEvent?.Invoke();
         }
 
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            Debug.Log("click");
+        }
     }
 }

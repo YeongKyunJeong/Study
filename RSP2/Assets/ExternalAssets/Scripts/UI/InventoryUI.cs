@@ -293,6 +293,7 @@ namespace RSP2
 
             player.Inventory.RemoveItem(selectedItemInSlot.ItemInstance);
             selectedItemInSlot.ClearSlot(true);
+            movingSlot.DropItem();
 
             UpdateButtons(null);
         }
