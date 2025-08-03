@@ -48,7 +48,6 @@ namespace RSP2
 
         public void Initialize(BaseStatTableForPlayer baseStatisticsTable)
         {
-            //BaseStatTableForPlayer OriginalLoadedDataTable = baseStatisticsTable;
             PlayerBaseStatistics = new StatForPlayer(baseStatisticsTable);
             PlayerCurrentStatistics = new StatForPlayer(baseStatisticsTable);
 

@@ -80,7 +80,6 @@ namespace RSP2
             if (((1 << other.gameObject.layer) & targetLayerMask.value) == 0) return;
 
             FindCombatSystemAndCallEvent(other);
-            //Debug.Log($"'{other.gameObject.name}' is in the target layer mask!");
         }
 
         private void FindCombatSystemAndCallEvent(Collider other)

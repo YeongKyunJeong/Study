@@ -36,7 +36,6 @@ namespace RSP2
         private Transform playerTransform;
 
         protected Vector2 moveInput;
-        //protected float fixedDeltaTime;
 
         public ActionStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine)
         {
@@ -47,14 +46,12 @@ namespace RSP2
             movementStateData = player.SOData.MovementStateData;
             attackDataLibrary = player.SOData.AttackDataLibrary;
 
-            //mainCameraTransform = Camera.main.transform;
             statHandler = _player.StatHandler;
             inputReader = player.InputReader;
             mover = player.Mover;
             forceReceiver = player.ForceReceiver;
             controller = player.Controller;
             animator = player.Animator;
-            //fixedDeltaTime = Time.fixedDeltaTime;
 
 
             playerTransform = player.transform;
@@ -104,18 +101,12 @@ namespace RSP2
 
         public virtual void CallUpdate()
         {
-            //Move();
-
         }
 
 
         public virtual void CallPhysicsUpdate()
         {
         }
-
-        //public virtual void HandleInput()
-        //{
-        //}
 
         public virtual void OnAnimationEnterEvent()
         {
@@ -177,22 +168,6 @@ namespace RSP2
                 return animationStateInfo.IsTag(tag) ? animationStateInfo.normalizedTime : -1f;
             }
         }
-
-        protected virtual Vector3 CheckIsSlope(bool stickFloor = true)
-        {
-            //Debug.DrawRay(playerTransform.position + slopeDetectingRayStartHeightVector, slopeDetectingRayVector, Color.green);
-
-            if (Physics.Raycast(playerTransform.position + slopeDetectingRayStartHeightVector, Vector3.down, out hit, slopeDetectingRayMaxDistance,
-                groundLayer))
-            {
-                return hit.normal;
-
-            }
-
-            return Vector3.down;
-
-        }
-
     }
 
     public static class FallingCalculator

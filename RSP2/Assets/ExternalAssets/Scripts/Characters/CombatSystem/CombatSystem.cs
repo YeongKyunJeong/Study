@@ -152,8 +152,6 @@ namespace RSP2
 
             ChangeHealth(-reducedDamage);
 
-            //Debug.Log($"{name} got {reducedDamage} damage");
-
             SFXManager.PlayDamageSoundClip(damageType, transform.position);
 
 
@@ -173,7 +171,6 @@ namespace RSP2
             CurrentHP = Mathf.Round(CurrentHP * 100) / 100;
             CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
             CurrentHP = CurrentHP < 0 ? 0 : CurrentHP;
-            //Debug.Log(CurrentHP);
 
             if (value > 0)
             {

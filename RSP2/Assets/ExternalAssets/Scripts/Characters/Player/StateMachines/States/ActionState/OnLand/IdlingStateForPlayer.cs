@@ -80,7 +80,6 @@ namespace RSP2
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)
         {
-            //base.SetAnimatorSelfStateParameter(isOn);
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantIdlingHash, 0.25f);

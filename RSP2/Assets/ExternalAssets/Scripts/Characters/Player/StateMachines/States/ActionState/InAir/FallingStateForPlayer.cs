@@ -29,15 +29,11 @@ namespace RSP2
 
             verticalVelocityVector = runtimeData.VerticalVelocityVector;
             mover.UpdateNextVerticalVelocityVector(verticalVelocityVector);
-
-            //animator.SetBool(isJumpingHash, true);
         }
 
         public override void Exit()
         {
             base.Exit();
-
-            //animator.SetBool(isJumpingHash, false);
         }
 
         public override void CallUpdate()

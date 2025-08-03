@@ -179,29 +179,9 @@ namespace RSP2
 
             PlayVFXbyDamageType(hitCombatSystem.MyUnit, hitPosition, attackVector);
 
-            //switch (attackData.DamageType)
-            //{
-            //    case DamageType.ByMainWeapon:
-            //        {
-            //            VFXManager.PlayHitEffect(currentWeapon.WeaponData.DamageType, hitCombatSystem.MyUnit, hitPosition, attackVector.normalized);
-            //            break;
-            //        }
-            //}
             attackVector.y = 0;
 
             ApplyDamage(hitCombatSystem, -attackVector);
-
-            //if (attackData.DamageType == DamageType.ByMainWeapon)
-            //{
-            //    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, currentWeapon.WeaponData.DamageType);
-
-            //}
-            //else
-            //{
-            //    hitCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage + currentWeapon.WeaponData.DamageBonus, attackData.DamageType);
-            //}
-            //hitCombatSystem.TakeForce(-attackVector.normalized * attackData.PushForce);
-
         }
 
 
@@ -221,7 +201,6 @@ namespace RSP2
                         runtimeData.AttackPositionModifier = new Vector3(0, sphereCollider.center.y, 0);
                         break;
                     }
-
                 case DetectionType.BoxCollider:
                     {
                         useRaycast = false;
@@ -238,7 +217,6 @@ namespace RSP2
                         runtimeData.AttackPositionModifier = new Vector3(0, attackData.ColliderPosition.y, 0);
                         break;
                     }
-
                 default:
                     {
                         useRaycast = true;
@@ -247,17 +225,6 @@ namespace RSP2
                     }
             }
         }
-        //protected override void SetAnimatorPlayingSpeed(bool isExit = false)
-        //{
-        //    base.SetAnimatorPlayingSpeed(isExit);
-
-        //    if (isExit)
-        //    {
-        //        return;
-        //    }
-        //    animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
-        //}
-
 
     }
 }
