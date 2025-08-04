@@ -337,8 +337,6 @@ namespace RSP2
                 CurrentHP = CurrentHP > MaxHP ? MaxHP : CurrentHP;
                 HealEvent?.Invoke(currentHP, MaxHP);
 
-                //Debug.Log($"{name} HP È¸º¹ Áß : {CurrentHP}/{MaxHP}");
-
                 yield return new WaitForSeconds(1 / 4f);
             }
 

@@ -43,7 +43,6 @@ namespace RSP2
         #region Attack States
 
         public BasicMeleeAttackingStateForPlayer BasicMeleeAttackingState { get; private set; }
-
         public SkillMeleeAttackingStateForPlayer[] SkillMeleeAttackingStates { get; private set; }
         public RangeAttackingStateForPlayer[] RangeAttackingStates { get; private set; }
         #endregion

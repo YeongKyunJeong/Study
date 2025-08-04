@@ -35,16 +35,13 @@ namespace RSP2
         {
             if (normalizedPassedTime >= minimumDuration)
             {
-                if (stateMachine.CheckAttackResources(attackDataLibrary.MeleeAttackDataList[0], combatSystem))
-
-                    if (stateMachine.SkillMeleeAttackingStates[0].CheckAttackResources(AttackType.MeleeAttackSkill, 0))
-                    {
-                        stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
-                    }
+                if (stateMachine.SkillMeleeAttackingStates[0].CheckAttackResources(AttackType.MeleeAttackSkill, 0))
+                {
+                    stateMachine.ChangeStateWithAttackData(stateMachine.SkillMeleeAttackingStates[0], 0);
+                }
 
                 return;
             }
-
         }
 
         protected override void OnAttack(CombatSystem system, Collider hitCollider)
