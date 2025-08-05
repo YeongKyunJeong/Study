@@ -90,7 +90,7 @@ namespace RSP2
             SceneInitializer sceneInitializer = FindObjectOfType<SceneInitializer>();
             if (sceneInitializer != null)
             {
-                sceneInitializer.Initialize();
+                sceneInitializer.Initialize(); // Just to Ensure SceneInitializer Assigned
                 return;
             }
             else

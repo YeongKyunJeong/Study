@@ -99,6 +99,7 @@ Transform:
   - {fileID: 6509129442076578261}
   - {fileID: 425635528395911420}
   - {fileID: 4780345506640906248}
+  - {fileID: 2010468679542636872}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &8827929891110237300
@@ -123,6 +124,7 @@ MonoBehaviour:
   <SFXManager>k__BackingField: {fileID: 5209038590903662440}
   <DayNightManager>k__BackingField: {fileID: 8230294081969089530}
   <QuestManager>k__BackingField: {fileID: 7847714224707017190}
+  <CutSceneManager>k__BackingField: {fileID: 7859830818400781389}
   <CanvasUIManager>k__BackingField: {fileID: 0}
 --- !u!1 &1011631467461077392
 GameObject:
@@ -267,6 +269,50 @@ MonoBehaviour:
   <currentCamera>k__BackingField: {fileID: 0}
   <maxShakingValue>k__BackingField: {x: 1, y: 1}
   <maxShakingTime>k__BackingField: 0.5
+--- !u!1 &3607449395069350447
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2010468679542636872}
+  - component: {fileID: 7859830818400781389}
+  m_Layer: 0
+  m_Name: CutSceneManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2010468679542636872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607449395069350447}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4469978215258712696}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7859830818400781389
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3607449395069350447}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29fc10c37ebb1cc41800d0c984374a4d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6020894421534004710
 GameObject:
   m_ObjectHideFlags: 0

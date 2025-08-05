@@ -32,6 +32,8 @@ namespace RSP2
         [field: SerializeField] private DayNightManager DayNightManager { get; set; }
         [field: SerializeField] private QuestManager QuestManager { get; set; }
 
+        [field: SerializeField] private CutSceneManager CutSceneManager { get; set; }
+
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
         public Player Player { get; set; }
@@ -86,6 +88,11 @@ namespace RSP2
             {
                 Debug.Log("Quest Manager Not Assigned");
                 QuestManager = FindObjectOfType<QuestManager>();
+            }
+            if (CutSceneManager == null)
+            {
+                Debug.Log("Cut Scene Manager Not Assigned");
+                CutSceneManager = FindObjectOfType<CutSceneManager>();
             }
 
             CameraManager.Initialize(this);
