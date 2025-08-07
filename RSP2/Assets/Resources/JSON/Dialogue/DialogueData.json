@@ -1,0 +1,82 @@
+{
+  "Items": [
+    {
+      "Key": 1,
+      "Name": "Rock",
+      "Group": 0,
+      "Random": false,
+      "ScriptKeys": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "Redirection": 2
+    },
+    {
+      "Key": 2,
+      "Name": "Rock",
+      "Group": 1,
+      "Random": true,
+      "ScriptKeys": [
+        13,
+        14
+      ],
+      "Redirection": 2
+    },
+    {
+      "Key": 3,
+      "Name": "???",
+      "Group": 2,
+      "Random": false,
+      "ScriptKeys": [
+        15,
+        16,
+        17,
+        18
+      ],
+      "Redirection": 0
+    },
+    {
+      "Key": 10000,
+      "Name": "None",
+      "Group": 10000,
+      "Random": false,
+      "ScriptKeys": [
+        10000
+      ],
+      "Redirection": 10001
+    },
+    {
+      "Key": 10001,
+      "Name": "None",
+      "Group": 10001,
+      "Random": false,
+      "ScriptKeys": [
+        10001,
+        10002,
+        10003
+      ],
+      "Redirection": 10002
+    },
+    {
+      "Key": 10002,
+      "Name": "None",
+      "Group": 10002,
+      "Random": false,
+      "ScriptKeys": [
+        10004
+      ],
+      "Redirection": 0
+    }
+  ]
+}

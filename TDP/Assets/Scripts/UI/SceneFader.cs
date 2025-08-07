@@ -59,7 +59,7 @@ namespace TDP
         {
             yield return new WaitForSecondsRealtime(fadingStartTime);
             t = 0;
-            while (t > 0f)
+            while (t < 1f)
             {
                 t += Time.deltaTime / fadingTime;
                 a = animationCurve.Evaluate(t);

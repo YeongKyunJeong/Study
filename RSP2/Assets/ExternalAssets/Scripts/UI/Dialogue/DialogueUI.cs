@@ -10,8 +10,9 @@ namespace RSP2
     {
         private InGameManager gameManager;
 
-        [field: SerializeField] private DialogueDisplay otherDialogueDisplay { get; set; }
+        [field: SerializeField] private DialogueDisplay nPCDialogueDisplay { get; set; }
         [field: SerializeField] private DialogueDisplay playerDialogueDisplay { get; set; }
+        [field: SerializeField] private DialogueDisplay narratorDialogueDisplay { get; set; }
         [field: SerializeField] private DialogueDisplay currentDialogueDisplay;
 
         private DialogueData dialogueData { get; set; }
@@ -22,7 +23,7 @@ namespace RSP2
         public void Initialize(InGameManager _gameManager)
         {
             gameManager = _gameManager;
-            otherDialogueDisplay.Initialize();
+            nPCDialogueDisplay.Initialize();
             playerDialogueDisplay.Initialize();
             Deactivate();
         }
@@ -73,22 +74,42 @@ namespace RSP2
 
         private void TalkOneScript(DialogueData data, DialogueScript script)
         {
-            if (script.Player)
+            switch (script.Talker)
             {
-                currentDialogueDisplay = playerDialogueDisplay;
-                otherDialogueDisplay.Deactivate();
-                playerDialogueDisplay.Activate();
-                playerDialogueDisplay.SetName(gameManager.Player.Name);
-                playerDialogueDisplay.SetScript(script);
+                case 0: // Narrator
+                    {
+                        currentDialogueDisplay = narratorDialogueDisplay;
+                        playerDialogueDisplay.Deactivate();
+                        nPCDialogueDisplay.Deactivate();
+
+                        narratorDialogueDisplay.Activate();
+                        narratorDialogueDisplay.SetScript(script);
+                        break;
+                    }
+                case 1: // Player
+                    {
+                        currentDialogueDisplay = playerDialogueDisplay;
+                        narratorDialogueDisplay.Deactivate();
+                        nPCDialogueDisplay.Deactivate();
+                        
+                        playerDialogueDisplay.Activate();
+                        playerDialogueDisplay.SetName(gameManager.Player.Name);
+                        playerDialogueDisplay.SetScript(script);
+                        break;
+                    }
+                case 2: // NPC
+                    {
+                        currentDialogueDisplay = nPCDialogueDisplay;
+                        narratorDialogueDisplay.Deactivate();
+                        playerDialogueDisplay.Deactivate();
+                        
+                        nPCDialogueDisplay.Activate();
+                        nPCDialogueDisplay.SetName(data.Name);
+                        nPCDialogueDisplay.SetScript(script);
+                        break;
+                    }
             }
-            else
-            {
-                currentDialogueDisplay = otherDialogueDisplay;
-                playerDialogueDisplay.Deactivate();
-                otherDialogueDisplay.Activate();
-                otherDialogueDisplay.SetName(data.Name);
-                otherDialogueDisplay.SetScript(script);
-            }
+
             scriptIndex++;
         }
 

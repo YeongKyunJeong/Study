@@ -46,6 +46,11 @@ namespace RSP2
 
         public void RemoveCamera(CinemachineVirtualCamera targetCamera)
         {
+            if(currentCamera == targetCamera)
+            {
+                ResetToPlayerCamera();
+            }
+
             if (virtualCameras.Contains(targetCamera))
             {
                 virtualCameras.Remove(targetCamera);

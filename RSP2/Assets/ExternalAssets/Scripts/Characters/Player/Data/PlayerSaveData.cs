@@ -32,7 +32,7 @@ namespace RSP2
         [Header("Progress Data")]
         public Vector3 Position;
         public int SceneNumber;
-        public int GameProgress;
+        public List<int> GameProgress;
 
         [Space]
         [Header("Inventory Data")]
@@ -58,8 +58,8 @@ namespace RSP2
             initialSaveData.Stamina = 36;
 
             initialSaveData.Position = Vector3.forward;
-            initialSaveData.SceneNumber = 0;
-            initialSaveData.GameProgress = 0;
+            initialSaveData.SceneNumber = 1;
+            initialSaveData.GameProgress = new List<int> { 0 };
 
             initialSaveData.InventoryData = new List<ItemSaveData> {
                                                     new ItemSaveData(

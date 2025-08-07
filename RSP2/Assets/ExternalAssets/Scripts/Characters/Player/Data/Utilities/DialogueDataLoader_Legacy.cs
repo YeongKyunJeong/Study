@@ -155,7 +155,7 @@ namespace RSP2
 
                                 break;
                             }
-                        case DialogueType.Narration:
+                        case DialogueType.Narrator:
                             {
                                 break;
                             }

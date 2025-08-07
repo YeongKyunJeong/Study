@@ -20,9 +20,9 @@ namespace RSP2
         public int Index;
 
         /// <summary>
-        /// Script of player
+        /// 0: Narrator, 1: Player, 2: NPC
         /// </summary>
-        public bool Player;
+        public int Talker;
 
         /// <summary>
         /// Script to be displayed
@@ -36,7 +36,7 @@ namespace RSP2
         public List<DialogueScript> ItemsList { get; private set; }
         public Dictionary<int, DialogueScript> ItemsDictByKey { get; private set; }
 
-        public DialogueScriptsLoader(string path = "JSON/Dialouge/DialogueScripts")
+        public DialogueScriptsLoader(string path = "JSON/Dialogue/DialogueScripts")
         {
             string jsonData;
             jsonData = Resources.Load<TextAsset>(path).text;

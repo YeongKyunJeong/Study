@@ -47,7 +47,7 @@ namespace RSP2
     {
         None,
         NPC,
-        Narration
+        Narrator
     }
 
 
@@ -57,7 +57,7 @@ namespace RSP2
         public List<DialogueData> ItemsList { get; private set; }
         public Dictionary<int, DialogueData> ItemsDict { get; private set; }
 
-        public DialogueDataLoader(string path = "JSON/Dialouge/DialogueData")
+        public DialogueDataLoader(string path = "JSON/Dialogue/DialogueData")
         {
             string jsonData;
             jsonData = Resources.Load<TextAsset>(path).text;

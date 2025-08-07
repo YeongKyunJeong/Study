@@ -7,21 +7,42 @@ namespace RSP2
     [System.Serializable]
     public class ProgressCutSceneKeyPair
     {
-        public readonly int Progress;
-        public readonly int CutSceneKey;
+        public int Progress;
+        public int CutsceneKey;
     }
 
-    public class CutSceneManager : MonoBehaviour
+    public class CutsceneManager : MonoBehaviour
     {
-        private readonly int instantIdlingUpHash = Animator.StringToHash("CutScene.IdlingUp");
-        private readonly int instantWalkingUpHash = Animator.StringToHash("CutScene.WalkingUp");
-        private readonly int instantLayingHash = Animator.StringToHash("CutScene.Laying");
-        private readonly int instantStandingUpHash = Animator.StringToHash("CutScene.StandingUp");
-
-        [field: SerializeField] private List<ProgressCutSceneKeyPair> progressCutSceneKeyPairs;
-
-        [field: SerializeField] private List<CutScene> cutScenes;
 
 
+        private InGameManager inGameManager;
+
+        [field: SerializeField] private List<ProgressCutSceneKeyPair> progressCutsceneKeyPairs;
+
+        [field: SerializeField] private List<Cutscene> cutScenes;
+
+        public void Initialize(InGameManager _inGameManager)
+        {
+            inGameManager = _inGameManager;
+        }
+
+        public void CallCutsceneStart(int progress)
+        {
+            if (progressCutsceneKeyPairs == null) return;
+
+            if (progressCutsceneKeyPairs.Count == 0) return;
+        }
+
+        public void PlayerCutscene(int newProgress)
+        {
+            foreach (ProgressCutSceneKeyPair keyPair in progressCutsceneKeyPairs)
+            {
+                if (keyPair.Progress == newProgress)
+                {
+                    cutScenes[keyPair.CutsceneKey].Play();
+                }
+            }
+        }
     }
+
 }

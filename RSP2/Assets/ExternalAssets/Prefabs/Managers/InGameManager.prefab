@@ -124,7 +124,7 @@ MonoBehaviour:
   <SFXManager>k__BackingField: {fileID: 5209038590903662440}
   <DayNightManager>k__BackingField: {fileID: 8230294081969089530}
   <QuestManager>k__BackingField: {fileID: 7847714224707017190}
-  <CutSceneManager>k__BackingField: {fileID: 7859830818400781389}
+  <CutsceneManager>k__BackingField: {fileID: 8758308824497523290}
   <CanvasUIManager>k__BackingField: {fileID: 0}
 --- !u!1 &1011631467461077392
 GameObject:
@@ -278,9 +278,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2010468679542636872}
-  - component: {fileID: 7859830818400781389}
+  - component: {fileID: 8758308824497523290}
   m_Layer: 0
-  m_Name: CutSceneManager
+  m_Name: CutsceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -301,7 +301,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4469978215258712696}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7859830818400781389
+--- !u!114 &8758308824497523290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -313,6 +313,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29fc10c37ebb1cc41800d0c984374a4d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  progressCutsceneKeyPairs: []
+  cutScenes: []
 --- !u!1 &6020894421534004710
 GameObject:
   m_ObjectHideFlags: 0

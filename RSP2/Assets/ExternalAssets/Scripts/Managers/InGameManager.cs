@@ -19,7 +19,7 @@ namespace RSP2
     {
         private GameManager gameManager;
 
-        [field:SerializeField] private int sceneNumber { get; set; }
+        [field: SerializeField] private int sceneNumber { get; set; }
         [field: SerializeField] public bool IsInitialized { get; private set; }
 
         [field: SerializeField] private PlayerInput PlayerInput { get; set; }
@@ -31,8 +31,7 @@ namespace RSP2
         [field: SerializeField] private SFXManager SFXManager { get; set; }
         [field: SerializeField] private DayNightManager DayNightManager { get; set; }
         [field: SerializeField] private QuestManager QuestManager { get; set; }
-
-        [field: SerializeField] private CutSceneManager CutSceneManager { get; set; }
+        [field: SerializeField] private CutsceneManager CutsceneManager { get; set; }
 
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
@@ -89,10 +88,10 @@ namespace RSP2
                 Debug.Log("Quest Manager Not Assigned");
                 QuestManager = FindObjectOfType<QuestManager>();
             }
-            if (CutSceneManager == null)
+            if (CutsceneManager == null)
             {
                 Debug.Log("Cut Scene Manager Not Assigned");
-                CutSceneManager = FindObjectOfType<CutSceneManager>();
+                CutsceneManager = FindObjectOfType<CutsceneManager>();
             }
 
             CameraManager.Initialize(this);
@@ -102,8 +101,11 @@ namespace RSP2
             VFXManager.Initialize(this);
             SFXManager.Initialize(this);
             DayNightManager.Initialize();
+            CutsceneManager.Initialize(this);
 
             CanvasUIManager.Initialize(this);
+
+            gameManager.GameProgressChangeEvent = OnGameProgressChange;
 
             CurrentSaveData = gameManager.CallSaveDataLoading(gameManager.CurrentUserData.UserID);
         }
@@ -237,6 +239,8 @@ namespace RSP2
 
             newSaveData.SceneNumber = sceneNumber;
 
+            newSaveData.GameProgress = gameManager.GameProgress;
+
             Player.GetPlayerDataForSave(newSaveData);
             QuestManager.GetQuestDataForSave(newSaveData);
             // TO DO:: NPCs Data
@@ -250,9 +254,20 @@ namespace RSP2
 
             Player.SetPlayerDataFromSave(loadedSaveData);
             QuestManager.SetQuestDataFromSave(loadedSaveData);
+
             // TO DO:: NPCs Data
+            gameManager.SetGameProgress(sceneNumber, loadedSaveData.GameProgress);
         }
 
+        public void CallGameProgressChange(int newGameProgress)
+        {
+            gameManager.SetGameProgress(sceneNumber, newGameProgress);
+        }
 
+        public void OnGameProgressChange(int newGameProgress)
+        {
+            // TO DO:: Add 
+            CutsceneManager.PlayerCutscene(newGameProgress);
+        }
     }
 }

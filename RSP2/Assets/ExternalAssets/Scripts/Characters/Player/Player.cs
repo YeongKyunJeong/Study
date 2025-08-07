@@ -245,6 +245,7 @@ namespace RSP2
             saveData.Stamina = StatHandler.combatSystemForPlayer.CurrentStamina;
 
             saveData.Position = transform.position;
+            
             //saveData.GameProgress = // TO DO:: Add logic after adding game progress system
 
             Inventory.GetInventoryDataForSave(saveData);
