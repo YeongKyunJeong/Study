@@ -22,8 +22,10 @@ namespace RSP2
         private InteractionManager interactionManager;
         private Player player;
         private CombatSystemForPlayer combatSystem;
-        private bool isOnDialogue { get; set; }
-        public event Action<int> dialogueEndEvent;
+        private bool isOnDialogue;
+        private bool isCutscene;
+        public event Action cutsceneDialogueEndEvent;
+        public event Action<int> interactionDialogueEndEvent;
 
         //[field: SerializeField] private UIInputReader uiInputReader;
 
@@ -140,10 +142,16 @@ namespace RSP2
         #region Panel UI Methods
 
         #region Dialogue
-        public void SendDialogueStartCall(DialogueType dialogueType, int key)
+        public void SendDialogueStartCall(int key, bool _isCutscene = false)
         {
+            if (_isCutscene)
+            {
+                isCutscene = _isCutscene;
+                PanelUI.SetCanvasSortOrder(10001);
+            }
+
             isOnDialogue = true;
-            PanelUI.DialogueUI.StartDialogue(dialogueType, key);
+            PanelUI.DialogueUI.StartDialogue(key);
         }
 
         public void SendInteractionUITMPChangeCall(string targetName, string interactionName, int count)
@@ -156,11 +164,19 @@ namespace RSP2
             if (isOnDialogue)
             {
                 int next = PanelUI.DialogueUI.Next();
-                if (next >= 0)
+                if (next >= 0) // Means this Dialogue Ends
                 {
                     PanelUI.DialogueUI.Deactivate();
                     isOnDialogue = false;
-                    dialogueEndEvent?.Invoke(next);
+
+                    // If it is Cutscene, No Need to Invoke
+                    if (isCutscene)
+                    {
+                        isCutscene = false;
+                        PanelUI.SetCanvasSortOrder();
+                        cutsceneDialogueEndEvent?.Invoke();
+                    }
+                    else interactionDialogueEndEvent?.Invoke(next);
                 }
             }
         }

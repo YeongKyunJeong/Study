@@ -239,6 +239,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <dataManager>k__BackingField: {fileID: 3244869460377791660}
   <sceneFader>k__BackingField: {fileID: 338145542653472476}
+  <GameProgress>k__BackingField: 
   <currentSceneType>k__BackingField: 0
 --- !u!1 &7365053428684717179
 GameObject:
@@ -313,8 +314,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   slowFadingStartTime: 0.5
   slowFadingTime: 1.5
-  fastFadingStartTime: 0.1
-  fastFadingTime: 0.5
+  fastFadingStartTime: 0
+  fastFadingTime: 0.25
 --- !u!1 &7451964724029259551
 GameObject:
   m_ObjectHideFlags: 0

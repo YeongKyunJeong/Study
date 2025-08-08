@@ -16,7 +16,6 @@ namespace RSP2
 
             return Clone(WeaponData[key]);
         }
-               
              
         private T Clone<T>(T original) where T : EquipmentData
         {

@@ -72,6 +72,7 @@ namespace RSP2
         {
             gameObject.SetActive(true);
         }
+
         public void Deactivate()
         {
             gameObject.SetActive(false);

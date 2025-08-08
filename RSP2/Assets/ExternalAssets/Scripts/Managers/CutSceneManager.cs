@@ -13,13 +13,11 @@ namespace RSP2
 
     public class CutsceneManager : MonoBehaviour
     {
-
-
         private InGameManager inGameManager;
 
         [field: SerializeField] private List<ProgressCutSceneKeyPair> progressCutsceneKeyPairs;
 
-        [field: SerializeField] private List<Cutscene> cutScenes;
+        [field: SerializeField] private List<Cutscene> cutscenes;
 
         public void Initialize(InGameManager _inGameManager)
         {
@@ -39,8 +37,11 @@ namespace RSP2
             {
                 if (keyPair.Progress == newProgress)
                 {
-                    cutScenes[keyPair.CutsceneKey].Play();
+                    Cutscene targetCutscene = Instantiate(cutscenes[keyPair.CutsceneKey]).GetComponent<Cutscene>();
+                    targetCutscene.Play();
+                    inGameManager.CallGameProgressChange(newProgress + 1);
                 }
+                break;
             }
         }
     }

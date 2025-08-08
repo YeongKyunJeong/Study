@@ -105,7 +105,7 @@ namespace RSP2
 
             CanvasUIManager.Initialize(this);
 
-            gameManager.GameProgressChangeEvent = OnGameProgressChange;
+            gameManager.GameProgressChangeEvent += OnGameProgressChange;
 
             CurrentSaveData = gameManager.CallSaveDataLoading(gameManager.CurrentUserData.UserID);
         }
@@ -264,7 +264,7 @@ namespace RSP2
             gameManager.SetGameProgress(sceneNumber, newGameProgress);
         }
 
-        public void OnGameProgressChange(int newGameProgress)
+        private void OnGameProgressChange(int newGameProgress)
         {
             // TO DO:: Add 
             CutsceneManager.PlayerCutscene(newGameProgress);

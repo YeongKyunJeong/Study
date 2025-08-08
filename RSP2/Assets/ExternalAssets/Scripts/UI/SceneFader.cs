@@ -44,7 +44,7 @@ namespace RSP2
 
         public void SetScreen(bool isScreen = false, bool stopFading = false)
         {
-            if (stopFading) StopCoroutine(fadingCoroutine);
+            if (stopFading && fadingCoroutine != null) StopCoroutine(fadingCoroutine);
 
             if (isScreen)
             {

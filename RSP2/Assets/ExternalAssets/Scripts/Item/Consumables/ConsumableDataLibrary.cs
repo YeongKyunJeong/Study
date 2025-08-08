@@ -16,7 +16,6 @@ namespace RSP2
             return Clone(ConsumableData[key]);
         }
 
-
         private T Clone<T>(T original) where T : ItemData
         {
             T clone = ScriptableObject.Instantiate(original);

@@ -27,7 +27,7 @@ namespace RSP2
 
         public override void Enter(int dataKey)
         {
-            attackData = attackDataLibrary.MeleeAttackDataList[dataKey];
+            attackData = attackDataLibrary.GetMeleeAttackInfo(dataKey);
             base.Enter();
 
         }

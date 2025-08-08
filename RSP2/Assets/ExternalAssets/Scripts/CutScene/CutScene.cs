@@ -1,6 +1,7 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace RSP2
@@ -32,10 +33,10 @@ namespace RSP2
 
     public class Cutscene : MonoBehaviour
     {
-        private readonly int instantIdlingUpHash = Animator.StringToHash("CutScene.Idling");
-        private readonly int instantWalkingUpHash = Animator.StringToHash("CutScene.Walking");
-        private readonly int instantLayingHash = Animator.StringToHash("CutScene.Laying");
-        private readonly int instantStandingUpHash = Animator.StringToHash("CutScene.StandingUp");
+        private readonly int instantIdlingUpHash = Animator.StringToHash("Cutscene.Idling");
+        private readonly int instantWalkingUpHash = Animator.StringToHash("Cutscene.Walking");
+        private readonly int instantLayingHash = Animator.StringToHash("Cutscene.Laying");
+        private readonly int instantStandingUpHash = Animator.StringToHash("Cutscene.StandingUp");
 
         private readonly int cutsceneEndHash = Animator.StringToHash("CutsceneEnd");
 
@@ -45,31 +46,34 @@ namespace RSP2
 
         private Coroutine cutsceneCoroutine;
         private Coroutine timerCoroutine;
-        private bool skipSignal = false;
+        private bool dialogueEnd = false;
+        private bool cutSkipSignal = false;
         private float elapsed = 0f;
         private float cameraT;
         private float actorT;
+        private Quaternion cameraDirFrom;
+        private Quaternion cameraDirTo;
+        private Quaternion actorDirFrom;
+        private Quaternion actorDirTo;
         private Transform actorTransform;
+        private CutsceneActor lastActor;
         private int animationHash;
 
         public void Play()
         {
             if (cuts == null || cuts.Count == 0) return;
 
-
             cutsceneCoroutine = StartCoroutine(PlayCutscene());
-
         }
 
-        private IEnumerator PlayCutscene(float waitTime = 5)
+        private IEnumerator PlayCutscene(float waitTime = 2)
         {
-            CameraManager.Instance.AddCamera(cutsceneCamera);
+            CameraManager.Instance.AddCamera(cutsceneCamera, true);
+
+            // TO DO:: Play Dialogue  
 
             foreach (OneCut cut in cuts)
             {
-                skipSignal = false;
-
-
                 if (cut.startWithScreen)
                 {
                     GameManager.Instance.SceneFader.SetScreen(true, true);
@@ -84,23 +88,28 @@ namespace RSP2
                     GameManager.Instance.SceneFader.CallFade(cut.fadeInOrOut, false, null);
                 }
 
+                ReadyDialogue(cut);
                 ReadyCamera(cut);
-
                 ReadyActor(cut);
 
                 elapsed = 0;
-                while (elapsed < cut.cameraMoveTime || elapsed < cut.actorMoveTime ) // 
+                // While Not Camera Moving Ends, Not Actor Moving Ends, Not Dialogue Ends
+                while (elapsed < cut.cameraMoveTime || elapsed < cut.actorMoveTime || !dialogueEnd)
                 {
-                    if (cut.moveCamera && elapsed < cut.cameraMoveTime)
-                    {
-                        ///////////////////////////////////////////////
-                        // TO DO :: Add Camera Moving Logic
-                    }
+                    elapsed += Time.deltaTime;
 
                     if (cut.moveCamera && elapsed < cut.cameraMoveTime)
                     {
-                        ///////////////////////////////////////////////
-                        // To DO :: Actor Moving Logic
+                        cameraT = Mathf.Clamp01(elapsed / cut.cameraMoveTime);
+                        cutsceneCamera.transform.rotation = Quaternion.Slerp(cameraDirFrom, cameraDirTo, cameraT);
+                        cutsceneCamera.transform.position = Vector3.Slerp(cut.cameraStartPos, cut.cameraEndPos, cameraT);
+                    }
+
+                    if (elapsed < cut.actorMoveTime)
+                    {
+                        actorT = Mathf.Clamp01(elapsed / cut.actorMoveTime);
+                        actorTransform.rotation = Quaternion.Slerp(actorDirFrom, actorDirTo, actorT);
+                        actorTransform.position = Vector3.Slerp(cut.actorStartPos, cut.actorEndPos, actorT);
                     }
 
                     elapsed += Time.deltaTime;
@@ -108,31 +117,49 @@ namespace RSP2
                 }
 
 
-                elapsed = 0;
+                cutSkipSignal = false;
                 if (cut.needClickToEnd)
                 {
-                    while (elapsed < waitTime && !skipSignal) // 
+                    while (!cutSkipSignal)
                     {
-                        elapsed += Time.deltaTime;
                         yield return null;
                     }
                 }
                 else
                 {
-                    yield return new WaitForSeconds(3);
+                    yield return new WaitForSeconds(3); // Fixed Waiting Time
                 }
-
-                EndActorAnimation(cut);
 
             }
 
+            EndActorAnimation(lastActor);
+
             CameraManager.Instance.RemoveCamera(cutsceneCamera);
+            CanvasUIManager.Instance.SetPanelUIActive(PanelUIType.Dialogue, false);
+            InGameManager.Instance.OnInteractionUIOpen(false);
+            CanvasUIManager.Instance.cutsceneDialogueEndEvent -= OnDialogueEnd;
+            Destroy(gameObject);
+        }
+
+        private void ReadyDialogue(OneCut cut)
+        {
+            if (!cut.needDialogue) { dialogueEnd = true; return; }
+
+            dialogueEnd = false;
+            CanvasUIManager.Instance.cutsceneDialogueEndEvent += OnDialogueEnd;
+            CanvasUIManager.Instance.SetPanelUIActive(PanelUIType.Dialogue, true);
+            InGameManager.Instance.OnInteractionUIOpen(true);
+            CanvasUIManager.Instance.SendDialogueStartCall(cut.dialogueDataKey, true);
+
         }
 
         private void ReadyActor(OneCut cut)
         {
             if (cut.actor != CutsceneActor.None)
             {
+                actorDirFrom = Quaternion.Euler(cut.actorStartDir);
+                actorDirTo = Quaternion.Euler(cut.actorEndDir);
+
                 switch (cut.actorAnimation)
                 {
                     case CutsceneAnimation.Idling:
@@ -145,20 +172,31 @@ namespace RSP2
                             animationHash = instantWalkingUpHash;
                             break;
                         }
+                    case CutsceneAnimation.Laying:
+                        {
+                            animationHash = instantLayingHash;
+                            break;
+                        }
+                    case CutsceneAnimation.StandingUp:
+                        {
+                            animationHash = instantStandingUpHash;
+                            break;
+                        }
                 }
             }
 
             switch (cut.actor)
             {
-                case CutsceneActor.None: break;
+                case CutsceneActor.None: { lastActor = CutsceneActor.None; break; }
                 case CutsceneActor.Player:
                     {
+                        lastActor = CutsceneActor.Player;
                         actorTransform = InGameManager.Instance.Player.transform;
                         actorT = 0;
-                        InGameManager.Instance.Player.Animator.Play(animationHash);
+                        InGameManager.Instance.Player.Animator.Play(animationHash, 0);
                         break;
                     }
-                    // TO DO :: Add Logic To Find NPC or Enemy
+                    // TO DO :: Add Logic To Find NPC or Enemy by Spawner
             }
         }
 
@@ -169,14 +207,14 @@ namespace RSP2
 
             if (cut.moveCamera)
             {
-                Quaternion from = Quaternion.Euler(cut.cameraStartDir);
-                Quaternion to = Quaternion.Euler(cut.cameraEndDir);
+                cameraDirFrom = Quaternion.Euler(cut.cameraStartDir);
+                cameraDirTo = Quaternion.Euler(cut.cameraEndDir);
             }
         }
 
-        private void EndActorAnimation(OneCut cut)
+        private void EndActorAnimation(CutsceneActor actor)
         {
-            switch (cut.actor)
+            switch (actor)
             {
                 case CutsceneActor.None: break;
                 case CutsceneActor.Player:
@@ -188,16 +226,11 @@ namespace RSP2
             }
         }
 
-        private IEnumerator CutsceneTimer(float waitTime = 5)
+        private void OnDialogueEnd()
         {
-            float elapsed = 0;
-            skipSignal = false;
+            if (dialogueEnd) { cutSkipSignal = true; return; }
 
-            while (elapsed < waitTime && !skipSignal)
-            {
-                elapsed += Time.deltaTime;
-                yield return null;
-            }
+            dialogueEnd = true;
         }
     }
 

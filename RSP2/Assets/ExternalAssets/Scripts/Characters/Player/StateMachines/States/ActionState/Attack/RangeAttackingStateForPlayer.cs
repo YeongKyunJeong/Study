@@ -28,7 +28,7 @@ namespace RSP2
 
         public override void Enter(int dataKey)
         {
-            attackData = attackDataLibrary.RangeAttackDataList[dataKey];
+            attackData = attackDataLibrary.GetRangeAttackInfo(dataKey);
             base.Enter();
 
             ShootTime = attackData.Projectiles[0].ShootStartTime;

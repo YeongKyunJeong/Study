@@ -57,7 +57,7 @@ namespace RSP2
             initialSaveData.MP = 70;
             initialSaveData.Stamina = 36;
 
-            initialSaveData.Position = Vector3.forward;
+            initialSaveData.Position = new Vector3(0, 0, 0);
             initialSaveData.SceneNumber = 1;
             initialSaveData.GameProgress = new List<int> { 0 };
 

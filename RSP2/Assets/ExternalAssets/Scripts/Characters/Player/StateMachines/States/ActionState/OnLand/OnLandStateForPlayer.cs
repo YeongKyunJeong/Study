@@ -79,7 +79,7 @@ namespace RSP2
             if (player.CurrentWeapon != null)
             {
 
-                if (stateMachine.CheckAttackResources(attackDataLibrary.RangeAttackDataList[0], player.CombatSystem))
+                if (stateMachine.CheckAttackResources(attackDataLibrary.GetRangeAttackInfo(0), player.CombatSystem))
                 {
                     SetOnLandParameter(false);
 

@@ -7,7 +7,6 @@ namespace RSP2
     [System.Serializable]
     public class AttackDataLibrary
     {
-
         [field: SerializeField] public AttackData BaseAttackData { get; private set; }
         [field: SerializeField] public List<AttackData> MeleeAttackDataList { get; private set; }
         [field: SerializeField] public List<AttackData> RangeAttackDataList { get; private set; }
@@ -21,19 +20,5 @@ namespace RSP2
         {
             return RangeAttackDataList.Count <= index ? null : RangeAttackDataList[index];
         }
-
-        public void Initialize()
-        {
-            //BaseAttackData.GenerateHash();
-            //foreach (var attackInfo in MeleeAttackDataList)
-            //{
-            //    attackInfo.GenerateHash();
-            //}
-            //foreach (var attackInfo in RangeAttackDataList)
-            //{
-            //    attackInfo.GenerateHash();
-            //}
-        }
-
     }
 }

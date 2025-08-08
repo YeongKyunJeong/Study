@@ -51,7 +51,7 @@ namespace RSP2
             cameraManager = _cameraManager;
             canvasUIManager = _canvasUIManager;
             //NPCInteractions = new Dictionary<NPC, NPCInteraction>();
-            canvasUIManager.dialogueEndEvent += OnDialogueEnd;
+            canvasUIManager.interactionDialogueEndEvent += OnDialogueEnd;
             interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
             isInteracting = false;
             currentIndex = 0;
@@ -155,7 +155,7 @@ namespace RSP2
             switch (currentPair.Value)
             {
                 case NPCInteraction.Speakable:
-                    canvasUIManager.SendDialogueStartCall(DialogueType.NPC, currentPair.Key.DialogueKey);
+                    canvasUIManager.SendDialogueStartCall(currentPair.Key.DialogueKey);
                     break;
                 case NPCInteraction.Tradable:
                     break;

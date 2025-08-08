@@ -10,6 +10,7 @@ namespace RSP2
         private InGameManager gameManager;
         private Camera mainCamera;
         private CinemachineVirtualCamera playerCamera;
+        private CinemachineBrain cinemachineBrain;
         private CinemachineBasicMultiChannelPerlin playerNoise;
 
         private HashSet<CinemachineVirtualCamera> virtualCameras;
@@ -27,6 +28,7 @@ namespace RSP2
         {
             gameManager = _gameManager;
 
+            cinemachineBrain = Camera.main.transform.GetComponent<CinemachineBrain>();
             virtualCameras = new HashSet<CinemachineVirtualCamera>();
             if (SearchPlayerCamera())
             {
@@ -35,19 +37,38 @@ namespace RSP2
 
         }
 
-        public void AddCamera(CinemachineVirtualCamera newCamera)
+        public void AddCamera(CinemachineVirtualCamera newCamera, bool nowChange = false, bool immediatelyChange = false)
         {
             if (!virtualCameras.Contains(newCamera))
             {
                 virtualCameras.Add(newCamera);
-                newCamera.Priority = nPCCameraPriority.x;
+                if (nowChange)
+                {
+                    SetBlendTime(immediatelyChange);
+                    newCamera.Priority = nPCCameraPriority.y;
+                }
+                else newCamera.Priority = nPCCameraPriority.x;
+
             }
         }
 
-        public void RemoveCamera(CinemachineVirtualCamera targetCamera)
+        private void SetBlendTime(bool immediatelyChange)
         {
-            if(currentCamera == targetCamera)
+            if (immediatelyChange)
             {
+                cinemachineBrain.m_DefaultBlend.m_Time = 0;
+            }
+            else
+            {
+                cinemachineBrain.m_DefaultBlend.m_Time = 1;
+            }
+        }
+
+        public void RemoveCamera(CinemachineVirtualCamera targetCamera, bool immediatelyChange = false)
+        {
+            if (currentCamera == targetCamera)
+            {
+                SetBlendTime(immediatelyChange);
                 ResetToPlayerCamera();
             }
 
@@ -57,10 +78,13 @@ namespace RSP2
             }
         }
 
-        public void CallCameraSwitching(CinemachineVirtualCamera targetCamera)
+        public void CallCameraSwitching(CinemachineVirtualCamera targetCamera, bool immediatelyChange = false)
         {
+            SetBlendTime(immediatelyChange);
+
             if (targetCamera == null)
             {
+
                 ResetToPlayerCamera();
                 return;
             }

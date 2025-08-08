@@ -25,22 +25,17 @@ namespace RSP2
             gameManager = _gameManager;
             nPCDialogueDisplay.Initialize();
             playerDialogueDisplay.Initialize();
+            narratorDialogueDisplay.Initialize();
             Deactivate();
         }
 
-        public void StartDialogue(DialogueType dialogueType, int key)
+        public void StartDialogue(int key)
         {
             dialogueData = DataManager.Instance.TableDataLoader.DialogueDataLoader.GetByKey(key);
 
-            switch (dialogueType)
-            {
-                case DialogueType.NPC:
-                    {
-                        dialogueScriptSet =
-                    DataManager.Instance.TableDataLoader.DialogueScriptsLoader.GetByMultipleKeys(dialogueData.ScriptKeys);
-                        break;
-                    }
-            }
+
+            dialogueScriptSet =
+                 DataManager.Instance.TableDataLoader.DialogueScriptsLoader.GetByMultipleKeys(dialogueData.ScriptKeys);
 
 
             scriptLength = dialogueScriptSet.Length;
@@ -91,7 +86,7 @@ namespace RSP2
                         currentDialogueDisplay = playerDialogueDisplay;
                         narratorDialogueDisplay.Deactivate();
                         nPCDialogueDisplay.Deactivate();
-                        
+
                         playerDialogueDisplay.Activate();
                         playerDialogueDisplay.SetName(gameManager.Player.Name);
                         playerDialogueDisplay.SetScript(script);
@@ -102,7 +97,7 @@ namespace RSP2
                         currentDialogueDisplay = nPCDialogueDisplay;
                         narratorDialogueDisplay.Deactivate();
                         playerDialogueDisplay.Deactivate();
-                        
+
                         nPCDialogueDisplay.Activate();
                         nPCDialogueDisplay.SetName(data.Name);
                         nPCDialogueDisplay.SetScript(script);

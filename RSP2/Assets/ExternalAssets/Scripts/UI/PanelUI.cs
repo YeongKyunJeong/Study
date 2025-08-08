@@ -12,6 +12,7 @@ namespace RSP2
         private InGameManager inGameManager;
         private CanvasUIManager canvasUIManager;
 
+        [field: SerializeField] private Canvas canvas;
         [field: SerializeField] private EquipmentStatsDisplay statsDisplay;
         public EquipmentStatsDisplay StatsDisplay { get => statsDisplay; }
 
@@ -33,6 +34,11 @@ namespace RSP2
             inGameManager = _inGameManager;
             canvasUIManager = _canvasUIManager;
 
+            if (canvas == null)
+            {
+                Debug.Log("Canvas Not Imported");
+                canvas = GetComponentInChildren<Canvas>();
+            }
             if (statsDisplay == null)
             {
                 Debug.Log("Stats Display Not Imported");
@@ -74,6 +80,11 @@ namespace RSP2
         public void OnPointerClick(PointerEventData eventData)
         {
             Debug.Log("click");
+        }
+
+        public void SetCanvasSortOrder(int newSortOrder = 0)
+        {
+            canvas.sortingOrder = newSortOrder;
         }
     }
 }
