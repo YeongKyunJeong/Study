@@ -113,6 +113,8 @@ namespace RSP2
                         PanelUI.MenuUI.Open();
 
                         IsMenuOpened = PanelUI.MenuUI.IsActive;
+                        if (isOn) PanelUI.DialogueUI.Activate();
+                        else PanelUI.DialogueUI.Deactivate();
                         inGameManager.OnPanelUIOpen(IsMenuOpened);
                         break;
 
@@ -166,7 +168,6 @@ namespace RSP2
                 int next = PanelUI.DialogueUI.Next();
                 if (next >= 0) // Means this Dialogue Ends
                 {
-                    PanelUI.DialogueUI.Deactivate();
                     isOnDialogue = false;
 
                     // If it is Cutscene, No Need to Invoke
@@ -176,8 +177,17 @@ namespace RSP2
                         PanelUI.SetCanvasSortOrder();
                         cutsceneDialogueEndEvent?.Invoke();
                     }
-                    else interactionDialogueEndEvent?.Invoke(next);
+                    else
+                    {
+                        PanelUI.DialogueUI.Deactivate();
+                        interactionDialogueEndEvent?.Invoke(next);
+                    }
                 }
+            }
+            else
+            {
+                PanelUI.DialogueUI.Deactivate();
+                cutsceneDialogueEndEvent?.Invoke();
             }
         }
         #endregion

@@ -60,7 +60,6 @@ namespace RSP2
             fieldActionMap = playerInputComponent.actions.FindActionMap("Field");
             uIActionMap = playerInputComponent.actions.FindActionMap("UI");
             InteractionActionMap = playerInputComponent.actions.FindActionMap("Interaction");
-            //var module = EventSystem.current.GetComponent<InputSystemUIInputModule>();
         }
 
         private void Start()
@@ -79,6 +78,7 @@ namespace RSP2
                 uIActionMap.Disable();
                 InteractionActionMap.Disable();
             }
+
             return;
         }
 
@@ -91,6 +91,7 @@ namespace RSP2
                 fieldActionMap.Disable();
                 InteractionActionMap.Disable();
             }
+
             return;
         }
 
@@ -103,13 +104,13 @@ namespace RSP2
                 fieldActionMap.Disable();
                 uIActionMap.Disable();
             }
+
             return;
         }
 
         #region Player
         private void OnMove(InputValue value)
         {
-
             MovementInput = value.Get<Vector2>();
 
             MoveEvent?.Invoke(MovementInput);

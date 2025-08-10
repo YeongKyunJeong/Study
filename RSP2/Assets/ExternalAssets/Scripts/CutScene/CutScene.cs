@@ -130,6 +130,7 @@ namespace RSP2
                     yield return new WaitForSeconds(3); // Fixed Waiting Time
                 }
 
+                //yield return null;
             }
 
             EndActorAnimation(lastActor);
