@@ -87,7 +87,6 @@ namespace RSP2
             currentIndex = interactionPairList.Count - 1;
             canvasUIManager.SetPanelUIActive(PanelUIType.Interaction, true, currentIndex + 1);
             ChangeCurrentInteraction(newPair);
-            // TO DO :: Add other logic
         }
 
         public void RemoveNPCInteraction(NPC nPC)
@@ -106,7 +105,6 @@ namespace RSP2
                 currentIndex = interactionPairList.Count - 1;
                 ChangeCurrentInteraction(interactionPairList[currentIndex]);
             }
-            // TO DO :: Check there is other interaction left and deactivate if none
         }
 
         public void ChangeCurrentInteraction(KeyValuePair<NPC, NPCInteraction> nextPair)

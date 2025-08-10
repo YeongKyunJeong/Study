@@ -116,6 +116,7 @@ namespace RSP2
         public void Deactivate()
         {
             gameObject.SetActive(false);
+            currentDialogueDisplay?.Deactivate();
         }
     }
 }

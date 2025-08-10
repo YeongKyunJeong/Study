@@ -60,7 +60,6 @@ namespace RSP2
 
         public void OnInteractEnter(Player player)
         {
-            // TO DO :: Add ui on logic
             NPCInteraction[] newInteractions = (NPCInteraction[])Enum.GetValues(typeof(NPCInteraction));
             foreach (var item in newInteractions)
             {
