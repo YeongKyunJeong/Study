@@ -145,8 +145,6 @@ namespace RSP2
 
         protected bool SearchForTarget()
         {
-            // To Do : Save result and return that if called more than once within one frame
-
             hitColliders = Physics.OverlapSphere(enemyTransform.position,
                 runtimeData.SearchingDistance, enemy.SearchingLayerMask);
 
@@ -156,7 +154,7 @@ namespace RSP2
 
                 if (detectedCombatSystem != null
                     && !detectedCombatSystem.IsDead
-                    /*&& detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction*/)
+                    && detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
                 {
                     switch (runtimeData.ChasingTargetType)
                     {
@@ -166,7 +164,6 @@ namespace RSP2
                                 {
                                     SetTargetData(detectedCombatSystem);
 
-                                    //Debug.Log($"Target detected : {detectedCombatSystem.name}");
                                     return true;
                                 }
                                 else
@@ -179,7 +176,6 @@ namespace RSP2
                                 SetTargetData(detectedCombatSystem);
 
                                 return true;
-
                             }
                         case ChasingTargetType.NotMyFaction:
                             {
@@ -201,7 +197,6 @@ namespace RSP2
                             }
                     }
                 }
-
             }
 
             SetTargetData(null, false);

@@ -73,7 +73,6 @@ namespace RSP2
         private void Start()
         {
             inGameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
-            //gameManager.Player.InputReader.On
 
             player.CombatSystem.DamageEvent += ChangeHPBar;
             player.CombatSystem.HealEvent += ChangeHPBar;
@@ -169,7 +168,6 @@ namespace RSP2
                 if (next >= 0) // Means this Dialogue Ends
                 {
                     isOnDialogue = false;
-
                     // If it is Cutscene, No Need to Invoke
                     if (isCutscene)
                     {

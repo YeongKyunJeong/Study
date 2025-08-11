@@ -132,18 +132,7 @@ namespace RSP2
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
-            // Temporary weapon equipment
-
             gameManager.GetDataFromSave();
-
-            //AddItem(SOData.EquipmentDataLibrary.WeaponData[0]);
-            //AddItem(SOData.EquipmentDataLibrary.WeaponData[1]);
-            //AddItem(SOData.ConsumableDataLibrary.ConsumableData[0], 4);
-
-            //ItemInstance startWeaponInstance = new ItemInstance(SOData.WeaponDataLibrary.WeaponData[0]);
-            //EquipItem(startWeaponInstance);
-
-            //ProjectileManager.ShootProjectile(CombatSystem ,SOData.AttackDataLibrary.RangeAttackDataList[0].Projectiles[0], transform.position, transform.forward);
         }
 
         private void Update()
