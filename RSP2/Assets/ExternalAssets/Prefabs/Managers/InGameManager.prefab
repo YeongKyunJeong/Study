@@ -314,7 +314,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progressCutsceneKeyPairs: []
-  cutScenes: []
+  cutscenes: []
 --- !u!1 &6020894421534004710
 GameObject:
   m_ObjectHideFlags: 0
