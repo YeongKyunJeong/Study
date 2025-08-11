@@ -149,13 +149,13 @@ namespace RSP2
             cameraManager.CallCameraSwitching(currentPair.Key.NPCCamera.VirtualCamera);
             inGameManager.OnInteractionUIOpen(true);
 
-
             switch (currentPair.Value)
             {
                 case NPCInteraction.Speakable:
                     canvasUIManager.SendDialogueStartCall(currentPair.Key.DialogueKey);
                     break;
                 case NPCInteraction.Tradable:
+
                     break;
                 default:
                     break;

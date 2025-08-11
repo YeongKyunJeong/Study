@@ -31,12 +31,11 @@ namespace RSP2
 
         public void StartDialogue(int key)
         {
-            dialogueData = DataManager.Instance.TableDataLoader.DialogueDataLoader.GetByKey(key);
-
-
+            dialogueData = DataManager.Instance.TableDataLoader.
+                DialogueDataLoader.GetByKey(key);
             dialogueScriptSet =
-                 DataManager.Instance.TableDataLoader.DialogueScriptsLoader.GetByMultipleKeys(dialogueData.ScriptKeys);
-
+                 DataManager.Instance.TableDataLoader.
+                 DialogueScriptsLoader.GetByMultipleKeys(dialogueData.ScriptKeys);
 
             scriptLength = dialogueScriptSet.Length;
             scriptIndex = 0;
@@ -64,7 +63,6 @@ namespace RSP2
             }
 
             return dialogueData.Redirection;
-
         }
 
         private void TalkOneScript(DialogueData data, DialogueScript script)

@@ -63,7 +63,6 @@ namespace RSP2
                 yield return waitingSecond;
             }
 
-            // TO DO:: End Logic
             isPlaying = false;
             yield return null;
         }
