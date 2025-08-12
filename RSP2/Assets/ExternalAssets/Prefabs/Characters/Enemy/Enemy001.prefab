@@ -143,6 +143,7 @@ GameObject:
   - component: {fileID: 5554678414318250587}
   - component: {fileID: 3758292661706335882}
   - component: {fileID: 267738278946327113}
+  - component: {fileID: 7125155561290687552}
   m_Layer: 8
   m_Name: Enemy001
   m_TagString: Untagged
@@ -179,23 +180,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa6b24ffb0b619d489d3f917d7429d1b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Mover>k__BackingField: {fileID: 5554678414318250587}
   <ForceReceiver>k__BackingField: {fileID: 6329992165874301542}
+  <NavMeshAgent>k__BackingField: {fileID: 7125155561290687552}
   <Controller>k__BackingField: {fileID: 3758292661706335882}
+  <Mover>k__BackingField: {fileID: 5554678414318250587}
   <Animator>k__BackingField: {fileID: 3989382552042995925}
   <StatHandler>k__BackingField: {fileID: 3402772260213224989}
   <CombatSystem>k__BackingField: {fileID: 3187639084749330371}
   <AttackHitBox>k__BackingField: {fileID: 6498365184910085326}
+  Name: 
   EnemyKey: 0
   <AttackDataArray>k__BackingField:
   - {fileID: 11400000, guid: 22c60f3aaf1144f4ea051103101dc2d9, type: 2}
-  <SearchingDistance>k__BackingField: 6
+  <searchingDistance>k__BackingField: 0
   <SearchingLayerMask>k__BackingField:
     serializedVersion: 2
     m_Bits: 256
   <FieldOfView>k__BackingField: 60
   <RotationSpeedModifier>k__BackingField: 6
-  ChasingTargetType: 0
 --- !u!114 &3402772260213224989
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +301,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86b9c5a8a97087f43a8312b869e32d67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!195 &7125155561290687552
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8922455260479561857}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 360
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 1
+  m_ObstacleAvoidanceType: 4
 --- !u!1001 &2595755121461980459
 PrefabInstance:
   m_ObjectHideFlags: 0

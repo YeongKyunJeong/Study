@@ -1,0 +1,160 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e251860fcd970734c9f14ebd98a146c3, type: 3}
+  m_Name: GS-20250812 - 214201
+  m_EditorClassIdentifier: 
+  m_name: Session 20250812-214201
+  m_description: 'Rocking out at Creativity Central!
+
+
+    If you like Gaia please
+    consider rating it :)'
+  m_previewImage: {fileID: 0}
+  m_dateCreated: "2025-08-12 \uC624\uD6C4 9:42:01"
+  m_terrainWidth: 256
+  m_terrainDepth: 256
+  m_terrainHeight: 256
+  m_seaLevel: 0
+  m_spawnDensity: 0.8
+  m_isLocked: 0
+  m_previewImageBytes: 
+  m_previewImageWidth: 0
+  m_previewImageHeight: 0
+  m_operations:
+  - m_description: Clear World
+    m_operationType: 10
+    m_isActive: 1
+    m_affectedTerrainNames: []
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:01:02"
+    scriptableObjectAssetGUID: 
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: 'Creating World: 1 x 1 tiles, tile size: 256'
+    m_operationType: 0
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:01:03"
+    scriptableObjectAssetGUID: e3a219a1383946e44815af8cd6378d1c
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Spawning - Gaia Pro Sample-Grass(Clone)
+    m_operationType: 7
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:08:06"
+    scriptableObjectAssetGUID: 65b65bbc43687c04dac0149c63137837
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Clearing - Trees Details, AllTerrains, AnySource
+    m_operationType: 3
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:08:27"
+    scriptableObjectAssetGUID: f556b80f016a7c44fbd03f7ce92a8aff
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Spawning - Gaia Pro Sample-Grass(Clone)
+    m_operationType: 7
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:09:28"
+    scriptableObjectAssetGUID: f20bdb8549f39614c80a4255fd28f83d
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Clearing - Trees Details, AllTerrains, AnySource
+    m_operationType: 3
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:09:37"
+    scriptableObjectAssetGUID: 5679685f40979324dba1c0e4c07aa563
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Spawning - Gaia Pro Sample-Tree(Clone)
+    m_operationType: 7
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:10:04"
+    scriptableObjectAssetGUID: cc1d36457e09c4b47aaf99de63009c90
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Clearing -, AllTerrains, AnySource
+    m_operationType: 3
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:10:30"
+    scriptableObjectAssetGUID: c27cb05852422d34294b8d6336d761b0
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Clearing - Trees, AllTerrains, AnySource
+    m_operationType: 3
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:10:35"
+    scriptableObjectAssetGUID: 159c65beb0e2cac47964d8605a44752a
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  - m_description: Spawning - Gaia Pro Sample-Tree(Clone)
+    m_operationType: 7
+    m_isActive: 1
+    m_affectedTerrainNames:
+    - Terrain_0_0-20250812 - 220102
+    m_operationDateTime: "2025-08-12 \uC624\uD6C4 10:10:37"
+    scriptableObjectAssetGUID: e0ad5bef45beac648bf63bebaf4b3976
+    m_isFoldedOut: 0
+    sessionPlaybackState: 1
+    m_terrainsFoldedOut: 0
+    m_serializedExternalAction: 
+  m_terrainMinMaxCache:
+  - guid: 3c50033570003254ca6481e88cb0403d
+    isWorldmap: 0
+    recalculate: 0
+    min: 0
+    max: 16.695568
+  - guid: Worldmap
+    isWorldmap: 1
+    recalculate: 0
+    min: 0
+    max: 14.962932
+  m_bakedMaskCacheEntries:
+  - fileName: Terrain_0_0-20250812 - 220102_LayerGameObject_7168_5
+    assetPath: Assets/Procedural Worlds/Packages - Install/Gaia/TerrainCollisionData/Terrain_0_0-20250812
+      - 220102/Terrain_0_0-20250812 - 220102_LayerGameObject_7168_5
+    fullPath: C:/Unity Projects/Study/RSP2/Assets/Procedural Worlds/Packages - Install/Gaia/TerrainCollisionData/Terrain_0_0-20250812
+      - 220102/Terrain_0_0-20250812 - 220102_LayerGameObject_7168_5
+    texture: {fileID: 0}
+  m_worldBiomeMaskSettings: {fileID: 0}
