@@ -22,6 +22,7 @@ namespace RSP2
         private Transform enemyTransform;
 
         private Collider[] hitColliders;
+        private int count;
         private CombatSystem detectedCombatSystem;
         protected Vector3 moveDir;
 
@@ -61,12 +62,12 @@ namespace RSP2
             stateMachine = _stateMachine;
 
             runtimeData = enemy.RuntimeData;
-
             statHandler = _enemy.StatHandler;
             mover = enemy.Mover;
             controller = enemy.Controller;
             animator = enemy.Animator;
 
+            hitColliders = new Collider[50];
             enemyTransform = enemy.transform;
 
         }
@@ -145,12 +146,12 @@ namespace RSP2
 
         protected bool SearchForTarget()
         {
-            hitColliders = Physics.OverlapSphere(enemyTransform.position,
-                runtimeData.SearchingDistance, enemy.SearchingLayerMask);
+            count = Physics.OverlapSphereNonAlloc(enemyTransform.position,
+                runtimeData.SearchingDistance, hitColliders, enemy.SearchingLayerMask);
 
-            foreach (Collider hit in hitColliders)
+            for (int i = 0; i < count; i++)
             {
-                detectedCombatSystem = hit.GetComponent<CombatSystem>();
+                detectedCombatSystem = hitColliders[i].GetComponent<CombatSystem>();
 
                 if (detectedCombatSystem != null
                     && !detectedCombatSystem.IsDead
@@ -196,8 +197,60 @@ namespace RSP2
                                 return false;
                             }
                     }
+
                 }
             }
+
+            //foreach (Collider hit in hitColliders)
+            //{
+            //    detectedCombatSystem = hit.GetComponent<CombatSystem>();
+
+            //    if (detectedCombatSystem != null
+            //        && !detectedCombatSystem.IsDead
+            //        && detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
+            //    {
+            //        switch (runtimeData.ChasingTargetType)
+            //        {
+            //            case ChasingTargetType.PlayerOnly:
+            //                {
+            //                    if (detectedCombatSystem.MyFaction == Faction.Player)
+            //                    {
+            //                        SetTargetData(detectedCombatSystem);
+
+            //                        return true;
+            //                    }
+            //                    else
+            //                    {
+            //                        continue;
+            //                    }
+            //                }
+            //            case ChasingTargetType.AllFaction:
+            //                {
+            //                    SetTargetData(detectedCombatSystem);
+
+            //                    return true;
+            //                }
+            //            case ChasingTargetType.NotMyFaction:
+            //                {
+            //                    if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
+            //                    {
+            //                        SetTargetData(detectedCombatSystem);
+
+            //                        return true;
+            //                    }
+            //                    else
+            //                    {
+            //                        continue;
+            //                    }
+            //                }
+            //            default:
+            //                {
+            //                    SetTargetData(null, false);
+            //                    return false;
+            //                }
+            //        }
+            //    }
+            //}
 
             SetTargetData(null, false);
             return false;
