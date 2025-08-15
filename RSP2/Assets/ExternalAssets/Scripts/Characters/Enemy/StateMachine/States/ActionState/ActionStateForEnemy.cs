@@ -201,57 +201,6 @@ namespace RSP2
                 }
             }
 
-            //foreach (Collider hit in hitColliders)
-            //{
-            //    detectedCombatSystem = hit.GetComponent<CombatSystem>();
-
-            //    if (detectedCombatSystem != null
-            //        && !detectedCombatSystem.IsDead
-            //        && detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
-            //    {
-            //        switch (runtimeData.ChasingTargetType)
-            //        {
-            //            case ChasingTargetType.PlayerOnly:
-            //                {
-            //                    if (detectedCombatSystem.MyFaction == Faction.Player)
-            //                    {
-            //                        SetTargetData(detectedCombatSystem);
-
-            //                        return true;
-            //                    }
-            //                    else
-            //                    {
-            //                        continue;
-            //                    }
-            //                }
-            //            case ChasingTargetType.AllFaction:
-            //                {
-            //                    SetTargetData(detectedCombatSystem);
-
-            //                    return true;
-            //                }
-            //            case ChasingTargetType.NotMyFaction:
-            //                {
-            //                    if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
-            //                    {
-            //                        SetTargetData(detectedCombatSystem);
-
-            //                        return true;
-            //                    }
-            //                    else
-            //                    {
-            //                        continue;
-            //                    }
-            //                }
-            //            default:
-            //                {
-            //                    SetTargetData(null, false);
-            //                    return false;
-            //                }
-            //        }
-            //    }
-            //}
-
             SetTargetData(null, false);
             return false;
         }

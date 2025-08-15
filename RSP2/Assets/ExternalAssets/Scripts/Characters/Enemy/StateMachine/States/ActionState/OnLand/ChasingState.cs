@@ -50,8 +50,12 @@ namespace RSP2
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
 
-            SearchForTarget();
-            if ((runtimeData.Target == null) || (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
+            if ((runtimeData.Target != null) && (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
+            {
+                SearchForTarget();
+            }
+
+            if (runtimeData.Target == null)
             {
                 stateMachine.ChangeState(stateMachine.IdlingState);
                 return;

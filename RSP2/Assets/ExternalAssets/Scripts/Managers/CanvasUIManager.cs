@@ -172,7 +172,6 @@ namespace RSP2
                     if (isCutscene)
                     {
                         isCutscene = false;
-                        PanelUI.SetCanvasSortOrder();
                         cutsceneDialogueEndEvent?.Invoke();
                     }
                     else
@@ -184,6 +183,7 @@ namespace RSP2
             }
             else
             {
+                PanelUI.SetCanvasSortOrder();
                 PanelUI.DialogueUI.Deactivate();
                 cutsceneDialogueEndEvent?.Invoke();
             }

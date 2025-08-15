@@ -70,8 +70,6 @@ namespace RSP2
         {
             CameraManager.Instance.AddCamera(cutsceneCamera, true);
 
-            // TO DO:: Play Dialogue  
-
             foreach (OneCut cut in cuts)
             {
                 if (cut.startWithScreen)
