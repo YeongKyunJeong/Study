@@ -95,13 +95,19 @@ namespace RSP2
             return;
         }
 
-        public void SendRaycastHitsResults(RaycastHit[] raycastHits)
+        public void SendRaycastHitsResults(RaycastHit[] raycastHits, int count)
         {
-            foreach (var hit in raycastHits)
+            for (int i = 0; i < count; i++)
             {
-                hitCollider = hit.collider;
-                FindCombatSystemAndCallEvent(hit.collider);
+                hitCollider = raycastHits[i].collider;
+                FindCombatSystemAndCallEvent(hitCollider);
             }
+
+            //foreach (var hit in raycastHits)
+            //{
+            //    hitCollider = hit.collider;
+            //    FindCombatSystemAndCallEvent(hit.collider);
+            //}
         }
 
         public void StartRayCasting()

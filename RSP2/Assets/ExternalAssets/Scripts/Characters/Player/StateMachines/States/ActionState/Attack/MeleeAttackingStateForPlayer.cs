@@ -17,7 +17,8 @@ namespace RSP2
         protected AttackHitBox attackHitBox;
 
         protected Ray ray;
-        RaycastHit[] hits;
+        protected RaycastHit[] hits;
+        protected int count;
         protected bool useRaycast;
         protected DetectionType detectionType;
         protected GizmosDrawer gizmosDrawer;
@@ -39,6 +40,8 @@ namespace RSP2
         {
             attackHitBox = _player.AttackHitBox;
             gizmosDrawer = player.GetComponent<GizmosDrawer>();
+
+            hits = new RaycastHit[50];
         }
 
         #region IState Methods
@@ -148,19 +151,25 @@ namespace RSP2
             {
                 case DetectionType.SphereRaycast:
                     {
-                        hits = Physics.SphereCastAll(player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition), attackSize.x, player.transform.position, 1f, attackHitBox.TargetLayerMask);
+                        count = Physics.SphereCastNonAlloc(
+                            player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition),
+                            attackSize.x, player.transform.position, hits, 1f, attackHitBox.TargetLayerMask);
+
+                        //hits = Physics.SphereCastAll(player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition), attackSize.x, player.transform.position, 1f, attackHitBox.TargetLayerMask);
                     }
                     break;
                 case DetectionType.BoxRaycast:
                     {
-                        hits = Physics.BoxCastAll(player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition), attackSize, player.transform.forward, player.transform.rotation, 1f, attackHitBox.TargetLayerMask);
+                        count = Physics.BoxCastNonAlloc(
+                            player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition),
+                            attackSize, player.transform.forward, hits ,player.transform.rotation, 1f, attackHitBox.TargetLayerMask);
                     }
                     break;
                 default:
                     break;
             }
 
-            attackHitBox.SendRaycastHitsResults(hits);
+            attackHitBox.SendRaycastHitsResults(hits, count);
             gizmosDrawer.UpdateParameter(player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition), attackSize, detectionType);
         }
 

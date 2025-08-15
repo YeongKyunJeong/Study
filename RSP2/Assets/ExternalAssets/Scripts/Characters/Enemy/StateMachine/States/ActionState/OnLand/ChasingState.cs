@@ -27,12 +27,10 @@ namespace RSP2
             isMoving = true;
             mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
 
-            //mover.UpdateNextHorizontalMovementVector(moveDir);
             if (animator.IsInTransition(0))
             {
                 animator.CrossFadeInFixedTime(instantChasingHash, 0.25f);
             }
-
         }
 
         public override void Exit()
@@ -89,10 +87,7 @@ namespace RSP2
             isMoving = true;
             mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
 
-
-
             return;
-
         }
 
         protected override void SetAnimatorSelfStateParameter(bool isOn)

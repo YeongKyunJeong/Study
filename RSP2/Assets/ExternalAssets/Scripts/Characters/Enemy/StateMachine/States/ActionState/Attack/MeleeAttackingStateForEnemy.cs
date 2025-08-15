@@ -12,7 +12,8 @@ namespace RSP2
         protected float hitBoxDisableTime;
 
         protected Ray ray;
-        RaycastHit[] hits;
+        protected RaycastHit[] hits;
+        protected int count;
         protected bool useRaycast;
         protected DetectionType detectionType;
         protected GizmosDrawer gizmosDrawer;
@@ -26,6 +27,7 @@ namespace RSP2
         {
             attackHitBox = _enemy.AttackHitBox;
             gizmosDrawer = enemy.GetComponent<GizmosDrawer>();
+            hits = new RaycastHit[50];
         }
 
         public override void Enter()
@@ -127,19 +129,23 @@ namespace RSP2
             {
                 case DetectionType.SphereRaycast:
                     {
-                        hits = Physics.SphereCastAll(enemy.transform.position + enemy.transform.TransformDirection(attackData.ColliderPosition), attackSize.x, enemy.transform.position, 1f, attackHitBox.TargetLayerMask);
+                        count = Physics.SphereCastNonAlloc(
+                            enemy.transform.position + enemy.transform.TransformDirection(attackData.ColliderPosition),
+                            attackSize.x, enemy.transform.position, hits, 1f, attackHitBox.TargetLayerMask);
                     }
                     break;
                 case DetectionType.BoxRaycast:
                     {
-                        hits = Physics.BoxCastAll(enemy.transform.position + enemy.transform.TransformDirection(attackData.ColliderPosition), attackSize, enemy.transform.forward, enemy.transform.rotation, 1f, attackHitBox.TargetLayerMask);
+                        count = Physics.BoxCastNonAlloc(
+                            enemy.transform.position + enemy.transform.TransformDirection(attackData.ColliderPosition),
+                            attackSize, enemy.transform.forward, hits, enemy.transform.rotation, 1f, attackHitBox.TargetLayerMask);
                     }
                     break;
                 default:
                     break;
             }
 
-            attackHitBox.SendRaycastHitsResults(hits);
+            attackHitBox.SendRaycastHitsResults(hits, count);
             gizmosDrawer.UpdateParameter(enemy.transform.position + enemy.transform.TransformDirection(attackData.ColliderPosition), attackSize, detectionType);
         }
 

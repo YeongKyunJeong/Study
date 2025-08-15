@@ -33268,9 +33268,21 @@ PrefabInstance:
       propertyPath: <MainCameraTransform>k__BackingField
       value: 
       objectReference: {fileID: 1064345950}
+    - target: {fileID: 8049803004861275054, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8287499957226921195, guid: b31af1353f22a704bb8984805207b298, type: 3}
       propertyPath: m_LocalPosition.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8667403852483593809, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8935902564236214146, guid: b31af1353f22a704bb8984805207b298, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
