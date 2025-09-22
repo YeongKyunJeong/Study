@@ -8,7 +8,6 @@ namespace RSP2
 {
     public class Enemy : CombatUnit
     {
-        public const int NPC_KEY_CONST = 10000;
 
         protected InGameManager gameManager;
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }

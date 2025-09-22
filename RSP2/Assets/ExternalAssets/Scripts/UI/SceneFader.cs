@@ -21,7 +21,7 @@ namespace RSP2
         [field: SerializeField] private float fastFadingStartTime/* = 0.1f*/;
         [field: SerializeField] private float fastFadingTime/* = 0.5f*/;
 
-
+        private bool isScreenPersisted;
         private Coroutine fadingCoroutine;
         private float t;
         private float a;
@@ -30,7 +30,7 @@ namespace RSP2
         public void Initialize(GameManager _gameManager)
         {
             this.gameManager = _gameManager;
-
+            isScreenPersisted = false;
             EnableInputBlock(false);
             SetScreen();
         }
@@ -48,22 +48,26 @@ namespace RSP2
 
             if (isScreen)
             {
+                isScreenPersisted = true;
                 screenImg.color = new Color(0f, 0f, 0f, 1);
                 return;
             }
 
+            isScreenPersisted = false;
             screenImg.color = new Color(0f, 0f, 0f, 0f);
         }
 
         public void CallFade(FadingType fadingType, bool inputBlock, Action OnComplete)
         {
+            EnableInputBlock(inputBlock);
+
+            if (isScreenPersisted) return;
+
             if (fadingCoroutine != null)
             {
                 StopCoroutine(fadingCoroutine);
                 fadingCoroutine = null;
             }
-
-            EnableInputBlock(inputBlock);
 
             switch (fadingType)
             {

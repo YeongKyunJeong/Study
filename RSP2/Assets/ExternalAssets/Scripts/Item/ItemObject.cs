@@ -29,7 +29,6 @@ namespace RSP2
 
         public void OnInteractEnter(Player player)
         {
-            // TO DO :: Add item taking logic
             if (player.AddItem(itemData, Amount, Upgrade))
                 Destroy(gameObject);
         }

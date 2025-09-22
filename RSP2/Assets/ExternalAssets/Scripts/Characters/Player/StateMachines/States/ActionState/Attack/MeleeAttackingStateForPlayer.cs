@@ -11,9 +11,6 @@ namespace RSP2
 {
     public class MeleeAttackingStateForPlayer : BaseAttackStateForPlayer
     {
-        //protected Collider hitBoxCollider;
-        //protected Transform hitBoxTransform;
-
         protected AttackHitBox attackHitBox;
 
         protected Ray ray;
@@ -31,10 +28,6 @@ namespace RSP2
         protected float vFXStartTime;
         protected bool vFXStarted;
         protected Weapon currentWeapon;
-
-
-
-        //protected Vector3 targetDirVector;
 
         public MeleeAttackingStateForPlayer(Player _player, ActionStateMachineForPlayer _stateMachine) : base(_player, _stateMachine)
         {
@@ -146,7 +139,6 @@ namespace RSP2
                 attackHitBox.StartRayCasting();
             }
 
-            //attackSize = attackData.ColliderSize * currentWeapon.WeaponData.RangeModifier;
             switch (detectionType)
             {
                 case DetectionType.SphereRaycast:
@@ -154,9 +146,7 @@ namespace RSP2
                         count = Physics.SphereCastNonAlloc(
                             player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition),
                             attackSize.x, player.transform.position, hits, 1f, attackHitBox.TargetLayerMask);
-
-                        //hits = Physics.SphereCastAll(player.transform.position + player.transform.TransformDirection(attackData.ColliderPosition), attackSize.x, player.transform.position, 1f, attackHitBox.TargetLayerMask);
-                    }
+                         }
                     break;
                 case DetectionType.BoxRaycast:
                     {
@@ -178,8 +168,6 @@ namespace RSP2
 
         protected virtual void OnAttack(CombatSystem hitCombatSystem, Collider hitCollider)
         {
-            // TO DO :: Add enemy counting logic
-
             if (!CheckTargetFaction(hitCombatSystem)) return;
 
             Vector3 attackPosition = player.transform.position + runtimeData.AttackPositionModifier;

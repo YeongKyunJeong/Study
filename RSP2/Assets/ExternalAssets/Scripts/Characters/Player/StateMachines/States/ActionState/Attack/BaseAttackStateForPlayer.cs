@@ -129,8 +129,6 @@ namespace RSP2
             {
                 base.OnDashInput();
 
-                // To Do: Check is Landing
-
                 stateMachine.ChangeState(stateMachine.LandDashingState);
             }
         }
@@ -140,8 +138,6 @@ namespace RSP2
             if (isCancelable)
             {
                 base.OnJumpInput();
-
-                // To Do: Check is Landing
 
                 stateMachine.ChangeState(stateMachine.JumpingState);
                 return;
@@ -170,10 +166,7 @@ namespace RSP2
 
             if (combatSystem.CurrentMP >= attackData.MPCost)
             {
-                if (combatSystem.CurrentStamina >= attackData.StaminaCost)
-                {
-                    return true;
-                }
+                if (combatSystem.CurrentStamina >= attackData.StaminaCost) return true;
             }
 
             return false;
@@ -182,8 +175,6 @@ namespace RSP2
 
         private void EndAttackState()
         {
-            //SetAnimatorIsAttackingParameter(false);
-
             if (FallingCalculator.CheckIsSlope(player.transform).y < -0.98) // No collider detected
             {
                 stateMachine.ChangeState(stateMachine.FallingState);
@@ -225,14 +216,6 @@ namespace RSP2
             animator.speed = player.CurrentWeapon.WeaponData.SpeedModifier * attackData.AttackSpeed * player.StatHandler.CurrentStatistics.AttackSpeed / 5;
         }
 
-        //protected virtual void SetAnimatorPlayingSpeed(bool isExit = false)
-        //{
-        //    if (isExit)
-        //    {
-        //        animator.speed = 1;
-        //        return;
-        //    }
-        //}
 
         protected virtual void UpdateNormalizedPassedTime()
         {
@@ -315,15 +298,14 @@ namespace RSP2
             {
                 case DamageType.ByMainWeapon:
                     {
-                        // TO DO :: Add damage calculating logic with stat
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage 
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage
                                                         + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.ItemInstance.Upgrade],
                                                         player.CurrentWeapon.WeaponData.DamageType);
                         break;
                     }
                 default:
                     {
-                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage 
+                        targetCombatSystem.TakeDamage(statHandler.CurrentStatistics.Attack + attackData.Damage
                                                         + player.CurrentWeapon.WeaponData.DamageBonus[player.CurrentWeapon.ItemInstance.Upgrade],
                                                         attackData.DamageType);
                         break;

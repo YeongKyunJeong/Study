@@ -7,6 +7,8 @@ namespace RSP2
 {
     public class NPC : Enemy
     {
+        public const int NPC_KEY_CONST = 10000;
+        
         public int NPCKey;
 
         [field: SerializeField] public NPCInteraction Interactions { get; private set; }
@@ -44,7 +46,7 @@ namespace RSP2
 
         protected override void OnDie()
         {
-            EventBus.TriggerEnemyHunted(NPCKey + NPC_KEY_CONST);
+            EventBus.TriggerEnemyHunted(NPCKey + NPC.NPC_KEY_CONST);
 
             //gameManager.EnemyDie(this);
             ActionStateMachine.OnDie();

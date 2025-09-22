@@ -14,7 +14,6 @@ namespace RSP2
         public static Action<int> OnLocationArrived;
         public static Action<QuestProgress> QuestCompleted;
 
-
         public static void TriggerItemCollected(int id)
             => OnItemCollected?.Invoke(id);
         public static void TriggerEnemyHunted(int id) => OnEnemyHunted?.Invoke(id);

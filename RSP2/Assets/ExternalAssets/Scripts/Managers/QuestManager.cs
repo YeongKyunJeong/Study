@@ -68,15 +68,6 @@ namespace RSP2
                             EventBus.OnLocationArrived += id => OnObjectiveEvent(obj, id, questProgress);
                             break;
                         }
-                    case ObjectiveType.AccessUI:
-                        {
-                            //EventBus.OnUIAccessed += name =>
-                            //{
-                            //    if (int.TryParse(name, out int id))
-                            //        OnObjectiveEvent(obj, id, questProgress);
-                            //};
-                        }
-                        break;
                 }
             }
         }

@@ -168,11 +168,13 @@ namespace RSP2
             CurrentLevel++;
             Debug.Log($"Player became Level {CurrentLevel}");
 
-            ExpDataTable nextLevelExpData = dataManager.TableDataLoader.ExpDataLoader.GetExpByKey(CurrentLevel);
+            ExpDataTable nextLevelExpData = dataManager.TableDataLoader.
+                                        ExpDataLoader.GetExpByKey(CurrentLevel);
             if (nextLevelExpData != null)
             {
                 NowLevelExpData = nextLevelExpData;
-                LevelStatTable levelStatTable = dataManager.TableDataLoader.LevelStatLoaderForPlayer.GetStatByKey(CurrentLevel);
+                LevelStatTable levelStatTable = dataManager.TableDataLoader.
+                                        LevelStatLoaderForPlayer.GetStatByKey(CurrentLevel);
                 combatSystemForPlayer.ChangeStatByLevelUp(levelStatTable);
                 PlayerBaseStatistics.SetStatByLevelTable(levelStatTable);
                 PlayerCurrentStatistics.SetStatByLevelTable(levelStatTable);

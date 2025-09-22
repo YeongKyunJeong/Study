@@ -37,8 +37,6 @@ namespace RSP2
                 default:
                     return;
             }
-
-
         }
     }
 }
