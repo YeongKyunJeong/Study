@@ -1305,6 +1305,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1291167508}
   - component: {fileID: 1291167507}
+  - component: {fileID: 1291167510}
+  - component: {fileID: 1291167509}
   m_Layer: 0
   m_Name: GamaManager
   m_TagString: Untagged
@@ -1341,6 +1343,31 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1291167509
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291167506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 810656f7a44df9840a725585f0ba5d33, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pools: []
+--- !u!114 &1291167510
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1291167506}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7d1bed0b67ca344394cd39d8250cb4a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1301548754
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2105,6 +2132,7 @@ MonoBehaviour:
   controller: {fileID: 0}
   mover: {fileID: 0}
   joystick: {fileID: 0}
+  animator: {fileID: 0}
 --- !u!4 &1725049774 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6120420828103477686, guid: 44cd37f0f2e49834ba24509b574b1f76, type: 3}

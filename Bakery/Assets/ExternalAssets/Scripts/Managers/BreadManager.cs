@@ -6,6 +6,12 @@ namespace Bakery
 {
     public class BreadManager : ObjectPool
     {
-
+        public Stack<Bread> breadsInBasket;
+        public Stack<Bread> breadsInTray;
     }
+
+
+
+
+
 }
