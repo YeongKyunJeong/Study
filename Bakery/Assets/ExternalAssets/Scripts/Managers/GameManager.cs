@@ -22,4 +22,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("Joystick not Assigned");
         }
     }
+
+    private void Start()
+    {
+        player.Initialize();
+    }
 }

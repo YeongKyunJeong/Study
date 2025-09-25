@@ -11,18 +11,21 @@ namespace Bakery
         #region States
 
         private PlayerIdlingState idlingState;
+        public PlayerIdlingState IdlingState { get => idlingState; }
         private PlayerWalkingState walkingState;
+        public PlayerWalkingState WalkingState { get => walkingState; }
 
         #endregion
 
 
-        public PlayerStateMachine(PlayerManager _player) 
+        public PlayerStateMachine(PlayerManager _player)
         {
             player = _player;
 
-            idlingState = new PlayerIdlingState(_player);
-            walkingState = new PlayerWalkingState(_player);
-            //animator = player.Animator;
+            idlingState = new PlayerIdlingState(_player, this);
+            walkingState = new PlayerWalkingState(_player, this);
+
+            ChangeState(idlingState);
         }
 
     }

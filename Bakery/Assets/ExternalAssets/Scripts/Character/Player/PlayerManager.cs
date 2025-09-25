@@ -20,9 +20,15 @@ public class PlayerManager : MonoBehaviour
     [field: SerializeField] private Animator animator;
     public Animator Animator { get => animator; }
 
+    public RuntimeDataForPlayer runtimeData;
+    [field: SerializeField] private float speed;
+    public float Speed { get => speed; }
+
+
     public void Initialize()
     {
-        if(controller == null) 
+
+        if (controller == null) 
         {
             controller = GetComponent<CharacterController>();
         }
@@ -35,7 +41,14 @@ public class PlayerManager : MonoBehaviour
         {
             joystick = GetComponent<Joystick>();
         }
+        runtimeData = new RuntimeDataForPlayer();
         stateMachine = new PlayerStateMachine(this);
+    }
+
+    private void Update()
+    {
+        stateMachine.CallUpdate();
+        Mover.CallMoveUpdate();
     }
 
 }
