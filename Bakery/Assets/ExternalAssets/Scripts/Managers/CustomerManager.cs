@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace Bakery
 {
-    public class Mover : MonoBehaviour
+    public class CustomerManager : MonoBehaviour
     {
         // Start is called before the first frame update
         void Start()

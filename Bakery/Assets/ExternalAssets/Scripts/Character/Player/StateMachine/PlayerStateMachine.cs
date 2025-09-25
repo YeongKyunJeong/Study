@@ -6,6 +6,7 @@ namespace Bakery
 {
     public class PlayerStateMachine : StateMachine
     {
+        private PlayerManager player;
 
         #region States
 
@@ -15,14 +16,12 @@ namespace Bakery
         #endregion
 
 
-        public PlayerStateMachine(PlayerManager player) 
+        public PlayerStateMachine(PlayerManager _player) 
         {
-            //player = _player;
+            player = _player;
 
-            //mover = player.Mover;
-
-            //forceReceiver = player.ForceReceiver;
-
+            idlingState = new PlayerIdlingState(_player);
+            walkingState = new PlayerWalkingState(_player);
             //animator = player.Animator;
         }
 
