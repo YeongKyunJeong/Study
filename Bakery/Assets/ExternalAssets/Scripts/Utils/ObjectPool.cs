@@ -76,6 +76,22 @@ namespace Bakery
             return newObj;
         }
 
+        public GameObject SpawnWithoutPool(string poolTag)
+        {
+            if (!availablePoolDictionary.ContainsKey(poolTag))
+            {
+                Debug.Log($"{poolTag} is not in the Pool Dictionary");
+                return null;
+            }
+
+            Pool pool = pools.Find(p => p.tag == poolTag);
+
+            GameObject newObj = Instantiate(pool.prefab);
+            newObj.GetComponent<PooledObject>()?.Initialize(this, poolTag);
+
+            return newObj;
+        }
+
         public void ResetPoolDictionary()
         {
             List<string> keys = new List<string>(availablePoolDictionary.Keys);

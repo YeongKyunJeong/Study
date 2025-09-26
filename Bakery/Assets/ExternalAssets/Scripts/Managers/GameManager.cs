@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -5,14 +6,17 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     [field: SerializeField] private PlayerManager player;
-    public PlayerManager Player {  get => player;  }
+    public PlayerManager Player { get => player; }
 
     [field: SerializeField] private Joystick joystick;
     public Joystick Joystick { get => joystick; }
+    private static GameManager instance;
+    public static GameManager Instance { get => instance; }
+    public Action GameStartEvent;
 
     private void Awake()
     {
-        if(player == null)
+        if (player == null)
         {
             Debug.LogError("Player not Assigned");
         }
