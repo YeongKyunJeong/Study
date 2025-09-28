@@ -19,15 +19,5 @@ namespace Bakery
         {
             currentState?.CallUpdate();
         }
-
-        public void CallOnAnimationEnterEvent()
-        {
-            currentState?.OnAnimationEnterEvent();
-        }
-
-        public void CallOnAnimationExitEvent()
-        {
-            currentState?.OnAnimationExitEvent();
-        }
     }
 }

@@ -20,7 +20,7 @@ namespace Bakery
         public Dictionary<string, Queue<GameObject>> availablePoolDictionary;
         public Dictionary<string, HashSet<GameObject>> inUsePoolDictionary;
 
-        private void Start()
+        public virtual void Initialize()
         {
             availablePoolDictionary = new Dictionary<string, Queue<GameObject>>();
             inUsePoolDictionary = new Dictionary<string, HashSet<GameObject>>();
@@ -76,7 +76,7 @@ namespace Bakery
             return newObj;
         }
 
-        public GameObject SpawnWithoutPool(string poolTag)
+        public GameObject SpawnWithoutPool(string poolTag, bool isActive = false)
         {
             if (!availablePoolDictionary.ContainsKey(poolTag))
             {
@@ -88,6 +88,7 @@ namespace Bakery
 
             GameObject newObj = Instantiate(pool.prefab);
             newObj.GetComponent<PooledObject>()?.Initialize(this, poolTag);
+            newObj.SetActive(isActive);
 
             return newObj;
         }
@@ -120,7 +121,7 @@ namespace Bakery
                     return;
                 }
 
-                Debug.Log("Object pool return logic error : already existing object in availible pool");
+                Debug.Log("Object pool return logic error : already existing object in available pool");
             }
 
             return;

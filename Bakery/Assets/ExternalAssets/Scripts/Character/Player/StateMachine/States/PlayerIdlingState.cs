@@ -7,13 +7,14 @@ namespace Bakery
     public class PlayerIdlingState : IState
     {
         private readonly int idlingHash = Animator.StringToHash("Idling");
-        private readonly int stackIdlingHash = Animator.StringToHash("StackIdling");
+        private readonly int stackIdlingHash = Animator.StringToHash("CarryingIdling");
 
         private PlayerStateMachine stateMachine;
         private Mover mover;
         private Joystick joystick;
         private Animator animator;
-        private RuntimeDataForPlayer runtimeData;
+        private PlayerRuntimeData runtimeData;
+        private bool isCarrying;
 
         public PlayerIdlingState(PlayerManager player, PlayerStateMachine _stateMachine)
         {
@@ -22,11 +23,23 @@ namespace Bakery
             mover = player.Mover;
             joystick = player.Joystick;
             animator = player.Animator;
+            isCarrying = false;
         }
 
         public void CallUpdate()
         {
-            if(joystick.Horizontal != 0 || joystick.Vertical != 0) 
+            if (runtimeData.isCarryingBread && !isCarrying)
+            {
+                isCarrying = true;
+                animator.Play(stackIdlingHash, 0);
+            }
+            else if (!runtimeData.isCarryingBread && isCarrying)
+            {
+                isCarrying = false;
+                animator.Play(idlingHash, 0);
+            }
+
+            if (joystick.Horizontal != 0 || joystick.Vertical != 0) 
             {
                 stateMachine.ChangeState(stateMachine.WalkingState);
                 return;
@@ -37,10 +50,12 @@ namespace Bakery
         {
             if (runtimeData.isCarryingBread) 
             {
+                isCarrying = true;
                 animator.Play(stackIdlingHash, 0);
             }
             else
             {
+                isCarrying = false;
                 animator.Play(idlingHash, 0);
             }
 
@@ -48,16 +63,6 @@ namespace Bakery
         }
 
         public void Exit()
-        {
-
-        }
-
-        public void OnAnimationEnterEvent()
-        {
-
-        }
-
-        public void OnAnimationExitEvent()
         {
 
         }

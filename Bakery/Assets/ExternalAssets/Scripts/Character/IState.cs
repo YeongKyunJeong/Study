@@ -9,8 +9,5 @@ namespace Bakery
         public void Enter();
         public void Exit();
         public void CallUpdate();
-
-        public void OnAnimationEnterEvent();
-        public void OnAnimationExitEvent();
     }
 }
