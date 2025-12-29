@@ -13,6 +13,9 @@ namespace RSP2
         [field: SerializeField] private SceneFader sceneFader { get; set; }
         public SceneFader SceneFader { get => sceneFader; }
 
+        [field: SerializeField] private LoadingUI loadingUI { get; set; }
+        public LoadingUI LoadingUI { get => LoadingUI; }
+
         [field: SerializeField] public List<int> GameProgress { get; private set; }
         //[field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
 
