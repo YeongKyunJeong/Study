@@ -323,10 +323,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 4705803863342180943, guid: 6f4e60e767568a24e89ffec56e26ca0c, type: 3}
-      propertyPath: <currentSceneType>k__BackingField
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5241242676489625768, guid: 6f4e60e767568a24e89ffec56e26ca0c, type: 3}
       propertyPath: m_Name
       value: GameManager
@@ -369,10 +365,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7270747017482913644, guid: 6f4e60e767568a24e89ffec56e26ca0c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8041079642233459660, guid: 6f4e60e767568a24e89ffec56e26ca0c, type: 3}
-      propertyPath: m_Interactable
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []

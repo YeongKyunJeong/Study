@@ -14,7 +14,7 @@ namespace RSP2
         public SceneFader SceneFader { get => sceneFader; }
 
         [field: SerializeField] private LoadingUI loadingUI { get; set; }
-        public LoadingUI LoadingUI { get => LoadingUI; }
+        public LoadingUI LoadingUI { get => loadingUI; }
 
         [field: SerializeField] public List<int> GameProgress { get; private set; }
         //[field: SerializeField] private InGameInitializer inGameInitializer { get; set; }
@@ -51,6 +51,7 @@ namespace RSP2
 
             dataManager.Initialize();
             sceneFader.Initialize(this);
+            LoadingUI.Initialize(this);
 
             CurrentUserData = dataManager.UserDataLoader.LoadUserData(0);
 
@@ -90,13 +91,19 @@ namespace RSP2
         {
             // TO DO :: Add Loading Screen
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+            loadingUI.SetLoadingPercent(0);
             while (!asyncLoad.isDone)
             {
                 yield return null;
             }
+            loadingUI.SetLoadingPercent(33);
 
             currentSceneType = GetCurrentSceneType(sceneName);
+
+            loadingUI.SetLoadingPercent(50);
             InitializeScene();
+            loadingUI.SetLoadingPercent(100);
+            loadingUI.SetActive(false, true);
 
             yield return null;
         }
@@ -106,14 +113,14 @@ namespace RSP2
             SceneInitializer sceneInitializer = FindObjectOfType<SceneInitializer>();
             if (sceneInitializer != null)
             {
-                sceneInitializer.Initialize(); // Just to Ensure SceneInitializer Assigned
+                //sceneFader.CallFade(FadingType.SlowFadeIn, false, null);
+                //sceneInitializer.Initialize(); // Just to Ensure SceneInitializer Assigned
             }
             else
             {
                 Debug.LogWarning("No Scene Initializer Found in This Scene");
             }
 
-            sceneFader.CallFade(FadingType.SlowFadeIn, false, null);
         }
 
         #region Title Scene
