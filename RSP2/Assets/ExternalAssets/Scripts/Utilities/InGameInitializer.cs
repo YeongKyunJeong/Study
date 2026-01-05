@@ -40,7 +40,6 @@ namespace RSP2
                 }
             }
 #endif
-            //gameManager.
             inGameManager.Initialize();
 
         }

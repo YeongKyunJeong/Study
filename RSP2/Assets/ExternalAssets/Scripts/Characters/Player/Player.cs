@@ -108,7 +108,7 @@ namespace RSP2
             Name = "You";
         }
 
-        private void Start()
+        public void Initialize()
         {
             if (gameManager == null)
             {

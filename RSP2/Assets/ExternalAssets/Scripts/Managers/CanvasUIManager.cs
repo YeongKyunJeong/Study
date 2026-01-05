@@ -68,10 +68,6 @@ namespace RSP2
 
             IsInventoryOpened = false;
 
-        }
-
-        private void Start()
-        {
             inGameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
 
             player.CombatSystem.DamageEvent += ChangeHPBar;
@@ -80,7 +76,20 @@ namespace RSP2
             player.CombatSystem.MPSpendEvent += ChangeMPBar;
             player.CombatSystem.StaminaRecoveryEvent += ChangeStaminaBar;
             player.CombatSystem.StaminaSpendEvent += ChangeStaminaBar;
+
         }
+
+        //private void Start()
+        //{
+        //    inGameManager.Player.InputReader.ClickWhileInteractionEvent += OnNextInput;
+
+        //    player.CombatSystem.DamageEvent += ChangeHPBar;
+        //    player.CombatSystem.HealEvent += ChangeHPBar;
+        //    player.CombatSystem.MPRecoveryEvent += ChangeMPBar;
+        //    player.CombatSystem.MPSpendEvent += ChangeMPBar;
+        //    player.CombatSystem.StaminaRecoveryEvent += ChangeStaminaBar;
+        //    player.CombatSystem.StaminaSpendEvent += ChangeStaminaBar;
+        //}
 
         public void SetPanelUIActive(PanelUIType uIType, bool isOn = true, int count = 1)
         {

@@ -32,6 +32,8 @@ namespace RSP2
         [field: SerializeField] private DayNightManager DayNightManager { get; set; }
         [field: SerializeField] private QuestManager QuestManager { get; set; }
         [field: SerializeField] private CutsceneManager CutsceneManager { get; set; }
+        [field: SerializeField] private NPCandEnemyManager NPCandEnemyManager { get; set; }
+
 
         [field: SerializeField] private CanvasUIManager CanvasUIManager { get; set; }
 
@@ -40,13 +42,48 @@ namespace RSP2
 
         public PlayerSaveData CurrentSaveData { get; private set; }
         public event Action<Enemy> EnemyDieEvent;
-
-
+        private Coroutine initializeCoroutine;
+        public bool InitializeDone { get => initializeDone; }
+        private bool initializeDone;
+        private Coroutine enrollCoroutine;
         //private void Awake()
         public void Initialize()
         {
+            initializeDone = false;
             gameManager = GameManager.Instance;
 
+            if (initializeCoroutine != null) // just for safety
+            {
+                StopCoroutine(initializeCoroutine);
+            }
+
+            initializeCoroutine = StartCoroutine(InitializeCoroutine());
+        }
+
+        private IEnumerator InitializeCoroutine()
+        {
+            gameManager.LoadingUI.SetLoadingPercent(40);
+            yield return null;
+            CheckAssignment();
+            InitializeManagers();
+            gameManager.LoadingUI.SetLoadingPercent(80);
+            yield return null;
+
+            LoadSaveData();
+            gameManager.LoadingUI.SetLoadingPercent(95);
+            yield return null;
+
+            Player.Initialize();
+            gameManager.LoadingUI.SetLoadingPercent(100);
+            yield return null;
+
+            initializeDone = true;
+            gameManager.LoadingUI.SetActive(false, true);
+            yield return null;
+        }
+
+        private void CheckAssignment()
+        {
             CanvasUIManager = FindObjectOfType<CanvasUIManager>();
             Player = FindObjectOfType<Player>();
             PlayerInput = Player.GetComponent<PlayerInput>();
@@ -93,22 +130,32 @@ namespace RSP2
                 Debug.Log("Cut Scene Manager Not Assigned");
                 CutsceneManager = FindObjectOfType<CutsceneManager>();
             }
+        }
 
+        private void InitializeManagers()
+        {
             CameraManager.Initialize(this);
 
             ProjectileManager.Initialize(this);
             InteractionManager.Initialize(this, CameraManager, CanvasUIManager);
             VFXManager.Initialize(this);
             SFXManager.Initialize(this);
+            VFXManager.Initialize(this);
+            SFXManager.Initialize(this);
             DayNightManager.Initialize();
             CutsceneManager.Initialize(this);
+            NPCandEnemyManager.Initialize(this);
 
             CanvasUIManager.Initialize(this);
 
             gameManager.GameProgressChangeEvent += OnGameProgressChange;
+        }
 
+        private void LoadSaveData()
+        {
             CurrentSaveData = gameManager.CallSaveDataLoading(gameManager.CurrentUserData.UserID);
         }
+
 
         private void Start()
         {
@@ -117,6 +164,8 @@ namespace RSP2
 
         private void Update()
         {
+            if (!initializeDone) return;
+            NPCandEnemyManager.CallUpdate();
             ProjectileManager.CallUpdate();
         }
 
@@ -124,6 +173,7 @@ namespace RSP2
         {
             //if (!IsInitialized) return;
 
+            if (!initializeDone) return;
             DayNightManager.CallPhysicsUpdate();
         }
 
@@ -268,6 +318,16 @@ namespace RSP2
         {
             // TO DO:: Add 
             CutsceneManager.PlayerCutscene(newGameProgress);
+        }
+
+        public void Enroll(Enemy enemy)
+        {
+
+        }
+
+        public void Enroll(NPC NPC)
+        {
+
         }
     }
 }

@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -14,6 +16,18 @@ namespace RSP2
         private GameManager gameManager;
         private bool isActive;
         private Coroutine setActiveCoroutine;
+        private Coroutine loadingBarChangeCoroutine;
+        public Queue<int> ChangeQueue
+        {
+            get
+            {
+                if (changeQueue == null) changeQueue = new Queue<int>();
+                return changeQueue;
+            }
+        }
+        private Queue<int> changeQueue;
+        private static float lastPer;
+
         public void Initialize(GameManager _gameManager)
         {
             gameManager = _gameManager;
@@ -25,24 +39,32 @@ namespace RSP2
         public void SetLoadingPercent(int per)
         {
             if (!isActive) SetActive(true);
-            loadingImg.fillAmount = per / 100;
-            loadingTMP.text = $"{per}";
+
+            //loadingImg.fillAmount = (float)per / 100;
+            //loadingTMP.text = $"{per}";
+            SetLoadingBarQueue(per);
+
         }
 
         public void SetLoadingPercent(float per)
         {
             if (!isActive) SetActive(true);
             int perInt = (int)per;
-            loadingImg.fillAmount = per / 100;
-            
-            loadingTMP.text = $"{per}";
+            //loadingImg.fillAmount = per / 100;
+            //loadingTMP.text = $"{perInt}";
+            SetLoadingBarQueue(perInt);
+            //changeQueue.Enqueue(perInt);
+            //if (loadingBarChangeCoroutine != null)
+            //{
+            //    loadingBarChangeCoroutine = StartCoroutine(LoadingBarChange());
+            //}
         }
 
         public void SetActive(bool isActive, bool needDelay = false)
         {
-            if(needDelay)
+            if (needDelay)
             {
-                if(setActiveCoroutine != null)
+                if (setActiveCoroutine != null)
                 {
                     StopCoroutine(setActiveCoroutine);
                     setActiveCoroutine = null;
@@ -70,12 +92,14 @@ namespace RSP2
 
         private IEnumerator SetActiveContinuously(bool isActive)
         {
-            float t = isActive? 0 : 1;
+            while (loadingBarChangeCoroutine != null) yield return null;
+
+            float t = isActive ? 0 : 1;
             float onTime = 0.5f;
             float T = 1 / onTime;
             while (true)
             {
-                t = isActive? t + T*Time.deltaTime : t - T*Time.deltaTime;
+                t = isActive ? t + T * Time.deltaTime : t - T * Time.deltaTime;
                 loadingTMP.alpha = t;
                 loadingImg.color = new Color(1f, 1f, 1f, t);
                 percentMarkTMP.alpha = t;
@@ -88,6 +112,47 @@ namespace RSP2
             loadingImg.color = new Color(1f, 1f, 1f, t);
             percentMarkTMP.alpha = t;
 
+            yield return null;
+        }
+
+        private void SetLoadingBarQueue(int targetPer)
+        {
+            if (targetPer == 0) lastPer = 0;
+            ChangeQueue.Enqueue(targetPer);
+
+            if (loadingBarChangeCoroutine == null)
+            {
+                loadingBarChangeCoroutine = StartCoroutine(LoadingBarChange());
+            }
+
+        }
+
+        private IEnumerator LoadingBarChange()
+        {
+            while (ChangeQueue.Any())
+            {
+                float targetPer = (float)ChangeQueue.Dequeue();
+                float passed = 0;
+                while (passed < 0.25f)
+                {
+                    passed += Time.deltaTime;
+                    float t = Mathf.Clamp01(passed * 4);
+
+                    float thisFrame = Mathf.Lerp(lastPer, targetPer, passed);
+
+                    loadingImg.fillAmount = thisFrame / 100;
+                    loadingTMP.text = $"{thisFrame:F0}";
+                    yield return null;
+                }
+
+                lastPer = targetPer;
+                loadingImg.fillAmount = targetPer / 100;
+                loadingTMP.text = $"{targetPer:F0}";
+
+                yield return new WaitForSeconds(0.1f);
+            }
+
+            loadingBarChangeCoroutine = null;
             yield return null;
         }
     }

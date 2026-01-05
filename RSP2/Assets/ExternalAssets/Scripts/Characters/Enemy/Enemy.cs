@@ -8,8 +8,8 @@ namespace RSP2
 {
     public class Enemy : CombatUnit
     {
-
         protected InGameManager gameManager;
+        protected NPCandEnemyManager nPCEnemyManager;
         [field: SerializeField] public ForceReceiverForEnemy ForceReceiver { get; private set; }
         [field: SerializeField] public NavMeshAgent NavMeshAgent { get; private set; }
         [field: SerializeField] public CharacterController Controller { get; protected set; }
@@ -92,7 +92,13 @@ namespace RSP2
                 gameManager = InGameManager.Instance;
             }
 
-            //StatisticsHandler.InitializeByDefault();
+            gameManager.Enroll(this);
+        }
+
+        public virtual void Initialize(NPCandEnemyManager _nPCandEnemyManager)
+        {
+            nPCEnemyManager = _nPCandEnemyManager;
+
             StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
 
             CombatSystem.DamageEvent += OnHit;
@@ -100,7 +106,7 @@ namespace RSP2
 
         }
 
-        private void Update()
+        public void CallUpdate()
         {
             ActionStateMachine.CallUpdate();
             ForceReceiver.CallUpdate();

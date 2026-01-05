@@ -25,6 +25,13 @@ namespace RSP2
                 gameManager = InGameManager.Instance;
             }
 
+            gameManager.Enroll(this);
+        }
+
+        public override void Initialize(NPCandEnemyManager _nPCandEnemyManager)
+        {
+            nPCEnemyManager = _nPCandEnemyManager;
+
             if (InteractionHitBox == null)
             {
                 Debug.LogError("Interaction Hit Box Not Assigned");

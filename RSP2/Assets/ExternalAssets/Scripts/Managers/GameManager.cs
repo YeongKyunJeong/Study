@@ -89,32 +89,29 @@ namespace RSP2
 
         private IEnumerator LoadSceneAsync(string sceneName)
         {
-            // TO DO :: Add Loading Screen
             AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
             loadingUI.SetLoadingPercent(0);
             while (!asyncLoad.isDone)
             {
+                //Debug.Log(asyncLoad.progress * 40);
+                //loadingUI.SetLoadingPercent(asyncLoad.progress*40);
                 yield return null;
             }
-            loadingUI.SetLoadingPercent(33);
-
             currentSceneType = GetCurrentSceneType(sceneName);
 
-            loadingUI.SetLoadingPercent(50);
             InitializeScene();
-            loadingUI.SetLoadingPercent(100);
-            loadingUI.SetActive(false, true);
 
             yield return null;
         }
 
         private void InitializeScene()
         {
+#if UNITY_EDITOR
             SceneInitializer sceneInitializer = FindObjectOfType<SceneInitializer>();
+#endif
             if (sceneInitializer != null)
             {
-                //sceneFader.CallFade(FadingType.SlowFadeIn, false, null);
-                //sceneInitializer.Initialize(); // Just to Ensure SceneInitializer Assigned
+                sceneInitializer.Initialize();
             }
             else
             {

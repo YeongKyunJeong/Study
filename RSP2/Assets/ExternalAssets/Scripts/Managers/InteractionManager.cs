@@ -55,18 +55,19 @@ namespace RSP2
             interactionPairList = new List<KeyValuePair<NPC, NPCInteraction>>();
             isInteracting = false;
             currentIndex = 0;
-        }
-
-        private void Start()
-        {
-            //if (inGameManager == null) return;
 
             player = inGameManager.Player;
             playerStateMachine = player.ActionStateMachine;
             player.InputReader.InteractionEvent += OnInteractionInput;
             player.InputReader.InteractionChangeEvent += OnNextInteractionInput;
-            //isInteractable = CheckIsInteractable();
         }
+
+        //private void Start()
+        //{
+        //    //if (inGameManager == null) return;
+
+        //    //isInteractable = CheckIsInteractable();
+        //}
 
         private bool CheckIsInteractable()
         {
