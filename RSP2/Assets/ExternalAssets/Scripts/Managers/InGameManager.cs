@@ -322,12 +322,12 @@ namespace RSP2
 
         public void Enroll(Enemy enemy)
         {
-
+            NPCandEnemyManager.EnrollEnemy(enemy);
         }
 
         public void Enroll(NPC NPC)
         {
-
+            NPCandEnemyManager.EnrollNPC(NPC);
         }
     }
 }

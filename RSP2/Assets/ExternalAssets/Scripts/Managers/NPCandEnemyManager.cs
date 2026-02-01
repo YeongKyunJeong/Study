@@ -56,32 +56,46 @@ namespace RSP2
 
         public void EnrollNPC(NPC nPC)
         {
+            NPCQueue.Enqueue(nPC);
             NPCs.Add(nPC);
-            if (gameManager.InitializeDone)
-            {
-                nPC.Initialize(this);
-            }
-            else
-            {
-                WaitForInitialize(nPC);
-            }
+            //if (gameManager.InitializeDone)
+            //{
+            //    nPC.Initialize(this);
+            //}
+            //else
+            //{
+            //    WaitForInitialize(nPC);
+            //}
         }
 
         public void EnrollEnemy(Enemy enemy)
         {
             Enemies.Add(enemy);
-            if (gameManager.InitializeDone)
-            {
-                enemy.Initialize(this);
-            }
-            else
-            {
-                WaitForInitialize(enemy);
-            }
+            EnemyQueue.Enqueue(enemy);
+            //if (gameManager.InitializeDone)
+            //{
+            //    enemy.Initialize(this);
+            //}
+            //else
+            //{
+            //    WaitForInitialize(enemy);
+            //}
         }
 
         public void CallUpdate()
         {
+            while(NPCQueue.Any())
+            {
+                NPC npc = NPCQueue.Dequeue();
+                npc.Initialize(this);
+            }
+
+            while(EnemyQueue.Any())
+            {
+                Enemy enemy = EnemyQueue.Dequeue();
+                enemy.Initialize(this);
+            }
+
             foreach (NPC nPC in NPCs)
             {
                 nPC.CallUpdate();
