@@ -36,7 +36,7 @@ namespace RSP2
             set
             {
                 isHostile = value;
-                isChasingStartEvent?.Invoke();
+                // isChasingStartEvent?.Invoke();
             }
         }
         public CombatSystem Target { get; set; }

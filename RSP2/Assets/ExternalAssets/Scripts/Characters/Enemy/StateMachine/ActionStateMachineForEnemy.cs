@@ -40,7 +40,7 @@ namespace RSP2
 
             animator = _enemy.Animator;
 
-            enemy.RuntimeData.isChasingStartEvent += SetDefaultState;
+            // enemy.RuntimeData.isChasingStartEvent += SetDefaultState;
 
             IdlingState = new IdlingStateForEnemy(_enemy, this);
 

@@ -38,6 +38,7 @@ namespace RSP2
         protected virtual void Awake()
         {
             RuntimeData = new RuntimeDataForEnemy();
+            //SetActionStateMachine();
             ActionStateMachine = new ActionStateMachineForEnemy(this);
 
 
@@ -85,6 +86,11 @@ namespace RSP2
             RuntimeData.AttackPositionModifier = new Vector3(0, AttackHitBox.HitBoxCollider.bounds.center.y, 0);
         }
 
+        //protected virtual void SetActionStateMachine()
+        //{
+        //    ActionStateMachine = new ActionStateMachineForEnemy(this);
+        //}
+
         protected virtual void Start()
         {
             if (gameManager == null)
@@ -104,10 +110,14 @@ namespace RSP2
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;
 
+            // To check at UI
+            searchingDistance = StatHandler.EnemyBaseStatistics.SearchingDistance;
+            Name = StatHandler.EnemyBaseStatistics.Name;
         }
 
         public void CallUpdate()
         {
+            // UpdateStateMachine();
             ActionStateMachine.CallUpdate();
             ForceReceiver.CallUpdate();
             Mover.CallUpdate();
@@ -128,5 +138,10 @@ namespace RSP2
             Controller.enabled = false;
             AttackHitBox.Deactivate();
         }
+
+        //protected virtual void UpdateStateMachine()
+        //{
+
+        //}
     }
 }

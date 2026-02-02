@@ -6,7 +6,6 @@ namespace RSP2
 {
     public class Boss : Enemy
     {
-
         protected override void Awake()
         {
             base.Awake();
@@ -16,5 +15,10 @@ namespace RSP2
         {
             base.Start();
         }
+
+        //protected override void SetActionStateMachine()
+        //{
+        //    base.SetActionStateMachine();
+        //}
     }
 }

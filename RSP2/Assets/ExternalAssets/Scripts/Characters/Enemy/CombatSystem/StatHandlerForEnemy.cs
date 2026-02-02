@@ -12,7 +12,7 @@ namespace RSP2
 
         private Enemy enemy;
         private RuntimeDataForEnemy runtimeData;
-        private Coroutine attackCoolTimeCoroutune;
+        private Coroutine attackCoolTimeCoroutine;
 
         public void Initialize(Enemy _enemy, StatTableForEnemy baseStatisticsTable)
         {
@@ -22,7 +22,7 @@ namespace RSP2
             EnemyBaseStatistics = new StatForEnemy(baseStatisticsTable);
             EnemyCurrentStatistics = new StatForEnemy(baseStatisticsTable);
 
-            SetRuntimDataAndCombatSystem();
+            SetRuntimeDataAndCombatSystem();
         }
 
 
@@ -47,7 +47,7 @@ namespace RSP2
             if (baseStatisticsTable.Tradable) interactions[1] = true;
             nPC.InteractionHitBox.Initialize(nPC, interactions);
 
-            SetRuntimDataAndCombatSystem(true);
+            SetRuntimeDataAndCombatSystem(true);
         }
 
         public void Initialize(Enemy _enemy, StatForEnemy initialStatistics)
@@ -57,10 +57,10 @@ namespace RSP2
             EnemyBaseStatistics = new StatForEnemy(initialStatistics);
             EnemyCurrentStatistics = new StatForEnemy(initialStatistics);
 
-            SetRuntimDataAndCombatSystem();
+            SetRuntimeDataAndCombatSystem();
         }
 
-        private void SetRuntimDataAndCombatSystem(bool isNPC = false)
+        private void SetRuntimeDataAndCombatSystem(bool isNPC = false)
         {
             if (combatSystem == null)
             {
@@ -120,12 +120,12 @@ namespace RSP2
 
         public void StartAttackCoroutine(float coolTime)
         {
-            if (attackCoolTimeCoroutune != null)
+            if (attackCoolTimeCoroutine != null)
             {
-                StopCoroutine(attackCoolTimeCoroutune);
+                StopCoroutine(attackCoolTimeCoroutine);
             }
 
-            attackCoolTimeCoroutune = StartCoroutine(AttackCoolTimeStart(coolTime));
+            attackCoolTimeCoroutine = StartCoroutine(AttackCoolTimeStart(coolTime));
         }
 
         private IEnumerator AttackCoolTimeStart(float coolTime)
@@ -136,7 +136,7 @@ namespace RSP2
             yield return new WaitForSeconds(coolTime);
 
             runtimeData.IsAttackReady = true;
-            attackCoolTimeCoroutune = null;
+            attackCoolTimeCoroutine = null;
             yield return null;
         }
     }

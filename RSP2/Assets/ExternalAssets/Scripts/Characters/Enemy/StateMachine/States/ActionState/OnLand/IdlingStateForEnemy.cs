@@ -45,6 +45,7 @@ namespace RSP2
 
             if (IsInAttackRange())
             {
+                // To Do Add skill pattern
                 if (IsInSight())
                 {
                     SetAnimatorOnLandParameter(false);
