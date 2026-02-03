@@ -318,8 +318,14 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: Blend
+  - m_Name: SkillIndex
     m_Type: 1
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: IsSkill
+    m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
@@ -413,7 +419,7 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: Blend
     m_Mirror: 0
-  m_BlendParameter: Blend
+  m_BlendParameter: SkillIndex
   m_BlendParameterY: Blend
   m_MinThreshold: 0
   m_MaxThreshold: 6
@@ -635,12 +641,12 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -8684379212872456984}
-    second:
-    - {fileID: -477031707803335784}
   - first: {fileID: -4308118835148420067}
     second:
     - {fileID: -3627979111094019919}
+  - first: {fileID: -8684379212872456984}
+    second:
+    - {fileID: -477031707803335784}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 50, y: 120, z: 0}

@@ -3,6 +3,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UIElements;
+using static UnityEditor.Experimental.GraphView.GraphView;
+using Random = UnityEngine.Random;
 
 namespace RSP2
 {
@@ -23,11 +25,16 @@ namespace RSP2
         // temporary class type, change later to exact class
 
         private MeleeAttackingStateForEnemy MeleeAttackingState { get; set; }
-        //private RangeAttackingStateForEnemy RangeAttackingState { get; set; }
+        public SkillAttackingStateForEnemy skillAttackingState { get; private set; }
 
         #endregion
 
         //public bool IsInAttackingState { get; set; }
+
+        int attackNum;
+        public float CoolTime { get => attackDelay; }
+        private float attackDelay;
+        private Coroutine attackDelayCoroutine;
         private AttackType BasicAttackType { get; set; }
         public event Action<bool> AttackingEvent;
 
@@ -58,6 +65,12 @@ namespace RSP2
                 //RangeAttackingState = new RangeAttackingStateForEnemy(_enemy, this);
             }
 
+            attackNum = enemy.AttackDataArray.Length;
+            skillAttackingState = new SkillAttackingStateForEnemy(_enemy, this);
+
+            attackDelay = 0;
+            attackDelayCoroutine = null;
+
             SetDefaultState();
         }
 
@@ -83,10 +96,27 @@ namespace RSP2
         public void OnDie()
         {
             //enemy.Mover.UpdateNextHorizontalMovementVector(Vector3.zero);
-            
+
             enemy.Animator.CrossFadeInFixedTime(instantDyingHash, 0.25f);
             currentState.Exit();
             currentState = null; // TODO :: Add dyingState
+        }
+
+        public void ChangeAttackState(int attackNum = -1)
+        {
+            if(attackNum == -1)
+            {
+                attackNum = Random.Range(0, attackNum);
+            }
+
+            if(attackNum == 0)
+            {
+                ChangeToBasicAttackState();
+            }
+            else
+            {
+                ChangeStateWithAttackData(skillAttackingState, attackNum);
+            }
         }
 
 

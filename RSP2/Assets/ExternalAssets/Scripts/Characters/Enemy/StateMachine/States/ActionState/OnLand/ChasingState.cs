@@ -68,7 +68,8 @@ namespace RSP2
                     if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
                     {
                         SetAnimatorOnLandParameter(false);
-                        stateMachine.ChangeToBasicAttackState();
+                        stateMachine.ChangeAttackState();
+                        //stateMachine.ChangeToBasicAttackState();
                         return;
                     }
                 }

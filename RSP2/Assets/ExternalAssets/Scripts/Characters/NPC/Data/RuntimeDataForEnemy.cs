@@ -43,6 +43,7 @@ namespace RSP2
 
         public event Action isChasingStartEvent;
 
+        public float attackDelay = 0;
 
         public RuntimeDataForEnemy()
         {

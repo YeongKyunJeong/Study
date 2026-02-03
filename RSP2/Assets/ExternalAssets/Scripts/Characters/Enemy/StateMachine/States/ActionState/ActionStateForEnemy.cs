@@ -79,7 +79,7 @@ namespace RSP2
 
         }
 
-        public void Enter(int dataKey)
+        public virtual void Enter(int dataKey)
         {
 
         }
