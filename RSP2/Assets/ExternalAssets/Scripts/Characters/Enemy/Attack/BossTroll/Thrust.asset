@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefea066d67d6b4449fbc54a59ae573f, type: 3}
+  m_Name: Thrust
+  m_EditorClassIdentifier: Assembly-CSharp:SupercentApplication:AttackData
+  ID: 1
+  AnimationKey: 1
+  attackType: 1
+  IsComboSkill: 0
+  <Target>k__BackingField: 3
+  <hitNumberLimit>k__BackingField: 5
+  <AttackName>k__BackingField: TrollThrust
+  <VFXName>k__BackingField: TrollThrust
+  VFXStartTime: 0
+  <TargetLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
+  AttackSoundClip: {fileID: 0}
+  <CoolTime>k__BackingField: 3
+  <DamageType>k__BackingField: 1
+  <MPCost>k__BackingField: 0
+  <StaminaCost>k__BackingField: 0
+  <Damage>k__BackingField: 20
+  <Intensity>k__BackingField: 15
+  <SelfForces>k__BackingField: []
+  <PushForce>k__BackingField: 10
+  AttackSpeed: 1
+  hitBoxActivationTime: 0.72
+  hitBoxDeactivationTime: 0.88
+  attackRecoveryTime: 0.7
+  detectionType: 2
+  colliderSize: {x: 2, y: 2, z: 3}
+  colliderPosition: {x: 1.5, y: 3, z: 7}
+  projectiles: []

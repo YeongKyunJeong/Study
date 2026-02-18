@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fefea066d67d6b4449fbc54a59ae573f, type: 3}
+  m_Name: PowerAttack
+  m_EditorClassIdentifier: Assembly-CSharp:SupercentApplication:AttackData
+  ID: 2
+  AnimationKey: 2
+  attackType: 1
+  IsComboSkill: 0
+  <Target>k__BackingField: 3
+  <hitNumberLimit>k__BackingField: 10
+  <AttackName>k__BackingField: PowerAttack
+  <VFXName>k__BackingField: PowerAttack
+  VFXStartTime: 0
+  <TargetLayerMask>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 256
+  AttackSoundClip: {fileID: 0}
+  <CoolTime>k__BackingField: 5
+  <DamageType>k__BackingField: 1
+  <MPCost>k__BackingField: 0
+  <StaminaCost>k__BackingField: 0
+  <Damage>k__BackingField: 50
+  <Intensity>k__BackingField: 40
+  <SelfForces>k__BackingField: []
+  <PushForce>k__BackingField: 8
+  AttackSpeed: 1
+  hitBoxActivationTime: 0.52
+  hitBoxDeactivationTime: 0.71
+  attackRecoveryTime: 0.7
+  detectionType: 2
+  colliderSize: {x: 3, y: 3, z: 3}
+  colliderPosition: {x: -0.05, y: 2, z: 10.5}
+  projectiles: []

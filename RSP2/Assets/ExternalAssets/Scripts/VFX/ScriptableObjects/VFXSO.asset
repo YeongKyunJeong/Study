@@ -16,3 +16,5 @@ MonoBehaviour:
     <HitVFX>k__BackingField:
     - {fileID: 3789688698643211216, guid: 60bab04b20b72a04798b7ee71aa4eb30, type: 3}
     - {fileID: 3789688698643211216, guid: 8f64f2907afe4234a9d34de23e543f30, type: 3}
+    <LevelUpVFX>k__BackingField:
+    - {fileID: 7480632529433656730, guid: 97b3b21c903d05a46b9569516d5bb817, type: 3}

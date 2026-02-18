@@ -44,6 +44,7 @@ namespace RSP2
         [field: SerializeField] public int ID;
         [field: SerializeField] public int AnimationKey;
         [field: SerializeField] private AttackType attackType = AttackType.Basic;
+        [field: SerializeField] public bool applyRootMotion = false;
         public AttackType AttackType { get => attackType; }
         [field: SerializeField] public bool IsComboSkill;
         [field: SerializeField] public ChasingTargetType Target { get; private set; }
