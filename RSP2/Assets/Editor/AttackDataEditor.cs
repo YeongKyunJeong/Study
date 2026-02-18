@@ -8,6 +8,8 @@ namespace RSP2
     [CustomEditor(typeof(AttackData))]
     public class AttackDataEditor : Editor
     {
+        private SerializedProperty scriptProp;
+
         private SerializedProperty attackTypeProp;
 
         #region Melee Attack
@@ -29,8 +31,8 @@ namespace RSP2
 
         private void OnEnable()
         {
+            scriptProp = serializedObject.FindProperty("m_Script");
             attackTypeProp = serializedObject.FindProperty("attackType");
-
 
             hitBoxActivationTimeProp = serializedObject.FindProperty("hitBoxActivationTime");
             hitBoxDeactivationTimeProp = serializedObject.FindProperty("hitBoxDeactivationTime");
@@ -49,11 +51,15 @@ namespace RSP2
         {
             serializedObject.Update();
 
+            GUI.enabled = false;
+            EditorGUILayout.PropertyField(scriptProp);
+            GUI.enabled = true;
+
             EditorGUILayout.PropertyField(attackTypeProp);
 
             AttackType attackType = (AttackType)attackTypeProp.enumValueIndex;
 
-            DrawPropertiesExcluding(serializedObject, "attackType", "IsComboSkill", "hitBoxActivationTime", "hitBoxDeactivationTime", "attackRecoveryTime", "detectionType", "colliderSize", "colliderPosition", "projectiles");
+            DrawPropertiesExcluding(serializedObject, "m_Script", "attackType", "IsComboSkill", "hitBoxActivationTime", "hitBoxDeactivationTime", "attackRecoveryTime", "detectionType", "colliderSize", "colliderPosition", "projectiles");
             switch (attackType)
             {
                 case AttackType.RangeAttackSkill:
