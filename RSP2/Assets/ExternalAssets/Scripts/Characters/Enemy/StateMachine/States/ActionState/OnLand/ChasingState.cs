@@ -50,9 +50,10 @@ namespace RSP2
             base.CallUpdate();
             runtimeData.VerticalVelocityVector = new Vector3(0, controller.velocity.y, 0);
 
-            if ((runtimeData.Target != null) && (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
+            if ((runtimeData.Target != null))
             {
-                SearchForTarget();
+                if ((TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f) || runtimeData.Target.IsDead)
+                    SearchForTarget();
             }
 
             if (runtimeData.Target == null)
@@ -61,17 +62,14 @@ namespace RSP2
                 return;
             }
 
-            if (runtimeData.IsAttackReady)
+            if (runtimeData.IsAttackReady && IsInAttackRange())
             {
-                if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
+                if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
                 {
-                    if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
-                    {
-                        SetAnimatorOnLandParameter(false);
-                        stateMachine.ChangeAttackState();
-                        //stateMachine.ChangeToBasicAttackState();
-                        return;
-                    }
+                    SetAnimatorOnLandParameter(false);
+                    stateMachine.ChangeAttackState();
+                    //stateMachine.ChangeToBasicAttackState();
+                    return;
                 }
             }
 

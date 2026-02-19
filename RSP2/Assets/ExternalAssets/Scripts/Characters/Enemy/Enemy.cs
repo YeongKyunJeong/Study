@@ -137,6 +137,7 @@ namespace RSP2
             this.enabled = false;
             Controller.enabled = false;
             AttackHitBox.Deactivate();
+            gameManager.Remove(this);
         }
 
         //protected virtual void UpdateStateMachine()

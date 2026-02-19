@@ -325,6 +325,11 @@ namespace RSP2
             NPCandEnemyManager.EnrollEnemy(enemy);
         }
 
+        public void Remove(Enemy enemy)
+        {
+            NPCandEnemyManager.RemoveEnemy(enemy);
+        }
+
         public void Enroll(NPC NPC)
         {
             NPCandEnemyManager.EnrollNPC(NPC);

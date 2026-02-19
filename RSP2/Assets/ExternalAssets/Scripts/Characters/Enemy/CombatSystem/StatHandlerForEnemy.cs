@@ -118,26 +118,32 @@ namespace RSP2
             base.CalculateFinalStat();
         }
 
-        public void StartAttackCoroutine(float coolTime)
-        {
-            if (attackCoolTimeCoroutine != null)
-            {
-                StopCoroutine(attackCoolTimeCoroutine);
-            }
+        //public bool StartAttackCoroutine(float coolTime, bool ignoreBeforeCoolTime = false)
+        //{
+        //    if (attackCoolTimeCoroutine != null)
+        //    {
+        //        if(!ignoreBeforeCoolTime && runtimeData.AttackCoolTime > 0)
+        //        {
+        //            return false;
+        //        }
 
-            attackCoolTimeCoroutine = StartCoroutine(AttackCoolTimeStart(coolTime));
-        }
+        //        StopCoroutine(attackCoolTimeCoroutine);
+        //    }
 
-        private IEnumerator AttackCoolTimeStart(float coolTime)
-        {
-            if (coolTime <= 0) yield return null;
+        //    attackCoolTimeCoroutine = StartCoroutine(AttackCoolTimeStart(coolTime));
+        //    return true;
+        //}
 
-            runtimeData.IsAttackReady = false;
-            yield return new WaitForSeconds(coolTime);
+        //private IEnumerator AttackCoolTimeStart(float coolTime)
+        //{
+        //    if (coolTime <= 0) yield return null;
 
-            runtimeData.IsAttackReady = true;
-            attackCoolTimeCoroutine = null;
-            yield return null;
-        }
+        //    runtimeData.IsAttackReady = false;
+        //    yield return new WaitForSeconds(coolTime);
+
+        //    runtimeData.IsAttackReady = true;
+        //    attackCoolTimeCoroutine = null;
+        //    yield return null;
+        //}
     }
 }

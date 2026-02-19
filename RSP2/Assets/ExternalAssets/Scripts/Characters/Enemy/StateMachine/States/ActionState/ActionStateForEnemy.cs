@@ -144,7 +144,7 @@ namespace RSP2
             return targetVector;
         }
 
-        protected bool SearchForTarget()
+        protected bool SearchForTarget(bool needInSight = false)
         {
             count = Physics.OverlapSphereNonAlloc(enemyTransform.position,
                 runtimeData.SearchingDistance, hitColliders, enemy.SearchingLayerMask);
@@ -164,8 +164,10 @@ namespace RSP2
                                 if (detectedCombatSystem.MyFaction == Faction.Player)
                                 {
                                     SetTargetData(detectedCombatSystem);
+                                    if (!needInSight) return true;
+                                    if (IsInSight()) return true;
 
-                                    return true;
+                                    continue;
                                 }
                                 else
                                 {
@@ -175,16 +177,19 @@ namespace RSP2
                         case ChasingTargetType.AllFaction:
                             {
                                 SetTargetData(detectedCombatSystem);
+                                if (!needInSight) return true;
+                                if (IsInSight()) return true;
 
-                                return true;
+                                continue;
                             }
                         case ChasingTargetType.NotMyFaction:
                             {
                                 if (detectedCombatSystem.MyFaction != enemy.CombatSystem.MyFaction)
                                 {
                                     SetTargetData(detectedCombatSystem);
-
-                                    return true;
+                                    if (!needInSight) return true;
+                                    if (IsInSight()) return true;
+                                    continue;
                                 }
                                 else
                                 {
@@ -221,7 +226,7 @@ namespace RSP2
             }
         }
 
-        protected bool IsInAttackRange(bool useDistance = false)
+        protected bool IsInAttackRange()
         {
             if (runtimeData.Target == null) return false;
 
@@ -230,18 +235,16 @@ namespace RSP2
             //if (stateMachine.CurrentAttackInfo == null)
             //    SelectAttack();
 
-            if (useDistance)
-            {
-                //float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
-                // TODO :: Compare with attack distance;
-                if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
-                {
-                    return true;
-                }
 
-                return false;
-                //return false;
+            //float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
+            // TODO :: Compare with attack distance;
+            if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
+            {
+                return true;
             }
+
+            return false;
+            //return false;
 
 
             //switch (stateMachine.CurrentAttackInfo.DetectionType)

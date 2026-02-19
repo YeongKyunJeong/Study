@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UIElements;
 using static UnityEditor.Experimental.GraphView.GraphView;
@@ -31,10 +32,13 @@ namespace RSP2
 
         //public bool IsInAttackingState { get; set; }
 
+        private RuntimeDataForEnemy runtimeData;
         int attackNum;
-        public float CoolTime { get => attackDelay; }
-        private float attackDelay;
-        private Coroutine attackDelayCoroutine;
+        public float CoolTimeEndTime { get => coolTimeEndTime; }
+        private float coolTimeEndTime;
+        private bool isCoolTime = false;
+        private float attackCoolTime;
+
         private AttackType BasicAttackType { get; set; }
         public event Action<bool> AttackingEvent;
 
@@ -46,6 +50,8 @@ namespace RSP2
             mover = _enemy.Mover;
 
             animator = _enemy.Animator;
+
+            runtimeData = _enemy.RuntimeData;
 
             // enemy.RuntimeData.isChasingStartEvent += SetDefaultState;
 
@@ -68,10 +74,31 @@ namespace RSP2
             attackNum = enemy.AttackDataArray.Length;
             skillAttackingState = new SkillAttackingStateForEnemy(_enemy, this);
 
-            attackDelay = 0;
-            attackDelayCoroutine = null;
+            attackCoolTime = 0;
 
             SetDefaultState();
+        }
+
+        public override void CallUpdate()
+        {
+            base.CallUpdate();
+
+            if (isCoolTime)
+            {
+                float restCoolTime = coolTimeEndTime - Time.time;
+
+                if(restCoolTime <= 0)
+                {
+                    runtimeData.ResetCoolTime();
+                    attackCoolTime = 0;
+                    isCoolTime = false;
+                }
+                else
+                {
+                    runtimeData.SetCoolTime(restCoolTime);
+                }
+            }
+
         }
 
         public override void ChangeState(IState nextState)
@@ -104,12 +131,12 @@ namespace RSP2
 
         public void ChangeAttackState(int attackNum = -1)
         {
-            if(attackNum == -1)
+            if (attackNum == -1)
             {
                 attackNum = Random.Range(0, attackNum);
             }
 
-            if(attackNum == 0)
+            if (attackNum == 0)
             {
                 ChangeToBasicAttackState();
             }
@@ -136,5 +163,31 @@ namespace RSP2
                     }
             }
         }
+
+        public bool ApplyAttackCoolTime(float coolTime, bool ignoreBeforeCoolTime = false)
+        {
+            if (!ignoreBeforeCoolTime && isCoolTime)
+            {
+                return false;
+            }
+
+            attackCoolTime = coolTime;
+            coolTimeEndTime = Time.time + coolTime;
+            isCoolTime = true;
+
+            return true;
+        }
+
+        private IEnumerator StartAttackCoolTimeCoroutine(float coolTime)
+        {
+            while (runtimeData.RestAttackCoolTime > 0)
+            {
+
+            }
+
+            yield return null;
+
+        }
+
     }
 }

@@ -28,6 +28,7 @@ namespace RSP2
 
 
         public bool IsAttackReady { get; set; }
+        public float RestAttackCoolTime { get; set; }
 
         protected bool isHostile;
         public bool IsHostile
@@ -43,12 +44,22 @@ namespace RSP2
 
         public event Action isChasingStartEvent;
 
-        public float attackDelay = 0;
-
         public RuntimeDataForEnemy()
         {
             RotationSpeedModifier = 6;
             IsAttackReady = true;
+        }
+
+        public void SetCoolTime(float coolTime)
+        {
+            IsAttackReady = false;
+            RestAttackCoolTime = coolTime;
+        }
+
+        public void ResetCoolTime()
+        {
+            IsAttackReady = true;
+            RestAttackCoolTime = 0;
         }
 
 

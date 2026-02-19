@@ -34,6 +34,8 @@ namespace RSP2
 
         public override void CallUpdate()
         {
+            base.CallUpdate();
+
             if (!runtimeData.IsHostile) return;
 
             //if (FallingCalculator.CheckFalling(new Vector3(0, controller.velocity.y, 0), Vector3.down, controller))
@@ -42,28 +44,33 @@ namespace RSP2
             //    stateMachine.ChangeState(stateMachine.FallingState); // TO DO :: Add fallingstate
             //    return;
             //}
-
-            if (IsInAttackRange())
+            if (runtimeData.Target == null)
             {
-                // To Do Add skill pattern
-                if (IsInSight())
+                SearchForTarget(true);
+            }
+            
+            if (runtimeData.Target == null) return;
+
+
+            if (runtimeData.IsAttackReady && IsInAttackRange())
+            {
+                // TO DO: Add skill pattern
+                if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
                 {
                     SetAnimatorOnLandParameter(false);
                     //stateMachine.ChangeToBasicAttackState();
                     stateMachine.ChangeAttackState();
                     return;
                 }
-                else
-                {
-                    base.CallUpdate();
-                    return;
-                }
+
             }
-            else if (SearchForTarget())
-            {
-                stateMachine.ChangeState(stateMachine.ChasingState);
-                return;
-            }
+            // TO DO :: Set least chasing distance;
+
+            // TO DO :: Set notice mode
+
+            stateMachine.ChangeState(stateMachine.ChasingState);
+            return;
+
         }
 
         #endregion

@@ -74,7 +74,8 @@ namespace RSP2
         public override void Exit()
         {
             base.Exit();
-
+            stateMachine.ApplyAttackCoolTime(attackData.CoolTime);
+            
             SetAnimatorIsAttackingParameter(false);
             //SetAnimatorSelfStateParameter(false);
             SetAnimatorPlayingSpeed(true);
@@ -122,9 +123,9 @@ namespace RSP2
             SearchForTarget();
             if ((runtimeData.Target == null) || (TargetDistanceSqr >= runtimeData.SearchingDistanceSqr * 1.2f))
             {
-                    stateMachine.ChangeState(stateMachine.IdlingState);
-                    return;
-              }
+                stateMachine.ChangeState(stateMachine.IdlingState);
+                return;
+            }
 
             //if (runtimeData.IsAttackReady)
             //{

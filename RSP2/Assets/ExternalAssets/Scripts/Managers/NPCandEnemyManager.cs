@@ -82,6 +82,11 @@ namespace RSP2
             //}
         }
 
+        public void RemoveEnemy(Enemy enemy)
+        {
+            Enemies.Remove(enemy);
+        }
+
         public void CallUpdate()
         {
             while(NPCQueue.Any())

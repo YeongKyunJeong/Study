@@ -60,6 +60,17 @@ namespace RSP2
             AttackType attackType = (AttackType)attackTypeProp.enumValueIndex;
 
             DrawPropertiesExcluding(serializedObject, "m_Script", "attackType", "IsComboSkill", "hitBoxActivationTime", "hitBoxDeactivationTime", "attackRecoveryTime", "detectionType", "colliderSize", "colliderPosition", "projectiles");
+
+            EditorGUILayout.PropertyField(hitBoxActivationTimeProp);
+            EditorGUILayout.PropertyField(hitBoxDeactivationTimeProp);
+            EditorGUILayout.PropertyField(attackRecoveryTimeProp);
+
+            EditorGUILayout.PropertyField(isComboSkillProp);
+
+            EditorGUILayout.PropertyField(detectionTypeProp);
+            EditorGUILayout.PropertyField(colliderSizeProp);
+            EditorGUILayout.PropertyField(colliderPositionProp);
+
             switch (attackType)
             {
                 case AttackType.RangeAttackSkill:
@@ -69,15 +80,15 @@ namespace RSP2
                     }
                 default:
                     {
-                        EditorGUILayout.PropertyField(hitBoxActivationTimeProp);
-                        EditorGUILayout.PropertyField(hitBoxDeactivationTimeProp);
-                        EditorGUILayout.PropertyField(attackRecoveryTimeProp);
+                        //EditorGUILayout.PropertyField(hitBoxActivationTimeProp);
+                        //EditorGUILayout.PropertyField(hitBoxDeactivationTimeProp);
+                        //EditorGUILayout.PropertyField(attackRecoveryTimeProp);
 
-                        EditorGUILayout.PropertyField(isComboSkillProp);
+                        //EditorGUILayout.PropertyField(isComboSkillProp);
 
-                        EditorGUILayout.PropertyField(detectionTypeProp);
-                        EditorGUILayout.PropertyField(colliderSizeProp);
-                        EditorGUILayout.PropertyField(colliderPositionProp);
+                        //EditorGUILayout.PropertyField(detectionTypeProp);
+                        //EditorGUILayout.PropertyField(colliderSizeProp);
+                        //EditorGUILayout.PropertyField(colliderPositionProp);
                         break;
                     }
 

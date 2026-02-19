@@ -23,27 +23,27 @@ namespace RSP2
             currentState.Enter(dataKey);
         }
 
-        public void CallUpdate()
+        public virtual void CallUpdate()
         {
             currentState?.CallUpdate();
         }
 
-        public void CallPhysicsUpdate()
+        public virtual void CallPhysicsUpdate()
         {
             currentState?.CallPhysicsUpdate();
         }
 
-        public void CallOnAnimationEnterEvent()
+        public virtual void CallOnAnimationEnterEvent()
         {
             currentState?.OnAnimationEnterEvent();
         }
 
-        public void CallOnAnimationExitEvent()
+        public virtual void CallOnAnimationExitEvent()
         {
             currentState?.OnAnimationExitEvent();
         }
 
-        public void CallOnAnimationTransitEvent()
+        public virtual void CallOnAnimationTransitEvent()
         {
             currentState?.OnAnimationTransitEvent();
         }
