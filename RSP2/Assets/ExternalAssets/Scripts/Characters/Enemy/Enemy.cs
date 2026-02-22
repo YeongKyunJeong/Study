@@ -101,11 +101,11 @@ namespace RSP2
             gameManager.Enroll(this);
         }
 
-        public virtual void Initialize(NPCandEnemyManager _nPCandEnemyManager)
+        public virtual void Initialize(NPCandEnemyManager _nPCandEnemyManager, bool isBoss = false)
         {
             nPCEnemyManager = _nPCandEnemyManager;
 
-            StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey));
+            StatHandler.Initialize(this, DataManager.Instance.TableDataLoader.StatLoaderForEnemy.GetByKey(EnemyKey, isBoss));
 
             CombatSystem.DamageEvent += OnHit;
             CombatSystem.DieEvent += OnDie;

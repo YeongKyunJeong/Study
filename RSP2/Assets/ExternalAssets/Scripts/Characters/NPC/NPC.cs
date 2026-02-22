@@ -28,7 +28,7 @@ namespace RSP2
             gameManager.Enroll(this);
         }
 
-        public override void Initialize(NPCandEnemyManager _nPCandEnemyManager)
+        public override void Initialize(NPCandEnemyManager _nPCandEnemyManager, bool isBoss = false)
         {
             nPCEnemyManager = _nPCandEnemyManager;
 

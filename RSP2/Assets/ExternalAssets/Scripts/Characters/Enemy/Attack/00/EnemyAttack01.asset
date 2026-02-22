@@ -15,6 +15,7 @@ MonoBehaviour:
   ID: 0
   AnimationKey: 0
   attackType: 1
+  applyRootMotion: 0
   IsComboSkill: 0
   <Target>k__BackingField: 0
   <hitNumberLimit>k__BackingField: 0
@@ -25,7 +26,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   AttackSoundClip: {fileID: 8300000, guid: c2dade153431323449798d5d5fd92ee4, type: 3}
-  <CoolTime>k__BackingField: 2.5
+  <CoolTime>k__BackingField: 1
   <DamageType>k__BackingField: 0
   <MPCost>k__BackingField: 0
   <StaminaCost>k__BackingField: 0

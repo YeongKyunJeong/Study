@@ -30,21 +30,34 @@ namespace RSP2
     public class StatLoaderForEnemy
     {
 
-        public List<StatTableForEnemy> TableList { get; private set; }
-        public Dictionary<int, StatTableForEnemy> TableDict { get; private set; }
+        public List<StatTableForEnemy> EnemyTableList { get; private set; }
+        public Dictionary<int, StatTableForEnemy> EnemyTableDict { get; private set; }
         private StatTableForEnemy enemyStatTable { get; set; }
 
-        public StatLoaderForEnemy(string path = "JSON/Statistics/StatData_Enemy")
+        public List<StatTableForEnemy> BossTableList { get; private set; }
+        public Dictionary<int, StatTableForEnemy> BossTableDict { get; private set; }
+        private StatTableForEnemy bossStatTable { get; set; }
+        
+        public StatLoaderForEnemy(string enemyPath = "JSON/Statistics/StatData_Enemy", string bossPath = "JSON/Statistics/StatData_Boss")
         {
             string loadedTableDataString;
-            loadedTableDataString = Resources.Load<TextAsset>(path).text;
-            TableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
-            TableDict = new Dictionary<int, StatTableForEnemy>();
-            foreach (var item in TableList)
+            loadedTableDataString = Resources.Load<TextAsset>(enemyPath).text;
+            EnemyTableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
+            EnemyTableDict = new Dictionary<int, StatTableForEnemy>();
+            foreach (var item in EnemyTableList)
             {
-                TableDict.Add(item.key, item);
+                EnemyTableDict.Add(item.key, item);
             }
-            enemyStatTable = TableDict[0];
+            enemyStatTable = EnemyTableDict[0];
+
+            loadedTableDataString = Resources.Load<TextAsset>(bossPath).text;
+            BossTableList = JsonUtility.FromJson<Wrapper>(loadedTableDataString).Items;
+            BossTableDict = new Dictionary<int, StatTableForEnemy>();
+            foreach (var item in BossTableList)
+            {
+                BossTableDict.Add(item.key, item);
+            }
+            bossStatTable = BossTableDict[0];
         }
 
         [Serializable]
@@ -58,19 +71,31 @@ namespace RSP2
             return enemyStatTable == null ? null : enemyStatTable;
         }
 
-        public StatTableForEnemy GetByKey(int key)
+        public StatTableForEnemy GetByKey(int key, bool isBoss = false)
         {
-            if (TableDict.ContainsKey(key))
+            if (EnemyTableDict.ContainsKey(key))
             {
-                return TableDict[key];
+                if (isBoss) return BossTableDict[key];
+
+                return EnemyTableDict[key];
             }
             return null;
         }
-        public StatTableForEnemy GetByIndex(int index)
+
+        public StatTableForEnemy GetByIndex(int index, bool isBoss = false)
         {
-            if (index >= 0 && index < TableList.Count)
+            if(isBoss)
             {
-                return TableList[index];
+                if (index >= 0 && index < BossTableList.Count)
+                {
+                    return BossTableList[index];
+                }
+                return null;
+            }
+
+            if (index >= 0 && index < EnemyTableList.Count)
+            {
+                return EnemyTableList[index];
             }
             return null;
         }

@@ -7,6 +7,7 @@ namespace RSP2
     public class ChasingState : OnLandStateForEnemy
     {
         private readonly int isChasingHash = Animator.StringToHash("IsChasing");
+        private readonly int isMovingHash = Animator.StringToHash("IsMoving");
         private readonly int instantChasingHash = Animator.StringToHash("OnLand.Chasing");
 
         private bool isMoving;
@@ -25,6 +26,7 @@ namespace RSP2
             moveDir = Vector3.zero;
 
             isMoving = true;
+            SetAnimatorIsMovingParameter(true);
             mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
 
             if (animator.IsInTransition(0))
@@ -39,6 +41,7 @@ namespace RSP2
             if (isMoving)
             {
                 isMoving = false;
+                SetAnimatorIsMovingParameter(false);
                 mover.StopChasing();
             }
             SetAnimatorSelfStateParameter(false);
@@ -78,6 +81,7 @@ namespace RSP2
                 if (isMoving)
                 {
                     isMoving = false;
+                    SetAnimatorIsMovingParameter(false);
                     mover.StopChasing();
                 }
 
@@ -88,6 +92,7 @@ namespace RSP2
             if (isMoving) return; // Already is chasing;
 
             isMoving = true;
+            SetAnimatorIsMovingParameter(true);
             mover.StartChasing(statHandler.CurrentStatistics.MovementSpeed);
 
             return;
@@ -100,6 +105,13 @@ namespace RSP2
                 animator.CrossFadeInFixedTime(instantChasingHash, 0.25f);
             }
             animator.SetBool(isChasingHash, isOn);
+        }
+
+        protected virtual void SetAnimatorIsMovingParameter(bool isOn)
+        {
+            float isOnToFloat = 0;
+            if (isOn) isOnToFloat = 1;
+            animator.SetFloat(isMovingHash, isOnToFloat);
         }
 
     }

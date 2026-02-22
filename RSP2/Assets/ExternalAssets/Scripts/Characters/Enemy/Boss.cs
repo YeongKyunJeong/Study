@@ -16,6 +16,10 @@ namespace RSP2
             base.Start();
         }
 
+        public override void Initialize(NPCandEnemyManager _nPCandEnemyManager, bool isBoss = true)
+        {
+            base.Initialize(_nPCandEnemyManager, true);
+        }
         //protected override void SetActionStateMachine()
         //{
         //    base.SetActionStateMachine();
