@@ -50,6 +50,19 @@ namespace RSP2
                 return targetDistanceSqr;
             }
         }
+        private float targetAngle;
+        public float TargetAngle
+        {
+            get
+            {
+                if (!isTargetVectorThisFrame)
+                {
+                    GetAndSaveTargetVector();
+                }
+                return targetAngle;
+            }
+        }
+
 
         protected bool isAttackingState;
         protected bool isOnLandState;
@@ -140,6 +153,7 @@ namespace RSP2
         {
             targetVector = runtimeData.Target.transform.position - enemy.transform.position;
             targetDistanceSqr = targetVector.sqrMagnitude;
+            targetAngle = CalculateAngleToPlayer();
             isTargetVectorThisFrame = true;
             return targetVector;
         }
@@ -226,7 +240,7 @@ namespace RSP2
             }
         }
 
-        protected bool IsInAttackRange()
+        protected bool IsInAttackRange(int i)
         {
             if (runtimeData.Target == null) return false;
 
@@ -238,8 +252,10 @@ namespace RSP2
 
             //float playerDistanceSqr = (enemy.Target.transform.position - enemy.transform.position).sqrMagnitude;
             // TODO :: Compare with attack distance;
-            if (TargetDistanceSqr <= runtimeData.AttackRangeSqr)
+
+            if (TargetDistanceSqr <= runtimeData.AttackRangeSqrs[i])
             {
+                if(TargetAngle <= runtimeData.AttackAngles[i])
                 return true;
             }
 
@@ -255,8 +271,6 @@ namespace RSP2
             //    case DetectionType.BoxCast:
             //        return playerDistanceSqr <= stateMachine.CurrentAttackInfo.BoxCastSize.z * stateMachine.CurrentAttackInfo.BoxCastSize.z;
             //}
-
-            return false;
         }
 
         protected virtual float CalculateAngleToPlayer()
@@ -264,6 +278,7 @@ namespace RSP2
             if (runtimeData.Target == null) return 179f;
 
             if (runtimeData.Target.IsDead) return 179f;
+
 
             Vector3 directionToTarget = TargetVector;
             directionToTarget.y = 0;

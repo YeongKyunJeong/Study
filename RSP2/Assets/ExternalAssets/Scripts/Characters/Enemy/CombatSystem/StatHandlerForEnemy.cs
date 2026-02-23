@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 namespace RSP2
@@ -100,15 +101,20 @@ namespace RSP2
 
         public void SetAttackRange()
         {
-            float range = (enemy.AttackDataArray[0].ColliderSize.z + enemy.AttackDataArray[0].ColliderPosition.z);
+            int count = enemy.AttackDataArray.Length;
+            float[] ranges = new float[count];
 
-            runtimeData.AttackRange = range;
-            runtimeData.AttackRangeSqr = range * range;
+            for (int i = 0; i < count; i++)
+            {
+                ranges[i] = (enemy.AttackDataArray[i].ColliderSize.z + enemy.AttackDataArray[i].ColliderPosition.z);
+                runtimeData.AttackRanges[i] = ranges[i];
+                runtimeData.AttackRangeSqrs[i] = ranges[i] * ranges[i];
+                runtimeData.AttackAngles[i] = Mathf.Atan2(enemy.AttackDataArray[i].ColliderSize.x, ranges[i]) * Mathf.Rad2Deg;
+            }
 
-            runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqr * 0.9f;
-            runtimeData.MinChasingDistance = runtimeData.AttackRange * 0.81f;
+            runtimeData.MinChasingDistanceSqr = runtimeData.AttackRangeSqrs.Max() * 0.9f;
+            runtimeData.MinChasingDistance = runtimeData.AttackRanges.Max() * 0.81f;
 
-            runtimeData.MaxAttackAngle = Mathf.Atan2(enemy.AttackDataArray[0].ColliderSize.x, range) * Mathf.Rad2Deg;
         }
 
         protected override void CalculateFinalStat()

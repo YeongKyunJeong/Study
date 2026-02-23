@@ -37,7 +37,7 @@ namespace RSP2
 
         protected virtual void Awake()
         {
-            RuntimeData = new RuntimeDataForEnemy();
+            RuntimeData = new RuntimeDataForEnemy(AttackDataArray.Length);
             //SetActionStateMachine();
             ActionStateMachine = new ActionStateMachineForEnemy(this);
 

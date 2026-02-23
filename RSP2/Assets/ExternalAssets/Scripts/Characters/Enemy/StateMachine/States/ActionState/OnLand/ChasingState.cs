@@ -65,15 +65,9 @@ namespace RSP2
                 return;
             }
 
-            if (runtimeData.IsAttackReady && IsInAttackRange())
+            if (runtimeData.IsAttackReady)
             {
-                if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
-                {
-                    SetAnimatorOnLandParameter(false);
-                    stateMachine.ChangeAttackState();
-                    //stateMachine.ChangeToBasicAttackState();
-                    return;
-                }
+                if (DoAttackAndReturn()) return;
             }
 
             if (TargetDistanceSqr <= runtimeData.MinChasingDistanceSqr)

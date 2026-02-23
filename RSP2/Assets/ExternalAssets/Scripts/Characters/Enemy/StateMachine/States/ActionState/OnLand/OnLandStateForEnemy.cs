@@ -46,5 +46,28 @@ namespace RSP2
         {
             animator.SetBool(onLandHash, isOn);
         }
+
+        protected virtual bool DoAttackAndReturn()
+        {
+            int validCount = 0;
+            for (int i = 0; i < runtimeData.attackCount; i++)
+            {
+                if (IsInAttackRange(i))
+                {
+                    runtimeData.ValidAttackIndicesBuffer[validCount] = i;
+                    validCount++;
+                }
+            }
+
+            if (validCount > 0)
+            {
+                int randomIndex = Random.Range(0, validCount);
+                int selected = runtimeData.ValidAttackIndicesBuffer[randomIndex];
+                SetAnimatorOnLandParameter(false);
+                stateMachine.ChangeAttackState(selected);
+                return true;
+            }
+            return false;
+        }
     }
 }

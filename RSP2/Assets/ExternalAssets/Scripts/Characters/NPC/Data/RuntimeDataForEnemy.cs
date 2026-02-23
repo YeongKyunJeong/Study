@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace RSP2
 {
@@ -16,16 +17,17 @@ namespace RSP2
         public float SearchingDistanceSqr { get; set; }
         public float MinChasingDistance { get; set; }
         public float MinChasingDistanceSqr { get; set; }
-        public float MaxAttackAngle { get; set; }
 
         public LayerMask SearchingLayerMask { get; set; }
         public float FieldOfView { get; set; }
         public ChasingTargetType ChasingTargetType { get; set; }
 
         public float RotationSpeedModifier { get; set; }
-        public float AttackRange { get; set; }
-        public float AttackRangeSqr { get; set; }
-
+        public float[] AttackRanges;
+        public float[] AttackRangeSqrs;
+        public float[] AttackAngles;
+        public int[] ValidAttackIndicesBuffer;
+        public int attackCount;
 
         public bool IsAttackReady { get; set; }
         public float RestAttackCoolTime { get; set; }
@@ -44,10 +46,16 @@ namespace RSP2
 
         public event Action isChasingStartEvent;
 
-        public RuntimeDataForEnemy()
+        public RuntimeDataForEnemy(int _attackCount = 0)
         {
             RotationSpeedModifier = 6;
             IsAttackReady = true;
+            attackCount = _attackCount;
+            AttackRanges = new float[_attackCount];
+            AttackRangeSqrs = new float[_attackCount];
+            AttackAngles = new float[_attackCount];
+            ValidAttackIndicesBuffer = new int[_attackCount];
+
         }
 
         public void SetCoolTime(float coolTime)

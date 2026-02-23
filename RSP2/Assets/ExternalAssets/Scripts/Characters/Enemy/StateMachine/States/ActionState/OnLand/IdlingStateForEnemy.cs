@@ -52,26 +52,17 @@ namespace RSP2
             if (runtimeData.Target == null) return;
 
 
-            if (runtimeData.IsAttackReady && IsInAttackRange())
+            if (runtimeData.IsAttackReady)
             {
-                // TO DO: Add skill pattern
-                if (CalculateAngleToPlayer() <= runtimeData.MaxAttackAngle)
-                {
-                    SetAnimatorOnLandParameter(false);
-                    //stateMachine.ChangeToBasicAttackState();
-                    stateMachine.ChangeAttackState();
-                    return;
-                }
-
+                if (DoAttackAndReturn()) return;
             }
-            // TO DO :: Set least chasing distance;
-
-            // TO DO :: Set notice mode
 
             stateMachine.ChangeState(stateMachine.ChasingState);
             return;
 
         }
+
+
 
         #endregion
 
