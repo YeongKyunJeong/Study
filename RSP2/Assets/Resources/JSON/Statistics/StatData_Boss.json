@@ -1,0 +1,22 @@
+{
+  "Items": [
+    {
+        "key": 0,
+        "Name": "Embargo",
+        "Exp": 3000,
+        "Faction": 2,
+        "ChasingTargetType": 0,
+        "SearchingDistance": 10,
+        "MaxHP": 600,
+        "HPRegen": 5,
+        "MaxMP": 100,
+        "MPRegen": 5,
+        "MaxStamina": 200,
+        "StaminaRegen": 20,
+        "Attack": 50,
+        "Defense": 20,
+        "MovementSpeed": 4,
+        "AttackSpeed": 5
+    }
+  ]
+}
