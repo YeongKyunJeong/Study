@@ -58,28 +58,12 @@ namespace RSP2
         {
             NPCQueue.Enqueue(nPC);
             NPCs.Add(nPC);
-            //if (gameManager.InitializeDone)
-            //{
-            //    nPC.Initialize(this);
-            //}
-            //else
-            //{
-            //    WaitForInitialize(nPC);
-            //}
         }
 
         public void EnrollEnemy(Enemy enemy)
         {
             Enemies.Add(enemy);
             EnemyQueue.Enqueue(enemy);
-            //if (gameManager.InitializeDone)
-            //{
-            //    enemy.Initialize(this);
-            //}
-            //else
-            //{
-            //    WaitForInitialize(enemy);
-            //}
         }
 
         public void RemoveEnemy(Enemy enemy)
@@ -110,44 +94,6 @@ namespace RSP2
             {
                 enemy.CallUpdate();
             }
-        }
-
-        private void WaitForInitialize(Enemy enemy)
-        {
-            enemyQueue.Enqueue(enemy);
-            if (enrollCoroutine == null)
-            {
-                enrollCoroutine = StartCoroutine(EnrollmentWaitingCoroutine());
-            }
-        }
-
-        private void WaitForInitialize(NPC nPC)
-        {
-            nPCQueue.Enqueue(nPC);
-            if (enrollCoroutine == null)
-            {
-                enrollCoroutine = StartCoroutine(EnrollmentWaitingCoroutine());
-            }
-        }
-
-        private IEnumerator EnrollmentWaitingCoroutine()
-        {
-            while (!gameManager.IsInitialized) yield return null;
-
-            while(nPCQueue.Any() || enemyQueue.Any())
-            {
-                if(nPCQueue.Any())
-                {
-                    nPCQueue.Dequeue().Initialize(this);
-                }
-
-                if(enemyQueue.Any())
-                {
-                    enemyQueue.Dequeue().Initialize(this);
-                }
-            }
-
-            enrollCoroutine = null;
         }
     }
 }
