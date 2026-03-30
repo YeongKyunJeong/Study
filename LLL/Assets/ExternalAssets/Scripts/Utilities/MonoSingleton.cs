@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace LLL
 {
-    public class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
+    public abstract class MonoSingleton<T> : MonoBehaviour where T : MonoSingleton<T>
     {
         private static T instance;
         private static bool applicationIsQuitting = false;
@@ -19,7 +19,7 @@ namespace LLL
                 if (instance == null)
                 {
 
-                    instance = (T)FindFirstObjectByType(typeof(T));
+                    instance = FindFirstObjectByType<T>();
 
                     if (instance == null)
                     {
@@ -27,7 +27,7 @@ namespace LLL
                         instance = go.AddComponent<T>();
                     }
 
-                    if (FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 0)
+                    if (FindObjectsByType(typeof(T), FindObjectsSortMode.None).Length > 1)
                     {
                         Debug.LogError($"Other '{typeof(T)}'(Singleton) Instances were Detected");
                         return instance;

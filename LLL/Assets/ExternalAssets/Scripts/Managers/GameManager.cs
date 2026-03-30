@@ -1,4 +1,5 @@
 using System.Collections;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -13,14 +14,26 @@ namespace LLL
         InStageScene
     }
 
+    public enum StageType
+    {
+        Tutorial,
+        Cave
+    }
 
     public class GameManager : MonoSingleton<GameManager>
     {
 
         public const string TITLE_SCENE_NAME_STR = "TitleScene";
         public const string STAGE_SELECT_SCENE_NAME_STR = "StageSelectScene";
-        public const string IN_STAGE_SCENE_STR = "InStageScene";
+        public const string IN_STAGE_SCENE_STR = "InStage";
 
+        public static readonly string[] IN_STAGE_NAME_STRS = new string[2]
+        {
+            "Tutorial",
+            "Cave"
+        };
+
+        //private bool isSceneLoading;
         private SceneType currentSceneType;
 
         public SceneType CurrentSceneType
@@ -38,15 +51,29 @@ namespace LLL
 
             if (Instance == null) { } // Always False by MonoSingleton;
 
+            //isSceneLoading = false;
             InitializeGlobalManagers();
-
 
         }
 
-        public void InitializeGlobalManagers()
+        private void InitializeGlobalManagers()
         {
             DontDestroyOnLoad(gameObject);
+        }
 
+        private void InitializeScene()
+        {
+#if UNITY_EDITOR
+            SceneInitializer sceneInitializer = FindFirstObjectByType<SceneInitializer>();
+#endif
+            if (sceneInitializer != null)
+            {
+                sceneInitializer.Initialize();
+            }
+            else
+            {
+                Debug.LogWarning("No Scene Initializer Found in This Scene");
+            }
 
         }
 
@@ -71,22 +98,28 @@ namespace LLL
         }
 
         /// <param name="sceneName">로드할 씬 이름</param>
-        public void LoadScene(string sceneName, int stageNumber = 0)
-        {
-            if (sceneName == IN_STAGE_SCENE_STR) sceneName = $"{IN_STAGE_SCENE_STR}_{stageNumber:00}";
+        //private void LoadScene(string sceneName, int stageNumber = 0)
+        //{
+        //    if (sceneName == IN_STAGE_SCENE_STR) sceneName = $"{IN_STAGE_SCENE_STR}_{stageNumber:00}";
 
-            StartCoroutine(LoadSceneAsync(sceneName));
-            // TO DO : Add Loading Logic;
-        }
+        //    StartCoroutine(LoadSceneAsync(sceneName));
+        //    // TO DO : Add Loading Logic;
+        //}
 
-        public void LoadScene(SceneType sceneType, int stageNumber = 0)
+        private void LoadScene(SceneType sceneType, int stageTypeIndex = 0, int stageNumber = 0)
         {
+            //if (isSceneLoading)
+            //{
+            //    Debug.Log("Scene is Already Loading");
+            //    return;
+            //}
+
             string sceneName = string.Empty;
             switch (sceneType)
             {
                 case SceneType.InStageScene:
                     {
-                        sceneName = $"{IN_STAGE_SCENE_STR}_{stageNumber:00}";
+                        sceneName = $"{IN_STAGE_SCENE_STR}_{IN_STAGE_NAME_STRS[stageTypeIndex]}_{stageNumber:00}";
                         break;
                     }
                 case SceneType.StageSelectScene:
@@ -121,11 +154,72 @@ namespace LLL
             }
 
             GetCurrentSceneType();
-
-
+            //isSceneLoading = false;
 
             yield return null;
         }
+
+        private void LoadData(int userID, int saveNumber)
+        {
+
+        }
+
+        private void SaveData()
+        {
+
+        }
+
+        private void QuitGame()
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorApplication.isPlaying = false;
+#else
+            Application.Quit();
+#endif
+        }
+
+        #region External Call
+
+        #region TitleScene
+        public void TitleSceneStartCall()
+        {
+            LoadScene(SceneType.StageSelectScene);
+            // LoadScene(SceneType.InStageScene);
+        }
+
+        public void TitleSceneContinueCall()
+        {
+
+        }
+
+        public void TitleSceneExitCall()
+        {
+            QuitGame();
+        }
+
+        #endregion
+
+        #region Stage Select Scene
+        public void SelectSceneStartCall(StageType stageType, int stageNumber)
+        {
+            LoadScene(SceneType.InStageScene, (int)stageType, stageNumber);
+
+            //LoadScene(SceneType.InStageScene, );
+        }
+        #endregion
+
+        #region In Stage Scene
+        //
+        #endregion
+
+        #region Global
+        public void ToTitleCall()
+        {
+            LoadScene(SceneType.TitleScene);
+        }
+        #endregion
+
+        #endregion
 
     }
 
