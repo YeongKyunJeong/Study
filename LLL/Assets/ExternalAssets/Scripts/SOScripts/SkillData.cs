@@ -54,11 +54,13 @@ namespace LLL
         }
 
         [field: Header("Skill Data")]
+        [field: SerializeField] public int Id { get; private set; }
         [field: SerializeField] public Sprite Icon { get; private set; }
         [field: SerializeField] public SkillType Type { get; private set; }
-        [field: SerializeField] public EffectType effectTags { get; private set; }
-        [field: SerializeField] public Damage[] damages { get; private set; }
-        [field: SerializeField] public Heal[] heals { get; private set; }
+        [field: SerializeField] public EffectType EffectTags { get; private set; }
+        [field: SerializeField] public Damage[] Damages { get; private set; }
+        [field: SerializeField] public Heal[] Heals { get; private set; }
+        [field: SerializeField] public Block[] Blocks { get; private set; }
 
         [Serializable]
         public struct Damage
@@ -91,7 +93,7 @@ namespace LLL
             [field: SerializeField] public float[] MagicFactors { get; private set; }
             [field: SerializeField] public float[] MagicCs { get; private set; }
             [field: SerializeField] public TargetType Target { get; private set; }
-            [field: SerializeField] public int TargetCount { get; private set; }
+            [field: SerializeField] public int[] TargetCount { get; private set; }
         }
 
 

@@ -16,6 +16,8 @@ namespace LLL
 
     public class JewelManager : MonoSingleton<JewelManager>
     {
+        private SOManager sOManager;
+        
         [field: SerializeField] private Jewel[] jewels;
         [field: SerializeField] private int[] ChosenJewels;
         [field: SerializeField] private int dragCount;
@@ -27,17 +29,19 @@ namespace LLL
         private bool isDown;
         private Direction dir;
 
-        public void Initialize()
+        public void Initialize(SOManager _sOManager)
         {
+            sOManager = _sOManager;
             isDown = false;
             dir = Direction.None;
             dragCount = 0;
             ChosenJewels = new int[7];
 
+            SkillLibrary skillLibrary = sOManager.SkillLibrary;
             int n = jewels.Length;
             for (int i = 0; i < n; i++)
             {
-                jewels[i].Initialize(this, i);
+                jewels[i].Initialize(this, skillLibrary, i);
             }
         }
 
@@ -259,7 +263,7 @@ namespace LLL
                     jewels[id].ActivateJewel(false);
                 }
             }
-                dir = Direction.None;
+            dir = Direction.None;
             dragCount = 0;
         }
 

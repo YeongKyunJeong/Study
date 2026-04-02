@@ -5,12 +5,16 @@ namespace LLL
     public class InStageManager : MonoBehaviour
     {
         private GameManager gameManager;
-        [field : SerializeField] private JewelManager jewelManager;
+        [field: SerializeField] private JewelManager jewelManager;
+        [field: SerializeField] private SOManager sOManager;
+
 
         public void Initialize()
         {
             gameManager = GameManager.Instance;
-            jewelManager.Initialize();
+            sOManager.Initialize();
+            jewelManager.Initialize(sOManager);
+
         }
 
 

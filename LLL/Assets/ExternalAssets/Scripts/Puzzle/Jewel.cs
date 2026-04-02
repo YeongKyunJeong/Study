@@ -7,13 +7,13 @@ namespace LLL
 {
     public class Jewel : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerClickHandler
     {
-        private JewelManager jewelManager;
+        private static JewelManager jewelManager;
+        private static SkillLibrary skillLibrary;
 
         public int ID { get => iD; }
         public Vector2 Pos { get => pos; }
         public int jewelType;
         public bool IsActive { get => isChosen; }
-
 
         [field: SerializeField] private int iD;
         [field: SerializeField] private Vector2 pos;
@@ -25,9 +25,10 @@ namespace LLL
         private bool isInitialize = false;
 
 
-        public void Initialize(JewelManager _jewelManager, int _iD)
+        public void Initialize(JewelManager _jewelManager, SkillLibrary _skillLibrary, int _iD)
         {
-            jewelManager = _jewelManager;
+            if (jewelManager == null) jewelManager = _jewelManager;
+            if (skillLibrary == null) skillLibrary = _skillLibrary;
             iD = _iD;
             ChangeJewelType();
             isInitialize = true;
@@ -41,7 +42,7 @@ namespace LLL
 
             isChosen = _isChosen;
 
-            if(_isChosen)
+            if (_isChosen)
             {
                 // TO DO: Add Jewel Activate Logic;
                 tempEffect.SetActive(true);
@@ -61,20 +62,22 @@ namespace LLL
 
         public void ChangeJewelType(int nextType = -1)
         {
-            if(nextType == -1)
+            if (nextType == -1)
             {
                 jewelType = Random.Range(0, 6);
             }
-            else 
+            else
             {
                 jewelType = nextType;
             }
 
-            if(tempIcon.TryGetComponent(out Image img))
+            if (tempIcon.TryGetComponent(out Image img))
             {
+                //img.sprite = skillLibrary.SkillData[nextType].Icon;
+                Debug.Log($"{skillLibrary.SkillData[jewelType].ToSafeString() }");
                 img.color = jewelManager.tempColors[jewelType];
             }
-            
+
         }
 
         private void ChangeJewelIcon(int target)
